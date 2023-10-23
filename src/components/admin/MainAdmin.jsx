@@ -13,38 +13,26 @@ import {
 } from "@material-tailwind/react";
 
 import { useState, useEffect } from "react";
+import { useNavigate } from "react-router-dom";
 
-import { FaBars, FaSearchPlus } from "react-icons/fa";
+import { FaBars } from "react-icons/fa";
 import { AiFillCloseCircle, AiFillDelete } from "react-icons/ai";
-import { PencilIcon } from "@heroicons/react/24/solid";
-import {
-  BsPersonCircle,
-  BsPencilSquare,
-  BsFillEyeFill,
-  BsPlusCircle,
-} from "react-icons/bs";
-import { SiMicrosoftexcel } from "react-icons/si";
-import { IoIosSave } from "react-icons/io";
-import { GiCancel } from "react-icons/gi";
+
+import { BsPencilSquare, BsFillEyeFill, BsPlusCircle } from "react-icons/bs";
+
+import axios from "axios";
+import Swal from "sweetalert2";
+
+import Logout from "../Logout";
 
 function MainAdmin() {
   const [openNav, setOpenNav] = useState(false);
-
-  //------------- modal AddCompany -----------------------//
-  const [openModalAdd, setOpenModalAdd] = useState(false);
-  const handleModalAdd = () => setOpenModalAdd(!openModalAdd);
-
-  const [newCustomerName, setNewCustomerName] = useState("");
-  const [newCustomerAddress, setNewCustomerAddress] = useState("");
-  const [newCustomerDelivery, setNewCustomerDelivery] = useState("");
-  const [newCustomerContract, setNewCustomerContract] = useState("");
-  const [newCustomerTel, setNewCustomerTel] = useState("");
-  const [newCustomerNoun, setNewCustomerNoun] = useState("");
-  const [newCustomerNumber, setNewCustomerNumber] = useState("");
+  const navigate = useNavigate();
 
   //----------  Data Table --------------------//
   //   const [noData, setNoData] = useState(true);
   const [noData, setNoData] = useState(false);
+
   //   const [listData, setListData] = useState([]);
   const [listData, setListData] = useState([
     {
@@ -59,13 +47,6 @@ function MainAdmin() {
 
   const [searchQuery, setSearchQuery] = useState("");
 
-  useEffect(() => {
-    window.addEventListener(
-      "resize",
-      () => window.innerWidth >= 960 && setOpenNav(false)
-    );
-  }, []);
-
   //----- จัดการแสดงข้อมูล / หน้า -------------- //
   const [currentPage, setCurrentPage] = useState(1);
   const itemsPerPage = 6;
@@ -75,6 +56,83 @@ function MainAdmin() {
   const displayedData = listData.slice(startIndex, endIndex);
 
   const totalPages = Math.ceil(listData.length / itemsPerPage);
+
+  //------------- modal View Company -----------------------//
+  const [openModalView, setOpenModalView] = useState(false);
+  const handleModalView = () => setOpenModalView(!openModalView);
+
+  //------------- modal Add Company -----------------------//
+  const [openModalAdd, setOpenModalAdd] = useState(false);
+  const handleModalAdd = () => setOpenModalAdd(!openModalAdd);
+
+  const [newCompanyName, setNewCompanyName] = useState("");
+  const [newCompanyAddress, setNewCompanyAddress] = useState("");
+  const [newCompanyTexNo, setNewCompanyTexNo] = useState("");
+  const [newCompanyTel, setNewCompanyTel] = useState("");
+
+  //------------- modal Edit Company -----------------------//
+  const [openModalEdit, setOpenModalEdit] = useState(false);
+  const handleModalEdit = () => setOpenModalEdit(!openModalEdit);
+
+  const [editCompanyName, setEditCompanyName] = useState("");
+  const [editCompanyAddress, setEditCompanyAddress] = useState("");
+  const [editCompanyTexNo, setEditCompanyTexNo] = useState("");
+  const [editCompanyTel, setEditCompanyTel] = useState("");
+
+  useEffect(() => {
+    window.addEventListener(
+      "resize",
+      () => window.innerWidth >= 960 && setOpenNav(false)
+    );
+  }, []);
+
+  const handleDelete = (data) => {
+    Swal.fire({
+      title: `ต้องการลบ บริษัท: ${data} จริงหรือไม่?`,
+      text: "การลบข้อมูลจะไม่สามารถเรียกคืนได้",
+      icon: "warning",
+      showCancelButton: true,
+      confirmButtonText: "ใช่, ลบ!",
+      cancelButtonText: "ยกเลิก",
+      reverseButtons: true,
+    }).then((result) => {
+      if (result.isConfirmed) {
+        // ลบข้อมูลเมื่อผู้ใช้ยืนยันการลบ
+        try {
+          const response = axios.delete(
+            `${import.meta.env.VITE_APP_API}/Customer/${id}/delete`,
+            {
+              headers: {
+                "Content-Type": "application/json",
+                Authorization: `Token ${Token}`,
+              },
+            }
+          );
+          // console.log(response)
+          // await fetchData();
+          Swal.fire({
+            // position: 'top-end',
+            icon: "success",
+            title: "ลบบริษัทเรียบร้อย",
+            showConfirmButton: false,
+            timer: 1500,
+          });
+        } catch (error) {
+          console.error("ไม่สามารถลบบริษัทได้", error);
+          Swal.fire({
+            icon: "error",
+            title: "ลบบริษัทไม่สำเร็จ ",
+            text: "กรุณาลองใหม่อีกครั้ง",
+            confirmButtonText: "ตกลง",
+          });
+        }
+      }
+    });
+  };
+
+  const handleLogout = async () => {
+    await Logout(navigate);
+  };
 
   return (
     <Card className=" h-screen bg-gray-300">
@@ -98,6 +156,7 @@ function MainAdmin() {
                 size="sm"
                 color="white"
                 className="py-1"
+                onClick={handleLogout}
               >
                 <Typography>Log Out</Typography>
               </Button>
@@ -290,6 +349,7 @@ function MainAdmin() {
                                 color="blue"
                                 size="sm"
                                 className="ml-3 "
+                                onClick={handleModalView}
                               >
                                 <BsFillEyeFill className="h-5 w-5  text-light-blue-700 " />
                               </IconButton>
@@ -301,6 +361,7 @@ function MainAdmin() {
                                 variant="outlined"
                                 color="amber"
                                 size="sm"
+                                onClick={handleModalEdit}
                               >
                                 <BsPencilSquare className="h-5 w-5 text-yellow-900" />
                               </IconButton>
@@ -313,6 +374,7 @@ function MainAdmin() {
                                 size="sm"
                                 color="red"
                                 className="rounded-full"
+                                onClick={() => handleDelete(data.customer_code)}
                               >
                                 <AiFillDelete color="red" className="h-5 w-5" />
                               </IconButton>
@@ -362,11 +424,54 @@ function MainAdmin() {
         </div>
       </div>
 
+      {/* modal View Company */}
+
+      <Dialog open={openModalView} handler={handleModalView}>
+        <DialogHeader className="bg-blue-700 py-3  px-3 text-center text-lg text-white opacity-80">
+          <Typography variant="h5">รายละเอียดบริษัท:</Typography>
+        </DialogHeader>
+        <DialogBody divider className=" overflow-auto ">
+          <div className="flex flex-col   items-center sm:items-start  gap-4 ">
+            <div className="flex w-full mt-3 gap-4    ">
+              <Typography>ชื่อ:</Typography>
+              <Typography>บริษัท 001</Typography>
+            </div>
+            <div className="flex w-full gap-4    ">
+              <Typography>ที่อยู่:</Typography>
+              <Typography>123456789 ขอนแก่น 40000</Typography>
+            </div>
+
+            <div className="flex w-full  gap-3  ">
+              <div className="flex mt-3 sm:mt-0 w-full gap-4  ">
+                <Typography>เลขประจำตัวผู้เสียภาษี:</Typography>
+                <Typography>123456789</Typography>
+              </div>
+
+              <div className="flex mt-3 sm:mt-0 w-full gap-4  ">
+                <Typography>โทร:</Typography>
+                <Typography>123456789</Typography>
+              </div>
+            </div>
+          </div>
+        </DialogBody>
+        <DialogFooter>
+          <Button
+            variant="gradient"
+            color="green"
+            size="sm"
+            onClick={handleModalView}
+            className="mr-1"
+          >
+            <span className="text-sm">ออก</span>
+          </Button>
+        </DialogFooter>
+      </Dialog>
+
       {/* modal Add Company */}
 
       <Dialog open={openModalAdd} size="sm" handler={handleModalAdd}>
         <DialogHeader className="bg-blue-700 py-3  px-3 text-center text-lg text-white opacity-80">
-          เพิ่มบริษัทใหม่
+          <Typography variant="h5">เพิ่มบริษัทใหม่</Typography>
         </DialogHeader>
         <DialogBody divider className=" overflow-auto ">
           <div className="flex flex-col   items-center sm:items-start  gap-4 ">
@@ -375,9 +480,8 @@ function MainAdmin() {
                 type="text"
                 label="ชื่อบริษัท"
                 maxLength="45"
-                value={newCustomerName}
-                onChange={(e) => setNewCustomerName(e.target.value)}
-         
+                value={newCompanyName}
+                onChange={(e) => setNewCompanyName(e.target.value)}
               />
             </div>
             <div className="mt-3 w-full   lg:min-w-[220px] ">
@@ -385,9 +489,8 @@ function MainAdmin() {
                 type="text"
                 label="ที่อยู่บริษัท"
                 maxLength="50"
-                value={newCustomerAddress}
-                onChange={(e) => setNewCustomerAddress(e.target.value)}
-              
+                value={newCompanyAddress}
+                onChange={(e) => setNewCompanyAddress(e.target.value)}
               />
             </div>
 
@@ -397,9 +500,8 @@ function MainAdmin() {
                   type="text"
                   label="เลขที่ประจำตัวผู้เสียภาษี"
                   maxLength="50"
-                  value={newCustomerContract}
-                  onChange={(e) => setNewCustomerContract(e.target.value)}
-              
+                  value={newCompanyTexNo}
+                  onChange={(e) => setNewCompanyTexNo(e.target.value)}
                 />
               </div>
 
@@ -407,10 +509,9 @@ function MainAdmin() {
                 <Input
                   type="text"
                   label="เบอร์โทรศัพท์"
-                  value={newCustomerNoun}
+                  value={newCompanyTel}
                   maxLength="45"
-                  onChange={(e) => setNewCustomerNoun(e.target.value)}
-               
+                  onChange={(e) => setNewCompanyTel(e.target.value)}
                 />
               </div>
             </div>
@@ -420,13 +521,80 @@ function MainAdmin() {
           <Button
             variant="text"
             color="red"
+            size="sm"
             onClick={handleModalAdd}
             className="mr-1"
           >
-            <span>Cancel</span>
+            <span className="text-sm">ยกเลิก</span>
           </Button>
-          <Button variant="gradient" color="green">
-            <span>Confirm</span>
+          <Button size="sm" variant="gradient" color="green">
+            <span className="text-sm">บันทึก</span>
+          </Button>
+        </DialogFooter>
+      </Dialog>
+
+      {/* modal Edit Company */}
+
+      <Dialog open={openModalEdit} size="sm" handler={handleModalEdit}>
+        <DialogHeader className="bg-blue-700 py-3  px-3 text-center text-lg text-white opacity-80">
+          <Typography variant="h5">แก้ไข บริษัท:</Typography>
+        </DialogHeader>
+        <DialogBody divider className=" overflow-auto ">
+          <div className="flex flex-col   items-center sm:items-start  gap-4 ">
+            <div className="w-full mt-3 md:w-[200px] lg:w-[220px]    ">
+              <Input
+                type="text"
+                label="ชื่อบริษัท"
+                maxLength="45"
+                value={editCompanyName}
+                onChange={(e) => setEditCompanyName(e.target.value)}
+              />
+            </div>
+            <div className="mt-3 w-full   lg:min-w-[220px] ">
+              <Input
+                type="text"
+                label="ที่อยู่บริษัท"
+                maxLength="50"
+                value={editCompanyAddress}
+                onChange={(e) => setEditCompanyAddress(e.target.value)}
+              />
+            </div>
+
+            <div className="flex w-full  flex-col sm:flex-row gap-3 sm:justify-between ">
+              <div className="mt-3 sm:mt-0 w-full   lg:min-w-[200px] xl:w-[220px]  ">
+                <Input
+                  type="text"
+                  label="เลขที่ประจำตัวผู้เสียภาษี"
+                  maxLength="50"
+                  value={editCompanyTexNo}
+                  onChange={(e) => setEditCompanyTexNo(e.target.value)}
+                />
+              </div>
+
+              <div className="mt-3 sm:mt-0 w-full  lg:min-w-[200px] xl:w-[220px]  ">
+                <Input
+                  type="text"
+                  label="เบอร์โทรศัพท์"
+                  value={editCompanyTel}
+                  maxLength="45"
+                  onChange={(e) => setEditCompanyTel(e.target.value)}
+                />
+              </div>
+            </div>
+          </div>
+        </DialogBody>
+        <DialogFooter>
+          <Button
+            variant="text"
+            color="red"
+            size="sm"
+            onClick={handleModalEdit}
+            className="mr-1"
+          >
+            <span className="text-sm">ยกเลิก</span>
+          </Button>
+          <Button size="sm" variant="gradient" color="green">
+            <span className="text-sm">บันทึก</span>
           </Button>
         </DialogFooter>
       </Dialog>
