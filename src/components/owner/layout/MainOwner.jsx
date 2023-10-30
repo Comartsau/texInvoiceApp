@@ -10,7 +10,7 @@ import {
   IconButton,
 } from "@material-tailwind/react";
 import { FaUserTie, FaBars } from "react-icons/fa";
-import { AiFillCloseCircle,AiFillSchedule } from "react-icons/ai";
+import { AiFillCloseCircle, AiFillSchedule } from "react-icons/ai";
 import { BsBoxFill } from "react-icons/bs";
 import { MdAddLocationAlt } from "react-icons/md";
 import { useNavigate } from "react-router-dom";
@@ -18,8 +18,7 @@ import Logout from "../../Logout";
 import Product from "../contents/Product";
 import Customer from "../contents/Customer";
 import Shop from "../contents/Shops";
-import TaxInvoiceFull from "../contents/TaxInvoiceFull";
-import TaxInvoiceSm from "../contents/TaxInvoiceSm";
+import TaxInvoiceMenu from "../contents/TaxInvoiceMenu";
 import Menutest from "../contents/Menutest";
 
 function MainOwner() {
@@ -51,34 +50,40 @@ function MainOwner() {
     {
       icon: <AiFillSchedule />,
       label: "ใบกำกับภาษี",
-      subItems: [
-        {
-          icon: <MdAddLocationAlt />,
-          label: "เต็มรูปแบบ",
-          path: TaxInvoiceFull, // ใช้ชื่อของคอมโพนเนนต์แทน (ไม่มี <>)
-        },
-        {
-          icon: <MdAddLocationAlt />,
-          label: "ออกใบกำกับภาษี",
-          path: TaxInvoiceSm, // ใช้ชื่อของคอมโพนเนนต์แทน (ไม่มี <>)
-        },
-        {
-          icon: <MdAddLocationAlt />,
-          label: "ออกใบกำกับภาษี แบบย่อ",
-          path: TaxInvoiceSm, // ใช้ชื่อของคอมโพนเนนต์แทน (ไม่มี <>)
-        },
-        // เพิ่มรายการย่อยเพิ่มเติมตามต้องการ
-      ],
+      path: TaxInvoiceMenu,
       isUnderlined: 0,
     },
+    // {
+    //   icon: <AiFillSchedule />,
+    //   label: "ใบกำกับภาษี",
+    //   path: TaxInvoiceFull,
+    //   subItems: [
+    //     {
+    //       icon: <MdAddLocationAlt />,
+    //       label: "เต็มรูปแบบ",
+    //       path: TaxInvoiceFull, // ใช้ชื่อของคอมโพนเนนต์แทน (ไม่มี <>)
+    //     },
+    //     {
+    //       icon: <MdAddLocationAlt />,
+    //       label: "ออกใบกำกับภาษี",
+    //       path: TaxInvoiceSm, // ใช้ชื่อของคอมโพนเนนต์แทน (ไม่มี <>)
+    //     },
+    //     {
+    //       icon: <MdAddLocationAlt />,
+    //       label: "ออกใบกำกับภาษี แบบย่อ",
+    //       path: TaxInvoiceSm, // ใช้ชื่อของคอมโพนเนนต์แทน (ไม่มี <>)
+    //     },
+    //     // เพิ่มรายการย่อยเพิ่มเติมตามต้องการ
+    //   ],
+    //   isUnderlined: 0,
+    // },
     {
       icon: <MdAddLocationAlt />,
       label: "เมนูtest",
       path: Menutest, // ใช้ชื่อของคอมโพนเนนต์แทน (ไม่มี <>)
-      isUnderlined: 0,
+      isUnderlined: 1,
     },
   ];
-
 
   const handleMenuItemClick = (menuItem) => {
     setSelectedMenuItem(menuItem);
@@ -105,7 +110,6 @@ function MainOwner() {
   const isSubMenuItemSelected = (subItemLabel) => {
     return subItemLabel === selectedMenuSubItem;
   };
-  
 
   useEffect(() => {
     window.addEventListener(
@@ -123,7 +127,8 @@ function MainOwner() {
   };
 
   // console.log(menuItems)
-  // console.log(selectedMenuItem);
+  console.log(selectedMenuItem);
+  console.log(selectedMenuSubItem);
 
   return (
     <>
@@ -178,51 +183,58 @@ function MainOwner() {
           <Card className="flex w-[270px] h-[90vh] overflow-hidden rounded-lg pt-5 ">
             <List className="flex my-2">
               {menuItems.map((item, index) => (
-                <ListItem
-                  key={index}
-                  onClick={() => handleMenuItemClick(item.label)}
-                  className={`w-[250px] ${item.isUnderlined == 1 ? "border-b-2  rounded-lg " : ''}   py-3 text-sm font-normal text-blue-gray-700 focus:bg-blue-500 focus:text-white ${
-                    isMenuItemSelected(item.label)
-                      ? "bg-blue-400 text-white hover:bg-blue-500 hover:text-white"
-                      : ""
-                  }`}
-                >
-                  <div className="flex flex-col">
-                    <div className="flex w-full">
-                      <ListItemPrefix className="text-2xl">
-                        {item?.icon}
-                      </ListItemPrefix>
-                      <ListItemPrefix className="text-base font-bold ">
-                        {item?.label}
-                      </ListItemPrefix>
+                <div key={index}>
+                  <ListItem
+                    onClick={() => handleMenuItemClick(item.label)}
+                    className={`w-[250px] py-3 text-sm font-normal text-blue-gray-700 focus:bg-blue-500 focus:text-white ${
+                      isMenuItemSelected(item.label)
+                        ? "bg-blue-400 text-white hover:bg-blue-500 hover:text-white"
+                        : ""
+                    }`}
+                  >
+                    <div className="flex flex-col">
+                      <div className="flex w-full">
+                        <ListItemPrefix className="text-2xl">
+                          {item?.icon}
+                        </ListItemPrefix>
+                        <ListItemPrefix className="text-base font-bold ">
+                          {item?.label}
+                        </ListItemPrefix>
+                      </div>
+                      <div className="flex w-full">
+                        {item.label === selectedMenuItem && item.subItems && (
+                          <List className="mt-2 ">
+                            {item.subItems.map((subItem, subIndex) => (
+                              <ListItem
+                                key={subIndex}
+                                onClick={() =>
+                                  handleSubMenuClick(subItem.label)
+                                }
+                                className={`w-[220px]  rounded-lg py-2 text-sm font-normal text-blue-gray-700  focus-bg-blue-500 focus-text-white ${
+                                  isSubMenuItemSelected(subItem.label)
+                                    ? "bg-gray-300 opacity-60  text-blue-gray-700  hover:bg-blue-500 hover:text-white"
+                                    : ""
+                                }`}
+                              >
+                                {/* หากต้องการใส่  Icons  ให้เมนูย่อย   */}
+                                {/* <ListItemPrefix className="text-xl" >{''}</ListItemPrefix>  */}
+
+                                <ListItemPrefix className="text-base font-bold ">
+                                  {subItem?.label}
+                                </ListItemPrefix>
+                              </ListItem>
+                            ))}
+                          </List>
+                        )}
+                      </div>
                     </div>
-                    <div className="flex w-full">
-                      {item.label === selectedMenuItem && item.subItems && (
-                        <List className="mt-2 ">
-                          {item.subItems.map((subItem, subIndex) => (
-                            <ListItem
-                              key={subIndex}
-                              onClick={() => handleSubMenuClick(subItem.label)}
-                              className={`w-[220px]  rounded-lg py-2 text-sm font-normal text-blue-gray-700  focus-bg-blue-500 focus-text-white ${
-                                isSubMenuItemSelected(subItem.label)
-                                ?
-                                "bg-gray-300 opacity-60  text-blue-gray-700  hover:bg-blue-500 hover:text-white"
-                                :
-                                ''
-                              }`}
-                            >
-                              {/* หากต้องการใส่  Icons  ให้เมนูย่อย   */}
-                              {/* <ListItemPrefix className="text-xl" >{''}</ListItemPrefix>  */}
-                              <ListItemPrefix className="text-base font-bold ">
-                                {subItem?.label}
-                              </ListItemPrefix>
-                            </ListItem>
-                          ))}
-                        </List>
-                      )}
-                    </div>
-                  </div>
-                </ListItem>
+                  </ListItem>
+                  <hr
+                    className={` ${
+                      item.isUnderlined == 1 ? " mt-2 border" : "hidden"
+                    }`}
+                  />
+                </div>
               ))}
             </List>
           </Card>
@@ -230,28 +242,29 @@ function MainOwner() {
 
         {/* Content */}
 
-
-        {selectedMenuSubItem ? (
-  menuItems.map((item, index) =>
-    item.label === selectedMenuItem && item.subItems && (
-      <div key={index} className="flex w-full">
-        {item.subItems.map((subItem, subIndex) =>
-          subItem.label === selectedMenuSubItem && (
-            <subItem.path key={subIndex} />
-          )
-        )}
-      </div>
-    )
-  )
-) : (
-  menuItems.map((item, index) =>
-    item.label === selectedMenuItem && !item.subItems && (
-      <div key={index} className="flex w-full">
-        <item.path/>
-      </div>
-    )
-  )
-)}
+        {selectedMenuSubItem
+          ? menuItems.map(
+              (item, index) =>
+                item.label === selectedMenuItem &&
+                item.subItems && (
+                  <div key={index} className="flex w-full">
+                    {item.subItems.map(
+                      (subItem, subIndex) =>
+                        subItem.label === selectedMenuSubItem && (
+                          <subItem.path key={subIndex} />
+                        )
+                    )}
+                  </div>
+                )
+            )
+          : menuItems.map(
+              (item, index) =>
+                item.label === selectedMenuItem &&  (
+                  <div key={index} className="flex w-full">
+                    <item.path />
+                  </div>
+                )
+            )}
       </div>
     </>
   );
