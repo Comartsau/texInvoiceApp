@@ -18,7 +18,6 @@ function Login() {
     const [email,setEmail] =  useState("")
     const [password,setPassword] = useState("")
 
-
     const handleSignIn = async () => {
 
         try {
@@ -50,22 +49,6 @@ function Login() {
                 // confirmButtonText: 'ตกลง',
               });
               // ---------  User --------------- //
-            }else if(response.data.check == 2)  {
-              localStorage.setItem("token", response.data.accessToken)
-              localStorage.setItem("username", response.data.username)
-              localStorage.setItem("check", response.data.check)
-              localStorage.setItem("id", response.data.id)
-              localStorage.setItem("btn_login", response.data.btn_login)
-              localStorage.setItem("status", response.data.status)
-              navigate("/dashboard/home");
-              window.location.reload();
-              Swal.fire({
-                icon: 'success',
-                title: 'เข้าสู่ระบบสำเร็จ ',
-                text: 'คุณได้เข้าสู่ระบบเรียบร้อยแล้ว User',
-                showConfirmButton: false,
-                timer: 1500
-              });
             }
           } catch (error) {
             console.error("Error checking URL:", error);
@@ -157,7 +140,6 @@ function Login() {
       };
 
 
-
   return (
     <div className="flex bg-gray-100 w-full h-[100vh] justify-center">
       <Card  className="w-96 my-32 border-2 bg-gray-50 ">
@@ -173,10 +155,18 @@ function Login() {
           size="lg"
           onChange={(e)=> setEmail(e.target.value)} />
           <Input 
+          type="password"
           color="blue" 
           label="Password" 
           size="lg"
-          onChange={(e)=> setPassword(e.target.value)} />
+          // onChange={(e)=> setPassword(e.target.value)} />
+          onChange={(e)=> setPassword(e.target.value)}
+          onKeyPress={(e) => {
+            if (e.key === 'Enter') {
+              handleSignIn();
+            }
+          }}
+          />
         </CardBody>
         <CardFooter className="pt-0 ">
           <Button 
