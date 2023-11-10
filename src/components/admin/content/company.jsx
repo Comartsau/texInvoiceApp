@@ -11,6 +11,7 @@ import {
     DialogFooter,
   } from "@material-tailwind/react";
 
+  import axios from "axios";
   import Swal from "sweetalert2";
   import { useState } from "react";
 
@@ -18,27 +19,53 @@ import {
   import { AiFillDelete } from "react-icons/ai";
   
   import { BsPencilSquare, BsFillEyeFill, BsPlusCircle } from "react-icons/bs";
+import { useEffect } from "react";
 
 function Company() {
 
   
     //----------  Data Table --------------------//
-    //   const [noData, setNoData] = useState(true);
-    const [noData, setNoData] = useState(false);
+    const [noData, setNoData] = useState(true);
+    const [listData, setListData] = useState([]);
+
+
+    // const [noData, setNoData] = useState(false);
   
-    //   const [listData, setListData] = useState([]);
-    const [listData, setListData] = useState([
-      {
-        product_name: " สินค้า 001",
-        product_price: "1000",
-        product_unit: "ชุด",
-      },
-      {
-        product_name: " สินค้า 002",
-        product_price: "3000",
-        product_unit: "ลัง",
-      },
-    ]);
+    // const [listData, setListData] = useState([
+    //   {
+    //     product_name: " สินค้า 001",
+    //     product_price: "1000",
+    //     product_unit: "ชุด",
+    //   },
+    //   {
+    //     product_name: " สินค้า 002",
+    //     product_price: "3000",
+    //     product_unit: "ลัง",
+    //   },
+    // ]);
+
+    const getCompant = async() => {
+      try {
+        let Token = localStorage.getItem("token");
+        const respones = axios.get (
+          `${import.meta.env.VITE_APP_API}/company`,
+                {
+                  headers: {
+                    "Content-Type": "application/json",
+                    Authorization: `Token ${Token}`,
+                  },
+                }
+                )
+                console.log(respones.data)
+                setListData(respones.data)
+      } catch (error) {
+        console.log(error)
+      }
+    }
+
+    useEffect(()=>{
+      getCompant()
+    },[listData])
   
     const [unitOptions, setUnitOptions] = useState([
       { value: "hours", label: "ชั่วโมง" },

@@ -1,7 +1,8 @@
-// import axios from "axios"
+import axios from "axios";
 import Swal from "sweetalert2";
 
 async function Logout(navigate) {
+  let Token = localStorage.getItem("token");
   try {
     const shouldLogout = await Swal.fire({
       title: "คุณต้องการออกจากระบบ?",
@@ -12,19 +13,19 @@ async function Logout(navigate) {
     });
 
     if (shouldLogout.isConfirmed) {
-      // const response = await axios.post(
-      //   `${import.meta.env.VITE_APP_API}/logout`,
-      //   {},
-      //   {
-      //     headers: {
-      //       'Content-Type': 'application/json',
-      //       Authorization: `Token ${Token}`,
-      //     },
-      //   }
-      // );
-      // console.log(response);
-      // localStorage.clear();
-      navigate("/");
+      let config = {
+        method: "post",
+        maxBodyLength: Infinity,
+        url: `${import.meta.env.VITE_APP_API}/logout`,
+        headers: {
+          Authorization: `Token ${Token}`,
+        },
+      };
+      axios.request(config).then((response) => {
+        console.log(JSON.stringify(response.data));
+        localStorage.clear();
+        navigate("/");
+      });
     }
   } catch (error) {
     console.error("เกิดข้อผิดพลาดในการ logout" + error);
