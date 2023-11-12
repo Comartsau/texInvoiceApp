@@ -12,10 +12,13 @@ import { createContext } from "react";
 export const AuthContent = createContext();
 import RouteCheck from "./Routes/RouteCheck";
 
+
 function App() {
   const navigate = useNavigate();
   let Token = localStorage.getItem("Token");
   const [Tokens, setTokens] = useState(localStorage.getItem("token"));
+  const statusCheck = localStorage.getItem("Status");
+
 
   // Naii
   const [loginData, setLoginData] = useState({
@@ -47,14 +50,15 @@ function App() {
   }, []);
 
   return (
-    <AuthContent.Provider value={{ loginData, setLoginData }}>
+    <AuthContent.Provider value={{ loginData, setLoginData, statusCheck}}>
       <>
-        {Token ? (
+        {Token && statusCheck ? (
           <RouteCheck />
 
         ) : ( 
           <Routes>
             <Route path="/" element={<Login />} />
+            <Route path="/login" element={<Login />} />
             <Route path="*" element={<Navigate to="/" replace />} />
           </Routes>
         )}

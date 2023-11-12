@@ -129,7 +129,6 @@ function Login() {
       <ToastContainer autoClose={2000} theme="colored" />
 
       <Card className="w-96 my-32 border-2 bg-gray-50 ">
-        {JSON.stringify(sendDataLogin)}
         <div className="flex justify-center mt-10">
           <Typography variant="h4">เข้าสู่ระบบ</Typography>
         </div>
@@ -155,6 +154,8 @@ function Login() {
             //   }
             // }}
           />
+
+     
         </CardBody>
         <CardFooter className="pt-0 ">
           <Button
@@ -167,6 +168,12 @@ function Login() {
               เข้าสู่ระบบ
             </Typography>
           </Button>
+
+          <ul className="mx-auto mt-5">
+            <li>ADMIN : admin / 1234</li>
+            <li>USER : user / 1234</li>
+
+          </ul>
 
         </CardFooter>
       </Card>

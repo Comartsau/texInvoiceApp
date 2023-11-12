@@ -1,22 +1,30 @@
 import React from "react";
-import { Navigate, Route, Routes } from "react-router-dom";
+import { Navigate, Route, Routes, useNavigate } from "react-router-dom";
 import HomeAdmin from "../components/admin/HomeAdmin";
 import HomeOwner from "../components/owner/HomeOwner";
 
 import { AuthContent } from "../App";
 import { useContext } from "react";
 import { useEffect } from "react";
+import { Login } from "@mui/icons-material";
 
 const RouteCheck = () => {
   const AuthData = useContext(AuthContent);
-  const statusCheck = localStorage.getItem("Status");
+  const navigate = useNavigate()
 
-  useEffect(() => {}, [statusCheck]);
+  useEffect(() => {
+    console.log(AuthData.statusCheck);
+  }, []);
+  
 
   return (
     <>
-      AD {statusCheck}
-      {statusCheck === "admin" ? (
+      ADss {AuthData.statusCheck === null && (
+              <Routes>
+              <Route path="/login" element={<Login />} />
+            </Routes>
+      )}
+      {AuthData.statusCheck === "admin" ? (
         <Routes>
           <Route path="/" element={<Navigate to="/admin" />} />
           <Route path="/admin" element={<HomeAdmin />} />
@@ -25,7 +33,7 @@ const RouteCheck = () => {
       ) : (
         ""
       )}
-      {statusCheck === "user" ? (
+      {AuthData.statusCheck === "user" ? (
         <Routes>
           <Route path="/" element={<Navigate to="/user" />} />
           <Route path="/user" element={<HomeOwner />} />
