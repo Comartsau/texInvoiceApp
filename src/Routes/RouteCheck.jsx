@@ -19,11 +19,7 @@ const RouteCheck = () => {
 
   return (
     <>
-      ADss {AuthData.statusCheck === null && (
-              <Routes>
-              <Route path="/login" element={<Login />} />
-            </Routes>
-      )}
+  
       {AuthData.statusCheck === "admin" ? (
         <Routes>
           <Route path="/" element={<Navigate to="/admin" />} />
