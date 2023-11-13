@@ -1,6 +1,9 @@
-import React from "react";
+import { useEffect } from "react";
 
-const HomeOwner = () => {
+const HomeUser = () => {
+
+
+
   const handleLogout = () => {
     localStorage.clear();
     window.location.reload();
@@ -8,7 +11,7 @@ const HomeOwner = () => {
 
   return (
     <>
-      <h1 className="text-xl text-center ">HomeOwner</h1>
+      <h1 className="text-xl text-center ">HomeUser</h1>
       <h1
         className="text-xl text-center bg-red-200 cursor-pointer "
         onClick={handleLogout}
@@ -19,4 +22,4 @@ const HomeOwner = () => {
   );
 };
 
-export default HomeOwner;
+export default HomeUser;

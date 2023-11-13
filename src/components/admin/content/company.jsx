@@ -12,7 +12,6 @@ import {
   } from "@material-tailwind/react";
 
   import axios from "axios";
-  import Swal from "sweetalert2";
   import { useState } from "react";
 
   
@@ -26,33 +25,33 @@ function Company() {
   
     //----------  Data Table --------------------//
     const [noData, setNoData] = useState(true);
-    const [listData, setListData] = useState([]);
+    // const [listData, setListData] = useState([]);
 
 
     // const [noData, setNoData] = useState(false);
   
-    // const [listData, setListData] = useState([
-    //   {
-    //     product_name: " สินค้า 001",
-    //     product_price: "1000",
-    //     product_unit: "ชุด",
-    //   },
-    //   {
-    //     product_name: " สินค้า 002",
-    //     product_price: "3000",
-    //     product_unit: "ลัง",
-    //   },
-    // ]);
+    const [listData, setListData] = useState([
+      {
+        product_name: " สินค้า 001",
+        product_price: "1000",
+        product_unit: "ชุด",
+      },
+      {
+        product_name: " สินค้า 002",
+        product_price: "3000",
+        product_unit: "ลัง",
+      },
+    ]);
 
     const getCompant = async() => {
       try {
-        let Token = localStorage.getItem("token");
+        let token = localStorage.getItem("Token");
         const respones = axios.get (
           `${import.meta.env.VITE_APP_API}/company`,
                 {
                   headers: {
                     "Content-Type": "application/json",
-                    Authorization: `Token ${Token}`,
+                     Authorization: `Token ${token}`,
                   },
                 }
                 )
@@ -83,9 +82,9 @@ function Company() {
   
     const startIndex = (currentPage - 1) * itemsPerPage;
     const endIndex = startIndex + itemsPerPage;
-    const displayedData = listData.slice(startIndex, endIndex);
+    const displayedData = listData?.slice(startIndex, endIndex);
   
-    const totalPages = Math.ceil(listData.length / itemsPerPage);
+    const totalPages = Math.ceil(listData?.length / itemsPerPage);
   
     //------------- modal View Company -----------------------//
     const [openModalView, setOpenModalView] = useState(false);
