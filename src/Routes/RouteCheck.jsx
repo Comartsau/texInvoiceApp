@@ -10,16 +10,14 @@ import { Login } from "@mui/icons-material";
 
 const RouteCheck = () => {
   const AuthData = useContext(AuthContent);
-  const navigate = useNavigate()
+  const navigate = useNavigate();
 
   useEffect(() => {
     console.log(AuthData.statusCheck);
   }, []);
-  
 
   return (
     <>
-  
       {AuthData.statusCheck === "admin" ? (
         <Routes>
           <Route path="/" element={<Navigate to="/admin" />} />

@@ -13,7 +13,7 @@ import axios from "axios";
 import Swal from "sweetalert2";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
-import {  } from "react";
+import { jwtDecode } from "jwt-decode";
 
 function Login() {
   const navigate = useNavigate();
@@ -38,32 +38,38 @@ function Login() {
   };
 
   const handleSignIn = async (e) => {
-    e.preventDefault();
+    const data = {
+      username: sendDataLogin.username,
+      password: sendDataLogin.password,
+    };
+    try {
+      const res = await axios.post(
+        `${import.meta.env.VITE_APP_API}/login`,
+        data
+      );
+      console.log(res.data);
+      if (res.data.token) {
+        localStorage.setItem("Token", res.data.token);
+        toast.success("เข้าสู่ระบบสำเร็จ ");
+        const token = res.data.token;
+        const decoded = jwtDecode(token);
 
-    if (sendDataLogin.username) {
-      localStorage.setItem("Token", 1234);
-
-      // ADMIN
-      if (sendDataLogin.username === "admin") {
-        toast.success("เข้าสู่ระบบสำเร็จ 11 "),
-          localStorage.setItem("Status", "admin"),
+        if (decoded.level === "1") {
+          localStorage.setItem("Status", "admin");
           setTimeout(() => {
             navigate("/admin");
           }, 2000);
-
-        // Owner
-      } else if (sendDataLogin.username === "user") {
-        toast.success("เข้าสู่ระบบสำเร็จ  3333"),
-          localStorage.setItem("Status", "user"),
+        } else if (decoded.level === "2") {
+          localStorage.setItem("Status", "user");
           setTimeout(() => {
             navigate("/user");
           }, 2000);
+        }
       } else {
-        toast.error("User หรือ password ไม่ถูกต้อง ! 222");
+        toast.error(res?.data?.error);
       }
-
-    } else {
-      toast.error("User หรือ password ไม่ถูกต้อง ! 55555 ");
+    } catch (error) {
+      console.log(error);
     }
   };
 
@@ -154,8 +160,6 @@ function Login() {
             //   }
             // }}
           />
-
-     
         </CardBody>
         <CardFooter className="pt-0 ">
           <Button
@@ -170,11 +174,9 @@ function Login() {
           </Button>
 
           <ul className="mx-auto mt-5">
-            <li>ADMIN : admin / 1234</li>
-            <li>USER : user / 1234</li>
-
+            <li>ADMIN : admin / admin</li>
+            <li>USER : user1 / 1234</li>
           </ul>
-
         </CardFooter>
       </Card>
     </div>
