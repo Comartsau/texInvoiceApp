@@ -1,420 +1,487 @@
 import {
-    Input,
-    Typography,
-    Button,
-    IconButton,
-    Card,
-    CardFooter,
-    Dialog,
-    DialogHeader,
-    DialogBody,
-    DialogFooter,
-  } from "@material-tailwind/react";
+  Input,
+  Typography,
+  Button,
+  IconButton,
+  Card,
+  CardFooter,
+  Dialog,
+  DialogHeader,
+  DialogBody,
+  DialogFooter,
+} from "@material-tailwind/react";
 
-  import axios from "axios";
-  import { useState } from "react";
+import axios from "axios";
+import { useState } from "react";
 
-  
-  import { AiFillDelete } from "react-icons/ai";
-  
-  import { BsPencilSquare, BsFillEyeFill, BsPlusCircle } from "react-icons/bs";
+import { ToastContainer, toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
+
+import { AiFillDelete } from "react-icons/ai";
+
+import { BsPencilSquare, BsFillEyeFill, BsPlusCircle } from "react-icons/bs";
 import { useEffect } from "react";
 
 function Company() {
+  //----------  Data Table --------------------//
+  const [noData, setNoData] = useState(true);
 
-  
-    //----------  Data Table --------------------//
-    const [noData, setNoData] = useState(true);
-    // const [listData, setListData] = useState([]);
+  const [listData, setListData] = useState([]);
 
+  const [searchQuery, setSearchQuery] = useState("");
 
-    // const [noData, setNoData] = useState(false);
-  
-    const [listData, setListData] = useState([
-      {
-        product_name: " สินค้า 001",
-        product_price: "1000",
-        product_unit: "ชุด",
-      },
-      {
-        product_name: " สินค้า 002",
-        product_price: "3000",
-        product_unit: "ลัง",
-      },
-    ]);
+  const getCompany = async () => {
+    try {
+      let token = localStorage.getItem("Token");
 
-    const getCompant = async() => {
-      try {
-        let token = localStorage.getItem("Token");
-        const respones = axios.get (
-          `${import.meta.env.VITE_APP_API}/company`,
-                {
-                  headers: {
-                    "Content-Type": "application/json",
-                     Authorization: `Token ${token}`,
-                  },
-                }
-                )
-                console.log(respones.data)
-                setListData(respones.data)
-      } catch (error) {
-        console.log(error)
-      }
-    }
+      let data = "";
 
-    useEffect(()=>{
-      getCompant()
-    },[listData])
-  
-    const [unitOptions, setUnitOptions] = useState([
-      { value: "hours", label: "ชั่วโมง" },
-      { value: "unit", label: "คัน" },
-      { value: "piece", label: "ชิ้น" },
-      { value: "item", label: "อัน" },
-      // เพิ่มตัวเลือกอื่น ๆ ตามที่คุณต้องการ
-    ]);
-  
-    const [searchQuery, setSearchQuery] = useState("");
-  
-    //----- จัดการแสดงข้อมูล / หน้า -------------- //
-    const [currentPage, setCurrentPage] = useState(1);
-    const itemsPerPage = 6;
-  
-    const startIndex = (currentPage - 1) * itemsPerPage;
-    const endIndex = startIndex + itemsPerPage;
-    const displayedData = listData?.slice(startIndex, endIndex);
-  
-    const totalPages = Math.ceil(listData?.length / itemsPerPage);
-  
-    //------------- modal View Company -----------------------//
-    const [openModalView, setOpenModalView] = useState(false);
-    const [dataView, setDataView] = useState([]);
-    const handleModalView = (data) => {
-      setOpenModalView(!openModalView);
-      setDataView(data);
-    };
-  
-    //------------- modal Add Company -----------------------//
-    const [openModalAdd, setOpenModalAdd] = useState(false);
-    const handleModalAdd = () => setOpenModalAdd(!openModalAdd);
-  
-    const [newProductName, setNewProductName] = useState("");
-    const [newProductPrice, setNewProductPrice] = useState("");
-    const [newProductUnit, setNewProductUnit] = useState("");
-  
-    //------------- modal Edit Company -----------------------//
-    const [openModalEdit, setOpenModalEdit] = useState(false);
-    const handleModalEdit = () => setOpenModalEdit(!openModalEdit);
-  
-    const [editProductName, setEditProductName] = useState("");
-    const [editProductPrice, setEditProductPrice] = useState("");
-    const [editProductUnit, setEditProductUnit] = useState("");
-  
-  
-    const handleDelete = (data) => {
-      Swal.fire({
-        title: `ต้องการลบ สินค้า: ${data} จริงหรือไม่?`,
-        text: "การลบข้อมูลจะไม่สามารถเรียกคืนได้",
-        icon: "warning",
-        showCancelButton: true,
-        confirmButtonText: "ใช่, ลบ!",
-        cancelButtonText: "ยกเลิก",
-        reverseButtons: true,
-      }).then((result) => {
-        if (result.isConfirmed) {
-          // ลบข้อมูลเมื่อผู้ใช้ยืนยันการลบ
-          try {
-            const response = axios.delete(
-              `${import.meta.env.VITE_APP_API}/Customer/${id}/delete`,
-              {
-                headers: {
-                  "Content-Type": "application/json",
-                  Authorization: `Token ${Token}`,
-                },
-              }
-            );
-            // console.log(response)
-            // await fetchData();
-            Swal.fire({
-              // position: 'top-end',
-              icon: "success",
-              title: "ลบสินค้าเรียบร้อย",
-              showConfirmButton: false,
-              timer: 1500,
-            });
-          } catch (error) {
-            console.error("ไม่สามารถลบสินค้าได้", error);
-            Swal.fire({
-              icon: "error",
-              title: "ลบสินค้าไม่สำเร็จ ",
-              text: "กรุณาลองใหม่อีกครั้ง",
-              confirmButtonText: "ตกลง",
-            });
-          }
-        }
+      let config = {
+        method: "get",
+        maxBodyLength: Infinity,
+        url: `${import.meta.env.VITE_APP_API}/company-search?username=${searchQuery}`,
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+        data: data,
+      };
+
+      await axios.request(config).then((response) => {
+        setListData(response.data);
+        setNoData(false);
       });
-    };
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
+  console.log(listData);
+
+  useEffect(() => {
+    getCompany();
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [searchQuery]);
+
   
-    // console.log(newProductUnit);
-    // console.log(editProductUnit);
+
+  //----- จัดการแสดงข้อมูล / หน้า -------------- //
+  const [currentPage, setCurrentPage] = useState(1);
+  const itemsPerPage = 8;
+
+  const startIndex = (currentPage - 1) * itemsPerPage;
+  const endIndex = startIndex + itemsPerPage;
+  const displayedData = listData?.slice(startIndex, endIndex);
+
+  const totalPages = Math.ceil(listData?.length / itemsPerPage);
+
+  //------------- modal View Company -----------------------//
+  const [openModalView, setOpenModalView] = useState(false);
+  const [dataView, setDataView] = useState([]);
+  const handleModalView = (data) => {
+    setOpenModalView(!openModalView);
+    setDataView(data);
+  };
+
+  //------------- modal Add Company -----------------------//
+  const [openModalAdd, setOpenModalAdd] = useState(false);
+
+  const handleModalAdd = () => setOpenModalAdd(!openModalAdd);
+
+  const [newCompanyData, setNewCompanyData] = useState({
+    newCompany: "",
+    newTex: "",
+    newAddress: "",
+    newTel: "",
+    newUserName: "",
+    newPassword: "",
+  });
+
+  const sendAddCompany = async () => {
+    try {
+      let token = localStorage.getItem("Token");
+
+      let data = {
+        company: newCompanyData.newCompany,
+        tax_personal: newCompanyData.newTex,
+        address: newCompanyData.newAddress,
+        tel: newCompanyData.newTel,
+        username: newCompanyData.newUserName,
+        password: newCompanyData.newPassword,
+      };
+      console.log(data);
+
+      let config = {
+        method: "post",
+        maxBodyLength: Infinity,
+        url: `${import.meta.env.VITE_APP_API}/register`,
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+        data: data,
+      };
+
+      await axios.request(config).then((response) => {
+        console.log(response.data);
+        handleModalAdd();
+        toast.success("เพิ่มข้อมูล Company สำเร็จ");
+        getCompany()
+      });
+    } catch (error) {
+      toast.error(error);
+    }
+  };
+
+  //------------- modal Edit Company -----------------------//
+  const [openModalEdit, setOpenModalEdit] = useState(false);
+  const [editCompanyData,setEditCompanyData] = useState([])
+
+  const handleModalEdit = (data) => {
+    setOpenModalEdit(!openModalEdit)
+    setEditCompanyData(data)
+  };
+
+  const sendEditCompany = async () => {
+    try {
+      let token = localStorage.getItem("Token");
+
+      let data = {
+        id: editCompanyData.id ,
+        company: editCompanyData.company,
+        tax_personal: editCompanyData.tax_personal,
+        address: editCompanyData.address,
+        tel: editCompanyData.tel,
+        username: editCompanyData.username,
+        password: editCompanyData.password,
+      };
+      console.log(data);
+
+      let config = {
+        method: "put",
+        maxBodyLength: Infinity,
+        url: `${import.meta.env.VITE_APP_API}/company/edit`,
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+        data: data,
+      };
+
+      await axios.request(config).then((response) => {
+        console.log(response.data);
+        toast.success("แก้ไขข้อมูล Company สำเร็จ");
+        setOpenModalEdit(false)
+        getCompany()
+      });
+    } catch (error) {
+      toast.error(error);
+    }
+  };
+
+  console.log(editCompanyData)
+
+
+
+  const handleDelete = async (id) => {
+    // ลบข้อมูลเมื่อผู้ใช้ยืนยันการลบ
+    try {
+      let token = localStorage.getItem("Token");
+
+      let data = {
+        id: id ,
+      };
+      console.log(data);
+
+      let config = {
+        method: "put",
+        maxBodyLength: Infinity,
+        url: `${import.meta.env.VITE_APP_API}/company/delete`,
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+        data: data,
+      };
+
+      await axios.request(config).then((response) => {
+        console.log(response.data);
+        toast.success("ลบข้อมูล Company สำเร็จ");
+        getCompany()
+      });
+    } catch (error) {
+      toast.error(error);
+    }
+  };
 
   return (
     <Card className="w-full overflow-auto px-3">
-        <div className="w-full px-3">
-          {/* <p>ข้อมูลผู้บริจาค</p> */}
-          <div className="flex flex-col sm:flex-row w-full items-center gap-3   sm:justify-between px-5 mt-5   ">
-            <div className="flex justify-center ">
-              <Input
-                type="text"
-                color="blue"
-                label="ค้นหา สินค้า"
-                value={searchQuery}
-                onChange={(e) => setSearchQuery(e.target.value)}
-                // className=" bg-gray-50"
-                style={{ backgroundColor: "#F4F4F4" }}
-              />
-            </div>
-            <div className="flex justify-center">
-              <Button
-                size="sm"
-                variant="gradient"
-                color="green"
-                className="text-base flex justify-center  items-center   bg-green-500"
-                onClick={handleModalAdd}
-              >
-                <span className="mr-2 text-xl">
-                  <BsPlusCircle />
-                </span>
-                เพิ่มสินค้า
-              </Button>
-            </div>
+      <ToastContainer autoClose={1000} theme="colored" />
+      <div className="w-full px-3">
+        {/* <p>ข้อมูลผู้บริจาค</p> */}
+        <div className="flex flex-col sm:flex-row w-full items-center gap-3   sm:justify-between px-5 mt-5   ">
+          <div className="flex justify-center ">
+            <Input
+              type="text"
+              color="blue"
+              label="ค้นหา สินค้า"
+              value={searchQuery}
+              onChange={(e) => setSearchQuery(e.target.value)}
+              // className=" bg-gray-50"
+              style={{ backgroundColor: "#F4F4F4" }}
+            />
           </div>
-          {/* ------------ table  ----------------------------------------- */}
-          <Card className="mt-5 border-2 overflow-auto ">
-            <div className="p-3">
-              <table className="w-full min-w-max  ">
-                <thead>
-                  <tr>
-                    <th className="border-y border-blue-gray-100 bg-blue-gray-50/50 p-4">
-                      <Typography
-                        variant="small"
-                        color="blue-gray"
-                        className="font-bold leading-none opacity-70"
-                      >
-                        ลำดับ
-                      </Typography>
-                    </th>
-                    <th className="border-y border-blue-gray-100 bg-blue-gray-50/50 p-4">
-                      <Typography
-                        variant="small"
-                        color="blue-gray"
-                        className="font-bold leading-none opacity-70"
-                      >
-                        ชื่อสินค้า
-                      </Typography>
-                    </th>
-                    <th className="border-y border-blue-gray-100 bg-blue-gray-50/50 p-4">
-                      <Typography
-                        variant="small"
-                        color="blue-gray"
-                        className="font-bold leading-none opacity-70"
-                      >
-                        ราคา
-                      </Typography>
-                    </th>
-                    <th className="border-y border-blue-gray-100 bg-blue-gray-50/50 p-4">
-                      <Typography
-                        variant="small"
-                        color="blue-gray"
-                        className="font-bold leading-none opacity-70"
-                      >
-                        ดู
-                      </Typography>
-                    </th>
-                    <th className="border-y border-blue-gray-100 bg-blue-gray-50/50 p-4">
-                      <Typography
-                        variant="small"
-                        color="blue-gray"
-                        className="font-bold leading-none opacity-70 "
-                      >
-                        แก้ไข
-                      </Typography>
-                    </th>
-                    <th className="border-y border-blue-gray-100 bg-blue-gray-50/50 p-4">
-                      <Typography
-                        variant="small"
-                        color="blue-gray"
-                        className="font-bold leading-none opacity-70"
-                      >
-                        ลบ
-                      </Typography>
-                    </th>
-                  </tr>
-                </thead>
-                {noData ? (
-                  <tbody>
-                    <tr>
-                      <td></td>
-                      <td></td>
-                      <td></td>
-                      <td>
-                        <Typography>...ไม่พบข้อมูล...</Typography>
-                      </td>
-                    </tr>
-                  </tbody>
-                ) : (
-                  <tbody>
-                    {displayedData.map((data, index) => {
-                      const isLast = index === displayedData.length - 1;
-                      const pageIndex = startIndex + index;
-                      const classes = isLast
-                        ? "p-2"
-                        : "p-3 border-b border-blue-gray-50";
-
-                      return (
-                        <tr key={index}>
-                          <td className={classes}>
-                            <div className="flex items-center justify-center">
-                              <Typography
-                                variant="small"
-                                color="blue-gray"
-                                className="font-normal "
-                              >
-                                {pageIndex + 1 || ""}
-                              </Typography>
-                            </div>
-                          </td>
-                          <td className={classes}>
-                            <div className="flex items-center justify-center">
-                              <Typography
-                                variant="small"
-                                color="blue-gray"
-                                className="font-normal "
-                              >
-                                {data.product_name || ""}
-                              </Typography>
-                            </div>
-                          </td>
-                          <td className={classes}>
-                            <div className="flex items-center justify-center">
-                              <Typography
-                                variant="small"
-                                color="blue-gray"
-                                className="font-normal "
-                              >
-                                {Number(data.product_price).toLocaleString() ||
-                                  ""}
-                              </Typography>
-                            </div>
-                          </td>
-                          <td className={classes}>
-                            <div className="flex justify-center">
-                              <IconButton
-                                variant="outlined"
-                                color="blue"
-                                size="sm"
-                                className="ml-3 "
-                                onClick={() => handleModalView(data)}
-                              >
-                                <BsFillEyeFill className="h-5 w-5  text-light-blue-700 " />
-                              </IconButton>
-                            </div>
-                          </td>
-                          <td className={classes}>
-                            <div className="flex justify-center">
-                              <IconButton
-                                variant="outlined"
-                                color="amber"
-                                size="sm"
-                                onClick={handleModalEdit}
-                              >
-                                <BsPencilSquare className="h-5 w-5 text-yellow-900" />
-                              </IconButton>
-                            </div>
-                          </td>
-                          <td className={classes}>
-                            <div className="flex justify-center ">
-                              <IconButton
-                                variant="outlined"
-                                size="sm"
-                                color="red"
-                                className="rounded-full"
-                                onClick={() => handleDelete(data.product_name)}
-                              >
-                                <AiFillDelete color="red" className="h-5 w-5" />
-                              </IconButton>
-                            </div>
-                          </td>
-                        </tr>
-                      );
-                    })}
-                  </tbody>
-                )}
-              </table>
-            </div>
-            <CardFooter className="flex items-center justify-between border-t border-blue-gray-50 p-4">
-              <Button
-                variant="outlined"
-                size="sm"
-                disabled={currentPage === 1}
-                onClick={() => setCurrentPage(currentPage - 1)}
-              >
-                ก่อนหน้า
-              </Button>
-              <div className="flex items-center gap-2">
-                {Array.from({ length: totalPages }, (_, i) => (
-                  <IconButton
-                    key={i}
-                    variant="outlined"
-                    size="sm"
-                    onClick={() => setCurrentPage(i + 1)}
-                    className={
-                      currentPage === i + 1 ? "bg-blue-500 text-white" : ""
-                    }
-                  >
-                    {i + 1}
-                  </IconButton>
-                ))}
-              </div>
-              <Button
-                variant="outlined"
-                size="sm"
-                disabled={currentPage === totalPages}
-                onClick={() => setCurrentPage(currentPage + 1)}
-              >
-                ถัดไป
-              </Button>
-            </CardFooter>
-          </Card>
+          <div className="flex justify-center">
+            <Button
+              size="sm"
+              variant="gradient"
+              color="green"
+              className="text-base flex justify-center  items-center   bg-green-500"
+              onClick={handleModalAdd}
+            >
+              <span className="mr-2 text-xl">
+                <BsPlusCircle />
+              </span>
+              เพิ่มสินค้า
+            </Button>
+          </div>
         </div>
+        {/* ------------ table  ----------------------------------------- */}
+        <Card className="mt-5 border-2 overflow-auto ">
+          <div className="p-3">
+            <table className="w-full min-w-max  ">
+              <thead>
+                <tr>
+                  <th className="border-y border-blue-gray-100 bg-blue-gray-50/50 p-4">
+                    <Typography
+                      variant="small"
+                      color="blue-gray"
+                      className="font-bold leading-none opacity-70"
+                    >
+                      ลำดับ
+                    </Typography>
+                  </th>
+                  <th className="border-y border-blue-gray-100 bg-blue-gray-50/50 p-4">
+                    <Typography
+                      variant="small"
+                      color="blue-gray"
+                      className="font-bold leading-none opacity-70"
+                    >
+                      ชื่อบริษัท
+                    </Typography>
+                  </th>
+                  <th className="border-y border-blue-gray-100 bg-blue-gray-50/50 p-4">
+                    <Typography
+                      variant="small"
+                      color="blue-gray"
+                      className="font-bold leading-none opacity-70"
+                    >
+                      Username
+                    </Typography>
+                  </th>
+                  <th className="border-y border-blue-gray-100 bg-blue-gray-50/50 p-4">
+                    <Typography
+                      variant="small"
+                      color="blue-gray"
+                      className="font-bold leading-none opacity-70"
+                    >
+                      ดู
+                    </Typography>
+                  </th>
+                  <th className="border-y border-blue-gray-100 bg-blue-gray-50/50 p-4">
+                    <Typography
+                      variant="small"
+                      color="blue-gray"
+                      className="font-bold leading-none opacity-70 "
+                    >
+                      แก้ไข
+                    </Typography>
+                  </th>
+                  <th className="border-y border-blue-gray-100 bg-blue-gray-50/50 p-4">
+                    <Typography
+                      variant="small"
+                      color="blue-gray"
+                      className="font-bold leading-none opacity-70"
+                    >
+                      ลบ
+                    </Typography>
+                  </th>
+                </tr>
+              </thead>
+              {noData ? (
+                <tbody>
+                  <tr>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                    <td>
+                      <Typography>...ไม่พบข้อมูล...</Typography>
+                    </td>
+                  </tr>
+                </tbody>
+              ) : (
+                <tbody>
+                  {displayedData.map((data, index) => {
+                    const isLast = index === displayedData.length - 1;
+                    const pageIndex = startIndex + index;
+                    const classes = isLast
+                      ? "p-2"
+                      : "p-3 border-b border-blue-gray-50";
 
-         {/* modal View Company */}
+                    return (
+                      <tr key={index}>
+                        <td className={classes}>
+                          <div className="flex items-center justify-center">
+                            <Typography
+                              variant="small"
+                              color="blue-gray"
+                              className="font-normal "
+                            >
+                              {pageIndex + 1 || ""}
+                            </Typography>
+                          </div>
+                        </td>
+                        <td className={classes}>
+                          <div className="flex items-center justify-center">
+                            <Typography
+                              variant="small"
+                              color="blue-gray"
+                              className="font-normal "
+                            >
+                              {data?.company || ""}
+                            </Typography>
+                          </div>
+                        </td>
+                        <td className={classes}>
+                          <div className="flex items-center justify-center">
+                            <Typography
+                              variant="small"
+                              color="blue-gray"
+                              className="font-normal "
+                            >
+                              {data?.username || ""}
+                            </Typography>
+                          </div>
+                        </td>
+                        <td className={classes}>
+                          <div className="flex justify-center">
+                            <IconButton
+                              variant="outlined"
+                              color="blue"
+                              size="sm"
+                              className="ml-3 "
+                              onClick={() => handleModalView(data)}
+                            >
+                              <BsFillEyeFill className="h-5 w-5  text-light-blue-700 " />
+                            </IconButton>
+                          </div>
+                        </td>
+                        <td className={classes}>
+                          <div className="flex justify-center">
+                            <IconButton
+                              variant="outlined"
+                              color="amber"
+                              size="sm"
+                              onClick={()=> handleModalEdit(data)}
+                            >
+                              <BsPencilSquare className="h-5 w-5 text-yellow-900" />
+                            </IconButton>
+                          </div>
+                        </td>
+                        <td className={classes}>
+                          <div className="flex justify-center ">
+                            <IconButton
+                              variant="outlined"
+                              size="sm"
+                              color="red"
+                              className="rounded-full"
+                              onClick={() => handleDelete(data.id)}
+                            >
+                              <AiFillDelete color="red" className="h-5 w-5" />
+                            </IconButton>
+                          </div>
+                        </td>
+                      </tr>
+                    );
+                  })}
+                </tbody>
+              )}
+            </table>
+          </div>
+          <CardFooter className="flex items-center justify-between border-t border-blue-gray-50 p-4">
+            <Button
+              variant="outlined"
+              size="sm"
+              disabled={currentPage === 1}
+              onClick={() => setCurrentPage(currentPage - 1)}
+            >
+              ก่อนหน้า
+            </Button>
+            <div className="flex items-center gap-2">
+              {Array.from({ length: totalPages }, (_, i) => (
+                <IconButton
+                  key={i}
+                  variant="outlined"
+                  size="sm"
+                  onClick={() => setCurrentPage(i + 1)}
+                  className={
+                    currentPage === i + 1 ? "bg-blue-500 text-white" : ""
+                  }
+                >
+                  {i + 1}
+                </IconButton>
+              ))}
+            </div>
+            <Button
+              variant="outlined"
+              size="sm"
+              disabled={currentPage === totalPages}
+              onClick={() => setCurrentPage(currentPage + 1)}
+            >
+              ถัดไป
+            </Button>
+          </CardFooter>
+        </Card>
+      </div>
+
+      {/* modal View Company */}
 
       <Dialog open={openModalView} handler={handleModalView}>
         <DialogHeader className="bg-blue-700 py-3  px-3 text-center text-lg text-white opacity-80">
           <div className="flex gap-3">
             <Typography variant="h5">รายละเอียดบริษัท:</Typography>
             <Typography variant="h5" className=" font-normal">
-              {dataView.product_name || ""}
+              {dataView?.company || ""}
             </Typography>
           </div>
         </DialogHeader>
         <DialogBody divider className=" overflow-auto ">
           <div className="flex flex-col   items-center sm:items-start  gap-4 ">
+            <div className="flex w-full mt-3 gap-4    ">
+              <Typography>ชื่อบริษัท:</Typography>
+              <Typography>{dataView?.company || ""}</Typography>
+            </div>
+            <div className="flex w-full mt-3 gap-4    ">
+              <Typography>ที่อยู่:</Typography>
+              <Typography>{dataView?.address || ""}</Typography>
+            </div>
             <div className="flex w-full  gap-3  ">
               <div className="flex w-full mt-3 gap-4    ">
-                <Typography>ชื่อสินค้า:</Typography>
-                <Typography>{dataView.product_name || ""}</Typography>
+                <Typography>เลขผู้เสียภาษี:</Typography>
+                <Typography>{dataView?.tax_personal || ""}</Typography>
               </div>
 
               <div className="flex mt-3 w-full gap-4  ">
-                <Typography>ราคา/หน่วย:</Typography>
-                <Typography>{dataView.product_price || ""}</Typography>
+                <Typography>โทรศัพท์:</Typography>
+                <Typography>{dataView?.tel || ""}</Typography>
               </div>
             </div>
-            <div className="flex w-full mt-3 gap-4    ">
-              <Typography>หน่วยนับ:</Typography>
-              <Typography>{dataView.product_unit || ""}</Typography>
+            <div className="flex w-full  gap-3  ">
+              <div className="flex w-full mt-3 gap-4    ">
+                <Typography>Username:</Typography>
+                <Typography>{dataView?.username || ""}</Typography>
+              </div>
+
+              <div className="flex mt-3 w-full gap-4  ">
+                <Typography>Password:</Typography>
+                <Typography>{dataView?.password || ""}</Typography>
+              </div>
             </div>
           </div>
         </DialogBody>
@@ -433,13 +500,9 @@ function Company() {
 
       {/* modal Add Company */}
 
-      <Dialog
-        open={openModalAdd}
-        size="sm"
-        handler={handleModalAdd}
-      >
+      <Dialog open={openModalAdd} size="sm" handler={handleModalAdd}>
         <DialogHeader className="bg-blue-700 py-3  px-3 text-center text-lg text-white opacity-80">
-          <Typography variant="h5">เพิ่มสินค้าใหม่</Typography>
+          <Typography variant="h5">เพิ่มบริษัทใหม่</Typography>
         </DialogHeader>
         <DialogBody divider className=" overflow-auto ">
           <div className="flex flex-col   items-center sm:items-start  gap-4 ">
@@ -447,37 +510,85 @@ function Company() {
               <div className="flex sm:w-[200px]  mt-3">
                 <Input
                   type="text"
-                  label="ชื่อสินค้า"
+                  label="ชื่อบริษัท"
                   maxLength="45"
-                  value={newProductName || ''}
-                  onChange={(e) => setNewProductName(e.target.value)}
+                  onChange={(e) =>
+                    setNewCompanyData({
+                      ...newCompanyData,
+                      newCompany: e.target.value,
+                    })
+                  }
+                />
+              </div>
+              <div className="flex sm:w-[300px]  mt-3">
+                <Input
+                  type="text"
+                  label="เลขประจำตัวผู้เสียภาษี"
+                  maxLength="13"
+                  onChange={(e) =>
+                    setNewCompanyData({
+                      ...newCompanyData,
+                      newTex: e.target.value,
+                    })
+                  }
+                />
+              </div>
+            </div>
+            <div className="flex flex-col sm:flex-row gap-4 w-full xl:px-5 xl:justify-between">
+              <div className="flex sm:w-[400px]  mt-3">
+                <Input
+                  type="text"
+                  label="ที่อยู่"
+                  maxLength="45"
+                  onChange={(e) =>
+                    setNewCompanyData({
+                      ...newCompanyData,
+                      newAddress: e.target.value,
+                    })
+                  }
                 />
               </div>
               <div className="flex sm:w-[200px]  mt-3">
                 <Input
                   type="text"
-                  label="ราคา/หน่วย"
-                  maxLength="10"
-                  value={newProductPrice || ''}
-                  onChange={(e) => setNewProductPrice(e.target.value)}
+                  label="เบอร์โทรศัพท์"
+                  maxLength="13"
+                  onChange={(e) =>
+                    setNewCompanyData({
+                      ...newCompanyData,
+                      newTel: e.target.value,
+                    })
+                  }
                 />
               </div>
             </div>
-            <div className="flex mt-3 w-full h-auto sm:w-[200px] sm:mt-0 xl:px-5 ">
-              <select
-                onChange={(e) => setNewProductUnit(e.target.value)}
-                className="border border-gray-400 min-w-[200px] rounded-lg py-1 px-2 "
-              >
-                <option value="">เลือกหน่วยนับ</option>
-                {unitOptions &&
-                  unitOptions.map((data, index) => {
-                    return (
-                      <option key={index} value={data.value}>
-                        {data.label}
-                      </option>
-                    );
-                  })}
-              </select>
+            <div className="flex flex-col sm:flex-row gap-4 w-full xl:px-5 xl:justify-between">
+              <div className="flex sm:w-[400px]  mt-3">
+                <Input
+                  type="text"
+                  label="Username"
+                  maxLength="45"
+                  onChange={(e) =>
+                    setNewCompanyData({
+                      ...newCompanyData,
+                      newUserName: e.target.value,
+                    })
+                  }
+                />
+              </div>
+              <div className="flex sm:w-[200px]  mt-3">
+                <Input
+                  type="password"
+                  label="Password"
+                  maxLength="8"
+                  onChange={(e) =>
+                    setNewCompanyData({
+                      ...newCompanyData,
+                      newPassword: e.target.value,
+                    })
+                  }
+                />
+              </div>
             </div>
           </div>
         </DialogBody>
@@ -491,7 +602,12 @@ function Company() {
           >
             <span className="text-sm">ยกเลิก</span>
           </Button>
-          <Button size="sm" variant="gradient" color="green">
+          <Button
+            size="sm"
+            variant="gradient"
+            color="green"
+            onClick={sendAddCompany}
+          >
             <span className="text-sm">บันทึก</span>
           </Button>
         </DialogFooter>
@@ -509,37 +625,91 @@ function Company() {
               <div className="flex sm:w-[200px]  mt-3">
                 <Input
                   type="text"
-                  label="ชื่อสินค้า"
+                  label="ชื่อบริษัท"
                   maxLength="45"
-                  value={editProductName || ''}
-                  onChange={(e) => setEditProductName(e.target.value)}
+                  value={editCompanyData?.company || ''}
+                  onChange={(e) =>
+                    setEditCompanyData({
+                      ...editCompanyData,
+                      company: e.target.value,
+                    })
+                  }
+                />
+              </div>
+              <div className="flex sm:w-[300px]  mt-3">
+                <Input
+                  type="text"
+                  label="เลขประจำตัวผู้เสียภาษี"
+                  maxLength="13"
+                  value={editCompanyData?.tax_personal || ''}
+                  onChange={(e) =>
+                    setEditCompanyData({
+                      ...editCompanyData,
+                      tax_personal: e.target.value,
+                    })
+                  }
+                />
+              </div>
+            </div>
+            <div className="flex flex-col sm:flex-row gap-4 w-full xl:px-5 xl:justify-between">
+              <div className="flex sm:w-[400px]  mt-3">
+                <Input
+                  type="text"
+                  label="ที่อยู่"
+                  maxLength="45"
+                  value={editCompanyData?.address || ''}
+                  onChange={(e) =>
+                    setEditCompanyData({
+                      ...editCompanyData,
+                      address: e.target.value,
+                    })
+                  }
                 />
               </div>
               <div className="flex sm:w-[200px]  mt-3">
                 <Input
                   type="text"
-                  label="ราคา/หน่วย"
-                  maxLength="10"
-                  value={editProductPrice || ''}
-                  onChange={(e) => setEditProductPrice(e.target.value)}
+                  label="เบอร์โทรศัพท์"
+                  maxLength="13"
+                  value={editCompanyData?.tel || ''}
+                  onChange={(e) =>
+                    setEditCompanyData({
+                      ...editCompanyData,
+                      tel: e.target.value,
+                    })
+                  }
                 />
               </div>
             </div>
-            <div className="mt-3 w-full sm:w-[200px] sm:mt-0 xl:px-5">
-            <select
-                onChange={(e) => setEditProductUnit(e.target.value)}
-                className="border border-gray-400 min-w-[200px] rounded-lg py-1 px-2 "
-              >
-                <option value="" >เลือกหน่วยนับ</option>
-                {unitOptions &&
-                  unitOptions.map((data, index) => {
-                    return (
-                      <option key={index} value={data.value}>
-                        {data.label}
-                      </option>
-                    );
-                  })}
-              </select>
+            <div className="flex flex-col sm:flex-row gap-4 w-full xl:px-5 xl:justify-between">
+              <div className="flex sm:w-[400px]  mt-3">
+                <Input
+                  type="text"
+                  label="Username"
+                  maxLength="45"
+                  value={editCompanyData?.username || ''}
+                  onChange={(e) =>
+                    setEditCompanyData({
+                      ...editCompanyData,
+                      username: e.target.value,
+                    })
+                  }
+                />
+              </div>
+              <div className="flex sm:w-[200px]  mt-3">
+                <Input
+                  type="password"
+                  label="Password"
+                  maxLength="8"
+                  value={editCompanyData?.password || ''}
+                  onChange={(e) =>
+                    setEditCompanyData({
+                      ...editCompanyData,
+                      password: e.target.value,
+                    })
+                  }
+                />
+              </div>
             </div>
           </div>
         </DialogBody>
@@ -553,15 +723,18 @@ function Company() {
           >
             <span className="text-sm">ยกเลิก</span>
           </Button>
-          <Button size="sm" variant="gradient" color="green">
+          <Button 
+          size="sm" 
+          variant="gradient" 
+          color="green"
+          onClick={sendEditCompany}
+          >
             <span className="text-sm">บันทึก</span>
           </Button>
         </DialogFooter>
       </Dialog>
-
-
     </Card>
-  )
+  );
 }
 
-export default Company
+export default Company;
