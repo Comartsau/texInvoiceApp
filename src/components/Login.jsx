@@ -112,7 +112,7 @@ function Login() {
 
           <ul className="mx-auto mt-5">
             <li>ADMIN : admin / admin</li>
-            <li>USER : user1 / 1234</li>
+            <li>USER : user1 / user1</li>
           </ul>
         </CardFooter>
       </Card>

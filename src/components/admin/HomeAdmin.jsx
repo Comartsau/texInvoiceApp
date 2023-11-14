@@ -1,4 +1,3 @@
-
 import { useState, useEffect } from "react";
 import {
   List,
@@ -14,8 +13,7 @@ import { FaUserTie, FaBars } from "react-icons/fa";
 import { AiFillCloseCircle } from "react-icons/ai";
 import { BsBoxFill } from "react-icons/bs";
 import Company from "./content/company";
-import Report from "./content/report"
-
+import Report from "./content/report";
 
 function HomeAdmin() {
   const [openNav, setOpenNav] = useState(false);
@@ -75,15 +73,14 @@ function HomeAdmin() {
     setOpenNav(!openNav);
   };
 
-
   // console.log(menuItems)
   // console.log(selectedMenuItem);
   // console.log(selectedMenuSubItem);
 
-  const handleLogout = ()=>{
-    localStorage.clear()
-    window.location.reload()
-}
+  const handleLogout = () => {
+    localStorage.clear();
+    window.location.reload();
+  };
   return (
     <>
       {/* HeaderBar */}
@@ -97,7 +94,7 @@ function HomeAdmin() {
               // as="a"
               // href="#"
               color="white"
-              className="mr-4 font-bold  text-lg  py-1.5 "
+              className="mr-4 font-bold  text-lg  py-1.5 text-center "
             >
               ระบบใบกำกับภาษีแบบสัพ
             </Typography>
@@ -134,13 +131,13 @@ function HomeAdmin() {
       <div className="flex   py-3 pr-3 bg-gray-300 gap-3 ">
         {/* Menu */}
         <div className={`${openNav ? "block" : "hidden"} lg:block`}>
-          <Card className="flex w-[270px] h-[90vh] overflow-hidden rounded-lg pt-5 ">
+          <Card className="flex w-[200px] h-[90vh] overflow-hidden rounded-lg pt-5 ">
             <List className="flex my-2">
               {menuItems.map((item, index) => (
                 <div key={index}>
                   <ListItem
                     onClick={() => handleMenuItemClick(item.label)}
-                    className={`w-[250px] py-3 text-sm font-normal text-blue-gray-700 focus:bg-blue-500 focus:text-white ${
+                    className={`w-[180px] py-3 text-sm font-normal text-blue-gray-700 focus:bg-blue-500 focus:text-white ${
                       isMenuItemSelected(item.label)
                         ? "bg-blue-400 text-white hover:bg-blue-500 hover:text-white"
                         : ""
@@ -213,7 +210,7 @@ function HomeAdmin() {
             )
           : menuItems.map(
               (item, index) =>
-                item.label === selectedMenuItem &&  (
+                item.label === selectedMenuItem && (
                   <div key={index} className="flex w-full">
                     <item.path />
                   </div>

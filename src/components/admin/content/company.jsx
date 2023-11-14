@@ -1,3 +1,4 @@
+/* eslint-disable no-undef */
 import {
   Input,
   Typography,
@@ -12,10 +13,11 @@ import {
 } from "@material-tailwind/react";
 
 import axios from "axios";
+import qs from "qs";
 import { useState } from "react";
 
-import { ToastContainer, toast } from 'react-toastify';
-import 'react-toastify/dist/ReactToastify.css';
+import { ToastContainer, toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 
 import { AiFillDelete } from "react-icons/ai";
 
@@ -39,7 +41,9 @@ function Company() {
       let config = {
         method: "get",
         maxBodyLength: Infinity,
-        url: `${import.meta.env.VITE_APP_API}/company-search?username=${searchQuery}`,
+        url: `${
+          import.meta.env.VITE_APP_API
+        }/company-search?search=${searchQuery}`,
         headers: {
           Authorization: `Bearer ${token}`,
         },
@@ -59,10 +63,8 @@ function Company() {
 
   useEffect(() => {
     getCompany();
-  // eslint-disable-next-line react-hooks/exhaustive-deps
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [searchQuery]);
-
-  
 
   //----- จัดการแสดงข้อมูล / หน้า -------------- //
   const [currentPage, setCurrentPage] = useState(1);
@@ -124,7 +126,7 @@ function Company() {
         console.log(response.data);
         handleModalAdd();
         toast.success("เพิ่มข้อมูล Company สำเร็จ");
-        getCompany()
+        getCompany();
       });
     } catch (error) {
       toast.error(error);
@@ -133,81 +135,89 @@ function Company() {
 
   //------------- modal Edit Company -----------------------//
   const [openModalEdit, setOpenModalEdit] = useState(false);
-  const [editCompanyData,setEditCompanyData] = useState([])
+  const [editCompanyData, setEditCompanyData] = useState([]);
 
   const handleModalEdit = (data) => {
-    setOpenModalEdit(!openModalEdit)
-    setEditCompanyData(data)
+    setOpenModalEdit(!openModalEdit);
+    setEditCompanyData(data);
   };
 
   const sendEditCompany = async () => {
-    try {
-      let token = localStorage.getItem("Token");
+    let token = localStorage.getItem("Token");
+    let data = qs.stringify({
+      id: editCompanyData.id,
+      company: editCompanyData.company,
+      tax_personal: editCompanyData.tax_personal,
+      address: editCompanyData.address,
+      tel: editCompanyData.tel,
+      username: editCompanyData.username,
+      password: editCompanyData.password,
+    });
 
-      let data = {
-        id: editCompanyData.id ,
-        company: editCompanyData.company,
-        tax_personal: editCompanyData.tax_personal,
-        address: editCompanyData.address,
-        tel: editCompanyData.tel,
-        username: editCompanyData.username,
-        password: editCompanyData.password,
-      };
-      console.log(data);
+    let config = {
+      method: "put",
+      maxBodyLength: Infinity,
+      url: `${import.meta.env.VITE_APP_API}/company/edit`,
+      headers: {
+        Authorization: `Bearer ${token}`,
+        "Content-Type": "application/x-www-form-urlencoded",
+      },
+      data: data,
+    };
 
-      let config = {
-        method: "put",
-        maxBodyLength: Infinity,
-        url: `${import.meta.env.VITE_APP_API}/company/edit`,
-        headers: {
-          Authorization: `Bearer ${token}`,
-        },
-        data: data,
-      };
-
-      await axios.request(config).then((response) => {
-        console.log(response.data);
+    axios
+      .request(config)
+      .then((response) => {
+        response.data;
+        setOpenModalEdit(false);
+        getCompany();
         toast.success("แก้ไขข้อมูล Company สำเร็จ");
-        setOpenModalEdit(false)
-        getCompany()
+      })
+      .catch((error) => {
+        toast.error(error);
       });
-    } catch (error) {
-      toast.error(error);
-    }
   };
 
-  console.log(editCompanyData)
+  console.log(editCompanyData);
 
+  //------------- modal Delete Company -----------------------//
+  const [openModalDelete, setOpenModalDelete] = useState(false);
+  const [dataDelete, setDataDelete] = useState([]);
+
+  const handleModalDelete = (data) => {
+    setOpenModalDelete(!openModalDelete);
+    setDataDelete(data);
+  };
 
 
   const handleDelete = async (id) => {
     // ลบข้อมูลเมื่อผู้ใช้ยืนยันการลบ
-    try {
-      let token = localStorage.getItem("Token");
 
-      let data = {
-        id: id ,
-      };
-      console.log(data);
+    let token = localStorage.getItem("Token");
+    let data = qs.stringify({});
 
-      let config = {
-        method: "put",
-        maxBodyLength: Infinity,
-        url: `${import.meta.env.VITE_APP_API}/company/delete`,
-        headers: {
-          Authorization: `Bearer ${token}`,
-        },
-        data: data,
-      };
+    let config = {
+      method: "delete",
+      maxBodyLength: Infinity,
+      url: `${import.meta.env.VITE_APP_API}/company/delete/${id}`,
+      headers: {
+        Authorization: `Bearer ${token}`,
+        "Content-Type": "application/x-www-form-urlencoded",
+      },
+      data: data,
+    };
 
-      await axios.request(config).then((response) => {
-        console.log(response.data);
+    axios
+      .request(config)
+      .then((response) => {
+        response.data;
+        getCompany();
+        setOpenModalDelete(false);
         toast.success("ลบข้อมูล Company สำเร็จ");
-        getCompany()
+      })
+      .catch((error) => {
+        toast.error(error);
       });
-    } catch (error) {
-      toast.error(error);
-    }
   };
 
   return (
@@ -220,7 +230,7 @@ function Company() {
             <Input
               type="text"
               color="blue"
-              label="ค้นหา สินค้า"
+              label="ค้นหา ชื่อบริษัท / Username"
               value={searchQuery}
               onChange={(e) => setSearchQuery(e.target.value)}
               // className=" bg-gray-50"
@@ -378,7 +388,7 @@ function Company() {
                               variant="outlined"
                               color="amber"
                               size="sm"
-                              onClick={()=> handleModalEdit(data)}
+                              onClick={() => handleModalEdit(data)}
                             >
                               <BsPencilSquare className="h-5 w-5 text-yellow-900" />
                             </IconButton>
@@ -391,7 +401,7 @@ function Company() {
                               size="sm"
                               color="red"
                               className="rounded-full"
-                              onClick={() => handleDelete(data.id)}
+                              onClick={() => handleModalDelete(data)}
                             >
                               <AiFillDelete color="red" className="h-5 w-5" />
                             </IconButton>
@@ -627,7 +637,7 @@ function Company() {
                   type="text"
                   label="ชื่อบริษัท"
                   maxLength="45"
-                  value={editCompanyData?.company || ''}
+                  value={editCompanyData?.company || ""}
                   onChange={(e) =>
                     setEditCompanyData({
                       ...editCompanyData,
@@ -641,7 +651,7 @@ function Company() {
                   type="text"
                   label="เลขประจำตัวผู้เสียภาษี"
                   maxLength="13"
-                  value={editCompanyData?.tax_personal || ''}
+                  value={editCompanyData?.tax_personal || ""}
                   onChange={(e) =>
                     setEditCompanyData({
                       ...editCompanyData,
@@ -657,7 +667,7 @@ function Company() {
                   type="text"
                   label="ที่อยู่"
                   maxLength="45"
-                  value={editCompanyData?.address || ''}
+                  value={editCompanyData?.address || ""}
                   onChange={(e) =>
                     setEditCompanyData({
                       ...editCompanyData,
@@ -671,7 +681,7 @@ function Company() {
                   type="text"
                   label="เบอร์โทรศัพท์"
                   maxLength="13"
-                  value={editCompanyData?.tel || ''}
+                  value={editCompanyData?.tel || ""}
                   onChange={(e) =>
                     setEditCompanyData({
                       ...editCompanyData,
@@ -687,7 +697,7 @@ function Company() {
                   type="text"
                   label="Username"
                   maxLength="45"
-                  value={editCompanyData?.username || ''}
+                  value={editCompanyData?.username || ""}
                   onChange={(e) =>
                     setEditCompanyData({
                       ...editCompanyData,
@@ -701,7 +711,7 @@ function Company() {
                   type="password"
                   label="Password"
                   maxLength="8"
-                  value={editCompanyData?.password || ''}
+                  value={editCompanyData?.password || ""}
                   onChange={(e) =>
                     setEditCompanyData({
                       ...editCompanyData,
@@ -723,14 +733,52 @@ function Company() {
           >
             <span className="text-sm">ยกเลิก</span>
           </Button>
-          <Button 
-          size="sm" 
-          variant="gradient" 
-          color="green"
-          onClick={sendEditCompany}
+          <Button
+            size="sm"
+            variant="gradient"
+            color="green"
+            onClick={sendEditCompany}
           >
             <span className="text-sm">บันทึก</span>
           </Button>
+        </DialogFooter>
+      </Dialog>
+
+      {/* modal Delete Company */}
+
+      <Dialog open={openModalDelete} size="sm" handler={handleModalDelete}>
+        <DialogHeader className="bg-red-700 py-5  px-3 text-center text-lg text-white opacity-80"></DialogHeader>
+        <DialogBody divider className=" overflow-auto ">
+          <div className="flex flex-col w-full justify-center gap-3 ">
+            <Typography variant="h5" className="text-center">
+              ต้องการลบ บริษัท: {dataDelete?.company || ""}{" "}
+            </Typography>
+            <Typography variant="h5" className="text-center">
+              จริงหรือไม่?{" "}
+            </Typography>
+          </div>
+        </DialogBody>
+        <DialogFooter>
+          <div className=" flex w-full justify-center  gap-5 ">
+            <Button
+              variant="gradient"
+              color="red"
+              size="sm"
+              onClick={() => handleDelete(dataDelete?.id)}
+              className="mr-1 px-10"
+            >
+              <span className="text-sm">ตกลง</span>
+            </Button>
+            <Button
+              variant="gradient"
+              color="blue-gray"
+              size="sm"
+              onClick={handleModalDelete}
+              className="mr-1 px-10"
+            >
+              <span className="text-sm">ยกเลิก</span>
+            </Button>
+          </div>
         </DialogFooter>
       </Dialog>
     </Card>
