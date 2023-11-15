@@ -57,21 +57,13 @@ function Shops() {
 
   const totalPages = Math.ceil(listData.length / itemsPerPage);
 
-  //------------- modal View Company -----------------------//
-  const [openModalView, setOpenModalView] = useState(false);
-  const [dataView, setDataView] = useState([]);
-  const handleModalView = (data) => {
-    setOpenModalView(!openModalView);
-    setDataView(data);
-  };
 
   //------------- modal Add Customers -----------------------//
   const [openModalAdd, setOpenModalAdd] = useState(false);
   const handleModalAdd = () => setOpenModalAdd(!openModalAdd);
 
   const [newShopName, setNewShopName] = useState("");
-  const [newShopAddress, setNewShopAddress] = useState("");
-  const [newShopTel, setNewShopTel] = useState("");
+
 
 
   //------------- modal Edit Company -----------------------//
@@ -137,7 +129,7 @@ return (
             <Input
               type="text"
               color="blue"
-              label="ค้นหา ชื่อลูกค้า"
+              label="ค้นหา จุดขาย"
               value={searchQuery}
               onChange={(e) => setSearchQuery(e.target.value)}
               // className=" bg-gray-50"
@@ -155,7 +147,7 @@ return (
               <span className="mr-2 text-xl">
                 <BsPlusCircle />
               </span>
-              เพิ่มลูกค้า
+              เพิ่มจุดขาย
             </Button>
           </div>
         </div>
@@ -181,15 +173,6 @@ return (
                       className="font-bold leading-none opacity-70"
                     >
                       ชื่อลูกค้า
-                    </Typography>
-                  </th>
-                  <th className="border-y border-blue-gray-100 bg-blue-gray-50/50 p-4">
-                    <Typography
-                      variant="small"
-                      color="blue-gray"
-                      className="font-bold leading-none opacity-70"
-                    >
-                      ดู
                     </Typography>
                   </th>
                   <th className="border-y border-blue-gray-100 bg-blue-gray-50/50 p-4">
@@ -260,19 +243,6 @@ return (
                           <div className="flex justify-center">
                             <IconButton
                               variant="outlined"
-                              color="blue"
-                              size="sm"
-                              className="ml-3 "
-                              onClick={() => handleModalView(data)}
-                            >
-                              <BsFillEyeFill className="h-5 w-5  text-light-blue-700 " />
-                            </IconButton>
-                          </div>
-                        </td>
-                        <td className={classes}>
-                          <div className="flex justify-center">
-                            <IconButton
-                              variant="outlined"
                               color="amber"
                               size="sm"
                               onClick={()=> handleModalEdit(data)}
@@ -337,48 +307,7 @@ return (
         </Card>
       </div>
 
-       {/* modal View Company */}
-
-    <Dialog open={openModalView} handler={handleModalView}>
-      <DialogHeader className="bg-blue-700 py-3  px-3 text-center text-lg text-white opacity-80">
-        <div className="flex gap-3">
-          <Typography variant="h5">รายละเอียดลูกค้า:</Typography>
-          <Typography variant="h5" className=" font-normal">
-            {dataView?.customer_name || ""}
-          </Typography>
-        </div>
-      </DialogHeader>
-      <DialogBody divider className=" overflow-auto ">
-        <div className="flex flex-col   items-center sm:items-start  gap-4 ">
-        <div className="flex w-full mt-3 gap-4    ">
-            <Typography>ชื่อลูกค้า:</Typography>
-            <Typography>{dataView?.customer_name || ""}</Typography>
-          </div>
-        <div className="flex w-full mt-3 gap-4    ">
-            <Typography>ที่อยู่:</Typography>
-            <Typography>{dataView?.customer_address || ""}</Typography>
-          </div>
-          <div className="flex w-full  gap-3  ">
-            <div className="flex mt-3 w-full gap-4  ">
-              <Typography>โทรศัพท์:</Typography>
-              <Typography>{dataView?.customer_tel || ""}</Typography>
-            </div>
-          </div>
-        
-        </div>
-      </DialogBody>
-      <DialogFooter>
-        <Button
-          variant="gradient"
-          color="green"
-          size="sm"
-          onClick={handleModalView}
-          className="mr-1"
-        >
-          <span className="text-sm">ออก</span>
-        </Button>
-      </DialogFooter>
-    </Dialog>
+       
 
     {/* modal Add Company */}
 
@@ -388,46 +317,24 @@ return (
       handler={handleModalAdd}
     >
       <DialogHeader className="bg-blue-700 py-3  px-3 text-center text-lg text-white opacity-80">
-        <Typography variant="h5">เพิ่มสินค้าใหม่</Typography>
+        <Typography variant="h5">เพิ่มจุดขาย</Typography>
       </DialogHeader>
       <DialogBody divider className=" overflow-auto ">
         <div className="flex flex-col   items-center sm:items-start  gap-4 ">
-          <div className="flex flex-col sm:flex-row gap-4 w-full xl:px-5 xl:justify-between">
+          <div className="flex flex-col sm:flex-row gap-4 w-full xl:px-5 justify-center">
             <div className="flex sm:w-[200px]  mt-3">
               <Input
                 type="text"
-                label="ชื่อลูกค้า"
+                label="ชื่อจุดขาย"
                 maxLength="45"
-                value={newShopName || ''}
                 onChange={(e) => setNewShopName(e.target.value)}
               />
             </div>
-            <div className="flex sm:w-[200px]  mt-3">
-              <Input
-                type="text"
-                label="เบอร์โทรศัพท์"
-                maxLength="10"
-                value={newShopTel || ''}
-                onChange={(e) => setNewShopTel(e.target.value)}
-              />
-            </div>
+
           </div>
         
         </div>
-        <div className="flex flex-col   items-center sm:items-start  gap-4 ">
-          <div className="flex flex-col sm:flex-row gap-4 w-full xl:px-5 xl:justify-between">
-            <div className="flex w-full  mt-3">
-              <Input
-                type="text"
-                label="ที่อยู่"
-                maxLength="45"
-                value={newShopAddress || ''}
-                onChange={(e) => setNewShopAddress(e.target.value)}
-              />
-            </div>
-          </div>
-        
-        </div>
+    
       </DialogBody>
       <DialogFooter>
         <Button

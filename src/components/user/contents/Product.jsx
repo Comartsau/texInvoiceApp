@@ -661,7 +661,9 @@ function Product() {
       {/* modal Delete Product */}
 
       <Dialog open={openModalDelete} size="sm" handler={handleModalDelete}>
-        <DialogHeader className="bg-red-700 py-5  px-3 text-center text-lg text-white opacity-80"></DialogHeader>
+        <DialogHeader className="bg-red-700 py-3  px-3  justify-center text-lg text-white opacity-80">
+        <Typography variant="h5">ลบสินค้า</Typography>
+          </DialogHeader>
         <DialogBody divider className=" overflow-auto ">
           <div className="flex flex-col w-full justify-center gap-3 ">
             <Typography variant="h5" className="text-center">

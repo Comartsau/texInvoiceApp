@@ -144,7 +144,7 @@ function HomeUser() {
               color="white"
               className="mr-4 cursor-pointer py-1.5 font-medium"
             >
-              Material Tailwind
+              ระบบใบกำกับภาษีแบบสัพ
             </Typography>
             <div className="flex items-center gap-4">
               <div className="flex items-center">
