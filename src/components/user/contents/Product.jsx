@@ -116,7 +116,7 @@ function Product() {
         Authorization: `Bearer ${token}`,
         "Content-Type": "application/x-www-form-urlencoded",
       },
-      data: data,
+      data: data, 
     };
 
     axios
@@ -650,10 +650,10 @@ function Product() {
           <Button
             size="sm"
             variant="gradient"
-            color="green"
+            color="purple"
             onClick={sendEditProduct}
           >
-            <span className="text-sm">บันทึก</span>
+            <span className="text-sm">อัพเดท</span>
           </Button>
         </DialogFooter>
       </Dialog>

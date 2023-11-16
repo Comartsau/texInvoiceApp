@@ -422,13 +422,11 @@ return (
         >
           <span className="text-sm">ยกเลิก</span>
         </Button>
-        <Button size="sm" variant="gradient" color="green">
-          <span className="text-sm">บันทึก</span>
+        <Button size="sm" variant="gradient" color="purple">
+          <span className="text-sm">อัพเดท</span>
         </Button>
       </DialogFooter>
     </Dialog>
-
-
   </Card>
 )
 }

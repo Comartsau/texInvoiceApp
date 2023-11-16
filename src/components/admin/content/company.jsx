@@ -488,10 +488,6 @@ function Company() {
                 <Typography>{dataView?.username || ""}</Typography>
               </div>
 
-              <div className="flex mt-3 w-full gap-4  ">
-                <Typography>Password:</Typography>
-                <Typography>{dataView?.password || ""}</Typography>
-              </div>
             </div>
           </div>
         </DialogBody>
@@ -736,10 +732,10 @@ function Company() {
           <Button
             size="sm"
             variant="gradient"
-            color="green"
+            color="purple"
             onClick={sendEditCompany}
           >
-            <span className="text-sm">บันทึก</span>
+            <span className="text-sm">อัพเดท</span>
           </Button>
         </DialogFooter>
       </Dialog>
