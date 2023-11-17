@@ -14,7 +14,6 @@ import {
 import axios from "axios";
 import qs from "qs";
 
-import Swal from "sweetalert2";
 import { useState, useEffect } from "react";
 
 import { ToastContainer, toast } from "react-toastify";
@@ -230,7 +229,7 @@ const addCustomer = async () => {
         console.log(response.data)
         getCustomer();
         setOpenModalDelete(false);
-        toast.success("ลบข้อมูล Company สำเร็จ");
+        toast.success("ลบข้อมูล ลูกค้า สำเร็จ");
       })
       .catch((error) => {
         toast.error(error);

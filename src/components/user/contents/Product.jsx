@@ -212,7 +212,7 @@ function Product() {
         console.log(response.data)
         getProduct();
         setOpenModalDelete(false);
-        toast.success("ลบข้อมูล Company สำเร็จ");
+        toast.success("ลบข้อมูล สินค้า สำเร็จ");
       })
       .catch((error) => {
         toast.error(error);

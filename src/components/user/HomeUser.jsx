@@ -46,12 +46,12 @@ function HomeUser() {
       path: Shop, // ใช้ชื่อของคอมโพนเนนต์แทน (ไม่มี <>)
       isUnderlined: 1,
     },
-    {
-      icon: <AiFillSchedule />,
-      label: "ใบกำกับภาษี",
-      path: TaxInvoiceMenu,
-      isUnderlined: 0,
-    },
+    // {
+    //   icon: <AiFillSchedule />,
+    //   label: "ใบกำกับภาษี",
+    //   path: TaxInvoiceMenu,
+    //   isUnderlined: 0,
+    // },
     // {
     //   icon: <AiFillSchedule />,
     //   label: "ใบกำกับภาษี",
@@ -76,12 +76,12 @@ function HomeUser() {
     //   ],
     //   isUnderlined: 0,
     // },
-    {
-      icon: <MdAddLocationAlt />,
-      label: "เมนูtest",
-      path: Menutest, // ใช้ชื่อของคอมโพนเนนต์แทน (ไม่มี <>)
-      isUnderlined: 1,
-    },
+    // {
+    //   icon: <MdAddLocationAlt />,
+    //   label: "เมนูtest",
+    //   path: Menutest, // ใช้ชื่อของคอมโพนเนนต์แทน (ไม่มี <>)
+    //   isUnderlined: 1,
+    // },
   ];
 
   const handleMenuItemClick = (menuItem) => {

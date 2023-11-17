@@ -11,8 +11,13 @@ import {
   DialogFooter,
 } from "@material-tailwind/react";
 
-import Swal from "sweetalert2";
-import { useState } from "react";
+import axios from "axios";
+import qs from "qs";
+
+import { useState, useEffect } from "react";
+
+import { ToastContainer, toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 
 
 import { AiFillDelete } from "react-icons/ai";
@@ -23,29 +28,67 @@ function Shops() {
 
 
   //----------  Data Table --------------------//
-  const [noData, setNoData] = useState(false);
+  const [noData, setNoData] = useState(true);
 
-  //   const [listData, setListData] = useState([]);
-  const [listData, setListData] = useState([
-      {
-          shop_name: "จุดขาย A",
-          shop_address: "123 ถนนราชดำริ, แขวงลาดพร้าว, เขตวัฒนา, กรุงเทพฯ 12345",
-          shop_tel: "081-234-5678",
-        },
-        {
-          shop_name: "จุดขาย B",
-          shop_address: "456 หมู่บ้านสุขใจ, ตำบลหนองแขม, อำเภอบางพลี, สมุทรปราการ 78901",
-          shop_tel: "085-123-4567",
-        },
-        {
-          shop_name: "จุดขาย C",
-          shop_address: "789 ถนนเพชรบุรี, ตำบลห้วยขวาง, อำเภอวังน้อย, พระนครศรีอยุธยา 56789",
-          shop_tel: "087-765-4321",
-        },
-  ]);
+  const [listData, setListData] = useState([]);
+  // const [listData, setListData] = useState([
+  //     {
+  //         shop_name: "จุดขาย A",
+  //         shop_address: "123 ถนนราชดำริ, แขวงลาดพร้าว, เขตวัฒนา, กรุงเทพฯ 12345",
+  //         shop_tel: "081-234-5678",
+  //       },
+  //       {
+  //         shop_name: "จุดขาย B",
+  //         shop_address: "456 หมู่บ้านสุขใจ, ตำบลหนองแขม, อำเภอบางพลี, สมุทรปราการ 78901",
+  //         shop_tel: "085-123-4567",
+  //       },
+  //       {
+  //         shop_name: "จุดขาย C",
+  //         shop_address: "789 ถนนเพชรบุรี, ตำบลห้วยขวาง, อำเภอวังน้อย, พระนครศรีอยุธยา 56789",
+  //         shop_tel: "087-765-4321",
+  //       },
+  // ]);
 
 
   const [searchQuery, setSearchQuery] = useState("");
+
+
+  const getShops = async () => {
+    try {
+      let token = localStorage.getItem("Token");
+
+      let data = "";
+
+      let config = {
+        method: "get",
+        maxBodyLength: Infinity,
+        url: `${
+          import.meta.env.VITE_APP_API
+        }/salepoints/salepoints-search?search=${searchQuery}`,
+        // }/salepoints`,
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+        data: data,
+      };
+
+      await axios.request(config).then((response) => {
+        // console.log(response.data);
+        setListData(response.data);
+        setNoData(false);
+      });
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
+  // console.log(listData);
+
+  useEffect(() => {
+    getShops();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [searchQuery]);
+
 
   //----- จัดการแสดงข้อมูล / หน้า -------------- //
   const [currentPage, setCurrentPage] = useState(1);
@@ -58,67 +101,134 @@ function Shops() {
   const totalPages = Math.ceil(listData.length / itemsPerPage);
 
 
-  //------------- modal Add Customers -----------------------//
-  const [openModalAdd, setOpenModalAdd] = useState(false);
-  const handleModalAdd = () => setOpenModalAdd(!openModalAdd);
+//------------- modal Add Product -----------------------//
+const [openModalAdd, setOpenModalAdd] = useState(false);
+const handleModalAdd = () => setOpenModalAdd(!openModalAdd);
 
-  const [newShopName, setNewShopName] = useState("");
+const [newShops, setNewShops] = useState("");
 
+const addShops = async () => {
+  let token = localStorage.getItem("Token");
+  let data = qs.stringify({
+    'salepoints_name': newShops,
+  });
 
+  console.log(data)
 
-  //------------- modal Edit Company -----------------------//
-  const [openModalEdit, setOpenModalEdit] = useState(false);
-  const [dataEdit, setDataEdit] = useState([]);
-
-  const handleModalEdit = (data) => {
-      setDataEdit(data)
-      setOpenModalEdit(!openModalEdit);
-  }
-
-
-  const handleDelete = (data) => {
-    Swal.fire({
-      title: `ต้องการลบ ลูกค้า: ${data.customer_name} จริงหรือไม่?`,
-      text: "การลบข้อมูลจะไม่สามารถเรียกคืนได้",
-      icon: "warning",
-      showCancelButton: true,
-      confirmButtonText: "ใช่, ลบ!",
-      cancelButtonText: "ยกเลิก",
-      reverseButtons: true,
-    }).then((result) => {
-      if (result.isConfirmed) {
-        // ลบข้อมูลเมื่อผู้ใช้ยืนยันการลบ
-        try {
-          const response = axios.delete(
-            `${import.meta.env.VITE_APP_API}/Customer/${id}/delete`,
-            {
-              headers: {
-                "Content-Type": "application/json",
-                Authorization: `Token ${Token}`,
-              },
-            }
-          );
-          // console.log(response)
-          // await fetchData();
-          Swal.fire({
-            // position: 'top-end',
-            icon: "success",
-            title: "ลบสินค้าเรียบร้อย",
-            showConfirmButton: false,
-            timer: 1500,
-          });
-        } catch (error) {
-          console.error("ไม่สามารถลบสินค้าได้", error);
-          Swal.fire({
-            icon: "error",
-            title: "ลบสินค้าไม่สำเร็จ ",
-            text: "กรุณาลองใหม่อีกครั้ง",
-            confirmButtonText: "ตกลง",
-          });
-        }
-      }
-    });
+  let config = {
+    method: "post",
+    maxBodyLength: Infinity,
+    url: `${import.meta.env.VITE_APP_API}/salepoints/addsalepoint`,
+    headers: {
+      Authorization: `Bearer ${token}`,
+      "Content-Type": "application/x-www-form-urlencoded",
+    },
+    data: data, 
   };
+
+  axios
+    .request(config)
+    .then((response) => {
+      response.data;
+      getShops();
+      setOpenModalAdd(false);
+      toast.success("เพิ่มข้อมูล จุดขาย สำเร็จ");
+    })
+    .catch((error) => {
+      toast.error(error);
+    });
+};
+
+
+
+   //------------- modal Edit Product -----------------------//
+   const [openModalEdit, setOpenModalEdit] = useState(false);
+   const [dataEdit, setDataEdit] = useState([]);
+   const handleModalEdit = (data) => {
+     setDataEdit(data);
+     setOpenModalEdit(!openModalEdit);
+   };
+ 
+   const sendEditShops = async () => {
+     let token = localStorage.getItem("Token");
+     console.log(dataEdit);
+     let data = qs.stringify({
+       id: dataEdit.id,
+       salepoints_name: dataEdit.salepoints_name,
+
+
+     });
+ 
+     console.log(data);
+ 
+     let config = {
+       method: "put",
+       maxBodyLength: Infinity,
+       url: `${import.meta.env.VITE_APP_API}/salepoints/editsalepoint`,
+       headers: {
+         Authorization: `Bearer ${token}`,
+         "Content-Type": "application/x-www-form-urlencoded",
+       },
+       data: data,
+     };
+ 
+     axios
+       .request(config)
+       .then((response) => {
+         response.data;
+         setOpenModalEdit(false);
+         getShops();
+         toast.success("แก้ไขข้อมูล จุดขาย สำเร็จ");
+       })
+       .catch((error) => {
+         toast.error(error);
+       });
+   };
+
+
+ //------------- modal Delete Product -----------------------//
+
+ const [openModalDelete, setOpenModalDelete] = useState(false);
+ const [dataDelete, setDataDelete] = useState([]);
+
+ const handleModalDelete = (data) => {
+   setOpenModalDelete(!openModalDelete);
+   setDataDelete(data);
+ };
+
+ const handleDelete = async (id) => {
+   // ลบข้อมูลเมื่อผู้ใช้ยืนยันการลบ
+
+   let token = localStorage.getItem("Token");
+   let data = qs.stringify({});
+
+   console.log(id)
+
+   let config = {
+     method: "delete",
+     maxBodyLength: Infinity,
+     url: `${import.meta.env.VITE_APP_API}/salepoints/delete/${id}`,
+     headers: {
+       Authorization: `Bearer ${token}`,
+       "Content-Type": "application/x-www-form-urlencoded",
+     },
+     data: data,
+   };
+
+   axios
+     .request(config)
+     .then((response) => {
+       response.data;
+       console.log(response.data)
+       getShops();
+       setOpenModalDelete(false);
+       toast.success("ลบข้อมูล สินค้า สำเร็จ");
+     })
+     .catch((error) => {
+       toast.error(error);
+     });
+ };
+
 
 return (
   <Card className="w-full overflow-auto px-3">
@@ -200,10 +310,10 @@ return (
                   <tr>
                     <td></td>
                     <td></td>
-                    <td></td>
                     <td>
                       <Typography>...ไม่พบข้อมูล...</Typography>
                     </td>
+                    <td></td>
                   </tr>
                 </tbody>
               ) : (
@@ -235,7 +345,7 @@ return (
                               color="blue-gray"
                               className="font-normal "
                             >
-                              {data?.shop_name || ""}
+                              {data?.salepoints_name || ""}
                             </Typography>
                           </div>
                         </td>
@@ -258,7 +368,7 @@ return (
                               size="sm"
                               color="red"
                               className="rounded-full"
-                              onClick={() => handleDelete(data)}
+                              onClick={() => handleModalDelete(data)}
                             >
                               <AiFillDelete color="red" className="h-5 w-5" />
                             </IconButton>
@@ -309,7 +419,7 @@ return (
 
        
 
-    {/* modal Add Company */}
+    {/* modal Add Shops */}
 
     <Dialog
       open={openModalAdd}
@@ -327,7 +437,7 @@ return (
                 type="text"
                 label="ชื่อจุดขาย"
                 maxLength="45"
-                onChange={(e) => setNewShopName(e.target.value)}
+                onChange={(e) => setNewShops(e.target.value)}
               />
             </div>
 
@@ -346,71 +456,44 @@ return (
         >
           <span className="text-sm">ยกเลิก</span>
         </Button>
-        <Button size="sm" variant="gradient" color="green">
+        <Button 
+        size="sm" 
+        variant="gradient" 
+        color="green"
+        onClick={addShops}
+        >
           <span className="text-sm">บันทึก</span>
         </Button>
       </DialogFooter>
     </Dialog>
 
-    {/* modal Edit Company */}
+    {/* modal Edit Shops */}
 
     <Dialog open={openModalEdit} size="sm" handler={handleModalEdit}>
-      <DialogHeader className="bg-blue-700 py-3  px-3 text-center text-lg text-white opacity-80">
-        <Typography variant="h5">แก้ไขลูกค้า:</Typography>
-        <Typography variant="h5">{dataEdit?.shop_name || ''}</Typography>
+      <DialogHeader className="bg-blue-700 py-3  px-3 gap-1 text-center text-lg text-white opacity-80">
+        <Typography variant="h5">แก้ไขจุดขาย:</Typography>
+        <Typography variant="h5">{dataEdit?.salepoints_name || ''}</Typography>
       </DialogHeader>
       <DialogBody divider className=" overflow-auto ">
         <div className="flex flex-col   items-center sm:items-start  gap-4 ">
-          <div className="flex flex-col sm:flex-row gap-4 w-full xl:px-5 xl:justify-between">
+          <div className="flex flex-col sm:flex-row gap-4 w-full xl:px-5 justify-center">
             <div className="flex sm:w-[200px]  mt-3">
               <Input
                 type="text"
-                label="ชื่อลูกค้า"
+                label="ชื่อจุดขาย"
                 maxLength="45"
-                value={dataEdit.shop_name || ''}
-                onChange={(e) =>
-                  setDataEdit({
-                    ...dataEdit,
-                    shop_name: e.target.value,
-                  })
-                }
+                value={dataEdit.salepoints_name}
+                onChange={(e) => setDataEdit({
+                  ...dataEdit,
+                  salepoints_name : e.target.value
+                })}
               />
             </div>
-            <div className="flex sm:w-[200px]  mt-3">
-              <Input
-                type="text"
-                label="เบอร์โทรศัพท์"
-                maxLength="10"
-                value={dataEdit.shop_tel || ''}
-                onChange={(e) =>
-                  setDataEdit({
-                    ...dataEdit,
-                    shop_tel: e.target.value,
-                  })
-                }
-              />
-            </div>
+
           </div>
         
         </div>
-        <div className="flex flex-col   items-center sm:items-start  gap-4 ">
-          <div className="flex flex-col sm:flex-row gap-4 w-full xl:px-5 xl:justify-between">
-            <div className="flex w-full  mt-3">
-              <Input
-                type="text"
-                label="ที่อยู่"
-                maxLength="45"
-                value={dataEdit.shop_address || ''}
-                onChange={(e) =>
-                  setDataEdit({
-                    ...dataEdit,
-                    shop_address: e.target.value,
-                  })
-                }
-              />
-            </div>
-          </div>    
-        </div>
+    
       </DialogBody>
       <DialogFooter>
         <Button
@@ -422,11 +505,56 @@ return (
         >
           <span className="text-sm">ยกเลิก</span>
         </Button>
-        <Button size="sm" variant="gradient" color="purple">
+        <Button 
+        size="sm" 
+        variant="gradient" 
+        color="purple"
+        onClick={sendEditShops}
+        >
           <span className="text-sm">อัพเดท</span>
         </Button>
       </DialogFooter>
     </Dialog>
+
+     {/* modal Delete Product */}
+
+     <Dialog open={openModalDelete} size="sm" handler={handleModalDelete}>
+        <DialogHeader className="bg-red-700 py-3  px-3  justify-center text-lg text-white opacity-80">
+        <Typography variant="h5">ลบจุดขาย</Typography>
+          </DialogHeader>
+        <DialogBody divider className=" overflow-auto ">
+          <div className="flex flex-col w-full justify-center gap-3 ">
+            <Typography variant="h5" className="text-center">
+              ต้องการลบ สินค้า: {dataDelete?.salepoints_name || ""}{" "}
+            </Typography>
+            <Typography variant="h5" className="text-center">
+              จริงหรือไม่?{" "}
+            </Typography>
+          </div>
+        </DialogBody>
+        <DialogFooter>
+          <div className=" flex w-full justify-center  gap-5 ">
+            <Button
+              variant="gradient"
+              color="red"
+              size="sm"
+              onClick={() => handleDelete(dataDelete?.id)}
+              className="mr-1 px-10"
+            >
+              <span className="text-sm">ตกลง</span>
+            </Button>
+            <Button
+              variant="gradient"
+              color="blue-gray"
+              size="sm"
+              onClick={handleModalDelete}
+              className="mr-1 px-10"
+            >
+              <span className="text-sm">ยกเลิก</span>
+            </Button>
+          </div>
+        </DialogFooter>
+      </Dialog>
   </Card>
 )
 }
