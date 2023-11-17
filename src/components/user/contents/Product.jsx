@@ -577,7 +577,7 @@ function Product() {
       {/* modal Edit Product */}
 
       <Dialog open={openModalEdit} size="sm" handler={handleModalEdit}>
-        <DialogHeader className="bg-blue-700 py-3  px-3 text-center text-lg text-white opacity-80">
+        <DialogHeader className="bg-blue-700 py-3  px-3 gap-2 text-center text-lg text-white opacity-80">
           <Typography variant="h5">แก้ไข สินค้า:</Typography>
           <Typography variant="h5">{dataEdit?.name || ""}</Typography>
         </DialogHeader>
