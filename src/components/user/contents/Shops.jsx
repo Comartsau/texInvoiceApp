@@ -222,7 +222,7 @@ const addShops = async () => {
        console.log(response.data)
        getShops();
        setOpenModalDelete(false);
-       toast.success("ลบข้อมูล สินค้า สำเร็จ");
+       toast.success("ลบข้อมูล จุดขาย สำเร็จ");
      })
      .catch((error) => {
        toast.error(error);
@@ -525,7 +525,7 @@ return (
         <DialogBody divider className=" overflow-auto ">
           <div className="flex flex-col w-full justify-center gap-3 ">
             <Typography variant="h5" className="text-center">
-              ต้องการลบ สินค้า: {dataDelete?.salepoints_name || ""}{" "}
+              ต้องการลบ จุดขาย: {dataDelete?.salepoints_name || ""}{" "}
             </Typography>
             <Typography variant="h5" className="text-center">
               จริงหรือไม่?{" "}
