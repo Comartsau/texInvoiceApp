@@ -57,8 +57,6 @@ function Customer() {
 
       let data = "";
 
-      console.log(data);
-
       let config = {
         method: "get",
         maxBodyLength: Infinity,
@@ -499,7 +497,7 @@ const addCustomer = async () => {
 
       <Dialog open={openModalAdd} size="sm" handler={handleModalAdd}>
         <DialogHeader className="bg-blue-700 py-3  px-3 text-center text-lg text-white opacity-80">
-          <Typography variant="h5">เพิ่มสินค้าใหม่</Typography>
+          <Typography variant="h5">เพิ่มลูกค้าใหม่</Typography>
         </DialogHeader>
         <DialogBody divider className=" overflow-auto ">
           <div className="flex flex-col   items-center sm:items-start  gap-4 ">

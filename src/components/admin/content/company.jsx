@@ -248,7 +248,7 @@ function Company() {
               <span className="mr-2 text-xl">
                 <BsPlusCircle />
               </span>
-              เพิ่มสินค้า
+              เพิ่มบริษัท
             </Button>
           </div>
         </div>
@@ -623,7 +623,7 @@ function Company() {
 
       <Dialog open={openModalEdit} size="sm" handler={handleModalEdit}>
         <DialogHeader className="bg-blue-700 py-3  px-3 text-center text-lg text-white opacity-80">
-          <Typography variant="h5">แก้ไข สินค้า:</Typography>
+          <Typography variant="h5">แก้ไข บริษัท:</Typography>
         </DialogHeader>
         <DialogBody divider className=" overflow-auto ">
           <div className="flex flex-col   items-center sm:items-start  gap-4 ">

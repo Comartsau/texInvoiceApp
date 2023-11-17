@@ -17,7 +17,7 @@ import Report from "./content/report";
 
 function HomeAdmin() {
   const [openNav, setOpenNav] = useState(false);
-  const [selectedMenuItem, setSelectedMenuItem] = useState("จัดการบริษัท");
+  const [selectedMenuItem, setSelectedMenuItem] = useState("ข้อมูลบริษัท");
   const [selectedMenuSubItem, setSelectedMenuSubItem] = useState("");
   const [subMenuOpen, setSubMenuOpen] = useState(false);
   const [subMenuItems, setSubMenuItems] = useState([]);
@@ -25,7 +25,7 @@ function HomeAdmin() {
   const menuItems = [
     {
       icon: <BsBoxFill />,
-      label: "จัดการบริษัท",
+      label: "ข้อมูลบริษัท",
       path: Company, // ใช้ชื่อของคอมโพนเนนต์แทน (ไม่มี <>)
     },
     {
@@ -96,7 +96,7 @@ function HomeAdmin() {
               color="white"
               className="mr-4 font-bold  text-lg  py-1.5 text-center "
             >
-              ระบบใบกำกับภาษีแบบสัพ
+              บริษัท Dev Sriwararak จำกัด
             </Typography>
             <div className="flex items-center gap-4">
               <div className="flex items-center">

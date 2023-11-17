@@ -73,7 +73,7 @@ function Shops() {
       };
 
       await axios.request(config).then((response) => {
-        // console.log(response.data);
+        console.log(response.data);
         setListData(response.data);
         setNoData(false);
       });

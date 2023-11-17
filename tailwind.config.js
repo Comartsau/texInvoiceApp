@@ -5,8 +5,7 @@ module.exports = withMT({
   content: ["./index.html", "./src/**/*.{vue,js,ts,jsx,tsx}"],
   theme: {
     fontFamily: {
-      // sans: ["Open Sans", "sans-serif"],
-      sans: ["IBM Plex Sans Thai", "sans-serif"],
+      sans: ["Prompt", "sans-serif"],
     },
     extend: {},
   },

@@ -142,9 +142,9 @@ function HomeUser() {
               as="a"
               href="#"
               color="white"
-              className="mr-4 cursor-pointer py-1.5 font-medium"
+              className="mr-4 font-bold  text-lg  py-1.5 text-center"
             >
-              ระบบใบกำกับภาษีแบบสัพ
+              บริษัท Dev Sriwararak จำกัด
             </Typography>
             <div className="flex items-center gap-4">
               <div className="flex items-center">
@@ -152,10 +152,10 @@ function HomeUser() {
                   variant="outlined"
                   size="sm"
                   color="white"
-                  className="py-1"
+                  className="py-1 border-2 border-white"
                   onClick={handleLogout}
                 >
-                  <Typography>Log Out</Typography>
+                  <Typography>ออกจากระบบ</Typography>
                 </Button>
               </div>
               <IconButton
