@@ -1,14 +1,5 @@
 import {
-  Input,
-  Typography,
-  Button,
-  IconButton,
   Card,
-  CardFooter,
-  Dialog,
-  DialogHeader,
-  DialogBody,
-  DialogFooter,
 } from "@material-tailwind/react";
 
 import { Pie,Bar } from 'react-chartjs-2';
@@ -23,7 +14,7 @@ function Report() {
     labels: ['มกราคม', 'กุมภาพันธ์', 'มีนาคม', 'เมษายน', 'พฤษภาคม', 'มิถุนายน'],
     datasets: [
       {
-        label: 'ยอดขาย',
+        label: 'อยู่ระหว่างพัฒนาระบบ ',
         data: [12000, 15000, 18000, 10000, 22000, 17000],
         backgroundColor: [
           'rgba(255, 99, 132, 0.6)',
@@ -46,44 +37,46 @@ function Report() {
     ],
   };
 
-
   return (
     <Card className="w-full overflow-auto px-3">
-      <div className="mt-10">
-      <Bar 
-      className="p-10"
-      options={{
-        plugins: {
-          legend: {
-            labels: {
-              font: {
-                size:28  // ขนาดตัวอักษรหัวข้อ   
-              }, 
-            }
-          },
+    <ToastContainer autoClose={1000} theme="colored" />
+    <div className="flex   justify-center mt-10  w-[90%] ps-28  h-[90%] ">
+    <Bar 
+  className="flex  items-center justify-center align-middle"
+  options={{
+    plugins: {
+      legend: {
+        labels: {
+          font: {
+            size:20  // ขนาดตัวอักษรหัวข้อ   
+          }, 
+        }
+      },
+    },
+    scales: {
+      x: {
+        ticks: {
+          font:{
+            size:18 // ขนาดตัวอักษรแกน x
+          }  
         },
-        scales: {
-          x: {
-            ticks: {
-              font:{
-                size:20 // ขนาดตัวอักษรแกน x
-              }  
-            },
-          },
-          y: {
-            ticks: {
-              font:{
-                size:20 // ขนาดตัวอักษรแกน y
-              } 
-            },
-          },
+      },
+      y: {
+        ticks: {
+          font:{
+            size:16 // ขนาดตัวอักษรแกน y
+          } 
         },
-      }}
-      data={salesData}
-      />
-      </div>
-      <ToastContainer autoClose={1000} theme="colored" />
-    </Card>
+      },
+    },
+  }}
+  data={salesData}
+  />
+  
+    </div>
+
+  </Card>
+
   );
 }
 

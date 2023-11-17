@@ -131,7 +131,7 @@ function HomeAdmin() {
       <div className="flex   py-3 pr-3 bg-gray-300 gap-3 ">
         {/* Menu */}
         <div className={`${openNav ? "block" : "hidden"} lg:block`}>
-          <Card className="flex w-[200px] h-[90vh] overflow-hidden rounded-lg pt-5 ">
+          <Card className="flex w-[200px] h-[705px] overflow-hidden rounded-lg pt-5 ">
             <List className="flex my-2">
               {menuItems.map((item, index) => (
                 <div key={index}>
@@ -211,7 +211,7 @@ function HomeAdmin() {
           : menuItems.map(
               (item, index) =>
                 item.label === selectedMenuItem && (
-                  <div key={index} className="flex w-full">
+                  <div key={index} className="flex w-full h-[705px]">
                     <item.path />
                   </div>
                 )
