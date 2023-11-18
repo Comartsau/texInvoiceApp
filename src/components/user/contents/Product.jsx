@@ -45,7 +45,7 @@ function Product() {
 
       let data = "";
 
-      console.log(data);
+      // console.log(data);
 
       let config = {
         method: "get",
