@@ -38,6 +38,7 @@ function Product() {
   ]);
 
   const [searchQuery, setSearchQuery] = useState("");
+  const [tokenError ,setTokenError] = useState(false)
 
   const getProduct = async () => {
     try {
@@ -65,10 +66,20 @@ function Product() {
         setNoData(false);
       });
     } catch (error) {
-      console.log(error);
+      if (error.response.statusText == 'Unauthorized') {
+        setTokenError(true)
+      }
+      console.log(error)
     }
   };
 
+  useEffect(()=>{
+  if (tokenError) {
+        localStorage.clear();
+        window.location.reload();
+      }
+    },[tokenError])
+      
   // console.log(listData);
 
   useEffect(() => {

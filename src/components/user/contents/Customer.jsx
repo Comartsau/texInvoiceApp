@@ -50,6 +50,7 @@ function Customer() {
   // ]);
 
   const [searchQuery, setSearchQuery] = useState("");
+  const [tokenError, setTokenError] = useState(false);
 
   const getCustomer = async () => {
     try {
@@ -75,9 +76,19 @@ function Customer() {
         setNoData(false);
       });
     } catch (error) {
-      console.log(error);
+      if (error.response.statusText == "Unauthorized") {
+        setTokenError(true);
+      }
+      console.log(error)
     }
   };
+
+  useEffect(() => {
+    if (tokenError) {
+      localStorage.clear();
+      window.location.reload();
+    }
+  }, [tokenError]);
 
   // console.log(listData);
 
@@ -104,47 +115,46 @@ function Customer() {
     setDataView(data);
   };
 
-//------------- modal Add Product -----------------------//
-const [openModalAdd, setOpenModalAdd] = useState(false);
-const handleModalAdd = () => setOpenModalAdd(!openModalAdd);
+  //------------- modal Add Product -----------------------//
+  const [openModalAdd, setOpenModalAdd] = useState(false);
+  const handleModalAdd = () => setOpenModalAdd(!openModalAdd);
 
-const [newCustomer, setNewCustomer] = useState("");
+  const [newCustomer, setNewCustomer] = useState("");
 
-const addCustomer = async () => {
-  let token = localStorage.getItem("Token");
-  let data = qs.stringify({
-    customer_name: newCustomer.customer_name,
-    customer_address: newCustomer.customer_address,
-    customer_id_tax: newCustomer.customer_id_tax,
-    customer_tel: newCustomer.customer_tel,
-
-  });
-
-  console.log(data)
-
-  let config = {
-    method: "post",
-    maxBodyLength: Infinity,
-    url: `${import.meta.env.VITE_APP_API}/customer/addcustomer`,
-    headers: {
-      Authorization: `Bearer ${token}`,
-      "Content-Type": "application/x-www-form-urlencoded",
-    },
-    data: data, 
-  };
-
-  axios
-    .request(config)
-    .then((response) => {
-      response.data;
-      getCustomer();
-      setOpenModalAdd(false);
-      toast.success("เพิ่มข้อมูล ลูกค้า สำเร็จ");
-    })
-    .catch((error) => {
-      toast.error(error);
+  const addCustomer = async () => {
+    let token = localStorage.getItem("Token");
+    let data = qs.stringify({
+      customer_name: newCustomer.customer_name,
+      customer_address: newCustomer.customer_address,
+      customer_id_tax: newCustomer.customer_id_tax,
+      customer_tel: newCustomer.customer_tel,
     });
-};
+
+    console.log(data);
+
+    let config = {
+      method: "post",
+      maxBodyLength: Infinity,
+      url: `${import.meta.env.VITE_APP_API}/customer/addcustomer`,
+      headers: {
+        Authorization: `Bearer ${token}`,
+        "Content-Type": "application/x-www-form-urlencoded",
+      },
+      data: data,
+    };
+
+    axios
+      .request(config)
+      .then((response) => {
+        response.data;
+        getCustomer();
+        setOpenModalAdd(false);
+        toast.success("เพิ่มข้อมูล ลูกค้า สำเร็จ");
+      })
+      .catch((error) => {
+        toast.error(error);
+      });
+  };
 
   //------------- modal Edit Product -----------------------//
   const [openModalEdit, setOpenModalEdit] = useState(false);
@@ -207,7 +217,7 @@ const addCustomer = async () => {
     let token = localStorage.getItem("Token");
     let data = qs.stringify({});
 
-    console.log(id)
+    console.log(id);
 
     let config = {
       method: "delete",
@@ -224,7 +234,7 @@ const addCustomer = async () => {
       .request(config)
       .then((response) => {
         response.data;
-        console.log(response.data)
+        console.log(response.data);
         getCustomer();
         setOpenModalDelete(false);
         toast.success("ลบข้อมูล ลูกค้า สำเร็จ");
@@ -233,8 +243,6 @@ const addCustomer = async () => {
         toast.error(error);
       });
   };
-
-  
 
   return (
     <Card className="w-full overflow-auto px-3">
@@ -507,10 +515,12 @@ const addCustomer = async () => {
                   type="text"
                   label="ชื่อลูกค้า"
                   maxLength="45"
-                  onChange={(e) => setNewCustomer({
-                    ...newCustomer,
-                    customer_name : e.target.value
-                  })}
+                  onChange={(e) =>
+                    setNewCustomer({
+                      ...newCustomer,
+                      customer_name: e.target.value,
+                    })
+                  }
                 />
               </div>
             </div>
@@ -522,10 +532,12 @@ const addCustomer = async () => {
                   type="text"
                   label="ที่อยู่"
                   maxLength="45"
-                  onChange={(e) => setNewCustomer({
-                    ...newCustomer,
-                    customer_address : e.target.value
-                  })}
+                  onChange={(e) =>
+                    setNewCustomer({
+                      ...newCustomer,
+                      customer_address: e.target.value,
+                    })
+                  }
                 />
               </div>
             </div>
@@ -537,10 +549,12 @@ const addCustomer = async () => {
                   type="text"
                   label="เลขประจำตัวผู้เสียภาษีอากร"
                   maxLength="15"
-                  onChange={(e) => setNewCustomer({
-                    ...newCustomer,
-                    customer_id_tax : e.target.value
-                  })}
+                  onChange={(e) =>
+                    setNewCustomer({
+                      ...newCustomer,
+                      customer_id_tax: e.target.value,
+                    })
+                  }
                 />
               </div>
               <div className="flex sm:w-[200px]  mt-3">
@@ -548,10 +562,12 @@ const addCustomer = async () => {
                   type="text"
                   label="เบอร์โทรศัพท์"
                   maxLength="10"
-                  onChange={(e) => setNewCustomer({
-                    ...newCustomer,
-                    customer_tel : e.target.value
-                  })}
+                  onChange={(e) =>
+                    setNewCustomer({
+                      ...newCustomer,
+                      customer_tel: e.target.value,
+                    })
+                  }
                 />
               </div>
             </div>
@@ -567,11 +583,11 @@ const addCustomer = async () => {
           >
             <span className="text-sm">ยกเลิก</span>
           </Button>
-          <Button 
-          size="sm" 
-          variant="gradient" 
-          color="green"
-          onClick={addCustomer}
+          <Button
+            size="sm"
+            variant="gradient"
+            color="green"
+            onClick={addCustomer}
           >
             <span className="text-sm">บันทึก</span>
           </Button>
@@ -676,12 +692,12 @@ const addCustomer = async () => {
         </DialogFooter>
       </Dialog>
 
-       {/* modal Delete Product */}
+      {/* modal Delete Product */}
 
-       <Dialog open={openModalDelete} size="sm" handler={handleModalDelete}>
+      <Dialog open={openModalDelete} size="sm" handler={handleModalDelete}>
         <DialogHeader className="bg-red-700 py-3  px-3  justify-center text-lg text-white opacity-80">
-        <Typography variant="h5">ลบลูกค้า</Typography>
-          </DialogHeader>
+          <Typography variant="h5">ลบลูกค้า</Typography>
+        </DialogHeader>
         <DialogBody divider className=" overflow-auto ">
           <div className="flex flex-col w-full justify-center gap-3 ">
             <Typography variant="h5" className="text-center">
