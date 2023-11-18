@@ -8,9 +8,13 @@ import {
   Typography,
   Button,
   IconButton,
+  Dialog,
+  DialogBody,
+  DialogHeader,
+  DialogFooter,
 } from "@material-tailwind/react";
 import { FaUserTie, FaBars } from "react-icons/fa";
-import { AiFillCloseCircle, AiFillSchedule } from "react-icons/ai";
+import { AiFillCloseCircle } from "react-icons/ai";
 import { BsBoxFill } from "react-icons/bs";
 import { MdAddLocationAlt } from "react-icons/md";
 import { useNavigate } from "react-router-dom";
@@ -26,6 +30,7 @@ function HomeUser() {
   const [selectedMenuSubItem, setSelectedMenuSubItem] = useState("");
   const [subMenuOpen, setSubMenuOpen] = useState(false);
   const [subMenuItems, setSubMenuItems] = useState([]);
+
   const navigate = useNavigate();
 
   const menuItems = [
@@ -121,10 +126,26 @@ function HomeUser() {
     setOpenNav(!openNav);
   };
 
-  const handleLogout = ()=>{
-    localStorage.clear()
-    window.location.reload()
-}
+  //------------- modal Logout -----------------------//
+
+  const [openModalLogout, setOpenModalLogout] = useState(false);
+  const [userLogout, setUserLogout] = useState([]);
+
+  const handleModalLogout = () => {
+    let user = localStorage.getItem("Status");
+    setOpenModalLogout(!openModalLogout);
+    setUserLogout(user);
+  };
+
+  const handleLogout = () => {
+    localStorage.clear();
+    window.location.reload();
+  };
+
+  //   const handleLogout = ()=>{
+  //     localStorage.clear()
+  //     window.location.reload()
+  // }
   // console.log(menuItems)
   // console.log(selectedMenuItem);
   // console.log(selectedMenuSubItem);
@@ -153,7 +174,7 @@ function HomeUser() {
                   size="sm"
                   color="white"
                   className="py-1 border-2 border-white"
-                  onClick={handleLogout}
+                  onClick={handleModalLogout}
                 >
                   <Typography>ออกจากระบบ</Typography>
                 </Button>
@@ -258,13 +279,53 @@ function HomeUser() {
             )
           : menuItems.map(
               (item, index) =>
-                item.label === selectedMenuItem &&  (
+                item.label === selectedMenuItem && (
                   <div key={index} className="flex w-full">
                     <item.path />
                   </div>
                 )
             )}
       </div>
+
+      {/* modal Logout */}
+
+      <Dialog open={openModalLogout} size="sm" handler={handleModalLogout}>
+        <DialogHeader className="bg-blue-700 py-3  px-3  justify-center text-lg text-white opacity-80">
+          <Typography variant="h5">ลบสินค้า</Typography>
+        </DialogHeader>
+        <DialogBody divider className=" overflow-auto ">
+          <div className="flex flex-col w-full justify-center gap-3 ">
+            <Typography variant="h5" className="text-center">
+              ต้องการ Logout: {userLogout || ""}{" "}
+            </Typography>
+            <Typography variant="h5" className="text-center">
+              จากระบบหรือไม่?{" "}
+            </Typography>
+          </div>
+        </DialogBody>
+        <DialogFooter>
+          <div className=" flex w-full justify-center  gap-5 ">
+            <Button
+              variant="gradient"
+              color="red"
+              size="sm"
+              onClick={handleLogout}
+              className="mr-1 px-10"
+            >
+              <span className="text-sm">ตกลง</span>
+            </Button>
+            <Button
+              variant="gradient"
+              color="blue-gray"
+              size="sm"
+              onClick={handleModalLogout}
+              className="mr-1 px-10"
+            >
+              <span className="text-sm">ยกเลิก</span>
+            </Button>
+          </div>
+        </DialogFooter>
+      </Dialog>
     </>
   );
 }

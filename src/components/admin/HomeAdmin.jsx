@@ -8,6 +8,10 @@ import {
   Typography,
   Button,
   IconButton,
+  Dialog,
+  DialogHeader,
+  DialogBody,
+  DialogFooter
 } from "@material-tailwind/react";
 import { FaUserTie, FaBars } from "react-icons/fa";
 import { AiFillCloseCircle } from "react-icons/ai";
@@ -77,10 +81,23 @@ function HomeAdmin() {
   // console.log(selectedMenuItem);
   // console.log(selectedMenuSubItem);
 
+  //------------- modal Logout -----------------------//
+
+  const [openModalLogout, setOpenModalLogout] = useState(false);
+  const [userLogout, setUserLogout] = useState([]);
+
+  const handleModalLogout = () => {
+    let user = localStorage.getItem("Status");
+    setOpenModalLogout(!openModalLogout);
+    setUserLogout(user);
+  };
+
   const handleLogout = () => {
     localStorage.clear();
     window.location.reload();
   };
+
+
   return (
     <>
       {/* HeaderBar */}
@@ -105,7 +122,7 @@ function HomeAdmin() {
                   size="sm"
                   color="blue"
                   className="py-1 border-2 border-white"
-                  onClick={handleLogout}
+                  onClick={handleModalLogout}
                 >
                   <Typography>ออกจากระบบ</Typography>
                 </Button>
@@ -217,6 +234,46 @@ function HomeAdmin() {
                 )
             )}
       </div>
+
+      {/* modal Logout */}
+
+      <Dialog open={openModalLogout} size="sm" handler={handleModalLogout}>
+        <DialogHeader className="bg-blue-700 py-3  px-3  justify-center text-lg text-white opacity-80">
+        <Typography variant="h5">ลบสินค้า</Typography>
+          </DialogHeader>
+        <DialogBody divider className=" overflow-auto ">
+          <div className="flex flex-col w-full justify-center gap-3 ">
+            <Typography variant="h5" className="text-center">
+              ต้องการ Logout: {userLogout || ""}{" "}
+            </Typography>
+            <Typography variant="h5" className="text-center">
+              จากระบบหรือไม่?{" "}
+            </Typography>
+          </div>
+        </DialogBody>
+        <DialogFooter>
+          <div className=" flex w-full justify-center  gap-5 ">
+            <Button
+              variant="gradient"
+              color="red"
+              size="sm"
+              onClick={handleLogout}
+              className="mr-1 px-10"
+            >
+              <span className="text-sm">ตกลง</span>
+            </Button>
+            <Button
+              variant="gradient"
+              color="blue-gray"
+              size="sm"
+              onClick={handleModalLogout}
+              className="mr-1 px-10"
+            >
+              <span className="text-sm">ยกเลิก</span>
+            </Button>
+          </div>
+        </DialogFooter>
+      </Dialog>
     </>
   );
 }
