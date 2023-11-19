@@ -14,7 +14,8 @@ import {
   DialogFooter,
 } from "@material-tailwind/react";
 import { FaUserTie, FaBars } from "react-icons/fa";
-import { AiFillCloseCircle } from "react-icons/ai";
+import { AiFillCloseCircle,AiFillSchedule } from "react-icons/ai";
+import { BiSolidReport  } from "react-icons/bi";
 import { BsBoxFill } from "react-icons/bs";
 import { MdAddLocationAlt } from "react-icons/md";
 import { useNavigate } from "react-router-dom";
@@ -22,7 +23,10 @@ import Product from "./contents/Product";
 import Customer from "./contents/Customer";
 import Shop from "./contents/Shops";
 import TaxInvoiceMenu from "./contents/TaxInvoiceMenu";
-import Menutest from "./contents/Menutest";
+import ReportMenu from "./contents/ReportMenu";
+
+
+
 
 function HomeUser() {
   const [openNav, setOpenNav] = useState(false);
@@ -32,6 +36,7 @@ function HomeUser() {
   const [subMenuItems, setSubMenuItems] = useState([]);
 
   const navigate = useNavigate();
+
 
   const menuItems = [
     {
@@ -51,12 +56,18 @@ function HomeUser() {
       path: Shop, // ใช้ชื่อของคอมโพนเนนต์แทน (ไม่มี <>)
       isUnderlined: 1,
     },
-    // {
-    //   icon: <AiFillSchedule />,
-    //   label: "ใบกำกับภาษี",
-    //   path: TaxInvoiceMenu,
-    //   isUnderlined: 0,
-    // },
+    {
+      icon: <AiFillSchedule />,
+      label: "ใบกำกับภาษี",
+      path: TaxInvoiceMenu,
+      isUnderlined: 0,
+    },
+    {
+      icon: <BiSolidReport />,
+      label: "รายงาน",
+      path: ReportMenu,
+      isUnderlined: 0,
+    },
     // {
     //   icon: <AiFillSchedule />,
     //   label: "ใบกำกับภาษี",
@@ -138,8 +149,8 @@ function HomeUser() {
   };
 
   const handleLogout = () => {
-    localStorage.clear();
-    window.location.reload();
+      localStorage.clear();
+      window.location.reload();
   };
 
   //   const handleLogout = ()=>{

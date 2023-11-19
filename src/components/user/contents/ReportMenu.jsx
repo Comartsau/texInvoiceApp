@@ -2,10 +2,9 @@ import { Card, Typography, Button } from "@material-tailwind/react";
 
 import { useState } from "react";
 
-import TaxInvoiceFull from "./taxinvoice/TaxInvoiceFull";
-import TaxInvoiceSm from "./taxinvoice/TaxInvoiceSm";
 
-function TaxInvoice() {
+
+function ReportMenu() {
   //---------- Dialog  ดูข้อมูลผู้บริจาค -------------- //
   const [activeCustomerMenu, setActiveCustomerMenu] = useState("menu1");
 
@@ -18,12 +17,12 @@ function TaxInvoice() {
               <Button
                 size="lg"
                 variant="outlined"
-                className={`w-[200px] rounded-md py-3  px-4 shadow-lg border border-gray-400  ${
+                className={`w-[250px] rounded-md py-3  px-4 shadow-lg border border-gray-400  ${
                   activeCustomerMenu === "menu1" ? "bg-blue-300 text-white" : ""
                 }`}
                 onClick={() => setActiveCustomerMenu("menu1")}
               >
-                เต็มรูปแบบ
+                รายงานยอดขายรวมประจำวัน/เดือน
               </Button>
             </div>
           </div>
@@ -32,15 +31,15 @@ function TaxInvoice() {
               <Button
                 variant="outlined"
                 size="lg"
-                className={`w-[200px]  py-3  px-4 shadow-lg border border-gray-400  ${
+                className={`w-[270px]  py-3  px-4 shadow-lg border border-gray-400  ${
                   activeCustomerMenu === "menu2" ? "bg-blue-300 text-white" : ""
                 }`}
                 onClick={() => setActiveCustomerMenu("menu2")}
               >
-                ออกใบกำกับภาษี
+                รายงานสรุปยอด แต่ละหน่วย (จุดขาย)
               </Button>
             </div>
-            <div className="flex justify-center">
+            {/* <div className="flex justify-center">
               <Button
                 size="lg"
                 variant="outlined"
@@ -51,7 +50,7 @@ function TaxInvoice() {
               >
                 ออกใบกำกับภาษี แบบย่อ
               </Button>
-            </div>
+            </div> */}
           </div>
         </div>
       </div>
@@ -67,14 +66,14 @@ function TaxInvoice() {
           <Typography className="flex justify-center mt-10 text-xl font-bold text-red-500">อยู่ในช่วงพัฒนา เฟส3/3</Typography>
         </div>
       )}
-      {activeCustomerMenu === "menu3" && (
+      {/* {activeCustomerMenu === "menu3" && (
         <div>
           <hr className=" mt-5 border border-gray-500" />
           <Typography className="flex justify-center mt-10 text-xl font-bold text-red-500">อยู่ในช่วงพัฒนา เฟส3/3</Typography>
         </div>
-      )}
+      )} */}
     </Card>
   );
 }
 
-export default TaxInvoice;
+export default ReportMenu;

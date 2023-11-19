@@ -15,9 +15,11 @@ import {
 } from "@material-tailwind/react";
 import { FaUserTie, FaBars } from "react-icons/fa";
 import { AiFillCloseCircle } from "react-icons/ai";
+import { BiSolidReport  } from "react-icons/bi";
 import { BsBoxFill } from "react-icons/bs";
 import Company from "./content/company";
-import Report from "./content/report";
+// import Report from "./content/report";
+import ReportMenu from "./content/ReportMenu";
 
 function HomeAdmin() {
   const [openNav, setOpenNav] = useState(false);
@@ -33,9 +35,9 @@ function HomeAdmin() {
       path: Company, // ใช้ชื่อของคอมโพนเนนต์แทน (ไม่มี <>)
     },
     {
-      icon: <FaUserTie />,
+      icon: <BiSolidReport />,
       label: "รายงาน",
-      path: Report, // ใช้ชื่อของคอมโพนเนนต์แทน (ไม่มี <>)
+      path: ReportMenu, // ใช้ชื่อของคอมโพนเนนต์แทน (ไม่มี <>)
       isUnderlined: 0,
     },
   ];

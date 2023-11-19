@@ -19,14 +19,11 @@ import { useState, useEffect } from "react";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 
-
 import { AiFillDelete } from "react-icons/ai";
 
 import { BsPencilSquare, BsFillEyeFill, BsPlusCircle } from "react-icons/bs";
 
 function Shops() {
-
-
   //----------  Data Table --------------------//
   const [noData, setNoData] = useState(true);
 
@@ -49,10 +46,8 @@ function Shops() {
   //       },
   // ]);
 
-
   const [searchQuery, setSearchQuery] = useState("");
-  const [tokenError ,setTokenError] = useState(false)
-
+  const [tokenError, setTokenError] = useState(false);
 
   const getShops = async () => {
     try {
@@ -79,19 +74,19 @@ function Shops() {
         setNoData(false);
       });
     } catch (error) {
-      if (error.response.statusText == 'Unauthorized') {
-        setTokenError(true)
+      if (error.response.statusText == "Unauthorized") {
+        setTokenError(true);
       }
-      console.log(error)
+      console.log(error);
     }
   };
 
-  useEffect(()=>{
+  useEffect(() => {
     if (tokenError) {
-          localStorage.clear();
-          window.location.reload();
-        }
-      },[tokenError])
+      localStorage.clear();
+      window.location.reload();
+    }
+  }, [tokenError]);
 
   // console.log(listData);
 
@@ -99,7 +94,6 @@ function Shops() {
     getShops();
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [searchQuery]);
-
 
   //----- จัดการแสดงข้อมูล / หน้า -------------- //
   const [currentPage, setCurrentPage] = useState(1);
@@ -111,138 +105,134 @@ function Shops() {
 
   const totalPages = Math.ceil(listData.length / itemsPerPage);
 
+  //------------- modal Add Product -----------------------//
+  const [openModalAdd, setOpenModalAdd] = useState(false);
+  const handleModalAdd = () => setOpenModalAdd(!openModalAdd);
 
-//------------- modal Add Product -----------------------//
-const [openModalAdd, setOpenModalAdd] = useState(false);
-const handleModalAdd = () => setOpenModalAdd(!openModalAdd);
+  const [newShops, setNewShops] = useState("");
 
-const [newShops, setNewShops] = useState("");
+  const addShops = async () => {
+    let token = localStorage.getItem("Token");
+    let data = qs.stringify({
+      salepoints_name: newShops,
+    });
 
-const addShops = async () => {
-  let token = localStorage.getItem("Token");
-  let data = qs.stringify({
-    'salepoints_name': newShops,
-  });
+    console.log(data);
 
-  console.log(data)
+    let config = {
+      method: "post",
+      maxBodyLength: Infinity,
+      url: `${import.meta.env.VITE_APP_API}/salepoints/addsalepoint`,
+      headers: {
+        Authorization: `Bearer ${token}`,
+        "Content-Type": "application/x-www-form-urlencoded",
+      },
+      data: data,
+    };
 
-  let config = {
-    method: "post",
-    maxBodyLength: Infinity,
-    url: `${import.meta.env.VITE_APP_API}/salepoints/addsalepoint`,
-    headers: {
-      Authorization: `Bearer ${token}`,
-      "Content-Type": "application/x-www-form-urlencoded",
-    },
-    data: data, 
+    axios
+      .request(config)
+      .then((response) => {
+        response.data;
+        getShops();
+        setOpenModalAdd(false);
+        toast.success("เพิ่มข้อมูล จุดขาย สำเร็จ");
+      })
+      .catch((error) => {
+        toast.error(error);
+      });
   };
 
-  axios
-    .request(config)
-    .then((response) => {
-      response.data;
-      getShops();
-      setOpenModalAdd(false);
-      toast.success("เพิ่มข้อมูล จุดขาย สำเร็จ");
-    })
-    .catch((error) => {
-      toast.error(error);
+  //------------- modal Edit Product -----------------------//
+  const [openModalEdit, setOpenModalEdit] = useState(false);
+  const [dataEdit, setDataEdit] = useState([]);
+  const handleModalEdit = (data) => {
+    setDataEdit(data);
+    setOpenModalEdit(!openModalEdit);
+  };
+
+  const sendEditShops = async () => {
+    let token = localStorage.getItem("Token");
+    console.log(dataEdit);
+    let data = qs.stringify({
+      id: dataEdit.id,
+      salepoints_name: dataEdit.salepoints_name,
     });
-};
 
+    console.log(data);
 
+    let config = {
+      method: "put",
+      maxBodyLength: Infinity,
+      url: `${import.meta.env.VITE_APP_API}/salepoints/editsalepoint`,
+      headers: {
+        Authorization: `Bearer ${token}`,
+        "Content-Type": "application/x-www-form-urlencoded",
+      },
+      data: data,
+    };
 
-   //------------- modal Edit Product -----------------------//
-   const [openModalEdit, setOpenModalEdit] = useState(false);
-   const [dataEdit, setDataEdit] = useState([]);
-   const handleModalEdit = (data) => {
-     setDataEdit(data);
-     setOpenModalEdit(!openModalEdit);
-   };
- 
-   const sendEditShops = async () => {
-     let token = localStorage.getItem("Token");
-     console.log(dataEdit);
-     let data = qs.stringify({
-       id: dataEdit.id,
-       salepoints_name: dataEdit.salepoints_name,
+    axios
+      .request(config)
+      .then((response) => {
+        response.data;
+        setOpenModalEdit(false);
+        getShops();
+        toast.success("แก้ไขข้อมูล จุดขาย สำเร็จ");
+      })
+      .catch((error) => {
+        toast.error(error);
+      });
+  };
 
+  //------------- modal Delete Product -----------------------//
 
-     });
- 
-     console.log(data);
- 
-     let config = {
-       method: "put",
-       maxBodyLength: Infinity,
-       url: `${import.meta.env.VITE_APP_API}/salepoints/editsalepoint`,
-       headers: {
-         Authorization: `Bearer ${token}`,
-         "Content-Type": "application/x-www-form-urlencoded",
-       },
-       data: data,
-     };
- 
-     axios
-       .request(config)
-       .then((response) => {
-         response.data;
-         setOpenModalEdit(false);
-         getShops();
-         toast.success("แก้ไขข้อมูล จุดขาย สำเร็จ");
-       })
-       .catch((error) => {
-         toast.error(error);
-       });
-   };
+  const [openModalDelete, setOpenModalDelete] = useState(false);
+  const [dataDelete, setDataDelete] = useState([]);
 
+  const handleModalDelete = (data) => {
+    setOpenModalDelete(!openModalDelete);
+    setDataDelete(data);
+  };
 
- //------------- modal Delete Product -----------------------//
+  const handleDelete = async (id) => {
+    // ลบข้อมูลเมื่อผู้ใช้ยืนยันการลบ
 
- const [openModalDelete, setOpenModalDelete] = useState(false);
- const [dataDelete, setDataDelete] = useState([]);
+    let token = localStorage.getItem("Token");
+    let data = qs.stringify({});
 
- const handleModalDelete = (data) => {
-   setOpenModalDelete(!openModalDelete);
-   setDataDelete(data);
- };
+    console.log(id);
 
- const handleDelete = async (id) => {
-   // ลบข้อมูลเมื่อผู้ใช้ยืนยันการลบ
+    let config = {
+      method: "delete",
+      maxBodyLength: Infinity,
+      url: `${import.meta.env.VITE_APP_API}/salepoints/delete/${id}`,
+      headers: {
+        Authorization: `Bearer ${token}`,
+        "Content-Type": "application/x-www-form-urlencoded",
+      },
+      data: data,
+    };
+    axios
+      .request(config)
+      .then((response) => {
+        response.data;
+        //  setTimeout(() => {
+        // }, 1000);
+        console.log(response.data);
+        getShops();
+        setOpenModalDelete(false);
+        toast.success("ลบข้อมูล จุดขาย สำเร็จ");
 
-   let token = localStorage.getItem("Token");
-   let data = qs.stringify({});
+      })
+      .catch((error) => {
+        toast.error(error);
+      });
+  };
 
-   console.log(id)
-
-   let config = {
-     method: "delete",
-     maxBodyLength: Infinity,
-     url: `${import.meta.env.VITE_APP_API}/salepoints/delete/${id}`,
-     headers: {
-       Authorization: `Bearer ${token}`,
-       "Content-Type": "application/x-www-form-urlencoded",
-     },
-     data: data,
-   };
-
-   axios
-     .request(config)
-     .then((response) => {
-       response.data;
-       console.log(response.data)
-       getShops();
-       setOpenModalDelete(false);
-       toast.success("ลบข้อมูล จุดขาย สำเร็จ");
-     })
-     .catch((error) => {
-       toast.error(error);
-     });
- };
-
-
-return (
-  <Card className="w-full overflow-auto px-3">
+  return (
+    <Card className="w-full overflow-auto px-3">
+      <ToastContainer autoClose={1000} theme="colored" />
       <div className="w-full px-3">
         {/* <p>ข้อมูลผู้บริจาค</p> */}
         <div className="flex flex-col sm:flex-row w-full items-center gap-3   sm:justify-between px-5 mt-5   ">
@@ -366,7 +356,7 @@ return (
                               variant="outlined"
                               color="amber"
                               size="sm"
-                              onClick={()=> handleModalEdit(data)}
+                              onClick={() => handleModalEdit(data)}
                             >
                               <BsPencilSquare className="h-5 w-5 text-yellow-900" />
                             </IconButton>
@@ -428,111 +418,98 @@ return (
         </Card>
       </div>
 
-       
+      {/* modal Add Shops */}
 
-    {/* modal Add Shops */}
-
-    <Dialog
-      open={openModalAdd}
-      size="sm"
-      handler={handleModalAdd}
-    >
-      <DialogHeader className="bg-blue-700 py-3  px-3 text-center text-lg text-white opacity-80">
-        <Typography variant="h5">เพิ่มจุดขาย</Typography>
-      </DialogHeader>
-      <DialogBody divider className=" overflow-auto ">
-        <div className="flex flex-col   items-center sm:items-start  gap-4 ">
-          <div className="flex flex-col sm:flex-row gap-4 w-full xl:px-5 justify-center">
-            <div className="flex sm:w-[200px]  mt-3">
-              <Input
-                type="text"
-                label="ชื่อจุดขาย"
-                maxLength="45"
-                onChange={(e) => setNewShops(e.target.value)}
-              />
+      <Dialog open={openModalAdd} size="sm" handler={handleModalAdd}>
+        <DialogHeader className="bg-blue-700 py-3  px-3 text-center text-lg text-white opacity-80">
+          <Typography variant="h5">เพิ่มจุดขาย</Typography>
+        </DialogHeader>
+        <DialogBody divider className=" overflow-auto ">
+          <div className="flex flex-col   items-center sm:items-start  gap-4 ">
+            <div className="flex flex-col sm:flex-row gap-4 w-full xl:px-5 justify-center">
+              <div className="flex sm:w-[200px]  mt-3">
+                <Input
+                  type="text"
+                  label="ชื่อจุดขาย"
+                  maxLength="45"
+                  onChange={(e) => setNewShops(e.target.value)}
+                />
+              </div>
             </div>
-
           </div>
-        
-        </div>
-    
-      </DialogBody>
-      <DialogFooter>
-        <Button
-          variant="text"
-          color="red"
-          size="sm"
-          onClick={handleModalAdd}
-          className="mr-1"
-        >
-          <span className="text-sm">ยกเลิก</span>
-        </Button>
-        <Button 
-        size="sm" 
-        variant="gradient" 
-        color="green"
-        onClick={addShops}
-        >
-          <span className="text-sm">บันทึก</span>
-        </Button>
-      </DialogFooter>
-    </Dialog>
+        </DialogBody>
+        <DialogFooter>
+          <Button
+            variant="text"
+            color="red"
+            size="sm"
+            onClick={handleModalAdd}
+            className="mr-1"
+          >
+            <span className="text-sm">ยกเลิก</span>
+          </Button>
+          <Button size="sm" variant="gradient" color="green" onClick={addShops}>
+            <span className="text-sm">บันทึก</span>
+          </Button>
+        </DialogFooter>
+      </Dialog>
 
-    {/* modal Edit Shops */}
+      {/* modal Edit Shops */}
 
-    <Dialog open={openModalEdit} size="sm" handler={handleModalEdit}>
-      <DialogHeader className="bg-blue-700 py-3  px-3 gap-2 text-center text-lg text-white opacity-80">
-        <Typography variant="h5">แก้ไขจุดขาย:</Typography>
-        <Typography variant="h5">{dataEdit?.salepoints_name || ''}</Typography>
-      </DialogHeader>
-      <DialogBody divider className=" overflow-auto ">
-        <div className="flex flex-col   items-center sm:items-start  gap-4 ">
-          <div className="flex flex-col sm:flex-row gap-4 w-full xl:px-5 justify-center">
-            <div className="flex sm:w-[200px]  mt-3">
-              <Input
-                type="text"
-                label="ชื่อจุดขาย"
-                maxLength="45"
-                value={dataEdit.salepoints_name}
-                onChange={(e) => setDataEdit({
-                  ...dataEdit,
-                  salepoints_name : e.target.value
-                })}
-              />
+      <Dialog open={openModalEdit} size="sm" handler={handleModalEdit}>
+        <DialogHeader className="bg-blue-700 py-3  px-3 gap-2 text-center text-lg text-white opacity-80">
+          <Typography variant="h5">แก้ไขจุดขาย:</Typography>
+          <Typography variant="h5">
+            {dataEdit?.salepoints_name || ""}
+          </Typography>
+        </DialogHeader>
+        <DialogBody divider className=" overflow-auto ">
+          <div className="flex flex-col   items-center sm:items-start  gap-4 ">
+            <div className="flex flex-col sm:flex-row gap-4 w-full xl:px-5 justify-center">
+              <div className="flex sm:w-[200px]  mt-3">
+                <Input
+                  type="text"
+                  label="ชื่อจุดขาย"
+                  maxLength="45"
+                  value={dataEdit.salepoints_name}
+                  onChange={(e) =>
+                    setDataEdit({
+                      ...dataEdit,
+                      salepoints_name: e.target.value,
+                    })
+                  }
+                />
+              </div>
             </div>
-
           </div>
-        
-        </div>
-    
-      </DialogBody>
-      <DialogFooter>
-        <Button
-          variant="text"
-          color="red"
-          size="sm"
-          onClick={handleModalEdit}
-          className="mr-1"
-        >
-          <span className="text-sm">ยกเลิก</span>
-        </Button>
-        <Button 
-        size="sm" 
-        variant="gradient" 
-        color="purple"
-        onClick={sendEditShops}
-        >
-          <span className="text-sm">อัพเดท</span>
-        </Button>
-      </DialogFooter>
-    </Dialog>
+        </DialogBody>
+        <DialogFooter>
+          <Button
+            variant="text"
+            color="red"
+            size="sm"
+            onClick={handleModalEdit}
+            className="mr-1"
+          >
+            <span className="text-sm">ยกเลิก</span>
+          </Button>
+          <Button
+            size="sm"
+            variant="gradient"
+            color="purple"
+            onClick={sendEditShops}
+          >
+            <span className="text-sm">อัพเดท</span>
+          </Button>
+        </DialogFooter>
+      </Dialog>
 
-     {/* modal Delete Product */}
+      {/* modal Delete Product */}
 
-     <Dialog open={openModalDelete} size="sm" handler={handleModalDelete}>
+      <Dialog open={openModalDelete} size="sm" handler={handleModalDelete}>
         <DialogHeader className="bg-red-700 py-3  px-3  justify-center text-lg text-white opacity-80">
-        <Typography variant="h5">ลบจุดขาย</Typography>
-          </DialogHeader>
+          <Typography variant="h5">ลบจุดขาย</Typography>
+        </DialogHeader>
         <DialogBody divider className=" overflow-auto ">
           <div className="flex flex-col w-full justify-center gap-3 ">
             <Typography variant="h5" className="text-center">
@@ -566,8 +543,8 @@ return (
           </div>
         </DialogFooter>
       </Dialog>
-  </Card>
-)
+    </Card>
+  );
 }
 
-export default Shops
+export default Shops;
