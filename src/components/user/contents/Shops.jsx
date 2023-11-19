@@ -21,7 +21,7 @@ import "react-toastify/dist/ReactToastify.css";
 
 import { AiFillDelete } from "react-icons/ai";
 
-import { BsPencilSquare, BsFillEyeFill, BsPlusCircle } from "react-icons/bs";
+import { BsPencilSquare, BsPlusCircle } from "react-icons/bs";
 
 function Shops() {
   //----------  Data Table --------------------//
