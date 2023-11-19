@@ -41,15 +41,19 @@ function Company() {
       let config = {
         method: "get",
         maxBodyLength: Infinity,
+        // url: `${
+        //   import.meta.env.VITE_APP_API
+        // }/company-search?search=${searchQuery}`,
         url: `${
           import.meta.env.VITE_APP_API
-        }/company-search?search=${searchQuery}`,
+        }/company`,
         headers: {
           Authorization: `Bearer ${token}`,
         },
         data: data,
       };
 
+      console.log(config);
       await axios.request(config).then((response) => {
         setListData(response.data);
         setNoData(false);

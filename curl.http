@@ -1,0 +1,5 @@
+
+###vbvbbb
+curl -X 'GET' \
+  'https://inovice-34abd18c009a.herokuapp.com/company-search' \
+  -H 'accept: application/json'
