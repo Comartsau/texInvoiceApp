@@ -532,7 +532,7 @@ function Company() {
               </div>
               <div className="flex sm:w-[300px]  mt-3">
                 <Input
-                  type="text"
+                  type="number"
                   label="เลขประจำตัวผู้เสียภาษี"
                   maxLength="13"
                   onChange={(e) =>
@@ -560,7 +560,7 @@ function Company() {
               </div>
               <div className="flex sm:w-[200px]  mt-3">
                 <Input
-                  type="text"
+                  type="number"
                   label="เบอร์โทรศัพท์"
                   maxLength="13"
                   onChange={(e) =>
@@ -648,7 +648,7 @@ function Company() {
               </div>
               <div className="flex sm:w-[300px]  mt-3">
                 <Input
-                  type="text"
+                  type="number"
                   label="เลขประจำตัวผู้เสียภาษี"
                   maxLength="13"
                   value={editCompanyData?.tax_personal || ""}
@@ -678,7 +678,7 @@ function Company() {
               </div>
               <div className="flex sm:w-[200px]  mt-3">
                 <Input
-                  type="text"
+                  type="number"
                   label="เบอร์โทรศัพท์"
                   maxLength="13"
                   value={editCompanyData?.tel || ""}

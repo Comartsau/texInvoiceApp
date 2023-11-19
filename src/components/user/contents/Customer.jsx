@@ -546,7 +546,7 @@ function Customer() {
             <div className="flex flex-col sm:flex-row gap-4 w-full xl:px-5 xl:justify-between">
               <div className="flex sm:w-[200px]  mt-3">
                 <Input
-                  type="text"
+                  type="number"
                   label="เลขประจำตัวผู้เสียภาษีอากร"
                   maxLength="15"
                   onChange={(e) =>
@@ -559,7 +559,7 @@ function Customer() {
               </div>
               <div className="flex sm:w-[200px]  mt-3">
                 <Input
-                  type="text"
+                  type="number"
                   label="เบอร์โทรศัพท์"
                   maxLength="10"
                   onChange={(e) =>
@@ -642,7 +642,7 @@ function Customer() {
             <div className="flex flex-col sm:flex-row gap-4 w-full xl:px-5 xl:justify-between">
               <div className="flex sm:w-[200px]  mt-3">
                 <Input
-                  type="text"
+                  type="number"
                   label="เลขประจำตัวผู้เสียภาษีอากร"
                   maxLength="15"
                   value={dataEdit.customer_id_tax || ""}
@@ -656,7 +656,7 @@ function Customer() {
               </div>
               <div className="flex sm:w-[200px]  mt-3">
                 <Input
-                  type="text"
+                  type="number"
                   label="เบอร์โทรศัพท์"
                   maxLength="10"
                   value={dataEdit.customer_tel || ""}

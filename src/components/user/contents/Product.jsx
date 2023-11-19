@@ -529,7 +529,7 @@ function Product() {
               </div>
               <div className="flex sm:w-[200px]  mt-3">
                 <Input
-                  type="text"
+                  type="number"
                   label="ราคา/หน่วย"
                   maxLength="10"
                   onChange={(e) =>
@@ -611,7 +611,7 @@ function Product() {
               </div>
               <div className="flex sm:w-[200px]  mt-3">
                 <Input
-                  type="text"
+                  type="number"
                   label="ราคา/หน่วย"
                   maxLength="10"
                   value={dataEdit?.price || ""}
