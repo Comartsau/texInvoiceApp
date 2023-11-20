@@ -134,12 +134,12 @@ function HomeAdmin() {
                   variant="outlined"
                   size="sm"
                   color="white"
-                  className="py-1 border-2 border-white"
+                  className="py-1 px-2 border-2 border-white"
                   onClick={handleModalLogout}
                 >
                   <div className="flex w-full items-center lg:hidden  h-[24px]">
                     {" "}
-                    <AiOutlineLogout className="text-xl" />{" "}
+                    <AiOutlineLogout className="text-2xl text-red-500" />{" "}
                   </div>
                   <Typography className="hidden lg:block">
                     ออกจากระบบ
@@ -152,10 +152,14 @@ function HomeAdmin() {
       </div>
 
       {/* Menu and Content */}
-      <div className="flex    py-3 pr-3  bg-gray-300  gap-3 ">
+      <div className="flex w-full py-3 pr-3  bg-gray-300  gap-3 ">
         {/* Menu */}
-        <div className={`${openNav ? "block z-20 sticky" : "hidden"} lg:block`}>
-          <Card className="flex w-[220px] h-[705px] overflow-hidden rounded-lg pt-5 ">
+        <div
+          className={`${
+            openNav ? "block z-20 fixed top-0 w-4/12" : "hidden"
+          } lg:block`}
+        >
+          <Card className="flex  w-[220px]   h-screen lg:h-[705px] overflow-hidden  rounded-none lg:rounded-lg pt-5 ">
             <List className="flex my-2">
               {menuItems.map((item, index) => (
                 <div key={index}>
@@ -218,7 +222,7 @@ function HomeAdmin() {
         </div>
 
         {/* Content */}
-        <div className="w-full ">
+        <div className=" w-full ">
           <div></div>
           <div>
             {selectedMenuSubItem
