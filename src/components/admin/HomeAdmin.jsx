@@ -106,9 +106,9 @@ function HomeAdmin() {
       <div>
         <Navbar
           color="blue"
-          className="sticky top-0 z-10 max-w-full rounded-none py-2"
+          className="sticky top-0 z-10 max-w-full rounded-none py-2  "
         >
-          <div className="flex max-w-full items-center justify-between text-blue-gray-900">
+          <div className="flex max-w-full  items-center justify-between text-blue-gray-900">
             <Typography
               // as="a"
               // href="#"
@@ -117,7 +117,7 @@ function HomeAdmin() {
             >
               บริษัท Dev Sriwararak จำกัด
             </Typography>
-            <div className="flex items-center gap-4">
+            <div className="flex items-center gap-5">
             <IconButton
                 variant="text"
                 className="ml-auto h-6 w-6 text-inherit hover:bg-transparent focus-bg-transparent active-bg-transparent lg:hidden"
@@ -125,9 +125,9 @@ function HomeAdmin() {
                 onClick={toggleNav}
               >
                 {openNav ? (
-                  <AiFillCloseCircle className="text-4xl" />
+                  <AiFillCloseCircle className="text-4xl text-white border-2 rounded-lg border-white bg-black w-[45px] h-[35px] p-1" />
                 ) : (
-                  <FaBars className="text-2xl" />
+                  <FaBars className=" text-white border-2 rounded-lg border-white bg-black w-[45px] h-[35px] p-1" />
                 )}
               </IconButton>
               <div className="flex items-center">
@@ -151,13 +151,13 @@ function HomeAdmin() {
       <div className="flex   py-3 pr-3 bg-gray-300 gap-3 ">
         {/* Menu */}
         <div className={`${openNav ? "block fixed z-20" : "hidden"} lg:block`}>
-          <Card className="flex w-[180px] md:w-[220px] h-[705px] overflow-hidden rounded-lg pt-5 ">
+          <Card className="flex w-[220px] h-[705px] overflow-hidden rounded-lg pt-5 ">
             <List className="flex my-2">
               {menuItems.map((item, index) => (
                 <div key={index}>
                   <ListItem
                     onClick={() => handleMenuItemClick(item.label)}
-                    className={`w-[150px] md:w-[200px] px-2 py-3 text-sm font-normal text-blue-gray-700 focus:bg-blue-500 focus:text-white ${
+                    className={`w-[200px] px-2 py-3 text-sm font-normal text-blue-gray-700 focus:bg-blue-500 focus:text-white ${
                       isMenuItemSelected(item.label)
                         ? "bg-blue-400 text-white hover:bg-blue-500 hover:text-white"
                         : ""
