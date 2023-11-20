@@ -108,7 +108,7 @@ function HomeAdmin() {
           color="blue"
           className="sticky top-0 z-10 max-w-full rounded-none py-2"
         >
-          <div className="flex w-full items-center justify-between text-blue-gray-900">
+          <div className="flex max-w-full items-center justify-between text-blue-gray-900">
             <Typography
               // as="a"
               // href="#"
@@ -230,7 +230,7 @@ function HomeAdmin() {
           : menuItems.map(
               (item, index) =>
                 item.label === selectedMenuItem && (
-                  <div key={index} className="flex w-full h-[705px]">
+                  <div key={index} className="flex w-full overflow-hidden  h-[705px]">
                     <item.path />
                   </div>
                 )

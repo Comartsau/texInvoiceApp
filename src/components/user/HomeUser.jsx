@@ -291,7 +291,7 @@ function HomeUser() {
           : menuItems.map(
               (item, index) =>
                 item.label === selectedMenuItem && (
-                  <div key={index} className="flex w-full">
+                  <div key={index} className="flex w-full overflow-hidden">
                     <item.path />
                   </div>
                 )
