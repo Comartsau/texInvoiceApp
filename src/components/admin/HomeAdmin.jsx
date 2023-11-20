@@ -118,18 +118,7 @@ function HomeAdmin() {
               บริษัท Dev Sriwararak จำกัด
             </Typography>
             <div className="flex items-center gap-4">
-              <div className="flex items-center">
-                <Button
-                  // variant="outlined"
-                  size="sm"
-                  color="blue"
-                  className="py-1 border-2 border-white"
-                  onClick={handleModalLogout}
-                >
-                  <Typography>ออกจากระบบ</Typography>
-                </Button>
-              </div>
-              <IconButton
+            <IconButton
                 variant="text"
                 className="ml-auto h-6 w-6 text-inherit hover:bg-transparent focus-bg-transparent active-bg-transparent lg:hidden"
                 ripple={false}
@@ -141,6 +130,18 @@ function HomeAdmin() {
                   <FaBars className="text-2xl" />
                 )}
               </IconButton>
+              <div className="flex items-center">
+                <Button
+                  // variant="outlined"
+                  size="sm"
+                  color="blue"
+                  className="py-1 border-2 border-white"
+                  onClick={handleModalLogout}
+                >
+                  <Typography>ออกจากระบบ</Typography>
+                </Button>
+              </div>
+ 
             </div>
           </div>
         </Navbar>
@@ -149,14 +150,14 @@ function HomeAdmin() {
       {/* Menu and Content */}
       <div className="flex   py-3 pr-3 bg-gray-300 gap-3 ">
         {/* Menu */}
-        <div className={`${openNav ? "block" : "hidden"} lg:block`}>
-          <Card className="flex w-[160px] h-[705px] overflow-hidden rounded-lg pt-5 ">
+        <div className={`${openNav ? "block fixed z-20" : "hidden"} lg:block`}>
+          <Card className="flex w-[180px] md:w-[220px] h-[705px] overflow-hidden rounded-lg pt-5 ">
             <List className="flex my-2">
               {menuItems.map((item, index) => (
                 <div key={index}>
                   <ListItem
                     onClick={() => handleMenuItemClick(item.label)}
-                    className={`w-[145px] px-2 py-3 text-sm font-normal text-blue-gray-700 focus:bg-blue-500 focus:text-white ${
+                    className={`w-[150px] md:w-[200px] px-2 py-3 text-sm font-normal text-blue-gray-700 focus:bg-blue-500 focus:text-white ${
                       isMenuItemSelected(item.label)
                         ? "bg-blue-400 text-white hover:bg-blue-500 hover:text-white"
                         : ""
