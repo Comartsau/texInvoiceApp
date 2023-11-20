@@ -150,24 +150,24 @@ function HomeAdmin() {
       <div className="flex   py-3 pr-3 bg-gray-300 gap-3 ">
         {/* Menu */}
         <div className={`${openNav ? "block" : "hidden"} lg:block`}>
-          <Card className="flex w-[170px] h-[705px] overflow-hidden rounded-lg pt-5 ">
+          <Card className="flex w-[160px] h-[705px] overflow-hidden rounded-lg pt-5 ">
             <List className="flex my-2">
               {menuItems.map((item, index) => (
                 <div key={index}>
                   <ListItem
                     onClick={() => handleMenuItemClick(item.label)}
-                    className={`w-[155px] px-2 py-3 text-sm font-normal text-blue-gray-700 focus:bg-blue-500 focus:text-white ${
+                    className={`w-[145px] px-2 py-3 text-sm font-normal text-blue-gray-700 focus:bg-blue-500 focus:text-white ${
                       isMenuItemSelected(item.label)
                         ? "bg-blue-400 text-white hover:bg-blue-500 hover:text-white"
                         : ""
                     }`}
                   >
                     <div className="flex flex-col">
-                      <div className="flex w-full">
+                      <div className="flex p-0  ">
                         <ListItemPrefix className="text-2xl">
                           {item?.icon}
                         </ListItemPrefix>
-                        <ListItemPrefix className="text-base font-bold ">
+                        <ListItemPrefix className=" mr-0 text-base font-bold ">
                           {item?.label}
                         </ListItemPrefix>
                       </div>
