@@ -11,11 +11,11 @@ import {
   Dialog,
   DialogHeader,
   DialogBody,
-  DialogFooter
+  DialogFooter,
 } from "@material-tailwind/react";
 import { FaUserTie, FaBars } from "react-icons/fa";
-import { AiFillCloseCircle } from "react-icons/ai";
-import { BiSolidReport  } from "react-icons/bi";
+import { AiFillCloseCircle, AiOutlineLogout } from "react-icons/ai";
+import { BiSolidReport } from "react-icons/bi";
 import { BsBoxFill } from "react-icons/bs";
 import Company from "./content/company";
 // import Report from "./content/report";
@@ -99,7 +99,6 @@ function HomeAdmin() {
     window.location.reload();
   };
 
-
   return (
     <>
       {/* HeaderBar */}
@@ -118,39 +117,44 @@ function HomeAdmin() {
               บริษัท Dev Sriwararak จำกัด
             </Typography>
             <div className="flex items-center gap-5">
-            <IconButton
+              <IconButton
                 variant="text"
                 className="ml-auto h-6 w-6 text-inherit hover:bg-transparent focus-bg-transparent active-bg-transparent lg:hidden"
                 ripple={false}
                 onClick={toggleNav}
               >
                 {openNav ? (
-                  <AiFillCloseCircle className="text-4xl text-white border-2 rounded-lg border-white bg-black w-[45px] h-[35px] p-1" />
+                  <AiFillCloseCircle className="text-4xl text-white border-2 rounded-lg border-white bg-blue-700 w-[45px] h-[35px] p-1" />
                 ) : (
-                  <FaBars className=" text-white border-2 rounded-lg border-white bg-black w-[45px] h-[35px] p-1" />
+                  <FaBars className=" text-white border-2 rounded-lg border-white bg-blue-500 w-[45px] h-[35px] p-1" />
                 )}
               </IconButton>
               <div className="flex items-center">
                 <Button
-                  // variant="outlined"
+                  variant="outlined"
                   size="sm"
-                  color="blue"
+                  color="white"
                   className="py-1 border-2 border-white"
                   onClick={handleModalLogout}
                 >
-                  <Typography>ออกจากระบบ</Typography>
+                  <div className="flex w-full items-center lg:hidden  h-[24px]">
+                    {" "}
+                    <AiOutlineLogout className="text-xl" />{" "}
+                  </div>
+                  <Typography className="hidden lg:block">
+                    ออกจากระบบ
+                  </Typography>
                 </Button>
               </div>
- 
             </div>
           </div>
         </Navbar>
       </div>
 
       {/* Menu and Content */}
-      <div className="flex   py-3 pr-3 bg-gray-300 gap-3 ">
+      <div className="flex    py-3 pr-3  bg-gray-300  gap-3 ">
         {/* Menu */}
-        <div className={`${openNav ? "block fixed z-20" : "hidden"} lg:block`}>
+        <div className={`${openNav ? "block z-20 sticky" : "hidden"} lg:block`}>
           <Card className="flex w-[220px] h-[705px] overflow-hidden rounded-lg pt-5 ">
             <List className="flex my-2">
               {menuItems.map((item, index) => (
@@ -202,7 +206,9 @@ function HomeAdmin() {
                   </ListItem>
                   <hr
                     className={` ${
-                      item.isUnderlined == 1 ? "flex  text-center w-[73%]  mt-2  border border-gray-300" : "hidden"
+                      item.isUnderlined == 1
+                        ? "flex  text-center w-[73%]  mt-2  border border-gray-300"
+                        : "hidden"
                     }`}
                   />
                 </div>
@@ -212,38 +218,52 @@ function HomeAdmin() {
         </div>
 
         {/* Content */}
-
-        {selectedMenuSubItem
-          ? menuItems.map(
-              (item, index) =>
-                item.label === selectedMenuItem &&
-                item.subItems && (
-                  <div key={index} className="flex w-full">
-                    {item.subItems.map(
-                      (subItem, subIndex) =>
-                        subItem.label === selectedMenuSubItem && (
-                          <subItem.path key={subIndex} />
-                        )
-                    )}
-                  </div>
+        <div className="w-full ">
+          <div></div>
+          <div>
+            {selectedMenuSubItem
+              ? menuItems.map(
+                  (item, index) =>
+                    item.label === selectedMenuItem &&
+                    item.subItems && (
+                      <div key={index} className="flex w-full">
+                        {item.subItems.map(
+                          (subItem, subIndex) =>
+                            subItem.label === selectedMenuSubItem && (
+                              <subItem.path key={subIndex} />
+                            )
+                        )}
+                      </div>
+                    )
                 )
-            )
-          : menuItems.map(
-              (item, index) =>
-                item.label === selectedMenuItem && (
-                  <div key={index} className="flex w-full overflow-hidden  h-[705px]">
-                    <item.path />
-                  </div>
-                )
-            )}
+              : menuItems.map(
+                  (item, index) =>
+                    item.label === selectedMenuItem && (
+                      <div
+                        key={index}
+                        className="flex w-full overflow-hidden relative  h-[705px]"
+                      >
+                        <div
+                          className={`flex w-full h-[705px] absolute  ${
+                            openNav ? "bg-gray-800 bg-opacity-70 z-10" : ""
+                          } `}
+                        ></div>
+                        <div className={`flex w-full h-[705px]  absolute z-0`}>
+                          <item.path />
+                        </div>
+                      </div>
+                    )
+                )}
+          </div>
+        </div>
       </div>
 
       {/* modal Logout */}
 
       <Dialog open={openModalLogout} size="sm" handler={handleModalLogout}>
         <DialogHeader className="bg-blue-700 py-3  px-3  justify-center text-lg text-white opacity-80">
-        <Typography variant="h5">ออกจากระบบ</Typography>
-          </DialogHeader>
+          <Typography variant="h5">ออกจากระบบ</Typography>
+        </DialogHeader>
         <DialogBody divider className=" overflow-auto ">
           <div className="flex flex-col w-full justify-center gap-3 ">
             <Typography variant="h5" className="text-center">

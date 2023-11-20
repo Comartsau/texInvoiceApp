@@ -14,8 +14,12 @@ import {
   DialogFooter,
 } from "@material-tailwind/react";
 import { FaUserTie, FaBars } from "react-icons/fa";
-import { AiFillCloseCircle,AiFillSchedule } from "react-icons/ai";
-import { BiSolidReport  } from "react-icons/bi";
+import {
+  AiFillCloseCircle,
+  AiFillSchedule,
+  AiOutlineLogout,
+} from "react-icons/ai";
+import { BiSolidReport } from "react-icons/bi";
 import { BsBoxFill } from "react-icons/bs";
 import { MdAddLocationAlt } from "react-icons/md";
 import { useNavigate } from "react-router-dom";
@@ -24,9 +28,7 @@ import Customer from "./contents/Customer";
 import Shop from "./contents/Shops";
 import TaxInvoiceMenu from "./contents/TaxInvoiceMenu";
 import ReportMenu from "./contents/ReportMenu";
-
-
-
+import { DiscFull } from "@mui/icons-material";
 
 function HomeUser() {
   const [openNav, setOpenNav] = useState(false);
@@ -36,7 +38,6 @@ function HomeUser() {
   const [subMenuItems, setSubMenuItems] = useState([]);
 
   const navigate = useNavigate();
-
 
   const menuItems = [
     {
@@ -137,6 +138,8 @@ function HomeUser() {
     setOpenNav(!openNav);
   };
 
+  console.log(openNav);
+
   //------------- modal Logout -----------------------//
 
   const [openModalLogout, setOpenModalLogout] = useState(false);
@@ -149,8 +152,8 @@ function HomeUser() {
   };
 
   const handleLogout = () => {
-      localStorage.clear();
-      window.location.reload();
+    localStorage.clear();
+    window.location.reload();
   };
 
   //   const handleLogout = ()=>{
@@ -186,9 +189,9 @@ function HomeUser() {
                 onClick={toggleNav}
               >
                 {openNav ? (
-                  <AiFillCloseCircle className="text-4xl  text-white border-2 rounded-lg border-white bg-black w-[45px] h-[35px] p-1" />
+                  <AiFillCloseCircle className="text-4xl  text-white border-2 rounded-lg border-white bg-blue-500 w-[45px] h-[35px] p-1" />
                 ) : (
-                  <FaBars className="text-2 text-white border-2 rounded-lg border-white bg-black w-[45px] h-[35px] p-1" />
+                  <FaBars className="text-2 text-white border-2 rounded-lg border-white bg-blue-500 w-[45px] h-[35px] p-1" />
                 )}
               </IconButton>
               <div className="flex items-center">
@@ -199,10 +202,15 @@ function HomeUser() {
                   className="py-1 border-2 border-white"
                   onClick={handleModalLogout}
                 >
-                  <Typography>ออกจากระบบ</Typography>
+                  <div className="flex w-full items-center lg:hidden  h-[24px]">
+                    {" "}
+                    <AiOutlineLogout className="text-xl" />{" "}
+                  </div>
+                  <Typography className="hidden lg:block">
+                    ออกจากระบบ
+                  </Typography>
                 </Button>
               </div>
-      
             </div>
           </div>
         </Navbar>
@@ -211,7 +219,7 @@ function HomeUser() {
       {/* Menu and Content */}
       <div className="flex   py-3 pr-3 bg-gray-300 gap-3 ">
         {/* Menu */}
-        <div className={`${openNav ? "block fixed z-20" : "hidden"} lg:block`}>
+        <div className={`${openNav ? "block sticky z-20" : "hidden"} lg:block`}>
           <Card className="flex w-[220px] h-[90vh] overflow-hidden rounded-lg pt-5 ">
             <List className="flex my-2">
               {menuItems.map((item, index) => (
@@ -263,7 +271,9 @@ function HomeUser() {
                   </ListItem>
                   <hr
                     className={` ${
-                      item.isUnderlined == 1 ? " flex  text-center w-[73%]  mt-2  border border-gray-300" : "hidden"
+                      item.isUnderlined == 1
+                        ? " flex  text-center w-[73%]  mt-2  border border-gray-300"
+                        : "hidden"
                     }`}
                   />
                 </div>
@@ -292,8 +302,18 @@ function HomeUser() {
           : menuItems.map(
               (item, index) =>
                 item.label === selectedMenuItem && (
-                  <div key={index} className="flex w-full overflow-hidden">
-                    <item.path />
+                  <div
+                    key={index}
+                    className="flex w-full overflow-hidden relative  h-[705px]"
+                  >
+                    <div
+                      className={`flex w-full h-[705px] absolute  ${
+                        openNav ? "bg-gray-800 bg-opacity-70 z-10" : ""
+                      } `}
+                    ></div>
+                    <div className={`flex w-full h-[705px]  absolute z-0`}>
+                      <item.path />
+                    </div>
                   </div>
                 )
             )}

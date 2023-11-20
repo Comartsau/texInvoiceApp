@@ -41,12 +41,12 @@ function Company() {
       let config = {
         method: "get",
         maxBodyLength: Infinity,
-        // url: `${
-        //   import.meta.env.VITE_APP_API
-        // }/company-search?search=${searchQuery}`,
         url: `${
           import.meta.env.VITE_APP_API
-        }/company`,
+        }/company-search?search=${searchQuery}`,
+        // url: `${
+        //   import.meta.env.VITE_APP_API
+        // }/company`,
         headers: {
           Authorization: `Bearer ${token}`,
         },
@@ -225,7 +225,7 @@ function Company() {
   };
 
   return (
-    <Card className="w-full overflow-auto px-3">
+    <Card className="w-full overflow-auto  px-3">
       <ToastContainer autoClose={1000} theme="colored" />
       <div className="w-full px-3">
         {/* <p>ข้อมูลผู้บริจาค</p> */}
