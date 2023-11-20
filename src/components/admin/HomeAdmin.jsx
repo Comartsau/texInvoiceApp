@@ -134,12 +134,12 @@ function HomeAdmin() {
                   variant="outlined"
                   size="sm"
                   color="white"
-                  className="py-1 px-2 border-2 border-white"
+                  className="py-1 px-2 border-2 bg-red-500 lg:bg-blue-500 border-white"
                   onClick={handleModalLogout}
                 >
                   <div className="flex w-full items-center lg:hidden  h-[24px]">
                     {" "}
-                    <AiOutlineLogout className="text-2xl text-red-500" />{" "}
+                    <AiOutlineLogout className="text-2xl text-white" />{" "}
                   </div>
                   <Typography className="hidden lg:block">
                     ออกจากระบบ
