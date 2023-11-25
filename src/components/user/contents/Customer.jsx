@@ -23,34 +23,19 @@ import { AiFillDelete } from "react-icons/ai";
 
 import { BsPencilSquare, BsFillEyeFill, BsPlusCircle } from "react-icons/bs";
 
+import { useRecoilState } from "recoil";
+import { customerStore } from "../../../store/Store";
+
 function Customer() {
   //----------  Data Table --------------------//
   const [noData, setNoData] = useState(false);
 
   const [listData, setListData] = useState([]);
-  // const [listData, setListData] = useState([
-  //     {
-  //         customer_name: "สมชาย ใจดี",
-  //         customer_address: "123 ถนนราชดำริ, แขวงลาดพร้าว, เขตวัฒนา, กรุงเทพฯ 12345",
-  //         customerTaxId: "1234567890123",
-  //         customer_tel: "081-234-5678",
-  //       },
-  //       {
-  //         customer_name: "สมหญิง มีสวัสดิ์",
-  //         customer_address: "456 หมู่บ้านสุขใจ, ตำบลหนองแขม, อำเภอบางพลี, สมุทรปราการ 78901",
-  //         customerTaxId: "2345678901234",
-  //         customer_tel: "085-123-4567",
-  //       },
-  //       {
-  //         customer_name: "สมรัตน์ สงบใจ",
-  //         customer_address: "789 ถนนเพชรบุรี, ตำบลห้วยขวาง, อำเภอวังน้อย, พระนครศรีอยุธยา 56789",
-  //         customerTaxId: "3456789012345",
-  //         customer_tel: "087-765-4321",
-  //       },
-  // ]);
 
   const [searchQuery, setSearchQuery] = useState("");
   const [tokenError, setTokenError] = useState(false);
+
+  const [customerDataStore,setCustomerDataStore] = useRecoilState(customerStore)
 
   const getCustomer = async () => {
     try {
@@ -73,6 +58,7 @@ function Customer() {
       await axios.request(config).then((response) => {
         console.log(response.data);
         setListData(response.data);
+        setCustomerDataStore(response.data)
         setNoData(false);
       });
     } catch (error) {
@@ -546,15 +532,24 @@ function Customer() {
             <div className="flex flex-col sm:flex-row gap-4 w-full xl:px-5 xl:justify-between">
               <div className="flex sm:w-[200px]  mt-3">
                 <Input
-                  type="number"
+                  type="text"
                   label="เลขประจำตัวผู้เสียภาษีอากร"
-                  maxLength="15"
-                  onChange={(e) =>
-                    setNewCustomer({
-                      ...newCustomer,
-                      customer_id_tax: e.target.value,
-                    })
-                  }
+                  maxLength="13"
+                  onChange={(e) => {
+                    const inputValue = e.target.value;
+                    if (inputValue.length <= 5) {
+                      setNewCustomer({
+                        ...newCustomer,
+                        customer_id_tax: inputValue,
+                      });
+                    }
+                  }}
+                  // onChange={(e) =>
+                  //   setNewCustomer({
+                  //     ...newCustomer,
+                  //     customer_id_tax: e.target.value,
+                  //   })
+                  // }
                 />
               </div>
               <div className="flex sm:w-[200px]  mt-3">
@@ -642,7 +637,7 @@ function Customer() {
             <div className="flex flex-col sm:flex-row gap-4 w-full xl:px-5 xl:justify-between">
               <div className="flex sm:w-[200px]  mt-3">
                 <Input
-                  type="number"
+                  type="text"
                   label="เลขประจำตัวผู้เสียภาษีอากร"
                   maxLength="15"
                   value={dataEdit.customer_id_tax || ""}

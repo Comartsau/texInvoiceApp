@@ -29,6 +29,12 @@ import Shop from "./contents/Shops";
 import TaxInvoiceMenu from "./contents/TaxInvoiceMenu";
 import ReportMenu from "./contents/ReportMenu";
 
+import axios from "axios";
+import { useRecoilState, useResetRecoilState } from "recoil";
+import { customerStore } from "../../store/Store";
+import { productStore } from "../../store/Store";
+
+
 
 
 
@@ -38,6 +44,7 @@ function HomeUser() {
   const [selectedMenuSubItem, setSelectedMenuSubItem] = useState("");
   const [subMenuOpen, setSubMenuOpen] = useState(false);
   const [subMenuItems, setSubMenuItems] = useState([]);
+  const [searchQuery, setSearchQuery] = useState("");
 
 
   const menuItems = [
@@ -101,6 +108,81 @@ function HomeUser() {
     //   isUnderlined: 1,
     // },
   ];
+
+  // ดึงข้อมูลลง Store
+
+  const [customerDataStore,setCustomerDataStore] = useRecoilState(customerStore)
+
+  const getCustomer = async () => {
+    try {
+      let token = localStorage.getItem("Token");
+
+      let data = "";
+
+      let config = {
+        method: "get",
+        maxBodyLength: Infinity,
+        url: `${
+          import.meta.env.VITE_APP_API
+        }/customer/customer-search?search=${searchQuery}`,
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+        data: data,
+      };
+
+      await axios.request(config).then((response) => {
+        console.log(response.data);
+        setCustomerDataStore(response.data);
+  
+      });
+    } catch (error) {
+      console.error(error)
+    }
+  };
+
+  const [productDataStore,setProductDataStore] = useRecoilState(productStore)
+
+  const getProduct = async () => {
+    try {
+      let token = localStorage.getItem("Token");
+
+      let data = "";
+
+      // console.log(data);
+
+      let config = {
+        method: "get",
+        maxBodyLength: Infinity,
+        url: `${
+          import.meta.env.VITE_APP_API
+        }/product/product-search?name=${searchQuery}`,
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+        data: data,
+      };
+
+      await axios.request(config).then((response) => {
+        console.log(response.data);
+        setProductDataStore(response.data)
+      });
+    } catch (error) {
+      console.error(error)
+    }
+  };
+
+
+
+  useEffect(() => {
+    getCustomer();
+    getProduct();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
+
+
+
+
 
   const handleMenuItemClick = (menuItem) => {
     setSelectedMenuItem(menuItem);

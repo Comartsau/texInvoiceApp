@@ -62,7 +62,7 @@ function Company() {
 
       await axios.request(config).then((response) => {
         setListData(response.data);
-        setCompanyStore(response.data)
+        setCompanyDataStore(response.data)
         setNoData(false);
       });
     } catch (error) {
