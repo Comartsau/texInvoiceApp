@@ -2,11 +2,21 @@ import { Card, Typography, Button } from "@material-tailwind/react";
 
 import { useState } from "react";
 
+//-------- test Recoil ----------------------------- //
+
+// import { useRecoilValue } from "recoil";
+// import { companyDataStore } from "../../../store/Store";
+
 
 
 function ReportMenu() {
   //---------- Dialog  ดูข้อมูลผู้บริจาค -------------- //
   const [activeCustomerMenu, setActiveCustomerMenu] = useState("menu1");
+
+  //-------- test Recoil ----------------------------- //
+  // const company = useRecoilValue(companyDataStore)
+
+  // console.log(company)
 
   return (
     <Card className="w-full overflow-auto  px-3">

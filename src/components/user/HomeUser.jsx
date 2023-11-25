@@ -28,7 +28,9 @@ import Customer from "./contents/Customer";
 import Shop from "./contents/Shops";
 import TaxInvoiceMenu from "./contents/TaxInvoiceMenu";
 import ReportMenu from "./contents/ReportMenu";
-import { DiscFull } from "@mui/icons-material";
+
+
+
 
 function HomeUser() {
   const [openNav, setOpenNav] = useState(false);
@@ -37,7 +39,6 @@ function HomeUser() {
   const [subMenuOpen, setSubMenuOpen] = useState(false);
   const [subMenuItems, setSubMenuItems] = useState([]);
 
-  const navigate = useNavigate();
 
   const menuItems = [
     {
@@ -138,7 +139,6 @@ function HomeUser() {
     setOpenNav(!openNav);
   };
 
-  console.log(openNav);
 
   //------------- modal Logout -----------------------//
 
@@ -167,7 +167,8 @@ function HomeUser() {
   return (
     <>
       {/* HeaderBar */}
-      <div>
+      <div className="flex flex-col h-screen">
+        <div>
         <Navbar
           color="blue"
           className="sticky top-0 z-10 max-w-full rounded-none py-2"
@@ -217,10 +218,10 @@ function HomeUser() {
       </div>
 
       {/* Menu and Content */}
-      <div className="flex   py-3 pr-3 bg-gray-300 gap-3 ">
+      <div className="flex h-full  py-3 pr-3 bg-gray-300 gap-3 ">
         {/* Menu */}
-        <div className={`${openNav ? "block  z-20 fixed top-0 w-4/12" : "hidden"} lg:block`}>
-          <Card className="flex  w-[220px]   h-screen lg:h-[705px] overflow-hidden  rounded-none lg:rounded-lg pt-5">
+        <div className={`${openNav ? "block  z-20 fixed top-0 w-4/12 h-full" : "hidden"} lg:block`}>
+          <Card className="flex  w-[220px]   h-full  overflow-hidden  rounded-none lg:rounded-lg pt-5">
             <List className="flex my-2">
               {menuItems.map((item, index) => (
                 <div key={index}>
@@ -304,20 +305,21 @@ function HomeUser() {
                 item.label === selectedMenuItem && (
                   <div
                     key={index}
-                    className="flex w-full overflow-hidden relative  h-[705px]"
+                    className="flex w-full overflow-hidden relative h-full "
                   >
                     <div
-                      className={`flex w-full h-[705px] absolute  ${
-                        openNav ? "bg-gray-800 bg-opacity-70 z-10" : ""
+                      className={`flex w-full  absolute  ${
+                        openNav ? "bg-gray-800 bg-opacity-70 z-10 h-full" : ""
                       } `}
                     ></div>
-                    <div className={`flex w-full h-[705px]  absolute z-0`}>
-                      <item.path />
+                    <div className={`flex w-full h-full  absolute z-0`}>
+                      <item.path /> 
                     </div>
                   </div>
                 )
             )}
       </div>
+        </div>
 
       {/* modal Logout */}
 

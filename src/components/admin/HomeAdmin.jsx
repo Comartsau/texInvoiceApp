@@ -21,6 +21,7 @@ import Company from "./content/company";
 // import Report from "./content/report";
 import ReportMenu from "./content/ReportMenu";
 
+
 function HomeAdmin() {
   const [openNav, setOpenNav] = useState(false);
   const [selectedMenuItem, setSelectedMenuItem] = useState("ข้อมูลบริษัท");
@@ -100,9 +101,9 @@ function HomeAdmin() {
   };
 
   return (
-    <>
+    <div className="flex flex-col h-screen">
       {/* HeaderBar */}
-      <div>
+      <div  >
         <Navbar
           color="blue"
           className="sticky top-0 z-10 max-w-full rounded-none py-2  "
@@ -152,14 +153,14 @@ function HomeAdmin() {
       </div>
 
       {/* Menu and Content */}
-      <div className="flex w-full py-3 pr-3  bg-gray-300  gap-3 ">
+      <div className="flex w-full py-3 pr-3 h-full  bg-gray-300  gap-3 ">
         {/* Menu */}
         <div
           className={`${
-            openNav ? "block z-20 fixed top-0 w-4/12" : "hidden"
+            openNav ? "block z-20 fixed top-0 w-4/12 h-full" : "hidden"
           } lg:block`}
         >
-          <Card className="flex  w-[220px]   h-screen lg:h-[705px] overflow-hidden  rounded-none lg:rounded-lg pt-5 ">
+          <Card className="flex  w-[220px] h-full    overflow-hidden  rounded-none lg:rounded-lg pt-5 ">
             <List className="flex my-2">
               {menuItems.map((item, index) => (
                 <div key={index}>
@@ -171,7 +172,7 @@ function HomeAdmin() {
                         : ""
                     }`}
                   >
-                    <div className="flex flex-col">
+                    <div className="flex flex-col ">
                       <div className="flex p-0  ">
                         <ListItemPrefix className="text-2xl">
                           {item?.icon}
@@ -222,9 +223,9 @@ function HomeAdmin() {
         </div>
 
         {/* Content */}
-        <div className=" w-full ">
+        <div className=" w-full h-full ">
           <div></div>
-          <div>
+          <div className="h-full">
             {selectedMenuSubItem
               ? menuItems.map(
                   (item, index) =>
@@ -245,14 +246,14 @@ function HomeAdmin() {
                     item.label === selectedMenuItem && (
                       <div
                         key={index}
-                        className="flex w-full overflow-hidden relative  h-[705px]"
+                        className="flex w-full overflow-hidden relative h-full   "
                       >
                         <div
-                          className={`flex w-full h-[705px] absolute  ${
-                            openNav ? "bg-gray-800 bg-opacity-70 z-10" : ""
+                          className={`flex w-full  absolute h-full  ${
+                            openNav ? "bg-gray-800 bg-opacity-70  z-10" : ""
                           } `}
                         ></div>
-                        <div className={`flex w-full h-[705px]  absolute z-0`}>
+                        <div className={`flex w-full  pb-30 h-full   absolute z-0`}>
                           <item.path />
                         </div>
                       </div>
@@ -301,7 +302,7 @@ function HomeAdmin() {
           </div>
         </DialogFooter>
       </Dialog>
-    </>
+    </div>
   );
 }
 

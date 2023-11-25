@@ -23,11 +23,15 @@ import { AiFillDelete } from "react-icons/ai";
 
 import { BsPencilSquare, BsFillEyeFill, BsPlusCircle } from "react-icons/bs";
 
+import { useRecoilState } from "recoil";
+import { productStore } from "../../../store/Store";
+
 function Product() {
   //----------  Data Table --------------------//
   const [noData, setNoData] = useState(true);
 
   const [listData, setListData] = useState([]);
+  const [productDataStore,setProductDataStore] = useRecoilState(productStore)
 
   const [unitOptions, setUnitOptions] = useState([
     { value: "ชั่วโมง", label: "ชั่วโมง" },
@@ -63,6 +67,7 @@ function Product() {
       await axios.request(config).then((response) => {
         console.log(response.data);
         setListData(response.data);
+        setProductDataStore(response.data)
         setNoData(false);
       });
     } catch (error) {
@@ -232,7 +237,7 @@ function Product() {
 
   return (
     <Card className="w-full overflow-auto px-3">
-      <ToastContainer autoClose={1000} theme="colored" />
+      <ToastContainer className="mt-10" autoClose={1000} theme="colored" />
       <div className="w-full px-3">
         {/* <p>ข้อมูลผู้บริจาค</p> */}
         <div className="flex flex-col sm:flex-row w-full items-center gap-3   sm:justify-between px-5 mt-5   ">

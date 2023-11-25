@@ -246,7 +246,7 @@ function Customer() {
 
   return (
     <Card className="w-full overflow-auto px-3">
-      <ToastContainer autoClose={1000} theme="colored" />
+      <ToastContainer className="mt-10" autoClose={1000} theme="colored" />
       <div className="w-full px-3">
         {/* <p>ข้อมูลผู้บริจาค</p> */}
         <div className="flex flex-col sm:flex-row w-full items-center gap-3   sm:justify-between px-5 mt-5   ">

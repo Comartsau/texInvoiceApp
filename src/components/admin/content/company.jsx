@@ -24,13 +24,20 @@ import { AiFillDelete } from "react-icons/ai";
 import { BsPencilSquare, BsFillEyeFill, BsPlusCircle } from "react-icons/bs";
 import { useEffect } from "react";
 
+import { useRecoilState } from "recoil";
+import { companyStore } from "../../../store/Store";
+
+
 function Company() {
   //----------  Data Table --------------------//
   const [noData, setNoData] = useState(true);
 
   const [listData, setListData] = useState([]);
+  const [companyDataStore,setCompanyDataStore] = useRecoilState(companyStore)
 
   const [searchQuery, setSearchQuery] = useState("");
+
+
 
   const getCompany = async () => {
     try {
@@ -53,9 +60,9 @@ function Company() {
         data: data,
       };
 
-      console.log(config);
       await axios.request(config).then((response) => {
         setListData(response.data);
+        setCompanyStore(response.data)
         setNoData(false);
       });
     } catch (error) {
@@ -182,8 +189,6 @@ function Company() {
       });
   };
 
-  console.log(editCompanyData);
-
   //------------- modal Delete Company -----------------------//
   const [openModalDelete, setOpenModalDelete] = useState(false);
   const [dataDelete, setDataDelete] = useState([]);
@@ -226,7 +231,7 @@ function Company() {
 
   return (
     <Card className="w-full overflow-auto  px-3">
-      <ToastContainer autoClose={1000} theme="colored" />
+      <ToastContainer className="mt-10" autoClose={1000} theme="colored" />
       <div className="w-full px-3">
         {/* <p>ข้อมูลผู้บริจาค</p> */}
         <div className="flex flex-col sm:flex-row w-full items-center gap-3   sm:justify-between px-5 mt-5   ">
