@@ -3,9 +3,12 @@ import {
   Input,
   Typography,
   Button,
+  Menu,
+  MenuHandler,
+  MenuList,
+  MenuItem,
   IconButton,
   Card,
-  CardFooter,
   Dialog,
   DialogHeader,
   DialogBody,
@@ -43,6 +46,13 @@ const CreateInvoice = () => {
   const [isClearable, setIsClearable] = useState(true);
   const [isSearchable, setIsSearchable] = useState(true);
   const [select, setSelect] = useState("");
+
+  const [selectedPaperSize, setSelectedPaperSize] = useState(null);
+  const [openPrintDialog, setOpenPrintDialog] = useState(true);
+
+  const [note, setNote] = useState("");
+
+  console.log(note);
 
   const columns = [
     "ลำดับ",
@@ -205,6 +215,13 @@ const CreateInvoice = () => {
 
   console.log(select);
 
+  //------------- modal View Product -----------------------//
+  const [openModalPrint, setOpenModalPrint] = useState(false);
+
+  const handleModalPrint = () => {
+    setOpenModalPrint(!openModalPrint);
+  };
+
   return (
     <div className="flex h-full flex-col p-3 overflow-auto  space-y-5 items-center ">
       <div className="flex w-full flex-col md:flex-row gap-14 ">
@@ -212,11 +229,20 @@ const CreateInvoice = () => {
           <Typography className="text-lg lg:text-xl font-bold">
             สร้างบิลใบเสร็จรับเงิน / ใบกำกับภาษี (เต็มรูปแบบ)
           </Typography>
-          <Typography className=" font-bold mt-5">ข้อมูลบริษัท</Typography>
+          <Typography className=" font-bold mt-5">ข้อมูลบริษัท:</Typography>
           <Typography className="  mt-5">
             บริษัท เขาสวนกวาง จำกัด 111/11 หมู่ที่10 ตใพระลับ อ.เมือง จ.ขอนแก่น
-            40000 เลขประจำตัวผู้เสียภาษี 123456 โทร 0850032649
+            40000
           </Typography>
+          <div className="flex gap-3">
+            <Typography className="font-bold  mt-5">
+              เลขประจำตัวผู้เสียภาษี:{" "}
+              <span className="font-normal">123456</span>
+            </Typography>
+            <Typography className="font-bold  mt-5">
+              โทร: <span className="font-normal">0850032649</span>
+            </Typography>
+          </div>
           <Typography className=" font-bold mt-5">
             วันที่ออกบิล: <span className=" font-normal">22-11-2566</span>
           </Typography>
@@ -237,17 +263,27 @@ const CreateInvoice = () => {
               </Button>
             </div>
             <div className=" justify-center">
-              <Button
-                size="sm"
-                variant="gradient"
-                color="blue"
-                className="text-base flex justify-center  items-center   bg-green-500"
-              >
-                <span className="mr-2 text-xl ">
-                  <MdLocalPrintshop />
-                </span>
-                พิมพ์
-              </Button>
+              <Menu>
+                <MenuHandler>
+                  <Button
+                    size="sm"
+                    variant="gradient"
+                    color="blue"
+                    className="text-base flex justify-center  items-center   bg-green-500"
+                  >
+                    <span className="mr-2 text-xl ">
+                      <MdLocalPrintshop />
+                    </span>
+                    พิมพ์
+                  </Button>
+                </MenuHandler>
+                <MenuList>
+                  <MenuItem onClick={() => console.log("A4")}>ขนาด A4</MenuItem>
+                  <MenuItem onClick={() => console.log("80")}>
+                    ขนาด 80 มิล
+                  </MenuItem>
+                </MenuList>
+              </Menu>
             </div>
             <div className=" justify-center">
               <Button
@@ -301,7 +337,7 @@ const CreateInvoice = () => {
               <Typography>{selectedCustomer?.customer_id_tax}</Typography>
             </div>
             <div className="flex w-full">
-              <Typography className="font-bold min-w-[110px] md:w-[140px] xl:w-[120px]">
+              <Typography className="font-bold min-w-[110px] md:w-[120px] xl:w-[120px]">
                 เบอร์โทรศัพท์ :
               </Typography>
               <Typography>{selectedCustomer?.customer_tel}</Typography>
@@ -414,9 +450,10 @@ const CreateInvoice = () => {
           <div>
             <Input
               className="flex w-full px-2 "
-              maxLength="10"
+              maxLength="90"
               label="หมายเหตุ"
               type="text"
+              onChange={(e) => setNote(e.target.value)}
             />
           </div>
         </div>
@@ -431,7 +468,7 @@ const CreateInvoice = () => {
               </span>{" "}
               บาท{" "}
             </Typography>
-       
+
             <Typography className="font-bold">
               ภาษีมูลค่าเพิ่ม:{" "}
               <span className="font-normal">
@@ -453,6 +490,39 @@ const CreateInvoice = () => {
           </Card>
         </div>
       </div>
+
+      {/* Add Dialog for Paper Size */}
+      <Dialog open={openModalPrint} handler={handleModalPrint} size="sm">
+        <DialogHeader>เลือกขนาดกระดาษ</DialogHeader>
+        <DialogBody>
+          <Button
+            onClick={() => setSelectedPaperSize("A4")}
+            color="blue"
+            buttonType={selectedPaperSize === "A4" ? "filled" : "outlined"}
+          >
+            A4
+          </Button>
+          <Button
+            onClick={() => setSelectedPaperSize("80mm")}
+            color="blue"
+            buttonType={selectedPaperSize === "80mm" ? "filled" : "outlined"}
+          >
+            80 มิลลิเมตร
+          </Button>
+        </DialogBody>
+        <DialogFooter>
+          <Button
+            color="blue"
+            onClick={() => {
+              // Do something with the selected paper size (selectedPaperSize)
+              setOpenPrintDialog(false);
+            }}
+          >
+            ตกลง
+          </Button>
+        </DialogFooter>
+      </Dialog>
+
       <ToastContainer className="mt-10" autoClose={1000} theme="colored" />
     </div>
   );
