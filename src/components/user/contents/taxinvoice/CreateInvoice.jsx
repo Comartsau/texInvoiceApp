@@ -7,7 +7,6 @@ import {
   MenuHandler,
   MenuList,
   MenuItem,
-  IconButton,
   Card,
   Dialog,
   DialogHeader,
@@ -27,28 +26,28 @@ import { BsPlusCircle } from "react-icons/bs";
 
 import { useState } from "react";
 
-import { useRecoilState } from "recoil";
+import { useRecoilState ,useRecoilValue } from "recoil";
 import {
   createInvoiceStore,
   productStore,
-  companyStore,
   customerStore,
 } from "../../../../store/Store";
+
+import ReceiptA4 from "../../../receipt/receiptA4";
+import Receipt80 from "../../../receipt/receipt80";
 
 const CreateInvoice = () => {
   // import Data Store
   const [openCreateInvoice, setOpenInvoie] = useRecoilState(createInvoiceStore);
-  const [productDataStore, setProductDataStore] = useRecoilState(productStore);
-  const [companyDataStore, setCompanyDataStore] = useRecoilState(companyStore);
-  const [customerDataStore, setCustomerDataStore] =
-    useRecoilState(customerStore);
+  const productDataStore = useRecoilValue(productStore);
+  const customerDataStore = useRecoilValue(customerStore);
 
   const [isClearable, setIsClearable] = useState(true);
   const [isSearchable, setIsSearchable] = useState(true);
   const [select, setSelect] = useState("");
 
-  const [selectedPaperSize, setSelectedPaperSize] = useState(null);
-  const [openPrintDialog, setOpenPrintDialog] = useState(true);
+  // const [selectedPaperSize, setSelectedPaperSize] = useState(null);
+  // const [openPrintDialog, setOpenPrintDialog] = useState(true);
 
   const [note, setNote] = useState("");
 
@@ -63,8 +62,15 @@ const CreateInvoice = () => {
     "รวมเงิน",
     "ลบ",
   ];
+  const [data, setData] = useState([]);
+  const selectedProductIds = data?.map((item) => item.category); // ดึง ID ของสินค้าที่ถูกเลือกไปแล้วในตาราง
 
-  const productOptions = productDataStore?.map((product) => ({
+  // กรองสินค้าที่ยังไม่ถูกเลือกออกจาก productDataStore
+  const unselectedProducts = productDataStore.filter(
+    (product) => !selectedProductIds.includes(product.id)
+  );
+
+  const productOptions = unselectedProducts?.map((product) => ({
     value: product.id,
     label: product.name,
   }));
@@ -72,8 +78,6 @@ const CreateInvoice = () => {
     value: customer.id,
     label: customer.customer_name,
   }));
-
-  console.log(customerDataStore);
 
   const [selectedCustomer, setSelectedCustomer] = useState(null);
   const handleCustomerSelect = (e) => {
@@ -87,7 +91,6 @@ const CreateInvoice = () => {
   };
 
   const [selectValues, setSelectValues] = useState([]);
-  const [data, setData] = useState([]);
 
   const handleChange = (value, index) => {
     // ตรวจสอบว่ามีค่าที่ถูกเลือกอยู่แล้วหรือไม่
@@ -109,8 +112,9 @@ const CreateInvoice = () => {
 
       // ตรวจสอบว่าเจอสินค้าที่ถูกเลือกหรือไม่
       if (selectedProduct) {
-        updatedData[index].unit = selectedProduct.unit;
-        updatedData[index].pricePerUnit = selectedProduct.price; // หรือชื่อ field ที่เก็บราคาต่อหน่วย
+        updatedData[index].unit = selectedProduct.unit; // เก็บหน่วยนับ
+        updatedData[index].pricePerUnit = selectedProduct.price; // เก็บราคาต่อหน่วย
+        updatedData[index].product = selectedProduct.name; // เก็บชื่อสินค้า
 
         // Update selectValues here
         const newSelectValues = [...selectValues];
@@ -215,11 +219,17 @@ const CreateInvoice = () => {
 
   console.log(select);
 
-  //------------- modal View Product -----------------------//
-  const [openModalPrint, setOpenModalPrint] = useState(false);
 
-  const handleModalPrint = () => {
-    setOpenModalPrint(!openModalPrint);
+  //------------- open Receipt A4  -----------------------//
+  const [openModalReceiptA4, setOpenModalReceiptA4] = useState(false);
+  const handleModalReceiptA4 = () => {
+    setOpenModalReceiptA4(!openModalReceiptA4);
+  };
+
+  //------------- open Receipt 80  -----------------------//
+  const [openModalReceipt80, setOpenModalReceipt80] = useState(false);
+  const handleModalReceipt80 = () => {
+    setOpenModalReceipt80(!openModalReceipt80);
   };
 
   return (
@@ -278,8 +288,10 @@ const CreateInvoice = () => {
                   </Button>
                 </MenuHandler>
                 <MenuList>
-                  <MenuItem onClick={() => console.log("A4")}>ขนาด A4</MenuItem>
-                  <MenuItem onClick={() => console.log("80")}>
+                  <MenuItem onClick={() => setOpenModalReceiptA4(true)}>
+                    ขนาด A4
+                  </MenuItem>
+                  <MenuItem onClick={() => setOpenModalReceipt80(true)}>
                     ขนาด 80 มิล
                   </MenuItem>
                 </MenuList>
@@ -320,27 +332,27 @@ const CreateInvoice = () => {
               ชื่อ :
             </Typography>
             <Typography className="w-8/12">
-              {selectedCustomer?.customer_name}
+              {selectedCustomer?.customer_name || ""}
             </Typography>
           </div>
           <div className=" flex   w-full justify-start    gap-2 ">
             <Typography className="font-bold min-w-[40px] sm:w-[45px] md:w-[55px] xl:w-[45px]">
               ที่อยู่ :
             </Typography>
-            <Typography>{selectedCustomer?.customer_address}</Typography>
+            <Typography>{selectedCustomer?.customer_address || ""}</Typography>
           </div>
           <div className=" flex flex-col sm:flex-row md:flex-col 2xl:flex-row w-full justify-start gap-2 ">
             <div className="flex w-full">
               <Typography className="font-bold min-w-[100px] md:w-[120px] xl:w-[110px]">
                 เลขประจำตัว :
               </Typography>
-              <Typography>{selectedCustomer?.customer_id_tax}</Typography>
+              <Typography>{selectedCustomer?.customer_id_tax || ""}</Typography>
             </div>
             <div className="flex w-full">
               <Typography className="font-bold min-w-[110px] md:w-[120px] xl:w-[120px]">
                 เบอร์โทรศัพท์ :
               </Typography>
-              <Typography>{selectedCustomer?.customer_tel}</Typography>
+              <Typography>{selectedCustomer?.customer_tel || ""}</Typography>
             </div>
           </div>
         </div>
@@ -374,6 +386,7 @@ const CreateInvoice = () => {
                             isSearchable
                             value={selectValues[index]}
                             onChange={(value) => handleChange(value, index)}
+                            // options={selectedOptions}
                             options={productOptions}
                           />
                         </div>
@@ -450,7 +463,7 @@ const CreateInvoice = () => {
           <div>
             <Input
               className="flex w-full px-2 "
-              maxLength="90"
+              maxLength="100"
               label="หมายเหตุ"
               type="text"
               onChange={(e) => setNote(e.target.value)}
@@ -490,38 +503,37 @@ const CreateInvoice = () => {
           </Card>
         </div>
       </div>
+      {/* open PDF A4 */}
+      {openModalReceiptA4 == true ? (
+        <ReceiptA4
+          openModalReceiptA4={openModalReceiptA4}
+          handleModalReceiptA4={handleModalReceiptA4}
+          data={data}
+          customer={selectedCustomer}
+          calculateSubtotal={calculateSubtotal}
+          calculateVAT={calculateVAT}
+          calculateTotalAmount={calculateTotalAmount}
+          note={note}
+        />
+      ) : (
+        ""
+      )}
 
-      {/* Add Dialog for Paper Size */}
-      <Dialog open={openModalPrint} handler={handleModalPrint} size="sm">
-        <DialogHeader>เลือกขนาดกระดาษ</DialogHeader>
-        <DialogBody>
-          <Button
-            onClick={() => setSelectedPaperSize("A4")}
-            color="blue"
-            buttonType={selectedPaperSize === "A4" ? "filled" : "outlined"}
-          >
-            A4
-          </Button>
-          <Button
-            onClick={() => setSelectedPaperSize("80mm")}
-            color="blue"
-            buttonType={selectedPaperSize === "80mm" ? "filled" : "outlined"}
-          >
-            80 มิลลิเมตร
-          </Button>
-        </DialogBody>
-        <DialogFooter>
-          <Button
-            color="blue"
-            onClick={() => {
-              // Do something with the selected paper size (selectedPaperSize)
-              setOpenPrintDialog(false);
-            }}
-          >
-            ตกลง
-          </Button>
-        </DialogFooter>
-      </Dialog>
+      {/* open PDF  80 */}
+      {openModalReceipt80 == true ? (
+        <Receipt80
+          openModalReceipt80={openModalReceipt80}
+          handleModalReceipt80={handleModalReceipt80}
+          data={data}
+          customer={selectedCustomer}
+          calculateSubtotal={calculateSubtotal}
+          calculateVAT={calculateVAT}
+          calculateTotalAmount={calculateTotalAmount}
+          note={note}
+        />
+      ) : (
+        ""
+      )}
 
       <ToastContainer className="mt-10" autoClose={1000} theme="colored" />
     </div>

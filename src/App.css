@@ -7,3 +7,10 @@ body {
   font-family: 'Prompt', sans-serif;
 
 }
+
+.inline-text {
+  display: inline-flex;
+  width: 200px;
+  border-color: aqua;
+  vertical-align: middle !important
+}

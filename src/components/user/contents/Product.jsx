@@ -33,13 +33,6 @@ function Product() {
   const [listData, setListData] = useState([]);
   const [productDataStore,setProductDataStore] = useRecoilState(productStore)
 
-  const [unitOptions, setUnitOptions] = useState([
-    { value: "ชั่วโมง", label: "ชั่วโมง" },
-    { value: "คัน", label: "คัน" },
-    { value: "ชิ้น", label: "ชิ้น" },
-    { value: "อัน", label: "อัน" },
-    // เพิ่มตัวเลือกอื่น ๆ ตามที่คุณต้องการ
-  ]);
 
   const [searchQuery, setSearchQuery] = useState("");
   const [tokenError ,setTokenError] = useState(false)
@@ -94,7 +87,7 @@ function Product() {
 
   //----- จัดการแสดงข้อมูล / หน้า -------------- //
   const [currentPage, setCurrentPage] = useState(1);
-  const itemsPerPage = 6;
+  const itemsPerPage = 8;
 
   const startIndex = (currentPage - 1) * itemsPerPage;
   const endIndex = startIndex + itemsPerPage;
@@ -237,7 +230,7 @@ function Product() {
 
   return (
     <Card className="w-full overflow-auto px-3">
-      <ToastContainer className="mt-10" autoClose={1000} theme="colored" />
+      <ToastContainer className="mt-10" autoClose={800} theme="colored" />
       <div className="w-full px-3">
         {/* <p>ข้อมูลผู้บริจาค</p> */}
         <div className="flex flex-col sm:flex-row w-full items-center gap-3   sm:justify-between px-5 mt-5   ">
@@ -547,7 +540,18 @@ function Product() {
               </div>
             </div>
             <div className="flex mt-3 w-full h-auto sm:w-[200px] sm:mt-0 xl:px-5 ">
-              <select
+            <Input
+                  type="text"
+                  label="หน่วยนับ"
+                  maxLength="30"
+                  onChange={(e) =>
+                    setNewProduct({
+                      ...newProduct,
+                      unit: e.target.value,
+                    })
+                  }
+                />
+              {/* <select
                 className="border border-gray-400 min-w-[200px] rounded-lg py-1 px-2 "
                 onChange={(e) =>
                   setNewProduct({
@@ -565,7 +569,7 @@ function Product() {
                       </option>
                     );
                   })}
-              </select>
+              </select> */}
             </div>
           </div>
         </DialogBody>
@@ -630,7 +634,19 @@ function Product() {
               </div>
             </div>
             <div className="mt-3 w-full sm:w-[200px] sm:mt-0 xl:px-5">
-              <select
+            <Input
+                  type="text"
+                  label="หน่วยนับ"
+                  maxLength="30"
+                  value={dataEdit?.unit || ""}
+                  onChange={(e) =>
+                    setDataEdit({
+                      ...dataEdit,
+                      unit: e.target.value,
+                    })
+                  }
+                />
+              {/* <select
                 className="border border-gray-400 min-w-[200px] rounded-lg py-1 px-2 "
                 value={dataEdit?.unit || ""}
                 onChange={(e) =>
@@ -649,7 +665,7 @@ function Product() {
                       </option>
                     );
                   })}
-              </select>
+              </select> */}
             </div>
           </div>
         </DialogBody>
