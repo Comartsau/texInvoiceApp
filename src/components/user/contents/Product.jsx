@@ -18,8 +18,10 @@ import { useState, useEffect } from "react";
 
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
+import { FaRegSave, FaFileUpload, FaCheckCircle   } from "react-icons/fa";
+import { TbDoorEnter } from "react-icons/tb";
+import { AiFillDelete,AiOutlineStop,  } from "react-icons/ai";
 
-import { AiFillDelete } from "react-icons/ai";
 
 import { BsPencilSquare, BsFillEyeFill, BsPlusCircle } from "react-icons/bs";
 
@@ -473,19 +475,19 @@ function Product() {
           <div className="flex flex-col   items-center sm:items-start  gap-4 ">
             <div className="flex w-full  gap-3  ">
               <div className="flex w-full mt-3 gap-4    ">
-                <Typography>ชื่อสินค้า:</Typography>
+                <Typography className="font-bold">ชื่อสินค้า:</Typography>
                 <Typography>{dataView?.name || ""}</Typography>
               </div>
 
               <div className="flex mt-3 w-full gap-4  ">
-                <Typography>ราคา/หน่วย:</Typography>
+                <Typography className="font-bold">ราคา/หน่วย:</Typography>
                 <Typography>
                   {Number(dataView?.price).toLocaleString() || ""}
                 </Typography>
               </div>
             </div>
             <div className="flex w-full mt-3 gap-4    ">
-              <Typography>หน่วยนับ:</Typography>
+              <Typography className="font-bold">หน่วยนับ:</Typography>
               <Typography>{dataView?.unit || ""}</Typography>
             </div>
           </div>
@@ -493,12 +495,15 @@ function Product() {
         <DialogFooter>
           <Button
             variant="gradient"
-            color="green"
+            color="gray"
             size="sm"
             onClick={handleModalView}
-            className="mr-1"
-          >
-            <span className="text-sm">ออก</span>
+            className="flex mr-1 text-base "
+            >
+              <span className="mr-2 text-xl ">
+                <TbDoorEnter />
+              </span>
+              ออก
           </Button>
         </DialogFooter>
       </Dialog>
@@ -551,25 +556,6 @@ function Product() {
                     })
                   }
                 />
-              {/* <select
-                className="border border-gray-400 min-w-[200px] rounded-lg py-1 px-2 "
-                onChange={(e) =>
-                  setNewProduct({
-                    ...newProduct,
-                    unit: e.target.value,
-                  })
-                }
-              >
-                <option value="">เลือกหน่วยนับ</option>
-                {unitOptions &&
-                  unitOptions.map((data, index) => {
-                    return (
-                      <option key={index} value={data.value}>
-                        {data.label}
-                      </option>
-                    );
-                  })}
-              </select> */}
             </div>
           </div>
         </DialogBody>
@@ -579,17 +565,20 @@ function Product() {
             color="red"
             size="sm"
             onClick={handleModalAdd}
-            className="mr-1"
+            className="flex mr-1 text-base"
           >
-            <span className="text-sm">ยกเลิก</span>
+            <span className="text-xl mr-2"><AiOutlineStop /></span>
+            ยกเลิก
           </Button>
           <Button
             size="sm"
             variant="gradient"
             color="green"
             onClick={addProduct}
+            className="flex text-base mr-1"
           >
-            <span className="text-sm">บันทึก</span>
+            <span className="mr-2 text-xl"><FaRegSave /></span>
+            บันทึก
           </Button>
         </DialogFooter>
       </Dialog>
@@ -597,7 +586,7 @@ function Product() {
       {/* modal Edit Product */}
 
       <Dialog open={openModalEdit} size="sm" handler={handleModalEdit}>
-        <DialogHeader className="bg-blue-700 py-3  px-3 gap-2 text-center text-lg text-white opacity-80">
+        <DialogHeader className="bg-yellow-800 py-3  px-3 gap-2 text-center text-lg text-white opacity-80">
           <Typography variant="h5">แก้ไข สินค้า:</Typography>
           <Typography variant="h5">{dataEdit?.name || ""}</Typography>
         </DialogHeader>
@@ -646,26 +635,6 @@ function Product() {
                     })
                   }
                 />
-              {/* <select
-                className="border border-gray-400 min-w-[200px] rounded-lg py-1 px-2 "
-                value={dataEdit?.unit || ""}
-                onChange={(e) =>
-                  setDataEdit({
-                    ...dataEdit,
-                    unit: e.target.value,
-                  })
-                }
-              >
-                <option value="">เลือกหน่วยนับ</option>
-                {unitOptions &&
-                  unitOptions.map((data, index) => {
-                    return (
-                      <option key={index} value={data.value}>
-                        {data.label}
-                      </option>
-                    );
-                  })}
-              </select> */}
             </div>
           </div>
         </DialogBody>
@@ -675,17 +644,20 @@ function Product() {
             color="red"
             size="sm"
             onClick={handleModalEdit}
-            className="mr-1"
+            className="flex mr-1 text-base"
           >
-            <span className="text-sm">ยกเลิก</span>
+            <span className="text-xl mr-2"><AiOutlineStop /></span>
+            ยกเลิก
           </Button>
           <Button
             size="sm"
             variant="gradient"
             color="purple"
             onClick={sendEditProduct}
+            className="flex mr-1 text-base"
           >
-            <span className="text-sm">อัพเดท</span>
+            <span className="text-xl mr-2"><FaFileUpload/></span>
+            อัพเดท
           </Button>
         </DialogFooter>
       </Dialog>
@@ -713,18 +685,20 @@ function Product() {
               color="red"
               size="sm"
               onClick={() => handleDelete(dataDelete?.id)}
-              className="mr-1 px-10"
+              className="flex mr-1 text-base"
             >
-              <span className="text-sm">ตกลง</span>
+              <span className="text-xl mr-2"><FaCheckCircle /></span>
+              ตกลง
             </Button>
             <Button
               variant="gradient"
               color="blue-gray"
               size="sm"
               onClick={handleModalDelete}
-              className="mr-1 px-10"
-            >
-              <span className="text-sm">ยกเลิก</span>
+              className="flex mr-1 text-base"
+          >
+            <span className="text-xl mr-2"><AiOutlineStop /></span>
+            ยกเลิก
             </Button>
           </div>
         </DialogFooter>

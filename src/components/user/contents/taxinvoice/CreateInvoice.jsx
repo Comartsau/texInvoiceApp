@@ -26,21 +26,25 @@ import { BsPlusCircle } from "react-icons/bs";
 
 import { useState } from "react";
 
-import { useRecoilState ,useRecoilValue } from "recoil";
+import { useRecoilState, useRecoilValue } from "recoil";
 import {
   createInvoiceStore,
   productStore,
   customerStore,
+  headFormStore,
 } from "../../../../store/Store";
 
 import ReceiptA4 from "../../../receipt/receiptA4";
 import Receipt80 from "../../../receipt/receipt80";
+import ReceiptA4Short from "../../../receipt/receiptA4Short";
+import Receipt80Short from "../../../receipt/receipt80Short";
 
 const CreateInvoice = () => {
   // import Data Store
   const [openCreateInvoice, setOpenInvoie] = useRecoilState(createInvoiceStore);
   const productDataStore = useRecoilValue(productStore);
   const customerDataStore = useRecoilValue(customerStore);
+  const headFormDataStore = useRecoilValue(headFormStore);
 
   const [isClearable, setIsClearable] = useState(true);
   const [isSearchable, setIsSearchable] = useState(true);
@@ -195,7 +199,7 @@ const CreateInvoice = () => {
     return isNaN(quantity) || isNaN(pricePerUnit) ? 0 : quantity * pricePerUnit;
   };
 
-  const calculateSubtotal = () => {
+  const calculateTotalAmount = () => {
     let subtotal = 0;
     data.forEach((item) => {
       if (!isNaN(item.totalPrice)) {
@@ -205,20 +209,18 @@ const CreateInvoice = () => {
     return subtotal;
   };
 
-  const calculateVAT = () => {
-    const subtotal = calculateSubtotal();
-    const vatRate = 0.07; // เปลี่ยนเป็นอัตราภาษีตามที่คุณต้องการ
-    return subtotal * vatRate;
+  const calculatePruePrice = () => {
+    const subtotal = calculateTotalAmount();
+    return (subtotal * 100) / 107;
   };
 
-  const calculateTotalAmount = () => {
-    const subtotal = calculateSubtotal();
-    const vat = calculateVAT();
-    return subtotal + vat;
+  const calculateVAT = () => {
+    const subtotal = calculateTotalAmount();
+    const pruePrice = calculatePruePrice();
+    return subtotal - pruePrice;
   };
 
   console.log(select);
-
 
   //------------- open Receipt A4  -----------------------//
   const [openModalReceiptA4, setOpenModalReceiptA4] = useState(false);
@@ -232,12 +234,20 @@ const CreateInvoice = () => {
     setOpenModalReceipt80(!openModalReceipt80);
   };
 
+  console.log(headFormDataStore);
+
   return (
     <div className="flex h-full flex-col p-3 overflow-auto  space-y-5 items-center ">
       <div className="flex w-full flex-col md:flex-row gap-14 ">
         <div className="flex flex-col w-full md:w-1/2 ">
           <Typography className="text-lg lg:text-xl font-bold">
-            สร้างบิลใบเสร็จรับเงิน / ใบกำกับภาษี (เต็มรูปแบบ)
+            {` สร้างบิลใบเสร็จรับเงิน / ใบกำกับภาษี ${
+              headFormDataStore == "1"
+                ? "(รูปแบบเต็ม)"
+                : headFormDataStore == "2"
+                ? "(รูปแบบย่อ)"
+                : ""
+            }`}
           </Typography>
           <Typography className=" font-bold mt-5">ข้อมูลบริษัท:</Typography>
           <Typography className="  mt-5">
@@ -312,6 +322,7 @@ const CreateInvoice = () => {
               </Button>
             </div>
           </div>
+          <div hidden={headFormDataStore !== '1'}>
           <div className=" flex flex-col sm:flex-row  w-full justify-start    gap-2 ">
             <Typography className=" font-bold min-w-[100px]">
               ข้อมูลลูกค้า:
@@ -355,6 +366,8 @@ const CreateInvoice = () => {
               <Typography>{selectedCustomer?.customer_tel || ""}</Typography>
             </div>
           </div>
+          </div>
+
         </div>
       </div>
       <div className="flex w-full flex-col xl:flex-row gap-5 ">
@@ -475,7 +488,7 @@ const CreateInvoice = () => {
             <Typography className="font-bold">
               รวมเงิน:{" "}
               <span className="font-normal">
-                {calculateSubtotal()
+                {calculatePruePrice()
                   .toFixed(2)
                   .replace(/\B(?=(\d{3})+(?!\d))/g, ",")}
               </span>{" "}
@@ -503,14 +516,17 @@ const CreateInvoice = () => {
           </Card>
         </div>
       </div>
+
+      {/* รูปแบบเต็ม */}
       {/* open PDF A4 */}
-      {openModalReceiptA4 == true ? (
+
+      {openModalReceiptA4 == true && headFormDataStore == "1" ? (
         <ReceiptA4
           openModalReceiptA4={openModalReceiptA4}
           handleModalReceiptA4={handleModalReceiptA4}
           data={data}
           customer={selectedCustomer}
-          calculateSubtotal={calculateSubtotal}
+          calculatePruePrice={calculatePruePrice}
           calculateVAT={calculateVAT}
           calculateTotalAmount={calculateTotalAmount}
           note={note}
@@ -520,13 +536,45 @@ const CreateInvoice = () => {
       )}
 
       {/* open PDF  80 */}
-      {openModalReceipt80 == true ? (
+      {openModalReceipt80 == true && headFormDataStore == "1" ? (
         <Receipt80
           openModalReceipt80={openModalReceipt80}
           handleModalReceipt80={handleModalReceipt80}
           data={data}
           customer={selectedCustomer}
-          calculateSubtotal={calculateSubtotal}
+          calculatePruePrice={calculatePruePrice}
+          calculateVAT={calculateVAT}
+          calculateTotalAmount={calculateTotalAmount}
+          note={note}
+        />
+      ) : (
+        ""
+      )}
+
+      {/* รูปแบบย่อ */}
+      {openModalReceiptA4 == true && headFormDataStore == "2" ? (
+        <ReceiptA4Short
+          openModalReceiptA4={openModalReceiptA4}
+          handleModalReceiptA4={handleModalReceiptA4}
+          data={data}
+          customer={selectedCustomer}
+          calculatePruePrice={calculatePruePrice}
+          calculateVAT={calculateVAT}
+          calculateTotalAmount={calculateTotalAmount}
+          note={note}
+        />
+      ) : (
+        ""
+      )}
+
+      {/* open PDF  80 */}
+      {openModalReceipt80 == true && headFormDataStore == "2" ? (
+        <Receipt80Short
+          openModalReceipt80={openModalReceipt80}
+          handleModalReceipt80={handleModalReceipt80}
+          data={data}
+          customer={selectedCustomer}
+          calculatePruePrice={calculatePruePrice}
           calculateVAT={calculateVAT}
           calculateTotalAmount={calculateTotalAmount}
           note={note}

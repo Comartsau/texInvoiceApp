@@ -77,15 +77,14 @@ const styles = StyleSheet.create({
   },
   footer: {
     fontSize: 12,
-    color:'#ccc',
+    color: "#ccc",
     textAlign: "center",
     marginBottom: 10,
-    position:'absolute',
-    bottom:'0',
-    left:'0',
-    right:'0',
-    height:'20px'
-    
+    position: "absolute",
+    bottom: "0",
+    left: "0",
+    right: "0",
+    height: "20px",
   },
   signature: {
     fontSize: 12,
@@ -183,11 +182,11 @@ const styles = StyleSheet.create({
     marginTop: 10,
     wordBreak: "break-word",
   },
-  mtsm20: {
+  mt20: {
     marginTop: 20,
     wordBreak: "break-word",
   },
-  mtmd: {
+  mt30: {
     marginTop: 30,
   },
   underlineText: {
@@ -199,17 +198,21 @@ const styles = StyleSheet.create({
     width: "100%",
     borderStyle: "solid",
     borderWidth: 1,
+    // borderTop: "0",
+    // borderLeft: "0",
+    // borderRight: "0",
+    // borderBottom: "0",
     borderColor: "#000",
-    marginBottom: 10,
+    // marginBottom: 10,
   },
   colorHead: {
     backgroundColor: "#D9D9D9",
   },
   tableRow: {
     margin: "auto",
-    display:'flex',
+    display: "flex",
     flexDirection: "row",
-    alignItems:'center',
+    alignItems: "center",
   },
   tableCell1: {
     margin: "auto",
@@ -218,7 +221,7 @@ const styles = StyleSheet.create({
     borderWidth: 1,
     borderColor: "#000",
     textAlign: "center",
-    width: "7%", // แบ่งเป็น 3 ส่วนเท่า ๆ กัน (ขนาดเท่ากัน)
+    width: "15%", // แบ่งเป็น 3 ส่วนเท่า ๆ กัน (ขนาดเท่ากัน)
     height: "100%",
   },
   tableCell2: {
@@ -228,7 +231,7 @@ const styles = StyleSheet.create({
     borderWidth: 1,
     borderColor: "#000",
     textAlign: "center",
-    width: "43%", // แบ่งเป็น 3 ส่วนเท่า ๆ กัน (ขนาดเท่ากัน)
+    width: "55%", // แบ่งเป็น 3 ส่วนเท่า ๆ กัน (ขนาดเท่ากัน)
     height: "auto",
   },
   tableCell3: {
@@ -238,7 +241,7 @@ const styles = StyleSheet.create({
     borderWidth: 1,
     borderColor: "#000",
     textAlign: "center",
-    width: "10%", // แบ่งเป็น 3 ส่วนเท่า ๆ กัน (ขนาดเท่ากัน)
+    width: "15%", // แบ่งเป็น 3 ส่วนเท่า ๆ กัน (ขนาดเท่ากัน)
     height: "100%",
   },
   tableCell4: {
@@ -248,7 +251,17 @@ const styles = StyleSheet.create({
     borderWidth: 1,
     borderColor: "#000",
     textAlign: "center",
-    width: "10%", // แบ่งเป็น 3 ส่วนเท่า ๆ กัน (ขนาดเท่ากัน)
+    width: "15%", // แบ่งเป็น 3 ส่วนเท่า ๆ กัน (ขนาดเท่ากัน)
+    height: "100%",
+  },
+  borderCell4: {
+    margin: "auto",
+    fontSize: 10,
+    padding: 5,
+    borderWidth: 1,
+    borderColor: "#000",
+    textAlign: "center",
+    width: "15%", // แบ่งเป็น 3 ส่วนเท่า ๆ กัน (ขนาดเท่ากัน)
     height: "100%",
   },
   tableCell5: {
@@ -267,7 +280,7 @@ const styles = StyleSheet.create({
     padding: 5,
     borderWidth: 1,
     borderColor: "#000",
-    textAlign: 'center',
+    textAlign: "center",
     width: "15%", // แบ่งเป็น 3 ส่วนเท่า ๆ กัน (ขนาดเท่ากัน)
     height: "100%",
   },
@@ -285,33 +298,33 @@ const styles = StyleSheet.create({
   tableCellNote: {
     margin: "auto",
     fontSize: 10,
+    textAlign: "right",
+    alignItems: "flex-end",
     padding: 5,
     borderWidth: 1,
     borderTopWidth: 1,
-    borderTop:'1',
-    borderLeft:'1',
-    borderRight:'1',
-    borderBottom:'0',
+    borderTop: "0",
+    borderLeft: "0",
+    borderRight: "1",
+    borderBottom: "0",
     borderColor: "#000",
-    width: "70%", // แบ่งเป็น 3 ส่วนเท่า ๆ กัน (ขนาดเท่ากัน)
+    width: "85%", // แบ่งเป็น 3 ส่วนเท่า ๆ กัน (ขนาดเท่ากัน)
     height: "100%",
   },
   tableCellNoteBorder: {
     margin: "auto",
     fontSize: 10,
-    padding: 5,
+    padding: 0,
     borderWidth: 1,
     borderTopWidth: 1,
-    borderTop:'0',
+    borderTop: "0",
     borderColor: "#000",
     width: "70%", // แบ่งเป็น 3 ส่วนเท่า ๆ กัน (ขนาดเท่ากัน)
     height: "100%",
   },
-
-
 });
 
-export const ReceiptA4 = ({
+export const ReceiptA4Short = ({
   openModalReceiptA4,
   handleModalReceiptA4,
   data,
@@ -321,11 +334,9 @@ export const ReceiptA4 = ({
   calculateTotalAmount,
   note,
 }) => {
-
   console.log(data);
 
-
-  const itemsPerPage = 15; // จำนวนรายการต่อหน้า
+  const itemsPerPage = 20; // จำนวนรายการต่อหน้า
 
   // แบ่งรายการออกเป็นหน้าตามจำนวนที่กำหนด
 
@@ -359,8 +370,28 @@ export const ReceiptA4 = ({
         <PDFViewer width="100%" height="650px">
           <Document>
             {pages.map((pageData, index) => (
-              <Page key={index} size="A4" style={styles.page} > 
-                <View>
+              <Page key={index} size="A4" style={styles.page}>
+                <View style={[styles.flexrowbetween]}>
+                  <Text>เล่มที่: 790</Text>
+                  <Text>เลขที่: 24</Text>
+                </View>
+                <View style={[styles.flexrowcenter, styles.mt20]}>
+                  <Text style={[styles.flexrowcenter, styles.text18]}>
+                    ใบเสร็จรับเงิน / ใบกำกับภาษีอย่างย่อ '
+                  </Text>
+                </View>
+                <View style={[styles.flexrowcenter, styles.mt10]}>
+                  <Text
+                    style={[
+                      { fontWeight: "extrabold" },
+                      { fontFamily: "SarabunBold" },
+                      styles.text14,
+                    ]}
+                  >
+                    วันที่: 26/11/2023
+                  </Text>
+                </View>
+                <View style={[styles.mt10]}>
                   <Text style={[styles.flexrowcenter, styles.text14]}>
                     บริษัท เขาสวนกวางเดินรถ จำกัด (สำนักงานใหญ่) ''
                   </Text>
@@ -370,120 +401,26 @@ export const ReceiptA4 = ({
                     237/4 หมู่ 11 ตำบลคำม่วง อำเภอเขาสวนกลาง จังหวัดขอนแก่น ''
                   </Text>
                   <Text
-                    style={[
-                      styles.flexrowcenter,
-                      styles.text12,
-                      styles.mt10,
-                      styles.borderb,
-                    ]}
+                    style={[styles.flexrowcenter, styles.text12, styles.mt10]}
                   >
                     เลขประจำตัวผู้เสียภาษี 0405533000301 โทรศัพท์ 099-0373274 '
                   </Text>
                 </View>
                 <View>
-                  <Text
-                    style={[styles.flexrowcenter, styles.text14, styles.mt10]}
-                  >
-                    ใบเสร็จรับเงิน / ใบกำกับภาษี '
-                  </Text>
-                  <View style={[styles.flexrow, styles.mt10]}>
-                    <View style={[styles.flexrowstart, { width: "65%" }]}>
-                      <View>
-                        <Text
-                          style={[
-                            { fontWeight: "extrabold" },
-                            { fontFamily: "SarabunBold" },
-                            { fontSize: "11" },
-                            { marginTop: "15" },
-                            styles.spacesm,
-                          ]}
-                        >
-                          {customer?.customer_name || ""}
-                        </Text>
-                        <Text
-                          style={[
-                            { fontWeight: "extrabold" },
-                            { fontFamily: "SarabunBold" },
-                            { fontSize: "11" },
-                            styles.mt10,
-                            styles.spacesm,
-                          ]}
-                        >
-                          ที่อยู่: {customer?.customer_address || ""}
-                        </Text>
-                        <Text
-                          style={[
-                            { fontWeight: "extrabold" },
-                            { fontFamily: "SarabunBold" },
-                            { fontSize: "11" },
-                            styles.mt10,
-                            styles.spacesm,
-                          ]}
-                        >
-                          เลขประจำตัวผู้เสียภาษี:{" "}
-                          {customer?.customer_id_tax || ""}
-                        </Text>
-                        <Text
-                          style={[
-                            { fontWeight: "extrabold" },
-                            { fontFamily: "SarabunBold" },
-                            { fontSize: "11" },
-                            styles.mt10,
-                            styles.spacesm,
-                          ]}
-                        >
-                          โทรศัพท์: {customer?.customer_tel || ""}
-                        </Text>
-                      </View>
-                    </View>
-                    <View style={[styles.flexrowstart, { width: "35%" }]}>
-                      <View>
-                        <Text
-                          style={[
-                            { fontWeight: "extrabold" },
-                            { fontFamily: "SarabunBold" },
-                            { fontSize: "11" },
-                            { marginTop: "13" },
-                            styles.spacesm,
-                          ]}
-                        >
-                          เลขที่ใบกำกับภาษี: KSK07/0033
-                        </Text>
-                        <Text
-                          style={[
-                            { fontWeight: "extrabold" },
-                            { fontFamily: "SarabunBold" },
-                            { fontSize: "11" },
-                            styles.mt10,
-                            styles.spacesm,
-                          ]}
-                        >
-                          วันที่: 26/11/2023
-                        </Text>
-                      </View>
-                    </View>
-                  </View>
-
                   {/*-----------  หัวตาราง ---------------------  */}
                   <View style={[styles.table, { marginTop: "10" }]}>
                     <View style={styles.tableRow}>
                       <Text style={[styles.tableCell1, styles.colorHead]}>
-                        ลำดับ{" "}
+                        จำนวน{" "}
                       </Text>
                       <Text style={[styles.tableCell2, styles.colorHead]}>
                         รายการ{" "}
                       </Text>
                       <Text style={[styles.tableCell3, styles.colorHead]}>
-                        จำนวน{" "}
-                      </Text>
-                      <Text style={[styles.tableCell4, styles.colorHead]}>
-                        หน่วยนับ{" "}
-                      </Text>
-                      <Text style={[styles.tableCell5, styles.colorHead]}>
                         ราคา/หน่วย{" "}
                       </Text>
-                      <Text style={[styles.tableCell6, styles.colorHead]}>
-                        รวมจำนวนเงิน{" "}
+                      <Text style={[styles.tableCell4, styles.colorHead]}>
+                        จำนวนเงิน{" "}
                       </Text>
                     </View>
                     {pageData.map((item, itemIndex) => {
@@ -491,78 +428,39 @@ export const ReceiptA4 = ({
                       return (
                         <View key={itemIndex} style={styles.tableRow}>
                           <Text style={styles.tableCell1}>
-                            {item.index  || ""}{" "}
+                            {item?.quantity || ""}{" "}
                           </Text>
                           <Text
                             style={[styles.tableCell2, { textAlign: "left" }]}
                           >
-                            {`${item?.product || ''} `}
+                            {`${item?.product || ""} `}
                           </Text>
                           <Text style={styles.tableCell3}>
-                            {" "}
-                            {item?.quantity || ""}{" "}
-                          </Text>
-                          <Text style={styles.tableCell4}>
-                            {" "}
-                            {item?.unit || ""}{" "}
-                          </Text>
-                          <Text style={styles.tableCell5}>
-                            {" "}
                             {Number(item?.pricePerUnit).toLocaleString() || ""}
                           </Text>
-                          <Text style={styles.tableCell6}>
-                            {" "}
-                            {Number(item?.totalPrice).toLocaleString() ||
-                              ""}{" "}
+                          <Text style={styles.tableCell4}>
+                            {Number(item?.totalPrice).toLocaleString() || ""}
                           </Text>
                         </View>
                       );
                     })}
+                    </View>
                     {index == pages.length - 1 && (
                       <>
                         <View View style={styles.tableRow}>
                           {/* สรุปรวม */}
-                          <Text style={[styles.tableCellNote ]}>
-                            หมายเหตุ:
+                          <Text style={[styles.tableCellNote, styles.text12]}>
+                            ราคารวมภาษีมูลค่าเพิ่ม:
                           </Text>
-                          <Text style={styles.tableCell5}> รวมเป็นเงิน </Text>
-                          <Text style={styles.tableCell6}>
-                            {calculatePruePrice()
-                              .toFixed(2)
-                              .replace(/\B(?=(\d{3})+(?!\d))/g, ",")}
-                          </Text>
-                        </View>
-                        <View View style={[styles.tableRow]}>
-                          {/* ภาษี */}
-                          <Text style={[styles.tableCellNoteBorder ]}>{`${note }`}</Text>
-                          <Text style={[styles.tableCell5  ]} >
-                            {" "}
-                            ภาษีมูลค่าเพิ่ม{" "}
-                          </Text>
-                          <Text style={styles.tableCell6}>
-                            {calculateVAT()
-                              .toFixed(2)
-                              .replace(/\B(?=(\d{3})+(?!\d))/g, ",")}
-                          </Text>
-                        </View>
-                        <View View style={styles.tableRow}>
-                          {/* สรุปรวม */}
-                          <Text style={styles.tableCellRowsum}>
-                            {` ${THBText(calculateTotalAmount())} `}
-                          </Text>
-                          <Text style={styles.tableCell5}>
-                            {" "}
-                            จำนวนเงินทั้งสิ้น{" "}
-                          </Text>
-                          <Text style={styles.tableCell6}>
-                            {calculateTotalAmount()
+                          <Text style={styles.borderCell4}>
+                          {calculateTotalAmount()
                               .toFixed(2)
                               .replace(/\B(?=(\d{3})+(?!\d))/g, ",")}
                           </Text>
                         </View>
                       </>
                     )}
-                  </View>
+                  
                   {/*   ลงชื่อผู้รับ/ผู้จ่าย  */}
                   {index == pages.length - 1 && (
                     <>
@@ -579,11 +477,11 @@ export const ReceiptA4 = ({
                               { fontWeight: "extrabold" },
                               { fontFamily: "SarabunBold" },
                               { fontSize: "11" },
-                              styles.mtsm,
+                              styles.mt20,
                               styles.spacesm,
                             ]}
                           >
-                            ลงชื่อ:{" "}
+                            ผู้รับเงิน:{" "}
                           </Text>
                           <Text
                             style={[
@@ -593,77 +491,11 @@ export const ReceiptA4 = ({
                               { fontSize: "11" },
                               { display: "flex" },
                               { width: "80%" },
+                              styles.mt20,
                             ]}
                           >
                             (..................................................)
                           </Text>
-                        </View>
-
-                        <View style={[styles.flexrow, { width: "40%" }]}>
-                          <View style={styles.flexrowstart}>
-                            <Text
-                              style={[
-                                { fontWeight: "extrabold" },
-                                { fontFamily: "SarabunBold" },
-                                { fontSize: "11" },
-                                styles.mtsm,
-                                styles.spacesm,
-                              ]}
-                            >
-                              ลงชื่อ:{" "}
-                            </Text>
-                            <Text
-                              style={[
-                                styles.mtsm,
-                                { fontWeight: "light" },
-                                { fontFamily: "Sarabun" },
-                                { fontSize: "11" },
-                                { display: "flex" },
-                                { width: "80%" },
-                              ]}
-                            >
-                              (..................................................)
-                            </Text>
-                          </View>
-                        </View>
-                      </View>
-                      <View style={[styles.flexrow, styles.mtsm20]}>
-                        <View
-                          style={[
-                            styles.flexrowstart,
-                            { width: "60%" },
-                            { marginLeft: "25px" },
-                          ]}
-                        >
-                          <Text
-                            style={[
-                              { fontWeight: "extrabold" },
-                              { fontFamily: "SarabunBold" },
-                              { fontSize: "11" },
-                              { marginLeft: "90px" },
-                              styles.mtsm,
-                              styles.spacesm,
-                            ]}
-                          >
-                            ผู้รับเงิน:{" "}
-                          </Text>
-                        </View>
-
-                        <View style={[styles.flexrow, { width: "40%" }]}>
-                          <View style={styles.flexrowstart}>
-                            <Text
-                              style={[
-                                { fontWeight: "extrabold" },
-                                { fontFamily: "SarabunBold" },
-                                { fontSize: "11" },
-                                { marginLeft: "90px" },
-                                styles.mtsm,
-                                styles.spacesm,
-                              ]}
-                            >
-                              ผู้จ่ายเงิน:{" "}
-                            </Text>
-                          </View>
                         </View>
                       </View>
                     </>
@@ -671,7 +503,8 @@ export const ReceiptA4 = ({
                 </View>
                 <View fixed style={[styles.footer]}>
                   {" "}
-                  <Text style={[styles.footer, styles.text12   ]}
+                  <Text
+                    style={[styles.footer, styles.text12]}
                     render={({ pageNumber, totalPages }) =>
                       `${pageNumber} / ${totalPages}`
                     }
@@ -697,10 +530,10 @@ export const ReceiptA4 = ({
   );
 };
 
-ReceiptA4.propTypes = {
+ReceiptA4Short.propTypes = {
   openModalReceipt: PropTypes.bool.isRequired,
   handleModalReceipt: PropTypes.func.isRequired,
   data: PropTypes.array.isRequired,
 };
 
-export default ReceiptA4;
+export default ReceiptA4Short;

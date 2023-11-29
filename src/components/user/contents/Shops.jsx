@@ -19,7 +19,8 @@ import { useState, useEffect } from "react";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 
-import { AiFillDelete } from "react-icons/ai";
+import { AiFillDelete,AiOutlineStop } from "react-icons/ai";
+import { FaCheckCircle, FaFileUpload, FaRegSave } from "react-icons/fa";
 
 import { BsPencilSquare, BsPlusCircle } from "react-icons/bs";
 
@@ -444,12 +445,16 @@ function Shops() {
             color="red"
             size="sm"
             onClick={handleModalAdd}
-            className="mr-1"
+            className="flex mr-1 text-base"
           >
-            <span className="text-sm">ยกเลิก</span>
+            <span className="text-xl mr-2"><AiOutlineStop /></span>
+            ยกเลิก
           </Button>
-          <Button size="sm" variant="gradient" color="green" onClick={addShops}>
-            <span className="text-sm">บันทึก</span>
+          <Button size="sm" variant="gradient" color="green" onClick={addShops}
+          className="flex text-base mr-1"
+          >
+            <span className="mr-2 text-xl"><FaRegSave /></span>
+            บันทึก
           </Button>
         </DialogFooter>
       </Dialog>
@@ -457,7 +462,7 @@ function Shops() {
       {/* modal Edit Shops */}
 
       <Dialog open={openModalEdit} size="sm" handler={handleModalEdit}>
-        <DialogHeader className="bg-blue-700 py-3  px-3 gap-2 text-center text-lg text-white opacity-80">
+        <DialogHeader className="bg-yellow-800 py-3  px-3 gap-2 text-center text-lg text-white opacity-80">
           <Typography variant="h5">แก้ไขจุดขาย:</Typography>
           <Typography variant="h5">
             {dataEdit?.salepoints_name || ""}
@@ -489,17 +494,20 @@ function Shops() {
             color="red"
             size="sm"
             onClick={handleModalEdit}
-            className="mr-1"
+            className="flex mr-1 text-base"
           >
-            <span className="text-sm">ยกเลิก</span>
+            <span className="text-xl mr-2"><AiOutlineStop /></span>
+            ยกเลิก
           </Button>
           <Button
             size="sm"
             variant="gradient"
             color="purple"
             onClick={sendEditShops}
-          >
-            <span className="text-sm">อัพเดท</span>
+            className="flex mr-1 text-base"
+            >
+              <span className="text-xl mr-2"><FaFileUpload/></span>
+              อัพเดท
           </Button>
         </DialogFooter>
       </Dialog>
@@ -527,18 +535,20 @@ function Shops() {
               color="red"
               size="sm"
               onClick={() => handleDelete(dataDelete?.id)}
-              className="mr-1 px-10"
+              className="flex mr-1 text-base"
             >
-              <span className="text-sm">ตกลง</span>
+              <span className="text-xl mr-2"><FaCheckCircle /></span>
+              ตกลง
             </Button>
             <Button
               variant="gradient"
               color="blue-gray"
               size="sm"
               onClick={handleModalDelete}
-              className="mr-1 px-10"
-            >
-              <span className="text-sm">ยกเลิก</span>
+              className="flex mr-1 text-base"
+          >
+            <span className="text-xl mr-2"><AiOutlineStop /></span>
+            ยกเลิก
             </Button>
           </div>
         </DialogFooter>

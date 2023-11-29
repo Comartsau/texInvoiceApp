@@ -457,7 +457,7 @@ import {
                     <Text
                       style={[styles.flexrowcenter, styles.text10, styles.mt10]}
                     >
-                      ใบเสร็จรับเงิน / ใบกำกับภาษี '
+                      ใบเสร็จรับเงิน / ใบกำกับภาษีแบบย่อ '
                     </Text>
                     <View style={[styles.flexrow, styles.mt20]}>
                       <View style={[styles.flexrowcenter]}>

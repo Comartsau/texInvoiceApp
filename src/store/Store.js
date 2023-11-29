@@ -16,3 +16,7 @@ export const productStore = atom({
     key:'keyProduct',
     default: [],
 })
+export const headFormStore = atom({
+    key:'keyHeadForm',
+    default: '',
+})

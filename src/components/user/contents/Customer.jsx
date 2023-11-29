@@ -19,7 +19,9 @@ import { useState, useEffect } from "react";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 
-import { AiFillDelete } from "react-icons/ai";
+import { AiFillDelete,AiOutlineStop, } from "react-icons/ai";
+import { FaRegSave,FaFileUpload,FaCheckCircle } from "react-icons/fa";
+import { TbDoorEnter } from "react-icons/tb";
 
 import { BsPencilSquare, BsFillEyeFill, BsPlusCircle } from "react-icons/bs";
 
@@ -454,21 +456,21 @@ function Customer() {
         <DialogBody divider className=" overflow-auto ">
           <div className="flex flex-col   items-center sm:items-start  gap-4 ">
             <div className="flex w-full mt-3 gap-4    ">
-              <Typography>ชื่อลูกค้า:</Typography>
+              <Typography className="font-bold">ชื่อลูกค้า:</Typography>
               <Typography>{dataView?.customer_name || ""}</Typography>
             </div>
             <div className="flex w-full mt-3 gap-4    ">
-              <Typography>ที่อยู่:</Typography>
+              <Typography className="font-bold">ที่อยู่:</Typography>
               <Typography>{dataView?.customer_address || ""}</Typography>
             </div>
             <div className="flex w-full  gap-3  ">
               <div className="flex w-full mt-3 gap-4    ">
-                <Typography>เลขประจำตัวผู้เสียภาษีอากร:</Typography>
+                <Typography className="font-bold">เลขประจำตัวผู้เสียภาษีอากร:</Typography>
                 <Typography>{dataView?.customerTaxId || ""}</Typography>
               </div>
 
               <div className="flex mt-3 w-full gap-4  ">
-                <Typography>โทรศัพท์:</Typography>
+                <Typography className="font-bold">โทรศัพท์:</Typography>
                 <Typography>{dataView?.customer_tel || ""}</Typography>
               </div>
             </div>
@@ -477,12 +479,15 @@ function Customer() {
         <DialogFooter>
           <Button
             variant="gradient"
-            color="green"
+            color="gray"
             size="sm"
             onClick={handleModalView}
-            className="mr-1"
-          >
-            <span className="text-sm">ออก</span>
+            className="flex mr-1 text-base "
+            >
+              <span className="mr-2 text-xl ">
+                <TbDoorEnter />
+              </span>
+              ออก
           </Button>
         </DialogFooter>
       </Dialog>
@@ -569,22 +574,25 @@ function Customer() {
           </div>
         </DialogBody>
         <DialogFooter>
-          <Button
+        <Button
             variant="text"
             color="red"
             size="sm"
             onClick={handleModalAdd}
-            className="mr-1"
+            className="flex mr-1 text-base"
           >
-            <span className="text-sm">ยกเลิก</span>
+            <span className="text-xl mr-2"><AiOutlineStop /></span>
+            ยกเลิก
           </Button>
           <Button
             size="sm"
             variant="gradient"
             color="green"
             onClick={addCustomer}
+            className="flex text-base mr-1"
           >
-            <span className="text-sm">บันทึก</span>
+            <span className="mr-2 text-xl"><FaRegSave /></span>
+            บันทึก
           </Button>
         </DialogFooter>
       </Dialog>
@@ -592,7 +600,7 @@ function Customer() {
       {/* modal Edit Customer */}
 
       <Dialog open={openModalEdit} size="sm" handler={handleModalEdit}>
-        <DialogHeader className="bg-blue-700 py-3  px-3 gap-2 text-center text-lg text-white opacity-80">
+        <DialogHeader className="bg-yellow-800 py-3  px-3 gap-2 text-center text-lg text-white opacity-80">
           <Typography variant="h5">แก้ไขลูกค้า:</Typography>
           <Typography variant="h5">{dataEdit?.customer_name || ""}</Typography>
         </DialogHeader>
@@ -672,17 +680,20 @@ function Customer() {
             color="red"
             size="sm"
             onClick={handleModalEdit}
-            className="mr-1"
+            className="flex mr-1 text-base"
           >
-            <span className="text-sm">ยกเลิก</span>
+            <span className="text-xl mr-2"><AiOutlineStop /></span>
+            ยกเลิก
           </Button>
           <Button
             size="sm"
             variant="gradient"
             color="purple"
             onClick={sendEditCustomer}
+            className="flex mr-1 text-base"
           >
-            <span className="text-sm">อัพเดท</span>
+            <span className="text-xl mr-2"><FaFileUpload/></span>
+            อัพเดท
           </Button>
         </DialogFooter>
       </Dialog>
@@ -710,18 +721,20 @@ function Customer() {
               color="red"
               size="sm"
               onClick={() => handleDelete(dataDelete?.id)}
-              className="mr-1 px-10"
+              className="flex mr-1 text-base"
             >
-              <span className="text-sm">ตกลง</span>
+              <span className="text-xl mr-2"><FaCheckCircle /></span>
+              ตกลง
             </Button>
             <Button
               variant="gradient"
               color="blue-gray"
               size="sm"
               onClick={handleModalDelete}
-              className="mr-1 px-10"
-            >
-              <span className="text-sm">ยกเลิก</span>
+              className="flex mr-1 text-base"
+          >
+            <span className="text-xl mr-2"><AiOutlineStop /></span>
+            ยกเลิก
             </Button>
           </div>
         </DialogFooter>
