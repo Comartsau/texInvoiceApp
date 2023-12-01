@@ -1,6 +1,7 @@
 import { Card, Typography, Button } from "@material-tailwind/react";
 
 import { useState } from "react";
+import SaleReport from "./report/SaleReport";
 
 
 
@@ -39,26 +40,14 @@ function ReportMenu() {
                 รายงานสรุปยอด แต่ละหน่วย (จุดขาย)
               </Button>
             </div>
-            {/* <div className="flex justify-center">
-              <Button
-                size="lg"
-                variant="outlined"
-                className={`w-[200px]  py-3  px-4  shadow-lg border border-gray-400 ${
-                  activeCustomerMenu === "menu3" ? "bg-blue-300 text-white" : ""
-                }`}
-                onClick={() => setActiveCustomerMenu("menu3")}
-              >
-                ออกใบกำกับภาษี แบบย่อ
-              </Button>
-            </div> */}
           </div>
         </div>
       </div>
       {activeCustomerMenu === "menu1" && (
-        <div>
-          <hr className=" mt-5 border border-gray-500" />
-          <Typography className="flex justify-center mt-10 text-xl font-bold text-red-500">อยู่ในช่วงพัฒนา เฟส3/3</Typography>
-        </div>
+             <div>
+             <hr className=" mt-5 border border-gray-500" />
+             <SaleReport />
+           </div>
       )}
       {activeCustomerMenu === "menu2" && (
         <div>
@@ -66,12 +55,7 @@ function ReportMenu() {
           <Typography className="flex justify-center mt-10 text-xl font-bold text-red-500">อยู่ในช่วงพัฒนา เฟส3/3</Typography>
         </div>
       )}
-      {/* {activeCustomerMenu === "menu3" && (
-        <div>
-          <hr className=" mt-5 border border-gray-500" />
-          <Typography className="flex justify-center mt-10 text-xl font-bold text-red-500">อยู่ในช่วงพัฒนา เฟส3/3</Typography>
-        </div>
-      )} */}
+
     </Card>
   );
 }

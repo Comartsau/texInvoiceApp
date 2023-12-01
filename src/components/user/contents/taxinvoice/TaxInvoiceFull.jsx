@@ -558,37 +558,7 @@ function TaxInvoiceFull() {
       </Dialog>
 
 
-       {/* open PDF A4 */}
-       {openModalReceiptA4 == true ? (
-        <ReceiptA4
-          openModalReceiptA4={openModalReceiptA4}
-          handleModalReceiptA4={handleModalReceiptA4}
-          // data={data}
-          // customer={selectedCustomer}
-          // calculateSubtotal={calculateSubtotal}
-          // calculateVAT={calculateVAT}
-          // calculateTotalAmount={calculateTotalAmount}
-          // note={note}
-        />
-      ) : (
-        ""
-      )}
 
-      {/* open PDF  80 */}
-      {openModalReceipt80 == true ? (
-        <Receipt80
-          openModalReceipt80={openModalReceipt80}
-          handleModalReceipt80={handleModalReceipt80}
-          // data={data}
-          // customer={selectedCustomer}
-          // calculateSubtotal={calculateSubtotal}
-          // calculateVAT={calculateVAT}
-          // calculateTotalAmount={calculateTotalAmount}
-          // note={note}
-        />
-      ) : (
-        ""
-      )}
 
       <ToastContainer className="mt-10" autoClose={1000} theme="colored" />
     </div>

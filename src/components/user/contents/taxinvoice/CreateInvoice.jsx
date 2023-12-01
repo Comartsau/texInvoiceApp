@@ -251,7 +251,7 @@ const CreateInvoice = () => {
   console.log(headFormDataStore);
 
   return (
-    <div className="flex h-full flex-col p-3 overflow-auto  space-y-5 items-center ">
+    <div className="flex  flex-col p-3 overflow-auto   items-center ">
       <div className="flex w-full flex-col md:flex-row gap-14 ">
         <div className="flex flex-col w-full md:w-1/2 ">
           <Typography className="text-lg lg:text-xl font-bold">
@@ -432,7 +432,7 @@ const CreateInvoice = () => {
       <div className="flex w-full flex-col xl:flex-row gap-5 ">
         <div className="flex w-full flex-col gap-3">
           <div className="flex  w-full md:w-8/8">
-            <Card className="flex w-full h-[380px] overflow-y-auto ">
+            <Card className="flex w-full h-[380px] mt-5 overflow-y-auto ">
               <table className="w-full   ">
                 <thead>
                   <tr>
@@ -534,7 +534,7 @@ const CreateInvoice = () => {
           </div>
           <div>
             <Input
-              className="flex w-full px-2 "
+              className="flex w-full px-2 mt-3  "
               maxLength="100"
               label="หมายเหตุ"
               type="text"
@@ -543,7 +543,7 @@ const CreateInvoice = () => {
           </div>
         </div>
         {headFormDataStore !== '3' ?
-             <div hidden={headFormDataStore !== '1'} className="flex  w-full xl:w-1/3  " >
+             <div hidden={headFormDataStore !== '1'} className="flex  w-full xl:w-1/3 mt-5  " >
              <Card  className="w-full justify-center border p-2 px-4   xl:h-[170px] 2xl:h-[120px] lg:justify-normal border-gray-500">
                <Typography className="font-bold">
                  รวมเงิน:{" "}
