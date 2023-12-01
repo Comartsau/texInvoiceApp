@@ -30,9 +30,10 @@ import TaxInvoiceMenu from "./contents/TaxInvoiceMenu";
 import ReportMenu from "./contents/ReportMenu";
 
 import axios from "axios";
-import { useRecoilState, useResetRecoilState } from "recoil";
+import { useRecoilState} from "recoil";
 import { customerStore } from "../../store/Store";
 import { productStore } from "../../store/Store";
+import { shopStore } from "../../store/Store";
 
 
 
@@ -171,12 +172,41 @@ function HomeUser() {
       console.error(error)
     }
   };
+  const [shopDataStore,setShopDataStore] = useRecoilState(shopStore)
 
+  const getShop = async () => {
+    try {
+      let token = localStorage.getItem("Token");
 
+      let data = "";
+
+      // console.log(data);
+
+      let config = {
+        method: "get",
+        maxBodyLength: Infinity,
+        url: `${
+          import.meta.env.VITE_APP_API
+        }/salepoints/salepoints-search?search=${searchQuery}`,
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+        data: data,
+      };
+
+      await axios.request(config).then((response) => {
+        console.log(response.data);
+        setShopDataStore(response.data)
+      });
+    } catch (error) {
+      console.error(error)
+    }
+  };
 
   useEffect(() => {
     getCustomer();
     getProduct();
+    getShop()
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 

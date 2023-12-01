@@ -17,6 +17,8 @@ import {
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 
+import moment  from "moment/min/moment-with-locales";
+
 import Select from "react-select";
 
 import { IoIosSave } from "react-icons/io";
@@ -31,6 +33,7 @@ import {
   createInvoiceStore,
   productStore,
   customerStore,
+  shopStore,
   headFormStore,
 } from "../../../../store/Store";
 
@@ -44,6 +47,7 @@ const CreateInvoice = () => {
   const [openCreateInvoice, setOpenInvoie] = useRecoilState(createInvoiceStore);
   const productDataStore = useRecoilValue(productStore);
   const customerDataStore = useRecoilValue(customerStore);
+  const shopDataStore = useRecoilValue(shopStore);
   const headFormDataStore = useRecoilValue(headFormStore);
 
   const [isClearable, setIsClearable] = useState(true);
@@ -82,6 +86,14 @@ const CreateInvoice = () => {
     value: customer.id,
     label: customer.customer_name,
   }));
+  const shopOptions = shopDataStore?.map((shop) => ({
+    value: shop.id,
+    label: shop.salepoints_name,
+  }));
+
+  console.log(shopDataStore)
+  console.log(shopOptions)
+
 
   const [selectedCustomer, setSelectedCustomer] = useState(null);
   const handleCustomerSelect = (e) => {
@@ -93,6 +105,19 @@ const CreateInvoice = () => {
     console.log(customer);
     setSelectedCustomer(customer);
   };
+
+  const [selectedShop, setSelectedShop] = useState(null);
+  const handleShopSelect = (e) => {
+    // ค้นหาข้อมูลลูกค้าที่ถูกเลือกจาก customerDataStore
+    const shop = shopDataStore.find(
+      (shop) => shop.id === e.value
+    );
+    // เซ็ตข้อมูลลูกค้าที่ถูกเลือกใน state
+    console.log(shop);
+    setSelectedShop(shop);
+  };
+
+  console.log(selectedShop)
 
   const [selectValues, setSelectValues] = useState([]);
 
@@ -165,17 +190,6 @@ const CreateInvoice = () => {
 
   console.log(data);
 
-  // const handleQuantityChange = (e, index) => {
-  //   console.log(e)
-  //   const newQuantity = parseInt(e, 10);
-  //   const updatedData = [...data];
-  //   updatedData[index] = {
-  //     ...updatedData[index],
-  //     quantity: newQuantity,
-  //     totalPrice: calculateTotal(newQuantity, updatedData[index].pricePerUnit)
-  //   };
-  //   setData(updatedData);
-  // };
 
   const handleQuantityChange = (e, index) => {
     const newQuantity = parseInt(e, 10);
@@ -264,7 +278,7 @@ const CreateInvoice = () => {
             </Typography>
           </div>
           <Typography className=" font-bold mt-5">
-            วันที่ออกบิล: <span className=" font-normal">22-11-2566</span>
+            วันที่ออกบิล: <span className=" font-normal">{moment(Date.now()).locale('th').format('L')}</span>
           </Typography>
         </div>
         <div className="flex flex-col  w-full gap-3 md:w-1/2 ">
@@ -322,23 +336,23 @@ const CreateInvoice = () => {
               </Button>
             </div>
           </div>
+          {/* แบบเต็ม */}
           <div hidden={headFormDataStore !== '1'}>
-          <div className=" flex flex-col sm:flex-row  w-full justify-start    gap-2 ">
-            <Typography className=" font-bold min-w-[100px]">
+          <div className=" flex flex-col sm:flex-row items-end  w-full justify-start    gap-2 ">
+            <Typography className="flex  items-baseline align-text-bottom font-bold min-w-[100px]">
               ข้อมูลลูกค้า:
             </Typography>
             <Select
               className="basic-single w-full z-20"
               classNamePrefix="select"
               placeholder="เลือกลูกค้า"
-              isClearable={isClearable}
               isSearchable={isSearchable}
               name="color"
               options={customerOptions}
               onChange={(e) => handleCustomerSelect(e)}
             />
           </div>
-          <div className=" flex   w-full justify-start items-center   gap-2 ">
+          <div className=" flex  w-full justify-start items-center mt-5   gap-2 ">
             <Typography className="font-bold min-w-[30px] sm:w-[40px]">
               ชื่อ :
             </Typography>
@@ -346,13 +360,13 @@ const CreateInvoice = () => {
               {selectedCustomer?.customer_name || ""}
             </Typography>
           </div>
-          <div className=" flex   w-full justify-start    gap-2 ">
+          <div className=" flex   w-full justify-start mt-2   gap-2 ">
             <Typography className="font-bold min-w-[40px] sm:w-[45px] md:w-[55px] xl:w-[45px]">
               ที่อยู่ :
             </Typography>
             <Typography>{selectedCustomer?.customer_address || ""}</Typography>
           </div>
-          <div className=" flex flex-col sm:flex-row md:flex-col 2xl:flex-row w-full justify-start gap-2 ">
+          <div className=" flex flex-col sm:flex-row md:flex-col 2xl:flex-row w-full mt-2 justify-start gap-2 ">
             <div className="flex w-full">
               <Typography className="font-bold min-w-[100px] md:w-[120px] xl:w-[110px]">
                 เลขประจำตัว :
@@ -367,6 +381,51 @@ const CreateInvoice = () => {
             </div>
           </div>
           </div>
+          {/* แบบสัพ */}
+          <div className="flex-col  justify-end ms-20 mt-5  px-5 " hidden={headFormDataStore !== '3'}>
+           
+          <div className=" flex  w-full justify-end    gap-3 ">
+            <Typography className="flex justify-end  items-baseline align-text-bottom font-bold min-w-[100px]">
+              เลือกจุดขาย:
+            </Typography>
+            <Select
+              className="basic-single w-full   z-20"
+              classNamePrefix="select"
+              placeholder="เลือกจุดขาย"
+              // isClearable={isClearable}
+              isSearchable={isSearchable}
+              name="color"
+              options={shopOptions}
+              onChange={(e) => handleShopSelect(e)}
+            />
+          </div>
+          <div className=" flex   w-full justify-end mt-5   gap-3 ">
+            <Typography className="flex text-end justify-end align-text-bottom font-bold min-w-[100px]">
+              ใบย่อย:
+            </Typography>
+            <input className="w-[15%] border border-gray-400 rounded" type="number" />
+            <Typography className="font-bold text-end">
+              ใบ
+            </Typography>
+          </div>
+          <div className=" flex   w-full justify-end  mt-5   gap-3 ">
+            <Typography className="flex text-end justify-end align-text-bottom font-bold min-w-[100px]">
+              ราคาสุทธิ:
+            </Typography>
+            <Typography className="flex  font-bold">
+            {calculateTotalAmount()
+                  .toFixed(2)
+                  .replace(/\B(?=(\d{3})+(?!\d))/g, ",")}
+            </Typography>
+            <Typography className="flex justify-end font-bold">
+              บาท
+            </Typography>
+          </div>
+          
+       
+   
+          </div>
+      
 
         </div>
       </div>
@@ -483,38 +542,43 @@ const CreateInvoice = () => {
             />
           </div>
         </div>
-        <div className="flex  w-full xl:w-1/3 ">
-          <Card className="w-full justify-center border p-2 px-4   xl:h-[170px] 2xl:h-[120px] lg:justify-normal border-gray-500">
-            <Typography className="font-bold">
-              รวมเงิน:{" "}
-              <span className="font-normal">
-                {calculatePruePrice()
-                  .toFixed(2)
-                  .replace(/\B(?=(\d{3})+(?!\d))/g, ",")}
-              </span>{" "}
-              บาท{" "}
-            </Typography>
-
-            <Typography className="font-bold">
-              ภาษีมูลค่าเพิ่ม:{" "}
-              <span className="font-normal">
-                {calculateVAT()
-                  .toFixed(2)
-                  .replace(/\B(?=(\d{3})+(?!\d))/g, ",")}
-              </span>{" "}
-              บาท{" "}
-            </Typography>
-            <Typography className="font-bold">
-              จำนวนเงินทั้งสิน:{" "}
-              <span className="font-normal">
-                {calculateTotalAmount()
-                  .toFixed(2)
-                  .replace(/\B(?=(\d{3})+(?!\d))/g, ",")}
-              </span>{" "}
-              บาท{" "}
-            </Typography>
-          </Card>
-        </div>
+        {headFormDataStore !== '3' ?
+             <div hidden={headFormDataStore !== '1'} className="flex  w-full xl:w-1/3  " >
+             <Card  className="w-full justify-center border p-2 px-4   xl:h-[170px] 2xl:h-[120px] lg:justify-normal border-gray-500">
+               <Typography className="font-bold">
+                 รวมเงิน:{" "}
+                 <span className="font-normal">
+                   {calculatePruePrice()
+                     .toFixed(2)
+                     .replace(/\B(?=(\d{3})+(?!\d))/g, ",")}
+                 </span>{" "}
+                 บาท{" "}
+               </Typography>
+   
+               <Typography className="font-bold">
+                 ภาษีมูลค่าเพิ่ม:{" "}
+                 <span className="font-normal">
+                   {calculateVAT()
+                     .toFixed(2)
+                     .replace(/\B(?=(\d{3})+(?!\d))/g, ",")}
+                 </span>{" "}
+                 บาท{" "}
+               </Typography>
+               <Typography className="font-bold">
+                 จำนวนเงินทั้งสิน:{" "}
+                 <span className="font-normal">
+                   {calculateTotalAmount()
+                     .toFixed(2)
+                     .replace(/\B(?=(\d{3})+(?!\d))/g, ",")}
+                 </span>{" "}
+                 บาท{" "}
+               </Typography>
+             </Card>
+           </div>
+        :
+        '' 
+        }
+   
       </div>
 
       {/* รูปแบบเต็ม */}
@@ -536,7 +600,7 @@ const CreateInvoice = () => {
       )}
 
       {/* open PDF  80 */}
-      {openModalReceipt80 == true && headFormDataStore == "1" ? (
+      {openModalReceipt80 == true && headFormDataStore == "1"   ? (
         <Receipt80
           openModalReceipt80={openModalReceipt80}
           handleModalReceipt80={handleModalReceipt80}
@@ -552,7 +616,7 @@ const CreateInvoice = () => {
       )}
 
       {/* รูปแบบย่อ */}
-      {openModalReceiptA4 == true && headFormDataStore == "2" ? (
+      {openModalReceiptA4 == true && headFormDataStore == "2" || headFormDataStore == "3"  ? (
         <ReceiptA4Short
           openModalReceiptA4={openModalReceiptA4}
           handleModalReceiptA4={handleModalReceiptA4}
@@ -568,7 +632,7 @@ const CreateInvoice = () => {
       )}
 
       {/* open PDF  80 */}
-      {openModalReceipt80 == true && headFormDataStore == "2" ? (
+      {openModalReceipt80 == true && headFormDataStore == "2" || headFormDataStore == "3" ? (
         <Receipt80Short
           openModalReceipt80={openModalReceipt80}
           handleModalReceipt80={handleModalReceipt80}

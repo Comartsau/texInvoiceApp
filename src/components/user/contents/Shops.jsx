@@ -20,13 +20,17 @@ import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 
 import { AiFillDelete,AiOutlineStop } from "react-icons/ai";
-import { FaCheckCircle, FaFileUpload, FaRegSave } from "react-icons/fa";
+import { FaCheckCircle, FaFileUpload, FaRegSave,FaEye ,FaRegEyeSlash  } from "react-icons/fa";
 
 import { BsPencilSquare, BsPlusCircle } from "react-icons/bs";
+
+import { useRecoilState } from "recoil";
+import { shopStore } from "../../../store/Store";
 
 function Shops() {
   //----------  Data Table --------------------//
   const [noData, setNoData] = useState(true);
+  const [shopDataStore,setShopDataStore] = useRecoilState(shopStore)
 
   const [listData, setListData] = useState([]);
   // const [listData, setListData] = useState([
@@ -72,6 +76,7 @@ function Shops() {
       await axios.request(config).then((response) => {
         console.log(response.data);
         setListData(response.data);
+        setShopDataStore(response.data)
         setNoData(false);
       });
     } catch (error) {
@@ -184,6 +189,56 @@ function Shops() {
       .catch((error) => {
         toast.error(error);
       });
+  };
+
+  //------------- modal Close Product -----------------------//
+
+  const [openModalClose, setOpenModalClose] = useState(false);
+  const [switchIcon,setSwitchIcon] = useState(true)
+  const [dataClose, setDataClose] = useState([]);
+
+  const handleModalClose = (data) => {
+    setOpenModalClose(!openModalClose);
+    setDataClose(data);
+  };
+
+  const handleClose = async (id) => {
+    // ลบข้อมูลเมื่อผู้ใช้ยืนยันการลบ
+    setSwitchIcon(!switchIcon)
+    setOpenModalClose(false)
+
+
+
+    // let token = localStorage.getItem("Token");
+    // let data = qs.stringify({});
+
+    console.log(id);
+
+    // let config = {
+    //   method: "delete",
+    //   maxBodyLength: Infinity,
+    //   url: `${import.meta.env.VITE_APP_API}/salepoints/delete/${id}`,
+    //   headers: {
+    //     Authorization: `Bearer ${token}`,
+    //     "Content-Type": "application/x-www-form-urlencoded",
+    //   },
+    //   data: data,
+    // };
+    // axios
+    //   .request(config)
+    //   .then((response) => {
+    //     response.data;
+    //     //  setTimeout(() => {
+    //     // }, 1000);
+    //     console.log(response.data);
+    //     getShops();
+    //     setOpenModalDelete(false);
+    //     toast.success("ลบข้อมูล จุดขาย สำเร็จ");
+
+    //   })
+    //   .catch((error) => {
+    //     toast.error(error);
+    //   });
   };
 
   //------------- modal Delete Product -----------------------//
@@ -302,9 +357,18 @@ function Shops() {
                       color="blue-gray"
                       className="font-bold leading-none opacity-70"
                     >
-                      ลบ
+                      ปิด / เปิด
                     </Typography>
                   </th>
+                  {/* <th className="border-y border-blue-gray-100 bg-blue-gray-50/50 p-4">
+                    <Typography
+                      variant="small"
+                      color="blue-gray"
+                      className="font-bold leading-none opacity-70"
+                    >
+                      ลบ
+                    </Typography>
+                  </th> */}
                 </tr>
               </thead>
               {noData ? (
@@ -370,12 +434,29 @@ function Shops() {
                               size="sm"
                               color="red"
                               className="rounded-full"
+                              onClick={() => handleModalClose(data)}
+                            >
+                              {
+                              switchIcon ? <FaEye color="red" className="h-5 w-5" />
+                              :
+                              <FaRegEyeSlash color="red" className="h-5 w-5" />
+                              }
+                            </IconButton>
+                          </div>
+                        </td>
+                        {/* <td className={classes}>
+                          <div className="flex justify-center ">
+                            <IconButton
+                              variant="outlined"
+                              size="sm"
+                              color="red"
+                              className="rounded-full"
                               onClick={() => handleModalDelete(data)}
                             >
                               <AiFillDelete color="red" className="h-5 w-5" />
                             </IconButton>
                           </div>
-                        </td>
+                        </td> */}
                       </tr>
                     );
                   })}
@@ -512,7 +593,50 @@ function Shops() {
         </DialogFooter>
       </Dialog>
 
-      {/* modal Delete Product */}
+      {/* modal Close Shop */}
+
+      <Dialog open={openModalClose} size="sm" handler={handleModalClose}>
+        <DialogHeader className="bg-red-700 py-3  px-3  justify-center text-lg text-white opacity-80">
+          <Typography variant="h5">ปิด/เปิด จุดขาย</Typography>
+        </DialogHeader>
+        <DialogBody divider className=" overflow-auto ">
+          <div className="flex flex-col w-full justify-center gap-3 ">
+            <Typography variant="h5" className="text-center">
+              ต้องการ ปิด / เปิด จุดขาย: {dataDelete?.salepoints_name || ""}{" "}
+            </Typography>
+            <Typography variant="h5" className="text-center">
+              จริงหรือไม่?{" "}
+            </Typography>
+          </div>
+        </DialogBody>
+        <DialogFooter>
+          <div className=" flex w-full justify-center  gap-5 ">
+            <Button
+              variant="gradient"
+              color="red"
+              size="sm"
+              onClick={() => handleClose(dataClose?.id)}
+              className="flex mr-1 text-base"
+            >
+              <span className="text-xl mr-2"><FaCheckCircle /></span>
+              ตกลง
+            </Button>
+            <Button
+              variant="gradient"
+              color="blue-gray"
+              size="sm"
+              onClick={handleModalClose}
+              className="flex mr-1 text-base"
+          >
+            <span className="text-xl mr-2"><AiOutlineStop /></span>
+            ยกเลิก
+            </Button>
+          </div>
+        </DialogFooter>
+      </Dialog>
+
+
+      {/* modal Delete Shop */}
 
       <Dialog open={openModalDelete} size="sm" handler={handleModalDelete}>
         <DialogHeader className="bg-red-700 py-3  px-3  justify-center text-lg text-white opacity-80">
@@ -553,6 +677,8 @@ function Shops() {
           </div>
         </DialogFooter>
       </Dialog>
+
+
     </Card>
   );
 }

@@ -448,7 +448,7 @@ function TaxInvoiceFull() {
               <Typography className="text-center font-bold text-lg">
                 รายการ
               </Typography>
-              <Card className="border px-2 h-[80%] overflow-auto"></Card>
+              <Card className="border px-2 h-[80%] overflow-auto">aaaa</Card>
               <div className="flex  flex-col items-end mt-3">
                 <Typography className="text-lg font-bold">
                   ข้อมูลการชำระเงิน
