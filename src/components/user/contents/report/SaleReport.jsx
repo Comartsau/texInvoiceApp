@@ -24,7 +24,7 @@ import th from "date-fns/locale/th";
 import { AiOutlineSearch } from "react-icons/ai";
 
 import { useState } from "react";
-import ReceiptA4 from "../../../receipt/receiptA4";
+import ReportPDF from "./ReportPDF";
 
 const SaleReport = () => {
   const [searchQueryStart, setSearchQueryStart] = useState(new Date());
@@ -41,7 +41,7 @@ const SaleReport = () => {
 
   return (
     <div className="mt-5">
-      <div className="flex gap-5 ">
+      <div className="flex flex-col sm:flex-row gap-5 ">
         <div className="flex justify-center ">
           <DatePicker
             // yearDropdownItemNumber={100} // จำนวนปีที่แสดงใน Dropdown
@@ -72,6 +72,7 @@ const SaleReport = () => {
             className="w-full rounded-md border border-gray-400 p-2 text-gray-600  shadow-sm focus:border-blue-500 focus:outline-none"
           />
         </div>
+        <div className="flex justify-center">
         <Button
           size="sm"
           variant="gradient"
@@ -84,11 +85,10 @@ const SaleReport = () => {
           </span>
           ค้นหา
         </Button>
+        </div>
       </div>
-      <div className="flex gap-5 ">
-        <Card>
           {/* open PDF A4 */}
-          <ReceiptA4
+          <ReportPDF
             openModalReceiptA4={openModalReceiptA4}
             handleModalReceiptA4={handleModalReceiptA4}
             // data={data}
@@ -98,9 +98,7 @@ const SaleReport = () => {
             // calculateTotalAmount={calculateTotalAmount}
             // note={note}
           />
-        </Card>
       </div>
-    </div>
   );
 };
 
