@@ -118,6 +118,9 @@ const styles = StyleSheet.create({
     justifyContent: "flex-start",
     textAlign: "left",
   },
+  text8: {
+    fontSize: 8,
+  },
   text12: {
     fontSize: 12,
   },
@@ -447,7 +450,7 @@ export const ReceiptA4Short = ({
                     </View>
                     {index == pages.length - 1 && (
                       <>
-                        <View View style={styles.tableRow}>
+                        <View style={styles.tableRow}>
                           {/* สรุปรวม */}
                           <Text style={[styles.tableCellNote, styles.text12]}>
                             ราคารวมภาษีมูลค่าเพิ่ม:
@@ -457,6 +460,10 @@ export const ReceiptA4Short = ({
                               .toFixed(2)
                               .replace(/\B(?=(\d{3})+(?!\d))/g, ",")}
                           </Text>
+                        </View>
+                        <View style={[styles.flexrow]}>
+                          <Text style={[styles.text12 , styles.mt10]} >หมายเหตุ: </Text>
+                          <Text style={[styles.text12 , styles.mt10 ]} >{note || ""}{" "} </Text>
                         </View>
                       </>
                     )}
