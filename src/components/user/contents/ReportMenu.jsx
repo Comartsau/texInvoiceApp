@@ -2,6 +2,7 @@ import { Card, Typography, Button } from "@material-tailwind/react";
 
 import { useState } from "react";
 import SaleReport from "./report/SaleReport";
+import ShopReport from "./report/ShopReport";
 
 
 
@@ -50,10 +51,10 @@ function ReportMenu() {
            </div>
       )}
       {activeCustomerMenu === "menu2" && (
-        <div>
-          <hr className=" mt-5 border border-gray-500" />
-          <Typography className="flex justify-center mt-10 text-xl font-bold text-red-500">อยู่ในช่วงพัฒนา เฟส3/3</Typography>
-        </div>
+             <div>
+             <hr className=" mt-5 border border-gray-500" />
+             <ShopReport />
+           </div>
       )}
 
     </Card>
