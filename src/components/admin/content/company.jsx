@@ -12,6 +12,8 @@ import {
   DialogFooter,
 } from "@material-tailwind/react";
 
+import { addCompany, deleteCompany, editCompany, getCompany } from "../../../api/CompanyApi";
+
 import axios from "axios";
 import qs from "qs";
 import { useState } from "react";
@@ -38,42 +40,21 @@ function Company() {
   const [searchQuery, setSearchQuery] = useState("");
 
 
-
-  const getCompany = async () => {
+  const fecthCompany = async () => {
     try {
-      let token = localStorage.getItem("Token");
-
-      let data = "";
-
-      let config = {
-        method: "get",
-        maxBodyLength: Infinity,
-        url: `${
-          import.meta.env.VITE_APP_API
-        }/company-search?search=${searchQuery}`,
-        // url: `${
-        //   import.meta.env.VITE_APP_API
-        // }/company`,
-        headers: {
-          Authorization: `Bearer ${token}`,
-        },
-        data: data,
-      };
-
-      await axios.request(config).then((response) => {
-        setListData(response.data);
-        setCompanyDataStore(response.data)
+      const response = await getCompany(searchQuery)
+        setListData(response);
+        setCompanyDataStore(response);
         setNoData(false);
-      });
+      
     } catch (error) {
-      console.log(error);
+      toast.error(error)
+      
     }
-  };
-
-  console.log(listData);
+  }
 
   useEffect(() => {
-    getCompany();
+    fecthCompany();
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [searchQuery]);
 
@@ -83,7 +64,7 @@ function Company() {
 
   const startIndex = (currentPage - 1) * itemsPerPage;
   const endIndex = startIndex + itemsPerPage;
-  const displayedData = listData?.slice(startIndex, endIndex);
+  const displayedData = Array.isArray(listData) ? listData?.slice(startIndex, endIndex) : [];
 
   const totalPages = Math.ceil(listData?.length / itemsPerPage);
 
@@ -108,11 +89,8 @@ function Company() {
     newUserName: "",
     newPassword: "",
   });
-
-  const sendAddCompany = async () => {
+  const handleAddCompany = async () =>{
     try {
-      let token = localStorage.getItem("Token");
-
       let data = {
         company: newCompanyData.newCompany,
         tax_personal: newCompanyData.newTex,
@@ -120,30 +98,19 @@ function Company() {
         tel: newCompanyData.newTel,
         username: newCompanyData.newUserName,
         password: newCompanyData.newPassword,
-      };
-      console.log(data);
+      }
 
-      let config = {
-        method: "post",
-        maxBodyLength: Infinity,
-        url: `${import.meta.env.VITE_APP_API}/register`,
-        headers: {
-          Authorization: `Bearer ${token}`,
-        },
-        data: data,
-      };
-
-      await axios.request(config).then((response) => {
-        console.log(response.data);
-        handleModalAdd();
-        toast.success("เพิ่มข้อมูล Company สำเร็จ");
-        getCompany();
-      });
+      const response = await addCompany(data)
+      handleModalAdd();
+      fecthCompany();
+      toast.success("เพิ่มข้อมูล Company สำเร็จ");
     } catch (error) {
-      toast.error(error);
+      toast.error(error)
+      
     }
-  };
+  }
 
+  
   //------------- modal Edit Company -----------------------//
   const [openModalEdit, setOpenModalEdit] = useState(false);
   const [editCompanyData, setEditCompanyData] = useState([]);
@@ -153,42 +120,29 @@ function Company() {
     setEditCompanyData(data);
   };
 
-  const sendEditCompany = async () => {
-    let token = localStorage.getItem("Token");
-    let data = qs.stringify({
-      id: editCompanyData.id,
-      company: editCompanyData.company,
-      tax_personal: editCompanyData.tax_personal,
-      address: editCompanyData.address,
-      tel: editCompanyData.tel,
-      username: editCompanyData.username,
-      password: editCompanyData.password,
-    });
 
-    let config = {
-      method: "put",
-      maxBodyLength: Infinity,
-      url: `${import.meta.env.VITE_APP_API}/company/edit`,
-      headers: {
-        Authorization: `Bearer ${token}`,
-        "Content-Type": "application/x-www-form-urlencoded",
-      },
-      data: data,
-    };
-
-    axios
-      .request(config)
-      .then((response) => {
-        response.data;
+  const  handleEditCompany = async () =>{
+    try {
+      let data = {
+        id: editCompanyData.id,
+        company: editCompanyData.company,
+        tax_personal: editCompanyData.tax_personal,
+        address: editCompanyData.address,
+        tel: editCompanyData.tel,
+        username: editCompanyData.username,
+        password: editCompanyData.password,
+      }
+      const response = await editCompany(data)
         setOpenModalEdit(false);
-        getCompany();
+        fecthCompany();
         toast.success("แก้ไขข้อมูล Company สำเร็จ");
-      })
-      .catch((error) => {
-        toast.error(error);
-      });
-  };
+    } catch (error) {
+      toast.error(error)
+      
+    }
+  }
 
+  
   //------------- modal Delete Company -----------------------//
   const [openModalDelete, setOpenModalDelete] = useState(false);
   const [dataDelete, setDataDelete] = useState([]);
@@ -198,36 +152,19 @@ function Company() {
     setDataDelete(data);
   };
 
+  const handleDeleteCompany = async (id) =>{
+    try {
+      const response = await deleteCompany(id)
+      fecthCompany();
+      setOpenModalDelete(false);
+      toast.success("ลบข้อมูล Company สำเร็จ");
+      
+    } catch (error) {
+      toast.error(error)
+      
+    }
+  }
 
-  const handleDelete = async (id) => {
-    // ลบข้อมูลเมื่อผู้ใช้ยืนยันการลบ
-
-    let token = localStorage.getItem("Token");
-    let data = qs.stringify({});
-
-    let config = {
-      method: "delete",
-      maxBodyLength: Infinity,
-      url: `${import.meta.env.VITE_APP_API}/company/delete/${id}`,
-      headers: {
-        Authorization: `Bearer ${token}`,
-        "Content-Type": "application/x-www-form-urlencoded",
-      },
-      data: data,
-    };
-
-    axios
-      .request(config)
-      .then((response) => {
-        response.data;
-        getCompany();
-        setOpenModalDelete(false);
-        toast.success("ลบข้อมูล Company สำเร็จ");
-      })
-      .catch((error) => {
-        toast.error(error);
-      });
-  };
 
   return (
     <Card className="w-full overflow-auto  px-3">
@@ -621,7 +558,7 @@ function Company() {
             size="sm"
             variant="gradient"
             color="green"
-            onClick={sendAddCompany}
+            onClick={handleAddCompany}
           >
             <span className="text-sm">บันทึก</span>
           </Button>
@@ -742,7 +679,7 @@ function Company() {
             size="sm"
             variant="gradient"
             color="purple"
-            onClick={sendEditCompany}
+            onClick={handleEditCompany}
           >
             <span className="text-sm">อัพเดท</span>
           </Button>
@@ -771,7 +708,7 @@ function Company() {
               variant="gradient"
               color="red"
               size="sm"
-              onClick={() => handleDelete(dataDelete?.id)}
+              onClick={() => handleDeleteCompany(dataDelete?.id)}
               className="mr-1 px-10"
             >
               <span className="text-sm">ตกลง</span>

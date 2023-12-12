@@ -11,8 +11,6 @@ import {
   DialogFooter,
 } from "@material-tailwind/react";
 
-import axios from "axios";
-import qs from "qs";
 
 import { getProduct, addProduct, editProduct, deleteProduct } from "../../../api/ProductApi";
 
@@ -62,7 +60,7 @@ function Product() {
   useEffect(() => {
     fetchProduct();
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, []);
+  }, [searchQuery]);
 
   //----- จัดการแสดงข้อมูล / หน้า -------------- //
   const [currentPage, setCurrentPage] = useState(1);
@@ -70,9 +68,9 @@ function Product() {
 
   const startIndex = (currentPage - 1) * itemsPerPage;
   const endIndex = startIndex + itemsPerPage;
-  const displayedData = listData.slice(startIndex, endIndex);
+  const displayedData = Array.isArray(listData) ? listData.slice(startIndex, endIndex) : [];
 
-  const totalPages = Math.ceil(listData.length / itemsPerPage);
+  const totalPages = Math?.ceil(listData?.length || 0 / itemsPerPage);
 
   //------------- modal View Product -----------------------//
   const [openModalView, setOpenModalView] = useState(false);
@@ -152,39 +150,6 @@ function Product() {
       
     }
   }
-
-  // const handleDelete = async (id) => {
-  //   // ลบข้อมูลเมื่อผู้ใช้ยืนยันการลบ
-
-  //   let token = localStorage.getItem("Token");
-  //   let data = qs.stringify({});
-
-  //   console.log(id);
-
-  //   let config = {
-  //     method: "delete",
-  //     maxBodyLength: Infinity,
-  //     url: `${import.meta.env.VITE_APP_API}/product/delete/${id}`,
-  //     headers: {
-  //       Authorization: `Bearer ${token}`,
-  //       "Content-Type": "application/x-www-form-urlencoded",
-  //     },
-  //     data: data,
-  //   };
-
-  //   axios
-  //     .request(config)
-  //     .then((response) => {
-  //       response.data;
-  //       console.log(response.data);
-  //       getProduct();
-  //       setOpenModalDelete(false);
-  //       toast.success("ลบข้อมูล สินค้า สำเร็จ");
-  //     })
-  //     .catch((error) => {
-  //       toast.error(error);
-  //     });
-  // };
 
   return (
     <Card className="w-full overflow-auto px-3">
@@ -280,7 +245,7 @@ function Product() {
                   </th>
                 </tr>
               </thead>
-              {noData ? (
+              {noData || displayedData?.length == 0 ? (
                 <tbody>
                   <tr>
                     <td></td>

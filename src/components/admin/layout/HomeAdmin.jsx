@@ -20,6 +20,10 @@ import { BsBoxFill } from "react-icons/bs";
 import Company from "../content/company";
 // import Report from "./content/report";
 import ReportMenu from "../content/ReportMenu";
+import { getCompany } from "../../../api/CompanyApi";
+
+import { useRecoilState } from "recoil";
+import {companyStore} from '../../../store/Store'
 
 
 function HomeAdmin() {
@@ -42,6 +46,27 @@ function HomeAdmin() {
       isUnderlined: 0,
     },
   ];
+
+
+  // เก็บข้อมูล  company  ลง  store //
+  const [companyDataStore,setCompanyDataStore] = useRecoilState(companyStore)
+  const [searchQuery, setSearchQuery] = useState("");
+
+  const fetchCompany = async () => {
+    try {
+      const response = await getCompany(searchQuery)
+      setCompanyDataStore(response)
+
+    } catch (error) {
+      console.error(error)
+      
+    }
+  }
+
+  useEffect(()=>{
+    fetchCompany()
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+  },[])
 
   const handleMenuItemClick = (menuItem) => {
     setSelectedMenuItem(menuItem);
@@ -80,9 +105,7 @@ function HomeAdmin() {
     setOpenNav(!openNav);
   };
 
-  // console.log(menuItems)
-  // console.log(selectedMenuItem);
-  // console.log(selectedMenuSubItem);
+
 
   //------------- modal Logout -----------------------//
 

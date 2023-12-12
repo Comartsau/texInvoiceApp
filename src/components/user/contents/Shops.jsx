@@ -14,6 +14,8 @@ import {
 import axios from "axios";
 import qs from "qs";
 
+import { addShop, editShop, getShop } from "../../../api/ShopApi";
+
 import { useState, useEffect } from "react";
  
 import { ToastContainer, toast } from "react-toastify";
@@ -33,59 +35,23 @@ function Shops() {
   const [shopDataStore,setShopDataStore] = useRecoilState(shopStore)
 
   const [listData, setListData] = useState([]);
-  // const [listData, setListData] = useState([
-  //     {
-  //         shop_name: "จุดขาย A",
-  //         shop_address: "123 ถนนราชดำริ, แขวงลาดพร้าว, เขตวัฒนา, กรุงเทพฯ 12345",
-  //         shop_tel: "081-234-5678",
-  //       },
-  //       {
-  //         shop_name: "จุดขาย B",
-  //         shop_address: "456 หมู่บ้านสุขใจ, ตำบลหนองแขม, อำเภอบางพลี, สมุทรปราการ 78901",
-  //         shop_tel: "085-123-4567",
-  //       },
-  //       {
-  //         shop_name: "จุดขาย C",
-  //         shop_address: "789 ถนนเพชรบุรี, ตำบลห้วยขวาง, อำเภอวังน้อย, พระนครศรีอยุธยา 56789",
-  //         shop_tel: "087-765-4321",
-  //       },
-  // ]);
-
   const [searchQuery, setSearchQuery] = useState("");
   const [tokenError, setTokenError] = useState(false);
 
-  const getShops = async () => {
+
+  const fetchShop = async () => {
     try {
-      let token = localStorage.getItem("Token");
-
-      let data = "";
-
-      let config = {
-        method: "get",
-        maxBodyLength: Infinity,
-        url: `${
-          import.meta.env.VITE_APP_API
-        }/salepoints/salepoints-search?search=${searchQuery}`,
-        // }/salepoints`,
-        headers: {
-          Authorization: `Bearer ${token}`,
-        },
-        data: data,
-      };
-
-      await axios.request(config).then((response) => {
-        console.log(response.data);
-        setListData(response.data);
-        setShopDataStore(response.data)
+      const response = await getShop(searchQuery)
+        setListData(response);
+        setShopDataStore(response)
         setNoData(false);
-      });
+
+      
     } catch (error) {
-      if (error.response.statusText == "Unauthorized") {
-        setTokenError(true);
-      }
-      console.log(error);
+      toast.error(error)
+      
     }
-  };
+  }
 
   useEffect(() => {
     if (tokenError) {
@@ -97,7 +63,7 @@ function Shops() {
   // console.log(listData);
 
   useEffect(() => {
-    getShops();
+    fetchShop();
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [searchQuery]);
 
@@ -107,9 +73,9 @@ function Shops() {
 
   const startIndex = (currentPage - 1) * itemsPerPage;
   const endIndex = startIndex + itemsPerPage;
-  const displayedData = listData.slice(startIndex, endIndex);
+  const displayedData = Array.isArray(listData) ? listData?.slice(startIndex, endIndex) : [];
 
-  const totalPages = Math.ceil(listData.length / itemsPerPage);
+  const totalPages = Math?.ceil(listData?.length / itemsPerPage);
 
   //------------- modal Add Product -----------------------//
   const [openModalAdd, setOpenModalAdd] = useState(false);
@@ -117,37 +83,22 @@ function Shops() {
 
   const [newShops, setNewShops] = useState("");
 
-  const addShops = async () => {
-    let token = localStorage.getItem("Token");
-    let data = qs.stringify({
-      salepoints_name: newShops,
-    });
 
-    console.log(data);
+  const handleAddShop = async () =>{
+    try {
+      let data = {
+        salepoints_name: newShops,
+      }
+      const response = await addShop(data)
+      fetchShop()
+      setOpenModalAdd(false);
+      toast.success("เพิ่มข้อมูล จุดขาย สำเร็จ");
 
-    let config = {
-      method: "post",
-      maxBodyLength: Infinity,
-      url: `${import.meta.env.VITE_APP_API}/salepoints/addsalepoint`,
-      headers: {
-        Authorization: `Bearer ${token}`,
-        "Content-Type": "application/x-www-form-urlencoded",
-      },
-      data: data,
-    };
-
-    axios
-      .request(config)
-      .then((response) => {
-        response.data;
-        getShops();
-        setOpenModalAdd(false);
-        toast.success("เพิ่มข้อมูล จุดขาย สำเร็จ");
-      })
-      .catch((error) => {
-        toast.error(error);
-      });
-  };
+    } catch (error) {
+      toast.error(error)
+      
+    }
+  }
 
   //------------- modal Edit Product -----------------------//
   const [openModalEdit, setOpenModalEdit] = useState(false);
@@ -157,40 +108,26 @@ function Shops() {
     setOpenModalEdit(!openModalEdit);
   };
 
-  const sendEditShops = async () => {
-    let token = localStorage.getItem("Token");
-    console.log(dataEdit);
-    let data = qs.stringify({
-      id: dataEdit.id,
-      salepoints_name: dataEdit.salepoints_name,
-    });
 
-    console.log(data);
+  const handleEditShop = async () =>{
+    try {
+      let data = {
+        id: dataEdit.id,
+        salepoints_name: dataEdit.salepoints_name,
+      }
+      const response = await editShop(data)
+      setOpenModalEdit(false);
+      fetchShop();
+      toast.success("แก้ไขข้อมูล จุดขาย สำเร็จ");
 
-    let config = {
-      method: "put",
-      maxBodyLength: Infinity,
-      url: `${import.meta.env.VITE_APP_API}/salepoints/editsalepoint`,
-      headers: {
-        Authorization: `Bearer ${token}`,
-        "Content-Type": "application/x-www-form-urlencoded",
-      },
-      data: data,
-    };
+      
+    } catch (error) {
+      toast.error(error)
+      
+    }
+  }
 
-    axios
-      .request(config)
-      .then((response) => {
-        response.data;
-        setOpenModalEdit(false);
-        getShops();
-        toast.success("แก้ไขข้อมูล จุดขาย สำเร็จ");
-      })
-      .catch((error) => {
-        toast.error(error);
-      });
-  };
-
+  
   //------------- modal Close Product -----------------------//
 
   const [openModalClose, setOpenModalClose] = useState(false);
@@ -276,7 +213,7 @@ function Shops() {
         //  setTimeout(() => {
         // }, 1000);
         console.log(response.data);
-        getShops();
+        // getShops();
         setOpenModalDelete(false);
         toast.success("ลบข้อมูล จุดขาย สำเร็จ");
 
@@ -371,13 +308,13 @@ function Shops() {
                   </th> */}
                 </tr>
               </thead>
-              {noData ? (
+              {noData || displayedData.length == 0 ? (
                 <tbody>
                   <tr>
                     <td></td>
                     <td></td>
                     <td>
-                      <Typography>...ไม่พบข้อมูล...</Typography>
+                      <Typography className="mt-5">...ไม่พบข้อมูล...</Typography>
                     </td>
                     <td></td>
                   </tr>
@@ -531,7 +468,7 @@ function Shops() {
             <span className="text-xl mr-2"><AiOutlineStop /></span>
             ยกเลิก
           </Button>
-          <Button size="sm" variant="gradient" color="green" onClick={addShops}
+          <Button size="sm" variant="gradient" color="green" onClick={handleAddShop}
           className="flex text-base mr-1"
           >
             <span className="mr-2 text-xl"><FaRegSave /></span>
@@ -584,7 +521,7 @@ function Shops() {
             size="sm"
             variant="gradient"
             color="purple"
-            onClick={sendEditShops}
+            onClick={handleEditShop}
             className="flex mr-1 text-base"
             >
               <span className="text-xl mr-2"><FaFileUpload/></span>

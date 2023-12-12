@@ -29,15 +29,14 @@ import Shop from "../contents/Shops";
 import TaxInvoiceMenu from "../contents/TaxInvoiceMenu";
 import ReportMenu from "../contents/ReportMenu";
 
-import axios from "axios";
-import { useRecoilState} from "recoil";
+
+import { useRecoilState } from "recoil";
 import { customerStore } from "../../../store/Store";
 import { productStore } from "../../../store/Store";
 import { shopStore } from "../../../store/Store";
-
-
-
-
+import { getProduct } from "../../../api/ProductApi";
+import { getCustomer } from "../../../api/CustomerApi";
+import { getShop } from "../../../api/ShopApi";
 
 function HomeUser() {
   const [openNav, setOpenNav] = useState(false);
@@ -46,7 +45,6 @@ function HomeUser() {
   const [subMenuOpen, setSubMenuOpen] = useState(false);
   const [subMenuItems, setSubMenuItems] = useState([]);
   const [searchQuery, setSearchQuery] = useState("");
-
 
   const menuItems = [
     {
@@ -110,109 +108,54 @@ function HomeUser() {
     // },
   ];
 
-  // ดึงข้อมูลลง Store
+    // บันทึกข้อมูล  product  ลง  store //
 
-  const [customerDataStore,setCustomerDataStore] = useRecoilState(customerStore)
+  const [productDataStore, setProductDataStore] = useRecoilState(productStore);
 
-  const getCustomer = async () => {
+  const fetchProduct = async () => {
     try {
-      let token = localStorage.getItem("Token");
-
-      let data = "";
-
-      let config = {
-        method: "get",
-        maxBodyLength: Infinity,
-        url: `${
-          import.meta.env.VITE_APP_API
-        }/customer/customer-search?search=${searchQuery}`,
-        headers: {
-          Authorization: `Bearer ${token}`,
-        },
-        data: data,
-      };
-
-      await axios.request(config).then((response) => {
-        console.log(response.data);
-        setCustomerDataStore(response.data);
-  
-      });
+      const response = await getProduct(searchQuery);
+      setProductDataStore(response);
     } catch (error) {
-      console.error(error)
+      console.error(error);
     }
   };
 
-  const [productDataStore,setProductDataStore] = useRecoilState(productStore)
+  // บันทึกข้อมูล  customer  ลง  store //
 
-  const getProduct = async () => {
+  const [customerDataStore, setCustomerDataStore] =
+    useRecoilState(customerStore);
+
+  const fetchCustomer = async () => {
     try {
-      let token = localStorage.getItem("Token");
-
-      let data = "";
-
-      // console.log(data);
-
-      let config = {
-        method: "get",
-        maxBodyLength: Infinity,
-        url: `${
-          import.meta.env.VITE_APP_API
-        }/product/product-search?name=${searchQuery}`,
-        headers: {
-          Authorization: `Bearer ${token}`,
-        },
-        data: data,
-      };
-
-      await axios.request(config).then((response) => {
-        console.log(response.data);
-        setProductDataStore(response.data)
-      });
+      const response = await getCustomer(searchQuery);
+      setCustomerDataStore(response);
     } catch (error) {
-      console.error(error)
+      console.error(error);
     }
   };
-  const [shopDataStore,setShopDataStore] = useRecoilState(shopStore)
 
-  const getShop = async () => {
+    // บันทึกข้อมูล  shop  ลง  store //
+
+  const [shopDataStore, setShopDataStore] = useRecoilState(shopStore);
+
+  const fetchShop = async () =>{
     try {
-      let token = localStorage.getItem("Token");
+      const response = await getShop(searchQuery)
+      setShopDataStore(response)
 
-      let data = "";
-
-      // console.log(data);
-
-      let config = {
-        method: "get",
-        maxBodyLength: Infinity,
-        url: `${
-          import.meta.env.VITE_APP_API
-        }/salepoints/salepoints-search?search=${searchQuery}`,
-        headers: {
-          Authorization: `Bearer ${token}`,
-        },
-        data: data,
-      };
-
-      await axios.request(config).then((response) => {
-        console.log(response.data);
-        setShopDataStore(response.data)
-      });
+      
     } catch (error) {
-      console.error(error)
+    console.error(error)  
     }
-  };
+  }
 
   useEffect(() => {
-    getCustomer();
-    getProduct();
-    getShop()
+    fetchProduct();
+    fetchCustomer();
+    fetchShop()
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
-
-
-
-
 
   const handleMenuItemClick = (menuItem) => {
     setSelectedMenuItem(menuItem);
@@ -251,7 +194,6 @@ function HomeUser() {
     setOpenNav(!openNav);
   };
 
-
   //------------- modal Logout -----------------------//
 
   const [openModalLogout, setOpenModalLogout] = useState(false);
@@ -268,170 +210,167 @@ function HomeUser() {
     window.location.reload();
   };
 
-  //   const handleLogout = ()=>{
-  //     localStorage.clear()
-  //     window.location.reload()
-  // }
-  // console.log(menuItems)
-  // console.log(selectedMenuItem);
-  // console.log(selectedMenuSubItem);
 
   return (
     <>
       {/* HeaderBar */}
       <div className="flex flex-col h-screen">
         <div>
-        <Navbar
-          color="blue"
-          className="sticky top-0 z-10 max-w-full rounded-none py-2"
-        >
-          <div className="flex w-full items-center justify-between text-blue-gray-900">
-            <Typography
-              as="a"
-              href="#"
-              color="white"
-              className="mr-4 font-bold  text-lg  py-1.5 text-center"
-            >
-              บริษัท Dev Sriwararak จำกัด
-            </Typography>
-            <div className="flex items-center gap-5">
-              <IconButton
-                variant="text"
-                className="ml-auto h-6 w-6 text-inherit hover:bg-transparent focus-bg-transparent active-bg-transparent lg:hidden"
-                ripple={false}
-                onClick={toggleNav}
+          <Navbar
+            color="blue"
+            className="sticky top-0 z-10 max-w-full rounded-none py-2"
+          >
+            <div className="flex w-full items-center justify-between text-blue-gray-900">
+              <Typography
+                as="a"
+                href="#"
+                color="white"
+                className="mr-4 font-bold  text-lg  py-1.5 text-center"
               >
-                {openNav ? (
-                  <AiFillCloseCircle className="text-4xl  text-white border-2 rounded-lg border-white bg-blue-500 w-[45px] h-[35px] p-1" />
-                ) : (
-                  <FaBars className="text-2 text-white border-2 rounded-lg border-white bg-blue-500 w-[45px] h-[35px] p-1" />
-                )}
-              </IconButton>
-              <div className="flex items-center">
-                <Button
-                  variant="outlined"
-                  size="sm"
-                  color="white"
-                  className="py-1 px-2 border-2 bg-red-500 lg:bg-blue-500  border-white"
-                  onClick={handleModalLogout}
+                บริษัท Dev Sriwararak จำกัด
+              </Typography>
+              <div className="flex items-center gap-5">
+                <IconButton
+                  variant="text"
+                  className="ml-auto h-6 w-6 text-inherit hover:bg-transparent focus-bg-transparent active-bg-transparent lg:hidden"
+                  ripple={false}
+                  onClick={toggleNav}
                 >
-                  <div className="flex w-full items-center lg:hidden  h-[24px]">
-                    {" "}
-                    <AiOutlineLogout className="text-2xl text-white " />{" "}
-                  </div>
-                  <Typography className="hidden lg:block">
-                    ออกจากระบบ
-                  </Typography>
-                </Button>
+                  {openNav ? (
+                    <AiFillCloseCircle className="text-4xl  text-white border-2 rounded-lg border-white bg-blue-500 w-[45px] h-[35px] p-1" />
+                  ) : (
+                    <FaBars className="text-2 text-white border-2 rounded-lg border-white bg-blue-500 w-[45px] h-[35px] p-1" />
+                  )}
+                </IconButton>
+                <div className="flex items-center">
+                  <Button
+                    variant="outlined"
+                    size="sm"
+                    color="white"
+                    className="py-1 px-2 border-2 bg-red-500 lg:bg-blue-500  border-white"
+                    onClick={handleModalLogout}
+                  >
+                    <div className="flex w-full items-center lg:hidden  h-[24px]">
+                      {" "}
+                      <AiOutlineLogout className="text-2xl text-white " />{" "}
+                    </div>
+                    <Typography className="hidden lg:block">
+                      ออกจากระบบ
+                    </Typography>
+                  </Button>
+                </div>
               </div>
             </div>
+          </Navbar>
+        </div>
+
+        {/* Menu and Content */}
+        <div className="flex h-full  py-3 pr-3 bg-gray-300 gap-3 ">
+          {/* Menu */}
+          <div
+            className={`${
+              openNav ? "block  z-20 fixed top-0 w-4/12 h-full" : "hidden"
+            } lg:block`}
+          >
+            <Card className="flex  w-[220px]   h-full  overflow-hidden  rounded-none lg:rounded-lg pt-5">
+              <List className="flex my-2">
+                {menuItems.map((item, index) => (
+                  <div key={index}>
+                    <ListItem
+                      onClick={() => handleMenuItemClick(item.label)}
+                      className={`w-[200px] px-2 py-3 text-sm font-normal text-blue-gray-700 focus:bg-blue-500 focus:text-white ${
+                        isMenuItemSelected(item.label)
+                          ? "bg-blue-400 text-white hover:bg-blue-500 hover:text-white"
+                          : ""
+                      }`}
+                    >
+                      <div className="flex flex-col">
+                        <div className="flex w-full">
+                          <ListItemPrefix className="text-2xl">
+                            {item?.icon}
+                          </ListItemPrefix>
+                          <ListItemPrefix className="text-base mr-0 font-bold ">
+                            {item?.label}
+                          </ListItemPrefix>
+                        </div>
+                        <div className="flex w-full">
+                          {item.label === selectedMenuItem && item.subItems && (
+                            <List className="mt-2 ">
+                              {item.subItems.map((subItem, subIndex) => (
+                                <ListItem
+                                  key={subIndex}
+                                  onClick={() =>
+                                    handleSubMenuClick(subItem.label)
+                                  }
+                                  className={`w-[220px]  rounded-lg py-2 text-sm font-normal text-blue-gray-700  focus-bg-blue-500 focus-text-white ${
+                                    isSubMenuItemSelected(subItem.label)
+                                      ? "bg-gray-300 opacity-60  text-blue-gray-700  hover:bg-blue-500 hover:text-white"
+                                      : ""
+                                  }`}
+                                >
+                                  {/* หากต้องการใส่  Icons  ให้เมนูย่อย   */}
+                                  {/* <ListItemPrefix className="text-xl" >{''}</ListItemPrefix>  */}
+
+                                  <ListItemPrefix className="text-base font-bold ">
+                                    {subItem?.label}
+                                  </ListItemPrefix>
+                                </ListItem>
+                              ))}
+                            </List>
+                          )}
+                        </div>
+                      </div>
+                    </ListItem>
+                    <hr
+                      className={` ${
+                        item.isUnderlined == 1
+                          ? " flex  text-center w-[73%]  mt-2  border border-gray-300"
+                          : "hidden"
+                      }`}
+                    />
+                  </div>
+                ))}
+              </List>
+            </Card>
           </div>
-        </Navbar>
-      </div>
 
-      {/* Menu and Content */}
-      <div className="flex h-full  py-3 pr-3 bg-gray-300 gap-3 ">
-        {/* Menu */}
-        <div className={`${openNav ? "block  z-20 fixed top-0 w-4/12 h-full" : "hidden"} lg:block`}>
-          <Card className="flex  w-[220px]   h-full  overflow-hidden  rounded-none lg:rounded-lg pt-5">
-            <List className="flex my-2">
-              {menuItems.map((item, index) => (
-                <div key={index}>
-                  <ListItem
-                    onClick={() => handleMenuItemClick(item.label)}
-                    className={`w-[200px] px-2 py-3 text-sm font-normal text-blue-gray-700 focus:bg-blue-500 focus:text-white ${
-                      isMenuItemSelected(item.label)
-                        ? "bg-blue-400 text-white hover:bg-blue-500 hover:text-white"
-                        : ""
-                    }`}
-                  >
-                    <div className="flex flex-col">
-                      <div className="flex w-full">
-                        <ListItemPrefix className="text-2xl">
-                          {item?.icon}
-                        </ListItemPrefix>
-                        <ListItemPrefix className="text-base mr-0 font-bold ">
-                          {item?.label}
-                        </ListItemPrefix>
-                      </div>
-                      <div className="flex w-full">
-                        {item.label === selectedMenuItem && item.subItems && (
-                          <List className="mt-2 ">
-                            {item.subItems.map((subItem, subIndex) => (
-                              <ListItem
-                                key={subIndex}
-                                onClick={() =>
-                                  handleSubMenuClick(subItem.label)
-                                }
-                                className={`w-[220px]  rounded-lg py-2 text-sm font-normal text-blue-gray-700  focus-bg-blue-500 focus-text-white ${
-                                  isSubMenuItemSelected(subItem.label)
-                                    ? "bg-gray-300 opacity-60  text-blue-gray-700  hover:bg-blue-500 hover:text-white"
-                                    : ""
-                                }`}
-                              >
-                                {/* หากต้องการใส่  Icons  ให้เมนูย่อย   */}
-                                {/* <ListItemPrefix className="text-xl" >{''}</ListItemPrefix>  */}
+          {/* Content */}
 
-                                <ListItemPrefix className="text-base font-bold ">
-                                  {subItem?.label}
-                                </ListItemPrefix>
-                              </ListItem>
-                            ))}
-                          </List>
-                        )}
-                      </div>
+          {selectedMenuSubItem
+            ? menuItems.map(
+                (item, index) =>
+                  item.label === selectedMenuItem &&
+                  item.subItems && (
+                    <div key={index} className="flex w-full">
+                      {item.subItems.map(
+                        (subItem, subIndex) =>
+                          subItem.label === selectedMenuSubItem && (
+                            <subItem.path key={subIndex} />
+                          )
+                      )}
                     </div>
-                  </ListItem>
-                  <hr
-                    className={` ${
-                      item.isUnderlined == 1
-                        ? " flex  text-center w-[73%]  mt-2  border border-gray-300"
-                        : "hidden"
-                    }`}
-                  />
-                </div>
-              ))}
-            </List>
-          </Card>
-        </div>
-
-        {/* Content */}
-
-        {selectedMenuSubItem
-          ? menuItems.map(
-              (item, index) =>
-                item.label === selectedMenuItem &&
-                item.subItems && (
-                  <div key={index} className="flex w-full">
-                    {item.subItems.map(
-                      (subItem, subIndex) =>
-                        subItem.label === selectedMenuSubItem && (
-                          <subItem.path key={subIndex} />
-                        )
-                    )}
-                  </div>
-                )
-            )
-          : menuItems.map(
-              (item, index) =>
-                item.label === selectedMenuItem && (
-                  <div
-                    key={index}
-                    className="flex w-full overflow-hidden relative h-full "
-                  >
+                  )
+              )
+            : menuItems.map(
+                (item, index) =>
+                  item.label === selectedMenuItem && (
                     <div
-                      className={`flex w-full  absolute  ${
-                        openNav ? "bg-gray-800 bg-opacity-70 z-10 h-full" : ""
-                      } `}
-                    ></div>
-                    <div className={`flex w-full h-full  absolute z-0`}>
-                      <item.path /> 
+                      key={index}
+                      className="flex w-full overflow-hidden relative h-full "
+                    >
+                      <div
+                        className={`flex w-full  absolute  ${
+                          openNav ? "bg-gray-800 bg-opacity-70 z-10 h-full" : ""
+                        } `}
+                      ></div>
+                      <div className={`flex w-full h-full  absolute z-0`}>
+                        <item.path />
+                      </div>
                     </div>
-                  </div>
-                )
-            )}
-      </div>
+                  )
+              )}
         </div>
+      </div>
 
       {/* modal Logout */}
 

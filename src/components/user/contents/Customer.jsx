@@ -11,6 +11,8 @@ import {
   DialogFooter,
 } from "@material-tailwind/react";
 
+import { addCustomer, deleteCustomer, editCustomer, getCustomer } from "../../../api/CustomerApi";
+
 import axios from "axios";
 import qs from "qs";
 
@@ -19,8 +21,8 @@ import { useState, useEffect } from "react";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 
-import { AiFillDelete,AiOutlineStop, } from "react-icons/ai";
-import { FaRegSave,FaFileUpload,FaCheckCircle } from "react-icons/fa";
+import { AiFillDelete, AiOutlineStop } from "react-icons/ai";
+import { FaRegSave, FaFileUpload, FaCheckCircle } from "react-icons/fa";
 import { TbDoorEnter } from "react-icons/tb";
 
 import { BsPencilSquare, BsFillEyeFill, BsPlusCircle } from "react-icons/bs";
@@ -37,40 +39,6 @@ function Customer() {
   const [searchQuery, setSearchQuery] = useState("");
   const [tokenError, setTokenError] = useState(false);
 
-  const [customerDataStore,setCustomerDataStore] = useRecoilState(customerStore)
-
-  const getCustomer = async () => {
-    try {
-      let token = localStorage.getItem("Token");
-
-      let data = "";
-
-      let config = {
-        method: "get",
-        maxBodyLength: Infinity,
-        url: `${
-          import.meta.env.VITE_APP_API
-        }/customer/customer-search?search=${searchQuery}`,
-        headers: {
-          Authorization: `Bearer ${token}`,
-        },
-        data: data,
-      };
-
-      await axios.request(config).then((response) => {
-        console.log(response.data);
-        setListData(response.data);
-        setCustomerDataStore(response.data)
-        setNoData(false);
-      });
-    } catch (error) {
-      if (error.response.statusText == "Unauthorized") {
-        setTokenError(true);
-      }
-      console.log(error)
-    }
-  };
-
   useEffect(() => {
     if (tokenError) {
       localStorage.clear();
@@ -78,10 +46,21 @@ function Customer() {
     }
   }, [tokenError]);
 
-  // console.log(listData);
+  const [customerDataStore, setCustomerDataStore] = useRecoilState(customerStore);
+
+  const fetchCustomer = async () => {
+    try {
+      const response = await getCustomer(searchQuery);
+      setListData(response);
+      setCustomerDataStore(response);
+      setNoData(false);
+    } catch (error) {
+      toast.error(error);
+    }
+  };
 
   useEffect(() => {
-    getCustomer();
+    fetchCustomer();
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [searchQuery]);
 
@@ -91,7 +70,7 @@ function Customer() {
 
   const startIndex = (currentPage - 1) * itemsPerPage;
   const endIndex = startIndex + itemsPerPage;
-  const displayedData = listData.slice(startIndex, endIndex);
+  const displayedData = Array.isArray(listData) ? listData.slice(startIndex, endIndex) : [];
 
   const totalPages = Math.ceil(listData.length / itemsPerPage);
 
@@ -109,41 +88,28 @@ function Customer() {
 
   const [newCustomer, setNewCustomer] = useState("");
 
-  const addCustomer = async () => {
-    let token = localStorage.getItem("Token");
-    let data = qs.stringify({
-      customer_name: newCustomer.customer_name,
-      customer_address: newCustomer.customer_address,
-      customer_id_tax: newCustomer.customer_id_tax,
-      customer_tel: newCustomer.customer_tel,
-    });
 
-    console.log(data);
+  const handleAddCustomer = async () => {
+    try {
+      let data = {
+        customer_name: newCustomer.customer_name,
+        customer_address: newCustomer.customer_address,
+        customer_id_tax: newCustomer.customer_id_tax,
+        customer_tel: newCustomer.customer_tel,
+      }
+      const response = await addCustomer(data)
+      fetchCustomer();
+      setOpenModalAdd(false);
+      toast.success("เพิ่มข้อมูล ลูกค้า สำเร็จ");
+      
+      
+    } catch (error) {
+      toast.error(error)
+      
+    }
+  }
 
-    let config = {
-      method: "post",
-      maxBodyLength: Infinity,
-      url: `${import.meta.env.VITE_APP_API}/customer/addcustomer`,
-      headers: {
-        Authorization: `Bearer ${token}`,
-        "Content-Type": "application/x-www-form-urlencoded",
-      },
-      data: data,
-    };
-
-    axios
-      .request(config)
-      .then((response) => {
-        response.data;
-        getCustomer();
-        setOpenModalAdd(false);
-        toast.success("เพิ่มข้อมูล ลูกค้า สำเร็จ");
-      })
-      .catch((error) => {
-        toast.error(error);
-      });
-  };
-
+ 
   //------------- modal Edit Product -----------------------//
   const [openModalEdit, setOpenModalEdit] = useState(false);
   const [dataEdit, setDataEdit] = useState([]);
@@ -152,42 +118,25 @@ function Customer() {
     setOpenModalEdit(!openModalEdit);
   };
 
-  const sendEditCustomer = async () => {
-    let token = localStorage.getItem("Token");
-    console.log(dataEdit);
-
-    let data = qs.stringify({
+  const handleEditCustomer = async () =>{
+    try {
+      let data = {
       id: dataEdit.id,
       customer_name: dataEdit.customer_name,
       customer_id_tax: dataEdit.customer_id_tax,
       customer_address: dataEdit.customer_address,
       customer_tel: dataEdit.customer_tel,
-    });
+    }
+    const response = await editCustomer(data)
+      setOpenModalEdit(false);
+      fetchCustomer();
+      toast.success("แก้ไขข้อมูล ลูกค้า สำเร็จ");
+    } catch (error) {
+      toast.error(error)
+      
+    }
+  }
 
-    console.log(data);
-
-    let config = {
-      method: "put",
-      maxBodyLength: Infinity,
-      url: `${import.meta.env.VITE_APP_API}/customer/editcustomer`,
-      headers: {
-        Authorization: `Bearer ${token}`,
-        "Content-Type": "application/x-www-form-urlencoded",
-      },
-      data: data,
-    };
-    axios
-      .request(config)
-      .then((response) => {
-        response.data;
-        setOpenModalEdit(false);
-        getCustomer();
-        toast.success("แก้ไขข้อมูล ลูกค้า สำเร็จ");
-      })
-      .catch((error) => {
-        toast.error(error);
-      });
-  };
 
   //------------- modal Delete Product -----------------------//
 
@@ -199,38 +148,19 @@ function Customer() {
     setDataDelete(data);
   };
 
-  const handleDelete = async (id) => {
-    // ลบข้อมูลเมื่อผู้ใช้ยืนยันการลบ
 
-    let token = localStorage.getItem("Token");
-    let data = qs.stringify({});
-
-    console.log(id);
-
-    let config = {
-      method: "delete",
-      maxBodyLength: Infinity,
-      url: `${import.meta.env.VITE_APP_API}/customer/delete/${id}`,
-      headers: {
-        Authorization: `Bearer ${token}`,
-        "Content-Type": "application/x-www-form-urlencoded",
-      },
-      data: data,
-    };
-
-    axios
-      .request(config)
-      .then((response) => {
-        response.data;
-        console.log(response.data);
-        getCustomer();
+  const handleDeleteCustomer = async (id) => {
+    try {
+      const response = await deleteCustomer(id)
+        fetchCustomer();
         setOpenModalDelete(false);
         toast.success("ลบข้อมูล ลูกค้า สำเร็จ");
-      })
-      .catch((error) => {
-        toast.error(error);
-      });
-  };
+    } catch (error) {
+      toast.error(error)
+      
+    }
+  }
+
 
   return (
     <Card className="w-full overflow-auto px-3">
@@ -317,15 +247,15 @@ function Customer() {
                   </th>
                 </tr>
               </thead>
-              {noData ? (
+              {noData || displayedData.length == 0 ? (
                 <tbody>
                   <tr>
-                    <td></td>
                     <td></td>
                     <td></td>
                     <td>
                       <Typography>...ไม่พบข้อมูล...</Typography>
                     </td>
+                    <td></td>
                   </tr>
                 </tbody>
               ) : (
@@ -465,8 +395,10 @@ function Customer() {
             </div>
             <div className="flex w-full  gap-3  ">
               <div className="flex w-full mt-3 gap-4    ">
-                <Typography className="font-bold">เลขประจำตัวผู้เสียภาษีอากร:</Typography>
-                <Typography>{dataView?.customerTaxId || ""}</Typography>
+                <Typography className="font-bold">
+                  เลขประจำตัวผู้เสียภาษีอากร:
+                </Typography>
+                <Typography>{dataView?.customer_id_tax || ""}</Typography>
               </div>
 
               <div className="flex mt-3 w-full gap-4  ">
@@ -483,11 +415,11 @@ function Customer() {
             size="sm"
             onClick={handleModalView}
             className="flex mr-1 text-base "
-            >
-              <span className="mr-2 text-xl ">
-                <TbDoorEnter />
-              </span>
-              ออก
+          >
+            <span className="mr-2 text-xl ">
+              <TbDoorEnter />
+            </span>
+            ออก
           </Button>
         </DialogFooter>
       </Dialog>
@@ -574,24 +506,28 @@ function Customer() {
           </div>
         </DialogBody>
         <DialogFooter>
-        <Button
+          <Button
             variant="text"
             color="red"
             size="sm"
             onClick={handleModalAdd}
             className="flex mr-1 text-base"
           >
-            <span className="text-xl mr-2"><AiOutlineStop /></span>
+            <span className="text-xl mr-2">
+              <AiOutlineStop />
+            </span>
             ยกเลิก
           </Button>
           <Button
             size="sm"
             variant="gradient"
             color="green"
-            onClick={addCustomer}
+            onClick={handleAddCustomer}
             className="flex text-base mr-1"
           >
-            <span className="mr-2 text-xl"><FaRegSave /></span>
+            <span className="mr-2 text-xl">
+              <FaRegSave />
+            </span>
             บันทึก
           </Button>
         </DialogFooter>
@@ -682,17 +618,21 @@ function Customer() {
             onClick={handleModalEdit}
             className="flex mr-1 text-base"
           >
-            <span className="text-xl mr-2"><AiOutlineStop /></span>
+            <span className="text-xl mr-2">
+              <AiOutlineStop />
+            </span>
             ยกเลิก
           </Button>
           <Button
             size="sm"
             variant="gradient"
             color="purple"
-            onClick={sendEditCustomer}
+            onClick={handleEditCustomer}
             className="flex mr-1 text-base"
           >
-            <span className="text-xl mr-2"><FaFileUpload/></span>
+            <span className="text-xl mr-2">
+              <FaFileUpload />
+            </span>
             อัพเดท
           </Button>
         </DialogFooter>
@@ -720,10 +660,12 @@ function Customer() {
               variant="gradient"
               color="red"
               size="sm"
-              onClick={() => handleDelete(dataDelete?.id)}
+              onClick={() => handleDeleteCustomer(dataDelete?.id)}
               className="flex mr-1 text-base"
             >
-              <span className="text-xl mr-2"><FaCheckCircle /></span>
+              <span className="text-xl mr-2">
+                <FaCheckCircle />
+              </span>
               ตกลง
             </Button>
             <Button
@@ -732,9 +674,11 @@ function Customer() {
               size="sm"
               onClick={handleModalDelete}
               className="flex mr-1 text-base"
-          >
-            <span className="text-xl mr-2"><AiOutlineStop /></span>
-            ยกเลิก
+            >
+              <span className="text-xl mr-2">
+                <AiOutlineStop />
+              </span>
+              ยกเลิก
             </Button>
           </div>
         </DialogFooter>

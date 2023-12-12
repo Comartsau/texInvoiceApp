@@ -473,7 +473,7 @@ function TaxInvoiceSub() {
                     รายการ (บิลย่อย C66/001/4)
                   </Typography>
                   <div className="xl:px-5 mt-3">
-                    <Card className="border w-full h-[35vh] overflow-auto "></Card>
+                    <Card className="border w-full h-[35vh] overflow-auto ">sssssss</Card>
                   </div>
                 </div>
                 <div className="mt-3">
