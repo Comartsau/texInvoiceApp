@@ -1,6 +1,6 @@
 import { Routes, Route, Navigate } from "react-router-dom";
 import { useEffect, useState } from "react";
-import Login from "./components/Login";
+import Login from "./auth/Login";
 
 import "./App.css";
 

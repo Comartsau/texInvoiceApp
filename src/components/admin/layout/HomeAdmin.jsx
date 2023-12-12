@@ -17,9 +17,9 @@ import { FaUserTie, FaBars } from "react-icons/fa";
 import { AiFillCloseCircle, AiOutlineLogout } from "react-icons/ai";
 import { BiSolidReport } from "react-icons/bi";
 import { BsBoxFill } from "react-icons/bs";
-import Company from "./content/company";
+import Company from "../content/company";
 // import Report from "./content/report";
-import ReportMenu from "./content/ReportMenu";
+import ReportMenu from "../content/ReportMenu";
 
 
 function HomeAdmin() {

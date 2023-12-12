@@ -23,17 +23,17 @@ import { BiSolidReport } from "react-icons/bi";
 import { BsBoxFill } from "react-icons/bs";
 import { MdAddLocationAlt } from "react-icons/md";
 import { useNavigate } from "react-router-dom";
-import Product from "./contents/Product";
-import Customer from "./contents/Customer";
-import Shop from "./contents/Shops";
-import TaxInvoiceMenu from "./contents/TaxInvoiceMenu";
-import ReportMenu from "./contents/ReportMenu";
+import Product from "../contents/Product";
+import Customer from "../contents/Customer";
+import Shop from "../contents/Shops";
+import TaxInvoiceMenu from "../contents/TaxInvoiceMenu";
+import ReportMenu from "../contents/ReportMenu";
 
 import axios from "axios";
 import { useRecoilState} from "recoil";
-import { customerStore } from "../../store/Store";
-import { productStore } from "../../store/Store";
-import { shopStore } from "../../store/Store";
+import { customerStore } from "../../../store/Store";
+import { productStore } from "../../../store/Store";
+import { shopStore } from "../../../store/Store";
 
 
 

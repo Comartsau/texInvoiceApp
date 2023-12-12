@@ -1,6 +1,6 @@
 import { Navigate, Route, Routes, } from "react-router-dom";
-import HomeAdmin from "../components/admin/HomeAdmin";
-import HomeUser from "../components/user/HomeUser";
+import HomeAdmin from "../components/admin/layout/HomeAdmin";
+import HomeUser from "../components/user/layout/HomeUser";
 
 import { AuthContent } from "../App";
 import { useContext } from "react";

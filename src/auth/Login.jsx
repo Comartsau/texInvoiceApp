@@ -51,13 +51,13 @@ function Login() {
           setTimeout(() => {
             navigate("/admin");
             window.location.reload();
-          }, 1000);
+          }, 2000);
         } else if (decoded.level === "2") {
           localStorage.setItem("Status", "user");
           setTimeout(() => {
             navigate("/user");
             window.location.reload();
-          }, 1000);
+          }, 2000);
         }
       } else {
         toast.error(res?.data?.error);

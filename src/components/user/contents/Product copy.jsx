@@ -14,7 +14,7 @@ import {
 import axios from "axios";
 import qs from "qs";
 
-import { getProduct, addProduct, editProduct, deleteProduct } from "../../../api/ProductApi";
+import {getProduct} from '../../../api/ProductApi'
 
 import { useRecoilState } from "recoil";
 import { productStore } from "../../../store/Store";
@@ -23,40 +23,86 @@ import { useState, useEffect } from "react";
 
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
-import { FaRegSave, FaFileUpload, FaCheckCircle } from "react-icons/fa";
+import { FaRegSave, FaFileUpload, FaCheckCircle   } from "react-icons/fa";
 import { TbDoorEnter } from "react-icons/tb";
-import { AiFillDelete, AiOutlineStop } from "react-icons/ai";
+import { AiFillDelete,AiOutlineStop,  } from "react-icons/ai";
+
 
 import { BsPencilSquare, BsFillEyeFill, BsPlusCircle } from "react-icons/bs";
+
+
 
 function Product() {
   //----------  Data Table --------------------//
   const [noData, setNoData] = useState(true);
 
   const [listData, setListData] = useState([]);
-  const [productDataStore, setProductDataStore] = useRecoilState(productStore);
+  const [productDataStore,setProductDataStore] = useRecoilState(productStore)
+
 
   const [searchQuery, setSearchQuery] = useState("");
-  const [tokenError, setTokenError] = useState(false);
+  const [tokenError ,setTokenError] = useState(false)
+
+
 
   const fetchProduct = async () => {
     try {
-      const response = await getProduct(searchQuery);
-      setListData(response);
+      const data = await getProduct(searchQuery)
+      setListData(data);
       setNoData(false);
-      setProductDataStore(response);
+      setProductDataStore(data)
+      
     } catch (error) {
-      console.error(error);
+      console.error(error)
     }
-  };
+  }
 
-  useEffect(() => {
-    if (tokenError) {
-      localStorage.clear();
-      window.location.reload();
-    }
-  }, [tokenError]);
 
+
+
+
+
+  // const getProduct = async () => {
+  //   try {
+  //     let token = localStorage.getItem("Token");
+
+  //     let data = "";
+
+  //     // console.log(data);
+
+  //     let config = {
+  //       method: "get",
+  //       maxBodyLength: Infinity,
+  //       url: `${
+  //         import.meta.env.VITE_APP_API
+  //       }/product/product-search?name=${searchQuery}`,
+  //       headers: {
+  //         Authorization: `Bearer ${token}`,
+  //       },
+  //       data: data,
+  //     };
+
+  //     await axios.request(config).then((response) => {
+  //       console.log(response.data);
+  //       setListData(response.data);
+  //       setProductDataStore(response.data)
+  //       setNoData(false);
+  //     });
+  //   } catch (error) {
+  //     if (error.response.statusText == 'Unauthorized') {
+  //       setTokenError(true)
+  //     }
+  //     console.log(error)
+  //   }
+  // };
+
+  useEffect(()=>{
+  if (tokenError) {
+        localStorage.clear();
+        window.location.reload();
+      }
+    },[tokenError])
+      
   // console.log(listData);
 
   useEffect(() => {
@@ -88,21 +134,36 @@ function Product() {
 
   const [newProduct, setNewProduct] = useState("");
 
-  const handleAddProduct = async () => {
-    try {
-      let data = {
-        name: newProduct.name,
-        price: newProduct.price,
-        unit: newProduct.unit,
-      };
+  const addProduct = async () => {
+    let token = localStorage.getItem("Token");
+    let data = qs.stringify({
+      name: newProduct.name,
+      price: newProduct.price,
+      unit: newProduct.unit,
+    });
 
-      const response = await addProduct(data);
-      setOpenModalAdd(false);
-      fetchProduct();
-      toast.success("เพิ่มข้อมูล สินค้า สำเร็จ");
-    } catch (error) {
-      toast.error(error);
-    }
+    let config = {
+      method: "post",
+      maxBodyLength: Infinity,
+      url: `${import.meta.env.VITE_APP_API}/product/addproduct`,
+      headers: {
+        Authorization: `Bearer ${token}`,
+        "Content-Type": "application/x-www-form-urlencoded",
+      },
+      data: data, 
+    };
+
+    axios
+      .request(config)
+      .then((response) => {
+        response.data;
+        getProduct();
+        setOpenModalAdd(false);
+        toast.success("เพิ่มข้อมูล สินค้า สำเร็จ");
+      })
+      .catch((error) => {
+        toast.error(error);
+      });
   };
 
   //------------- modal Edit Product -----------------------//
@@ -113,21 +174,40 @@ function Product() {
     setOpenModalEdit(!openModalEdit);
   };
 
-  const handleEditProduct = async () => {
-    try {
-      let data = {
-        id: dataEdit.id,
-        name: dataEdit.name,
-        price: dataEdit.price,
-        unit: dataEdit.unit,
-      };
-      const response = await editProduct(data);
-      setOpenModalEdit(false);
-      fetchProduct();
-      toast.success("แก้ไขข้อมูล สินค้า สำเร็จ");
-    } catch (error) {
-      toast.error(error);
-    }
+  const sendEditProduct = async () => {
+    let token = localStorage.getItem("Token");
+    console.log(dataEdit);
+    let data = qs.stringify({
+      id: dataEdit.id,
+      name: dataEdit.name,
+      price: dataEdit.price,
+      unit: dataEdit.unit,
+    });
+
+    console.log(data);
+
+    let config = {
+      method: "put",
+      maxBodyLength: Infinity,
+      url: `${import.meta.env.VITE_APP_API}/product/edit`,
+      headers: {
+        Authorization: `Bearer ${token}`,
+        "Content-Type": "application/x-www-form-urlencoded",
+      },
+      data: data,
+    };
+
+    axios
+      .request(config)
+      .then((response) => {
+        response.data;
+        setOpenModalEdit(false);
+        getProduct();
+        toast.success("แก้ไขข้อมูล สินค้า สำเร็จ");
+      })
+      .catch((error) => {
+        toast.error(error);
+      });
   };
 
   //------------- modal Delete Product -----------------------//
@@ -140,51 +220,38 @@ function Product() {
     setDataDelete(data);
   };
 
-  const handleDeleteProduct = async (id) => {
-    try {
-        const response = await deleteProduct(id)
+  const handleDelete = async (id) => {
+    // ลบข้อมูลเมื่อผู้ใช้ยืนยันการลบ
+
+    let token = localStorage.getItem("Token");
+    let data = qs.stringify({});
+
+    console.log(id)
+
+    let config = {
+      method: "delete",
+      maxBodyLength: Infinity,
+      url: `${import.meta.env.VITE_APP_API}/product/delete/${id}`,
+      headers: {
+        Authorization: `Bearer ${token}`,
+        "Content-Type": "application/x-www-form-urlencoded",
+      },
+      data: data,
+    };
+
+    axios
+      .request(config)
+      .then((response) => {
+        response.data;
+        console.log(response.data)
+        getProduct();
         setOpenModalDelete(false);
-        fetchProduct();
         toast.success("ลบข้อมูล สินค้า สำเร็จ");
-      
-    } catch (error) {
-      toast.error(error)
-      
-    }
-  }
-
-  // const handleDelete = async (id) => {
-  //   // ลบข้อมูลเมื่อผู้ใช้ยืนยันการลบ
-
-  //   let token = localStorage.getItem("Token");
-  //   let data = qs.stringify({});
-
-  //   console.log(id);
-
-  //   let config = {
-  //     method: "delete",
-  //     maxBodyLength: Infinity,
-  //     url: `${import.meta.env.VITE_APP_API}/product/delete/${id}`,
-  //     headers: {
-  //       Authorization: `Bearer ${token}`,
-  //       "Content-Type": "application/x-www-form-urlencoded",
-  //     },
-  //     data: data,
-  //   };
-
-  //   axios
-  //     .request(config)
-  //     .then((response) => {
-  //       response.data;
-  //       console.log(response.data);
-  //       getProduct();
-  //       setOpenModalDelete(false);
-  //       toast.success("ลบข้อมูล สินค้า สำเร็จ");
-  //     })
-  //     .catch((error) => {
-  //       toast.error(error);
-  //     });
-  // };
+      })
+      .catch((error) => {
+        toast.error(error);
+      });
+  };
 
   return (
     <Card className="w-full overflow-auto px-3">
@@ -455,11 +522,11 @@ function Product() {
             size="sm"
             onClick={handleModalView}
             className="flex mr-1 text-base "
-          >
-            <span className="mr-2 text-xl ">
-              <TbDoorEnter />
-            </span>
-            ออก
+            >
+              <span className="mr-2 text-xl ">
+                <TbDoorEnter />
+              </span>
+              ออก
           </Button>
         </DialogFooter>
       </Dialog>
@@ -501,17 +568,17 @@ function Product() {
               </div>
             </div>
             <div className="flex mt-3 w-full h-auto sm:w-[200px] sm:mt-0 xl:px-5 ">
-              <Input
-                type="text"
-                label="หน่วยนับ"
-                maxLength="30"
-                onChange={(e) =>
-                  setNewProduct({
-                    ...newProduct,
-                    unit: e.target.value,
-                  })
-                }
-              />
+            <Input
+                  type="text"
+                  label="หน่วยนับ"
+                  maxLength="30"
+                  onChange={(e) =>
+                    setNewProduct({
+                      ...newProduct,
+                      unit: e.target.value,
+                    })
+                  }
+                />
             </div>
           </div>
         </DialogBody>
@@ -523,21 +590,17 @@ function Product() {
             onClick={handleModalAdd}
             className="flex mr-1 text-base"
           >
-            <span className="text-xl mr-2">
-              <AiOutlineStop />
-            </span>
+            <span className="text-xl mr-2"><AiOutlineStop /></span>
             ยกเลิก
           </Button>
           <Button
             size="sm"
             variant="gradient"
             color="green"
-            onClick={handleAddProduct}
+            onClick={addProduct}
             className="flex text-base mr-1"
           >
-            <span className="mr-2 text-xl">
-              <FaRegSave />
-            </span>
+            <span className="mr-2 text-xl"><FaRegSave /></span>
             บันทึก
           </Button>
         </DialogFooter>
@@ -583,18 +646,18 @@ function Product() {
               </div>
             </div>
             <div className="mt-3 w-full sm:w-[200px] sm:mt-0 xl:px-5">
-              <Input
-                type="text"
-                label="หน่วยนับ"
-                maxLength="30"
-                value={dataEdit?.unit || ""}
-                onChange={(e) =>
-                  setDataEdit({
-                    ...dataEdit,
-                    unit: e.target.value,
-                  })
-                }
-              />
+            <Input
+                  type="text"
+                  label="หน่วยนับ"
+                  maxLength="30"
+                  value={dataEdit?.unit || ""}
+                  onChange={(e) =>
+                    setDataEdit({
+                      ...dataEdit,
+                      unit: e.target.value,
+                    })
+                  }
+                />
             </div>
           </div>
         </DialogBody>
@@ -606,21 +669,17 @@ function Product() {
             onClick={handleModalEdit}
             className="flex mr-1 text-base"
           >
-            <span className="text-xl mr-2">
-              <AiOutlineStop />
-            </span>
+            <span className="text-xl mr-2"><AiOutlineStop /></span>
             ยกเลิก
           </Button>
           <Button
             size="sm"
             variant="gradient"
             color="purple"
-            onClick={handleEditProduct}
+            onClick={sendEditProduct}
             className="flex mr-1 text-base"
           >
-            <span className="text-xl mr-2">
-              <FaFileUpload />
-            </span>
+            <span className="text-xl mr-2"><FaFileUpload/></span>
             อัพเดท
           </Button>
         </DialogFooter>
@@ -630,8 +689,8 @@ function Product() {
 
       <Dialog open={openModalDelete} size="sm" handler={handleModalDelete}>
         <DialogHeader className="bg-red-700 py-3  px-3  justify-center text-lg text-white opacity-80">
-          <Typography variant="h5">ลบสินค้า</Typography>
-        </DialogHeader>
+        <Typography variant="h5">ลบสินค้า</Typography>
+          </DialogHeader>
         <DialogBody divider className=" overflow-auto ">
           <div className="flex flex-col w-full justify-center gap-3 ">
             <Typography variant="h5" className="text-center">
@@ -648,12 +707,10 @@ function Product() {
               variant="gradient"
               color="red"
               size="sm"
-              onClick={() => handleDeleteProduct(dataDelete?.id)}
+              onClick={() => handleDelete(dataDelete?.id)}
               className="flex mr-1 text-base"
             >
-              <span className="text-xl mr-2">
-                <FaCheckCircle />
-              </span>
+              <span className="text-xl mr-2"><FaCheckCircle /></span>
               ตกลง
             </Button>
             <Button
@@ -662,11 +719,9 @@ function Product() {
               size="sm"
               onClick={handleModalDelete}
               className="flex mr-1 text-base"
-            >
-              <span className="text-xl mr-2">
-                <AiOutlineStop />
-              </span>
-              ยกเลิก
+          >
+            <span className="text-xl mr-2"><AiOutlineStop /></span>
+            ยกเลิก
             </Button>
           </div>
         </DialogFooter>
