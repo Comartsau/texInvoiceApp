@@ -61,7 +61,7 @@ export const deleteShop = async (id) => {
   try {
     let Token = localStorage.getItem("Token");
     const response = await axios.delete(
-      `${import.meta.env.VITE_APP_API}/product/delete/${id}`,
+      `${import.meta.env.VITE_APP_API}/salepoints/delete/${id}`,
       {
         headers: {
           "Content-Type": "application/json",

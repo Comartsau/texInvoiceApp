@@ -13,9 +13,6 @@ import {
 
 import { addCustomer, deleteCustomer, editCustomer, getCustomer } from "../../../api/CustomerApi";
 
-import axios from "axios";
-import qs from "qs";
-
 import { useState, useEffect } from "react";
 
 import { ToastContainer, toast } from "react-toastify";
@@ -51,6 +48,7 @@ function Customer() {
   const fetchCustomer = async () => {
     try {
       const response = await getCustomer(searchQuery);
+      console.log(response)
       setListData(response);
       setCustomerDataStore(response);
       setNoData(false);
@@ -58,7 +56,6 @@ function Customer() {
       toast.error(error);
     }
   };
-
   useEffect(() => {
     fetchCustomer();
     // eslint-disable-next-line react-hooks/exhaustive-deps

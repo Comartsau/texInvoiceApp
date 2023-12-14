@@ -14,7 +14,7 @@ import {
 import axios from "axios";
 import qs from "qs";
 
-import { addShop, editShop, getShop } from "../../../api/ShopApi";
+import { addShop, deleteShop, editShop, getShop } from "../../../api/ShopApi";
 
 import { useState, useEffect } from "react";
  
@@ -188,40 +188,57 @@ function Shops() {
     setDataDelete(data);
   };
 
-  const handleDelete = async (id) => {
-    // ลบข้อมูลเมื่อผู้ใช้ยืนยันการลบ
-
-    let token = localStorage.getItem("Token");
-    let data = qs.stringify({});
-
-    console.log(id);
-
-    let config = {
-      method: "delete",
-      maxBodyLength: Infinity,
-      url: `${import.meta.env.VITE_APP_API}/salepoints/delete/${id}`,
-      headers: {
-        Authorization: `Bearer ${token}`,
-        "Content-Type": "application/x-www-form-urlencoded",
-      },
-      data: data,
-    };
-    axios
-      .request(config)
-      .then((response) => {
-        response.data;
-        //  setTimeout(() => {
-        // }, 1000);
-        console.log(response.data);
-        // getShops();
+  const handleDeleteShop = async (id) => {
+    try {
+      const response = await deleteShop(id) 
+        fetchShop();
         setOpenModalDelete(false);
         toast.success("ลบข้อมูล จุดขาย สำเร็จ");
+      
 
-      })
-      .catch((error) => {
-        toast.error(error);
-      });
-  };
+      
+    } catch (error) {
+      toast.error(error)
+      
+    }
+  }
+
+
+
+  // const handleDelete = async (id) => {
+  //   // ลบข้อมูลเมื่อผู้ใช้ยืนยันการลบ
+
+  //   let token = localStorage.getItem("Token");
+  //   let data = qs.stringify({});
+
+  //   console.log(id);
+
+  //   let config = {
+  //     method: "delete",
+  //     maxBodyLength: Infinity,
+  //     url: `${import.meta.env.VITE_APP_API}/salepoints/delete/${id}`,
+  //     headers: {
+  //       Authorization: `Bearer ${token}`,
+  //       "Content-Type": "application/x-www-form-urlencoded",
+  //     },
+  //     data: data,
+  //   };
+  //   axios
+  //     .request(config)
+  //     .then((response) => {
+  //       response.data;
+  //       //  setTimeout(() => {
+  //       // }, 1000);
+  //       console.log(response.data);
+  //       // getShops();
+  //       setOpenModalDelete(false);
+  //       toast.success("ลบข้อมูล จุดขาย สำเร็จ");
+
+  //     })
+  //     .catch((error) => {
+  //       toast.error(error);
+  //     });
+  // };
 
   return (
     <Card className="w-full overflow-auto px-3">
@@ -288,7 +305,7 @@ function Shops() {
                       แก้ไข
                     </Typography>
                   </th>
-                  <th className="border-y border-blue-gray-100 bg-blue-gray-50/50 p-4">
+                  {/* <th className="border-y border-blue-gray-100 bg-blue-gray-50/50 p-4">
                     <Typography
                       variant="small"
                       color="blue-gray"
@@ -296,8 +313,8 @@ function Shops() {
                     >
                       ปิด / เปิด
                     </Typography>
-                  </th>
-                  {/* <th className="border-y border-blue-gray-100 bg-blue-gray-50/50 p-4">
+                  </th> */}
+                  <th className="border-y border-blue-gray-100 bg-blue-gray-50/50 p-4">
                     <Typography
                       variant="small"
                       color="blue-gray"
@@ -305,7 +322,7 @@ function Shops() {
                     >
                       ลบ
                     </Typography>
-                  </th> */}
+                  </th>
                 </tr>
               </thead>
               {noData || displayedData.length == 0 ? (
@@ -364,7 +381,7 @@ function Shops() {
                             </IconButton>
                           </div>
                         </td>
-                        <td className={classes}>
+                        {/* <td className={classes}>
                           <div className="flex justify-center ">
                             <IconButton
                               variant="outlined"
@@ -380,8 +397,8 @@ function Shops() {
                               }
                             </IconButton>
                           </div>
-                        </td>
-                        {/* <td className={classes}>
+                        </td> */}
+                        <td className={classes}>
                           <div className="flex justify-center ">
                             <IconButton
                               variant="outlined"
@@ -393,7 +410,7 @@ function Shops() {
                               <AiFillDelete color="red" className="h-5 w-5" />
                             </IconButton>
                           </div>
-                        </td> */}
+                        </td>
                       </tr>
                     );
                   })}
@@ -595,7 +612,7 @@ function Shops() {
               variant="gradient"
               color="red"
               size="sm"
-              onClick={() => handleDelete(dataDelete?.id)}
+              onClick={() => handleDeleteShop(dataDelete?.id)}
               className="flex mr-1 text-base"
             >
               <span className="text-xl mr-2"><FaCheckCircle /></span>
