@@ -435,12 +435,12 @@ import {
                 {/*  <Page key={index} size='B7' style={styles.page} >  */}
                   <View>
                     <Text style={[styles.flexrowcenter, styles.text12]}>
-                      บริษัท เขาสวนกวางเดินรถ จำกัด (สำนักงานใหญ่) ''
+                      บริษัท เขาสวนกวางเดินรถ จำกัด (สำนักงานใหญ่)   {''}
                     </Text>
                     <Text
                       style={[styles.flexrowcenter, styles.text9, styles.mt10]}
                     >
-                      237/4 หมู่ 11 ตำบลคำม่วง อำเภอเขาสวนกลาง จังหวัดขอนแก่น ''
+                      237/4 หมู่ 11 ตำบลคำม่วง อำเภอเขาสวนกลาง จังหวัดขอนแก่น    {''}
                     </Text>
                     <Text
                       style={[
@@ -450,14 +450,14 @@ import {
                         styles.borderb,
                       ]}
                     >
-                      เลขประจำตัวผู้เสียภาษี 0405533000301 โทรศัพท์ 099-0373274 '
+                      เลขประจำตัวผู้เสียภาษี 0405533000301 โทรศัพท์ 099-0373274    {''}
                     </Text>
                   </View>
                   <View>
                     <Text
                       style={[styles.flexrowcenter, styles.text10, styles.mt10]}
                     >
-                      ใบเสร็จรับเงิน / ใบกำกับภาษี '
+                      ใบเสร็จรับเงิน / ใบกำกับภาษี    {''}
                     </Text>
                     <View style={[styles.flexrow, styles.mt20]}>
                       <View style={[styles.flexrowcenter]}>

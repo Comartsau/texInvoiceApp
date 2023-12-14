@@ -585,6 +585,7 @@ const CreateInvoice = () => {
       {/* open PDF A4 */}
 
       {openModalReceiptA4 == true && headFormDataStore == "1" ? (
+        <>
         <ReceiptA4
           openModalReceiptA4={openModalReceiptA4}
           handleModalReceiptA4={handleModalReceiptA4}
@@ -595,6 +596,7 @@ const CreateInvoice = () => {
           calculateTotalAmount={calculateTotalAmount}
           note={note}
         />
+        </>
       ) : (
         ""
       )}

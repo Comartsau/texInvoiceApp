@@ -362,12 +362,12 @@ export const ReceiptA4 = ({
               <Page key={index} size="A4" style={styles.page} > 
                 <View>
                   <Text style={[styles.flexrowcenter, styles.text14]}>
-                    บริษัท เขาสวนกวางเดินรถ จำกัด (สำนักงานใหญ่) ''
+                  บริษัท เขาสวนกวางเดินรถ จำกัด (สำนักงานใหญ่)  {''}
                   </Text>
                   <Text
                     style={[styles.flexrowcenter, styles.text12, styles.mt10]}
                   >
-                    237/4 หมู่ 11 ตำบลคำม่วง อำเภอเขาสวนกลาง จังหวัดขอนแก่น ''
+                    237/4 หมู่ 11 ตำบลคำม่วง อำเภอเขาสวนกลาง จังหวัดขอนแก่น   {''} 
                   </Text>
                   <Text
                     style={[
@@ -377,14 +377,14 @@ export const ReceiptA4 = ({
                       styles.borderb,
                     ]}
                   >
-                    เลขประจำตัวผู้เสียภาษี 0405533000301 โทรศัพท์ 099-0373274 '
+                    เลขประจำตัวผู้เสียภาษี 0405533000301 โทรศัพท์ 099-0373274     {''}
                   </Text>
                 </View>
                 <View>
                   <Text
                     style={[styles.flexrowcenter, styles.text14, styles.mt10]}
                   >
-                    ใบเสร็จรับเงิน / ใบกำกับภาษี '
+                    ใบเสร็จรับเงิน / ใบกำกับภาษี     {''}
                   </Text>
                   <View style={[styles.flexrow, styles.mt10]}>
                     <View style={[styles.flexrowstart, { width: "65%" }]}>
@@ -420,8 +420,7 @@ export const ReceiptA4 = ({
                             styles.spacesm,
                           ]}
                         >
-                          เลขประจำตัวผู้เสียภาษี:{" "}
-                          {customer?.customer_id_tax || ""}
+                          เลขประจำตัวผู้เสียภาษี:   {customer?.customer_id_tax || ""}
                         </Text>
                         <Text
                           style={[
@@ -468,22 +467,22 @@ export const ReceiptA4 = ({
                   <View style={[styles.table, { marginTop: "10" }]}>
                     <View style={styles.tableRow}>
                       <Text style={[styles.tableCell1, styles.colorHead]}>
-                        ลำดับ{" "}
+                        ลำดับ    {''}
                       </Text>
                       <Text style={[styles.tableCell2, styles.colorHead]}>
-                        รายการ{" "}
+                        รายการ   {''}
                       </Text>
                       <Text style={[styles.tableCell3, styles.colorHead]}>
-                        จำนวน{" "}
+                        จำนวน   {''}
                       </Text>
                       <Text style={[styles.tableCell4, styles.colorHead]}>
-                        หน่วยนับ{" "}
+                        หน่วยนับ   {''}
                       </Text>
                       <Text style={[styles.tableCell5, styles.colorHead]}>
-                        ราคา/หน่วย{" "}
+                        ราคา/หน่วย   {''}
                       </Text>
                       <Text style={[styles.tableCell6, styles.colorHead]}>
-                        รวมจำนวนเงิน{" "}
+                        รวมจำนวนเงิน   {''}
                       </Text>
                     </View>
                     {pageData.map((item, itemIndex) => {
@@ -491,20 +490,20 @@ export const ReceiptA4 = ({
                       return (
                         <View key={itemIndex} style={styles.tableRow}>
                           <Text style={styles.tableCell1}>
-                            {item.index  || ""}{" "}
+                            {item.index  || ""}
                           </Text>
                           <Text
                             style={[styles.tableCell2, { textAlign: "left" }]}
                           >
-                            {`${item?.product || ''} `}
+                            {item?.product || ''} 
                           </Text>
                           <Text style={styles.tableCell3}>
                             {" "}
-                            {item?.quantity || ""}{" "}
+                            {item?.quantity || ""}
                           </Text>
                           <Text style={styles.tableCell4}>
                             {" "}
-                            {item?.unit || ""}{" "}
+                            {item?.unit || ""}
                           </Text>
                           <Text style={styles.tableCell5}>
                             {" "}
@@ -512,8 +511,7 @@ export const ReceiptA4 = ({
                           </Text>
                           <Text style={styles.tableCell6}>
                             {" "}
-                            {Number(item?.totalPrice).toLocaleString() ||
-                              ""}{" "}
+                            {Number(item?.totalPrice).toLocaleString() || ""}
                           </Text>
                         </View>
                       );
@@ -537,7 +535,7 @@ export const ReceiptA4 = ({
                           <Text style={[styles.tableCellNoteBorder ]}>{`${note }`}</Text>
                           <Text style={[styles.tableCell5  ]} >
                             {" "}
-                            ภาษีมูลค่าเพิ่ม{" "}
+                            ภาษีมูลค่าเพิ่ม
                           </Text>
                           <Text style={styles.tableCell6}>
                             {calculateVAT()
@@ -552,7 +550,7 @@ export const ReceiptA4 = ({
                           </Text>
                           <Text style={styles.tableCell5}>
                             {" "}
-                            จำนวนเงินทั้งสิ้น{" "}
+                            จำนวนเงินทั้งสิ้น   {''}
                           </Text>
                           <Text style={styles.tableCell6}>
                             {calculateTotalAmount()
@@ -583,7 +581,7 @@ export const ReceiptA4 = ({
                               styles.spacesm,
                             ]}
                           >
-                            ลงชื่อ:{" "}
+                            ลงชื่อ:
                           </Text>
                           <Text
                             style={[
@@ -610,7 +608,7 @@ export const ReceiptA4 = ({
                                 styles.spacesm,
                               ]}
                             >
-                              ลงชื่อ:{" "}
+                              ลงชื่อ:
                             </Text>
                             <Text
                               style={[
@@ -645,7 +643,7 @@ export const ReceiptA4 = ({
                               styles.spacesm,
                             ]}
                           >
-                            ผู้รับเงิน:{" "}
+                            ผู้รับเงิน
                           </Text>
                         </View>
 
@@ -661,7 +659,7 @@ export const ReceiptA4 = ({
                                 styles.spacesm,
                               ]}
                             >
-                              ผู้จ่ายเงิน:{" "}
+                              ผู้จ่ายเงิน
                             </Text>
                           </View>
                         </View>
