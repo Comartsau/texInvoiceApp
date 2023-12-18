@@ -314,15 +314,12 @@ const styles = StyleSheet.create({
 export const ReceiptA4 = ({
   openModalReceiptA4,
   handleModalReceiptA4,
-  data,
+  dataReceipt,
   customer,
-  calculatePruePrice,
-  calculateVAT,
-  calculateTotalAmount,
   note,
 }) => {
-
-  console.log(data);
+  console.log(dataReceipt)
+ 
 
 
   const itemsPerPage = 15; // จำนวนรายการต่อหน้า
@@ -346,7 +343,7 @@ export const ReceiptA4 = ({
     return pages;
   };
 
-  const pages = generatePages(data);
+  const pages = generatePages(dataReceipt.product_data);
 
   console.log(pages);
 
@@ -446,7 +443,7 @@ export const ReceiptA4 = ({
                             styles.spacesm,
                           ]}
                         >
-                          เลขที่ใบกำกับภาษี: KSK07/0033
+                          เลขที่ใบกำกับภาษี: {dataReceipt.code}
                         </Text>
                         <Text
                           style={[
@@ -457,7 +454,7 @@ export const ReceiptA4 = ({
                             styles.spacesm,
                           ]}
                         >
-                          วันที่: 26/11/2023
+                          {/* วันที่: {dataReceipt} */}
                         </Text>
                       </View>
                     </View>
@@ -486,7 +483,6 @@ export const ReceiptA4 = ({
                       </Text>
                     </View>
                     {pageData.map((item, itemIndex) => {
-                      console.log(item);
                       return (
                         <View key={itemIndex} style={styles.tableRow}>
                           <Text style={styles.tableCell1}>
@@ -525,8 +521,7 @@ export const ReceiptA4 = ({
                           </Text>
                           <Text style={styles.tableCell5}> รวมเป็นเงิน </Text>
                           <Text style={styles.tableCell6}>
-                            {calculatePruePrice()
-                              .toFixed(2)
+                            {Number(dataReceipt?.total_price).toFixed(2)
                               .replace(/\B(?=(\d{3})+(?!\d))/g, ",")}
                           </Text>
                         </View>
@@ -538,7 +533,7 @@ export const ReceiptA4 = ({
                             ภาษีมูลค่าเพิ่ม
                           </Text>
                           <Text style={styles.tableCell6}>
-                            {calculateVAT()
+                            {dataReceipt?.total_tax
                               .toFixed(2)
                               .replace(/\B(?=(\d{3})+(?!\d))/g, ",")}
                           </Text>
@@ -546,14 +541,14 @@ export const ReceiptA4 = ({
                         <View View style={styles.tableRow}>
                           {/* สรุปรวม */}
                           <Text style={styles.tableCellRowsum}>
-                            {` ${THBText(calculateTotalAmount())} `}
+                            {` ${THBText(dataReceipt?.total_amount)} `}
                           </Text>
                           <Text style={styles.tableCell5}>
                             {" "}
                             จำนวนเงินทั้งสิ้น   {''}
                           </Text>
                           <Text style={styles.tableCell6}>
-                            {calculateTotalAmount()
+                            {dataReceipt?.total_amount
                               .toFixed(2)
                               .replace(/\B(?=(\d{3})+(?!\d))/g, ",")}
                           </Text>

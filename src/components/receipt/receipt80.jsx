@@ -383,6 +383,7 @@ import {
     openModalReceipt80,
     handleModalReceipt80,
     data,
+    dateReceipt,
     customer,
     calculatePruePrice,
     calculateVAT,
@@ -466,7 +467,7 @@ import {
                             เลขที่ใบกำกับภาษี: KSK07/0033
                           </Text>
                           <Text style={[styles.spacesm,styles.text10 , styles.mt5]}>
-                          วันที่ขาย: 26/11/2023
+                          วันที่ขาย: {dateReceipt}
                           </Text>
                         </View>
                       </View>

@@ -14,6 +14,7 @@ import {
   DialogFooter,
 } from "@material-tailwind/react";
 
+
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 
@@ -41,10 +42,11 @@ import ReceiptA4 from "../../../receipt/receiptA4";
 import Receipt80 from "../../../receipt/receipt80";
 import ReceiptA4Short from "../../../receipt/receiptA4Short";
 import Receipt80Short from "../../../receipt/receipt80Short";
+import { addFullInvioce } from "../../../../api/TaxFullInvoiceAPI";
 
 const CreateInvoice = () => {
   // import Data Store
-  const [openCreateInvoice, setOpenInvoie] = useRecoilState(createInvoiceStore);
+  const [openCreateInvoice, setOpenCreateInvoie] = useRecoilState(createInvoiceStore);
   const productDataStore = useRecoilValue(productStore);
   const customerDataStore = useRecoilValue(customerStore);
   const shopDataStore = useRecoilValue(shopStore);
@@ -54,12 +56,12 @@ const CreateInvoice = () => {
   const [isSearchable, setIsSearchable] = useState(true);
   const [select, setSelect] = useState("");
 
+  const [openPrint,setOpenPrint] = useState(false)
+
   // const [selectedPaperSize, setSelectedPaperSize] = useState(null);
   // const [openPrintDialog, setOpenPrintDialog] = useState(true);
 
   const [note, setNote] = useState("");
-
-  console.log(note);
 
   const columns = [
     "ลำดับ",
@@ -91,8 +93,6 @@ const CreateInvoice = () => {
     label: shop.salepoints_name,
   }));
 
-  console.log(shopDataStore)
-  console.log(shopOptions)
 
 
   const [selectedCustomer, setSelectedCustomer] = useState(null);
@@ -117,7 +117,6 @@ const CreateInvoice = () => {
     setSelectedShop(shop);
   };
 
-  console.log(selectedShop)
 
   const [selectValues, setSelectValues] = useState([]);
 
@@ -188,7 +187,6 @@ const CreateInvoice = () => {
     toast.success("ลบข้อมูลสินค้าสำเร็จ");
   };
 
-  console.log(data);
 
 
   const handleQuantityChange = (e, index) => {
@@ -234,7 +232,36 @@ const CreateInvoice = () => {
     return subtotal - pruePrice;
   };
 
-  console.log(select);
+
+  
+  const [dataReceipt,setDataReceipt] = useState('')
+
+  const handleSendReceipt = async () => {
+    try {
+      let datasend = {
+        customer_id: selectedCustomer.id,
+        // total_price: Math.round(Number((calculatePruePrice()).toFixed(2))),
+        total_price: Number(calculatePruePrice().toFixed(2)),
+        total_tax: Number((calculateVAT()).toFixed(2)),
+        total_amount: Number((calculateTotalAmount()).toFixed(2)),
+        note: note,
+        product_data :data
+      }
+      console.log(datasend)
+      const response = await addFullInvioce(datasend)
+      setOpenPrint(true)
+      console.log(response)
+      setDataReceipt(response)
+      toast.success("สร้าง ใบกำกับภาษี(รูปแบบเต็ม) สำเร็จ")
+    } catch (error) {
+      toast.error(error)
+      
+    }
+
+  }
+  const handleout = () =>{
+    setOpenCreateInvoie(!openCreateInvoice)
+  }
 
   //------------- open Receipt A4  -----------------------//
   const [openModalReceiptA4, setOpenModalReceiptA4] = useState(false);
@@ -248,7 +275,9 @@ const CreateInvoice = () => {
     setOpenModalReceipt80(!openModalReceipt80);
   };
 
-  console.log(headFormDataStore);
+  console.log(dataReceipt);
+
+
 
   return (
     <div className="flex  flex-col p-3 overflow-auto   items-center ">
@@ -289,6 +318,8 @@ const CreateInvoice = () => {
                 variant="gradient"
                 color="green"
                 className="text-base flex justify-center  items-center   bg-green-500"
+                disabled = {openPrint == true ? true : false}
+                onClick={handleSendReceipt}
               >
                 <span className="mr-2 text-xl ">
                   <IoIosSave />
@@ -296,38 +327,40 @@ const CreateInvoice = () => {
                 บันทึก
               </Button>
             </div>
-            <div className=" justify-center">
-              <Menu>
-                <MenuHandler>
-                  <Button
-                    size="sm"
-                    variant="gradient"
-                    color="blue"
-                    className="text-base flex justify-center  items-center   bg-green-500"
-                  >
-                    <span className="mr-2 text-xl ">
-                      <MdLocalPrintshop />
-                    </span>
-                    พิมพ์
-                  </Button>
-                </MenuHandler>
-                <MenuList>
-                  <MenuItem onClick={() => setOpenModalReceiptA4(true)}>
-                    ขนาด A4
-                  </MenuItem>
-                  <MenuItem onClick={() => setOpenModalReceipt80(true)}>
-                    ขนาด 80 มิล
-                  </MenuItem>
-                </MenuList>
-              </Menu>
-            </div>
+         
+                  <div className=" justify-center">
+                  <Menu>
+                    <MenuHandler>
+                      <Button
+                        size="sm"
+                        variant="gradient"
+                        color="blue"
+                        className="text-base flex justify-center  items-center   bg-green-500"
+                        disabled = {openPrint == true ? false : true}
+                      >
+                        <span className="mr-2 text-xl ">
+                          <MdLocalPrintshop />
+                        </span>
+                        พิมพ์
+                      </Button>
+                    </MenuHandler>
+                    <MenuList>
+                      <MenuItem onClick={() => setOpenModalReceiptA4(true)}>
+                        ขนาด A4
+                      </MenuItem>
+                      <MenuItem onClick={() => setOpenModalReceipt80(true)}>
+                        ขนาด 80 มิล
+                      </MenuItem>
+                    </MenuList>
+                  </Menu>
+                </div>
             <div className=" justify-center">
               <Button
                 size="sm"
                 variant="gradient"
                 color="red"
                 className="text-base flex justify-center  items-center   bg-green-500"
-                onClick={() => setOpenInvoie(false)}
+                onClick={handleout}
               >
                 <span className="mr-2 text-xl ">
                   <TbLogout2 />
@@ -337,7 +370,7 @@ const CreateInvoice = () => {
             </div>
           </div>
           {/* แบบเต็ม */}
-          <div hidden={headFormDataStore !== '1'}>
+          <div hidden={headFormDataStore !== '1'} >
           <div className=" flex flex-col sm:flex-row items-end  w-full justify-start    gap-2 ">
             <Typography className="flex  items-baseline align-text-bottom font-bold min-w-[100px]">
               ข้อมูลลูกค้า:
@@ -347,12 +380,13 @@ const CreateInvoice = () => {
               classNamePrefix="select"
               placeholder="เลือกลูกค้า"
               isSearchable={isSearchable}
+              isDisabled={openPrint == true ? true : false}
               name="color"
               options={customerOptions}
               onChange={(e) => handleCustomerSelect(e)}
             />
           </div>
-          <div className=" flex  w-full justify-start items-center mt-5   gap-2 ">
+          <div className=" flex  w-full justify-start items-center mt-5   gap-2 " >
             <Typography className="font-bold min-w-[30px] sm:w-[40px]">
               ชื่อ :
             </Typography>
@@ -421,18 +455,15 @@ const CreateInvoice = () => {
               บาท
             </Typography>
           </div>
-          
-       
-   
           </div>
-      
-
         </div>
       </div>
-      <div className="flex w-full flex-col xl:flex-row gap-5 ">
+
+
+      <div  className="flex w-full flex-col xl:flex-row gap-5 ">
         <div className="flex w-full flex-col gap-3">
           <div className="flex  w-full md:w-8/8">
-            <Card className="flex w-full h-[380px] mt-5 overflow-y-auto ">
+            <Card className="flex w-full h-[380px] mt-5 overflow-y-auto  " >
               <table className="w-full   ">
                 <thead>
                   <tr>
@@ -457,6 +488,7 @@ const CreateInvoice = () => {
                           <Select
                             isSearchable
                             value={selectValues[index]}
+                            isDisabled={openPrint == true ? true : false}
                             onChange={(value) => handleChange(value, index)}
                             // options={selectedOptions}
                             options={productOptions}
@@ -469,6 +501,7 @@ const CreateInvoice = () => {
                             type="number"
                             min="0"
                             value={data?.quantity}
+                            disabled={openPrint == true ? true : false}
                             className="border border-gray-400 w-full py-1 mt-3 text-right "
                             onChange={(e) =>
                               handleQuantityChange(e.target.value, index)
@@ -495,6 +528,7 @@ const CreateInvoice = () => {
                       <td className="px-2 mt-3 pt-3">
                         <button
                           className="text-3xl text-red-500"
+                          disabled={openPrint == true ? true : false}
                           // onClick={() => deleteRow(row.id)}
                           onClick={() => handleDeleteRow(index)}
                         >
@@ -511,6 +545,7 @@ const CreateInvoice = () => {
                           size="sm"
                           variant="gradient"
                           color="green"
+                          disabled={openPrint == true ? true : false}
                           className="text-base flex justify-center  items-center mt-5 ms-16  bg-green-500"
                           // onClick={addRow}
                           onClick={handleAddRow}
@@ -538,6 +573,7 @@ const CreateInvoice = () => {
               maxLength="100"
               label="หมายเหตุ"
               type="text"
+              disabled={openPrint == true ? true : false}
               onChange={(e) => setNote(e.target.value)}
             />
           </div>
@@ -590,6 +626,7 @@ const CreateInvoice = () => {
           openModalReceiptA4={openModalReceiptA4}
           handleModalReceiptA4={handleModalReceiptA4}
           data={data}
+          dataReceipt = {dataReceipt}
           customer={selectedCustomer}
           calculatePruePrice={calculatePruePrice}
           calculateVAT={calculateVAT}
@@ -607,6 +644,7 @@ const CreateInvoice = () => {
           openModalReceipt80={openModalReceipt80}
           handleModalReceipt80={handleModalReceipt80}
           data={data}
+          dataReceipt = {dataReceipt}
           customer={selectedCustomer}
           calculatePruePrice={calculatePruePrice}
           calculateVAT={calculateVAT}

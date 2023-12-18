@@ -1,3 +1,4 @@
+/* eslint-disable react-hooks/exhaustive-deps */
 import {
   Input,
   Typography,
@@ -17,8 +18,6 @@ import {
   Option,
 } from "@material-tailwind/react";
 
-import axios from "axios";
-import qs from "qs";
 
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
@@ -43,6 +42,7 @@ import {
 
 import ReceiptA4 from "../../../receipt/receiptA4";
 import Receipt80 from "../../../receipt/receipt80";
+import { deleteFullInvoice, getFullInvoice } from "../../../../api/TaxFullInvoiceAPI";
 
 function TaxInvoiceFull() {
 
@@ -54,49 +54,27 @@ function TaxInvoiceFull() {
   //----------  Data Table --------------------//
   const [noData, setNoData] = useState(false);
 
-  //   const [listData, setListData] = useState([]);
-  const [listData, setListData] = useState([
-    {
-      invoice_name: "A66/0001 ",
-    },
-    {
-      invoice_name: "  A66/0002 ",
-    },
-  ]);
+  const [openCreateInvoice, setOpenCreateInvoice] = useRecoilState(createInvoiceStore);
 
 
 
+  const [listData, setListData] = useState([]);
   const [tokenError, setTokenError] = useState(false);
   const [searchQuery, setSearchQuery] = useState("");
 
-  const getInvoice = async () => {
-    // try {
-    //   let token = localStorage.getItem("Token");
-    //   let data = "";
-    //   // console.log(data);
-    //   let config = {
-    //     method: "get",
-    //     maxBodyLength: Infinity,
-    //     url: `${
-    //       import.meta.env.VITE_APP_API
-    //     }/product/product-search?name=${searchQuery}`,
-    //     headers: {
-    //       Authorization: `Bearer ${token}`,
-    //     },
-    //     data: data,
-    //   };
-    //   await axios.request(config).then((response) => {
-    //     console.log(response.data);
-    //     setListData(response.data);
-    //     setNoData(false);
-    //   });
-    // } catch (error) {
-    //   if (error.response.statusText == 'Unauthorized') {
-    //     setTokenError(true)
-    //   }
-    //   console.log(error)
-    // }
-  };
+  const fetchFullInvioce = async () =>{
+    try {
+      const response = await getFullInvoice(searchQuery)
+      setListData(response)
+    } catch (error) {
+      toast.error(error)
+      
+    }
+  }
+
+  useEffect(()=>{
+    fetchFullInvioce()
+  },[searchQuery ,openCreateInvoice])
 
   useEffect(() => {
     if (tokenError) {
@@ -111,7 +89,7 @@ function TaxInvoiceFull() {
 
   const startIndex = (currentPage - 1) * itemsPerPage;
   const endIndex = startIndex + itemsPerPage;
-  const displayedData = listData.slice(startIndex, endIndex);
+  const displayedData = Array.isArray(listData) ? listData.slice(startIndex, endIndex) : [];
 
   const totalPages = Math.ceil(listData.length / itemsPerPage);
 
@@ -134,24 +112,18 @@ function TaxInvoiceFull() {
   };
 
   //------------- modal Add Invoice -----------------------//
-  const [openCreateInvoice, setOpenCreateInvoice] = useRecoilState(createInvoiceStore);
+
   const [headFormDataStore ,setHeadFormDataStore] = useRecoilState(headFormStore);
   const handleModalAdd = () => {
     setHeadFormDataStore('1')
     setOpenCreateInvoice(true);
   };
 
-  //------------- modal Edit Product -----------------------//
-  const [openModalEdit, setOpenModalEdit] = useState(false);
-  const [dataEdit, setDataEdit] = useState([]);
-  const handleModalEdit = (data) => {
-    setDataEdit(data);
-    setOpenModalEdit(!openModalEdit);
-  };
 
   //------------- modal Delete Product -----------------------//
 
   const [openModalDelete, setOpenModalDelete] = useState(false);
+  const [toastOpen ,setToastOpen] = useState(false)
   const [dataDelete, setDataDelete] = useState([]);
 
   const handleModalDelete = (data) => {
@@ -160,36 +132,20 @@ function TaxInvoiceFull() {
   };
 
   const handleDelete = async (id) => {
-    // ลบข้อมูลเมื่อผู้ใช้ยืนยันการลบ
-
-    let token = localStorage.getItem("Token");
-    let data = qs.stringify({});
-
+    try {
+      const response = await deleteFullInvoice(id)
+      console.log(response)
+      setToastOpen(true)
+      toast.error("ลบข้อมูล ใบกำกับภาษี(รูปแบบเต็ม) สำเร็จ");
+      fetchFullInvioce();
+      setOpenModalDelete(false);
+      setToastOpen(false)
+    } catch (error) 
+    {
+      toast.error(error)
+      
+    }
     console.log(id);
-
-    // let config = {
-    //   method: "delete",
-    //   maxBodyLength: Infinity,
-    //   url: `${import.meta.env.VITE_APP_API}/product/delete/${id}`,
-    //   headers: {
-    //     Authorization: `Bearer ${token}`,
-    //     "Content-Type": "application/x-www-form-urlencoded",
-    //   },
-    //   data: data,
-    // };
-
-    // axios
-    //   .request(config)
-    //   .then((response) => {
-    //     response.data;
-    //     console.log(response.data)
-    //     getProduct();
-    //     setOpenModalDelete(false);
-    //     toast.success("ลบข้อมูล สินค้า สำเร็จ");
-    //   })
-    //   .catch((error) => {
-    //     toast.error(error);
-    //   });
   };
 
   const [showPrint, setShowPrint] = useState(false);
@@ -205,6 +161,7 @@ function TaxInvoiceFull() {
   const handleModalReceipt80 = () => {
     setOpenModalReceipt80(!openModalReceipt80);
   };
+
 
   return (
     <div className="w-full overflow-auto  px-3">
@@ -321,7 +278,7 @@ function TaxInvoiceFull() {
                               color="blue-gray"
                               className="font-normal "
                             >
-                              {data?.invoice_name || ""}
+                              {data?.code || ""}
                             </Typography>
                           </div>
                         </td>
@@ -427,7 +384,7 @@ function TaxInvoiceFull() {
                 </div>
               </div>
               <Typography className="font-bold mt-5">
-                เลขที่ใบกำกับภาษี:{" "}
+                เลขที่ใบกำกับภาษี: <span className="font-normal">{dataView?.code}</span>
               </Typography>
               <Typography className="font-bold mt-5">วันที่: </Typography>
               <hr className="mt-3 border " />
@@ -448,7 +405,9 @@ function TaxInvoiceFull() {
               <Typography className="text-center font-bold text-lg">
                 รายการ
               </Typography>
-              <Card className="border px-2 h-[80%] overflow-auto">aaaa</Card>
+              <Card className="border px-2 h-[80%] overflow-auto">
+                aaaa
+              </Card>
               <div className="flex  flex-col items-end mt-3">
                 <Typography className="text-lg font-bold">
                   ข้อมูลการชำระเงิน
@@ -520,7 +479,7 @@ function TaxInvoiceFull() {
         <DialogBody divider className=" overflow-auto ">
           <div className="flex flex-col w-full justify-center gap-3 ">
             <Typography variant="h5" className="text-center">
-              ต้องการลบ สินค้า: {dataDelete?.name || ""}{" "}
+              ต้องการลบ สินค้า: {dataDelete?.code || ""}{" "}
             </Typography>
             <Typography variant="h5" className="text-center">
               จริงหรือไม่?{" "}
@@ -533,7 +492,7 @@ function TaxInvoiceFull() {
               variant="gradient"
               color="red"
               size="sm"
-              onClick={() => handleDelete(dataDelete?.id)}
+              onClick={() => handleDelete(dataDelete?.code)}
               className="flex mr-1 text-base"
             >
               <span className="text-xl mr-2">
@@ -556,11 +515,12 @@ function TaxInvoiceFull() {
           </div>
         </DialogFooter>
       </Dialog>
+      {toastOpen == true ? 
+      <ToastContainer  className="mt-10" autoClose={100} theme="colored" />
+      :
+      ''
+      }
 
-
-
-
-      <ToastContainer className="mt-10" autoClose={1000} theme="colored" />
     </div>
   );
 }
