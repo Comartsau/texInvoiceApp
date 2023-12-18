@@ -42,7 +42,10 @@ import ReceiptA4 from "../../../receipt/receiptA4";
 import Receipt80 from "../../../receipt/receipt80";
 import ReceiptA4Short from "../../../receipt/receiptA4Short";
 import Receipt80Short from "../../../receipt/receipt80Short";
-import { addFullInvioce } from "../../../../api/TaxFullInvoiceAPI";
+
+
+import { addFullInvioce } from "../../../../api/TaxFullInvoiceApi";
+import { addShortInvioce } from "../../../../api/TaxShortInvoiceApi";
 
 const CreateInvoice = () => {
   // import Data Store
@@ -232,14 +235,12 @@ const CreateInvoice = () => {
     return subtotal - pruePrice;
   };
 
-
-  
   const [dataReceipt,setDataReceipt] = useState('')
 
   const handleSendReceipt = async () => {
     try {
       let datasend = {
-        customer_id: selectedCustomer.id,
+        ...(headFormDataStore === '1' ? { customer_id: selectedCustomer.id } : {}),
         // total_price: Math.round(Number((calculatePruePrice()).toFixed(2))),
         total_price: Number(calculatePruePrice().toFixed(2)),
         total_tax: Number((calculateVAT()).toFixed(2)),
@@ -247,18 +248,28 @@ const CreateInvoice = () => {
         note: note,
         product_data :data
       }
-      console.log(datasend)
-      const response = await addFullInvioce(datasend)
-      setOpenPrint(true)
-      console.log(response)
-      setDataReceipt(response)
-      toast.success("สร้าง ใบกำกับภาษี(รูปแบบเต็ม) สำเร็จ")
+      if(headFormDataStore == '1') {
+        const response = await addFullInvioce(datasend , setOpenPrint)
+        console.log(response)
+        setDataReceipt(response)
+        
+      }else if(headFormDataStore == '2'){
+        const response = await addShortInvioce(datasend , setOpenPrint)
+        console.log(response)
+        setDataReceipt(response)
+        
+      }
     } catch (error) {
       toast.error(error)
       
     }
 
   }
+
+  console.log(openPrint)
+
+
+
   const handleout = () =>{
     setOpenCreateInvoie(!openCreateInvoice)
   }
@@ -274,10 +285,6 @@ const CreateInvoice = () => {
   const handleModalReceipt80 = () => {
     setOpenModalReceipt80(!openModalReceipt80);
   };
-
-  console.log(dataReceipt);
-
-
 
   return (
     <div className="flex  flex-col p-3 overflow-auto   items-center ">
@@ -625,13 +632,8 @@ const CreateInvoice = () => {
         <ReceiptA4
           openModalReceiptA4={openModalReceiptA4}
           handleModalReceiptA4={handleModalReceiptA4}
-          data={data}
           dataReceipt = {dataReceipt}
           customer={selectedCustomer}
-          calculatePruePrice={calculatePruePrice}
-          calculateVAT={calculateVAT}
-          calculateTotalAmount={calculateTotalAmount}
-          note={note}
         />
         </>
       ) : (
@@ -661,7 +663,6 @@ const CreateInvoice = () => {
           openModalReceiptA4={openModalReceiptA4}
           handleModalReceiptA4={handleModalReceiptA4}
           data={data}
-          customer={selectedCustomer}
           calculatePruePrice={calculatePruePrice}
           calculateVAT={calculateVAT}
           calculateTotalAmount={calculateTotalAmount}

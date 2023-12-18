@@ -43,6 +43,7 @@ import {
   
   import ReceiptA4Short from "../../../receipt/receiptA4Short";
   import Receipt80Short from "../../../receipt/receipt80Short";
+import { getShortInvoice } from "../../../../api/TaxShortInvoiceApi";
   
   function TaxInvoiceShort() {
   
@@ -65,35 +66,27 @@ import {
   
     const [tokenError, setTokenError] = useState(false);
     const [searchQuery, setSearchQuery] = useState("");
+
+
+    const fetchShortInvoice = async () => {
+      try {
+        const response = await getShortInvoice(searchQuery)
+        console.log(response)
+        // setListData(response);
+        setNoData(false);
+        
+      } catch (error) {
+        toast.error(error)
+        
+      }
+    }
+
+    useEffect(()=>{
+      fetchShortInvoice()
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+    },[])
   
-    const getInvoice = async () => {
-      // try {
-      //   let token = localStorage.getItem("Token");
-      //   let data = "";
-      //   // console.log(data);
-      //   let config = {
-      //     method: "get",
-      //     maxBodyLength: Infinity,
-      //     url: `${
-      //       import.meta.env.VITE_APP_API
-      //     }/product/product-search?name=${searchQuery}`,
-      //     headers: {
-      //       Authorization: `Bearer ${token}`,
-      //     },
-      //     data: data,
-      //   };
-      //   await axios.request(config).then((response) => {
-      //     console.log(response.data);
-      //     setListData(response.data);
-      //     setNoData(false);
-      //   });
-      // } catch (error) {
-      //   if (error.response.statusText == 'Unauthorized') {
-      //     setTokenError(true)
-      //   }
-      //   console.log(error)
-      // }
-    };
+    
   
     useEffect(() => {
       if (tokenError) {
@@ -108,7 +101,7 @@ import {
   
     const startIndex = (currentPage - 1) * itemsPerPage;
     const endIndex = startIndex + itemsPerPage;
-    const displayedData = listData.slice(startIndex, endIndex);
+    const displayedData = Array.isArray(listData) ? listData.slice(startIndex, endIndex) : [];
   
     const totalPages = Math.ceil(listData.length / itemsPerPage);
   
@@ -149,6 +142,7 @@ import {
     //------------- modal Delete Product -----------------------//
   
     const [openModalDelete, setOpenModalDelete] = useState(false);
+    const [toastOpen ,setToastOpen] = useState(false)
     const [dataDelete, setDataDelete] = useState([]);
   
     const handleModalDelete = (data) => {
@@ -587,7 +581,11 @@ import {
           ""
         )}
   
-        <ToastContainer className="mt-10" autoClose={1000} theme="colored" />
+  {toastOpen == true ? 
+      <ToastContainer  className="mt-10" autoClose={100} theme="colored" />
+      :
+      ''
+      }
       </div>
     );
   }

@@ -42,7 +42,7 @@ import {
 
 import ReceiptA4 from "../../../receipt/receiptA4";
 import Receipt80 from "../../../receipt/receipt80";
-import { deleteFullInvoice, getFullInvoice } from "../../../../api/TaxFullInvoiceAPI";
+import { deleteFullInvoice, getFullInvoice } from "../../../../api/TaxFullInvoiceApi";
 
 function TaxInvoiceFull() {
 
@@ -133,13 +133,10 @@ function TaxInvoiceFull() {
 
   const handleDelete = async (id) => {
     try {
-      const response = await deleteFullInvoice(id)
+      const response = await deleteFullInvoice(id , setToastOpen)
       console.log(response)
-      setToastOpen(true)
-      toast.error("ลบข้อมูล ใบกำกับภาษี(รูปแบบเต็ม) สำเร็จ");
       fetchFullInvioce();
       setOpenModalDelete(false);
-      setToastOpen(false)
     } catch (error) 
     {
       toast.error(error)
@@ -492,7 +489,7 @@ function TaxInvoiceFull() {
               variant="gradient"
               color="red"
               size="sm"
-              onClick={() => handleDelete(dataDelete?.code)}
+              onClick={() => handleDelete(dataDelete?.id)}
               className="flex mr-1 text-base"
             >
               <span className="text-xl mr-2">

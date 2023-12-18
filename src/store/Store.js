@@ -24,3 +24,7 @@ export const headFormStore = atom({
     key:'keyHeadForm',
     default: '',
 })
+export const openPrintStore = atom({
+    key:'keyOpenPrint',
+    default: '',
+})

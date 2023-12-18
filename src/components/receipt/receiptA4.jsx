@@ -14,6 +14,8 @@ import "../../App.css";
 import { PDFViewer } from "@react-pdf/renderer";
 import THBText from "thai-baht-text";
 
+import moment  from "moment";
+
 import FontSarabun from "./font/Sarabun-Regular.ttf";
 import FontSarabunBold from "./font/Sarabun-ExtraBold.ttf";
 import FontSarabunLight from "./font/Sarabun-ExtraBold.ttf";
@@ -29,6 +31,8 @@ import {
 } from "@material-tailwind/react";
 
 import PropTypes from "prop-types";
+import { getFullInvoiceId } from "../../api/TaxFullInvoiceApi";
+import { useEffect, useState } from "react";
 
 Font.register({
   family: "Sarabun",
@@ -316,11 +320,12 @@ export const ReceiptA4 = ({
   handleModalReceiptA4,
   dataReceipt,
   customer,
-  note,
 }) => {
   console.log(dataReceipt)
- 
 
+  const id = ''
+
+  console.log(id)
 
   const itemsPerPage = 15; // จำนวนรายการต่อหน้า
 
@@ -347,6 +352,10 @@ export const ReceiptA4 = ({
 
   console.log(pages);
 
+   // แปลงเวลา //
+   const formattedDateTime = moment(dataReceipt.created_at).format("DD/MM/YYYY  HH:mm:ss");
+
+
   return (
     <Dialog open={openModalReceiptA4} handler={handleModalReceiptA4} size="xl">
       <DialogHeader></DialogHeader>
@@ -355,7 +364,7 @@ export const ReceiptA4 = ({
         {/*  9 x 11 นิ้ว (792 คือ 9 นิ้ว x 72 คือ DPI, 936 คือ 11 นิ้ว x 72 คือ DPI) */}
         <PDFViewer width="100%" height="650px">
           <Document>
-            {pages.map((pageData, index) => (
+            {pages?.map((pageData, index) => (
               <Page key={index} size="A4" style={styles.page} > 
                 <View>
                   <Text style={[styles.flexrowcenter, styles.text14]}>
@@ -443,7 +452,7 @@ export const ReceiptA4 = ({
                             styles.spacesm,
                           ]}
                         >
-                          เลขที่ใบกำกับภาษี: {dataReceipt.code}
+                          เลขที่ใบกำกับภาษี: {dataReceipt?.code || ''}
                         </Text>
                         <Text
                           style={[
@@ -454,7 +463,7 @@ export const ReceiptA4 = ({
                             styles.spacesm,
                           ]}
                         >
-                          {/* วันที่: {dataReceipt} */}
+                          วันที่ขาย:  {formattedDateTime || ''}
                         </Text>
                       </View>
                     </View>
@@ -486,12 +495,12 @@ export const ReceiptA4 = ({
                       return (
                         <View key={itemIndex} style={styles.tableRow}>
                           <Text style={styles.tableCell1}>
-                            {item.index  || ""}
+                            {item?.index  || ""}
                           </Text>
                           <Text
                             style={[styles.tableCell2, { textAlign: "left" }]}
                           >
-                            {item?.product || ''} 
+                            {item?.product || ''} {''}
                           </Text>
                           <Text style={styles.tableCell3}>
                             {" "}
@@ -499,7 +508,7 @@ export const ReceiptA4 = ({
                           </Text>
                           <Text style={styles.tableCell4}>
                             {" "}
-                            {item?.unit || ""}
+                            {item?.unit || ""} {''}
                           </Text>
                           <Text style={styles.tableCell5}>
                             {" "}
@@ -517,17 +526,17 @@ export const ReceiptA4 = ({
                         <View View style={styles.tableRow}>
                           {/* สรุปรวม */}
                           <Text style={[styles.tableCellNote ]}>
-                            หมายเหตุ:
+                            หมายเหตุ: 
                           </Text>
                           <Text style={styles.tableCell5}> รวมเป็นเงิน </Text>
                           <Text style={styles.tableCell6}>
                             {Number(dataReceipt?.total_price).toFixed(2)
-                              .replace(/\B(?=(\d{3})+(?!\d))/g, ",")}
+                              .replace(/\B(?=(\d{3})+(?!\d))/g, ",") || ''}
                           </Text>
                         </View>
                         <View View style={[styles.tableRow]}>
                           {/* ภาษี */}
-                          <Text style={[styles.tableCellNoteBorder ]}>{`${note }`}</Text>
+                          <Text style={[styles.tableCellNoteBorder ]}>{dataReceipt?.note || '' }</Text>
                           <Text style={[styles.tableCell5  ]} >
                             {" "}
                             ภาษีมูลค่าเพิ่ม
@@ -535,13 +544,13 @@ export const ReceiptA4 = ({
                           <Text style={styles.tableCell6}>
                             {dataReceipt?.total_tax
                               .toFixed(2)
-                              .replace(/\B(?=(\d{3})+(?!\d))/g, ",")}
+                              .replace(/\B(?=(\d{3})+(?!\d))/g, ",") || ''}
                           </Text>
                         </View>
                         <View View style={styles.tableRow}>
                           {/* สรุปรวม */}
                           <Text style={styles.tableCellRowsum}>
-                            {` ${THBText(dataReceipt?.total_amount)} `}
+                            {THBText(dataReceipt?.total_amount) || ''}
                           </Text>
                           <Text style={styles.tableCell5}>
                             {" "}
@@ -550,7 +559,7 @@ export const ReceiptA4 = ({
                           <Text style={styles.tableCell6}>
                             {dataReceipt?.total_amount
                               .toFixed(2)
-                              .replace(/\B(?=(\d{3})+(?!\d))/g, ",")}
+                              .replace(/\B(?=(\d{3})+(?!\d))/g, ",") || ''}
                           </Text>
                         </View>
                       </>
@@ -662,14 +671,14 @@ export const ReceiptA4 = ({
                     </>
                   )}
                 </View>
-                <View fixed style={[styles.footer]}>
+                {/* <View fixed style={[styles.footer]}>
                   {" "}
                   <Text style={[styles.footer, styles.text12   ]}
                     render={({ pageNumber, totalPages }) =>
                       `${pageNumber} / ${totalPages}`
                     }
                   />
-                </View>
+                </View> */}
               </Page>
             ))}
           </Document>
@@ -693,7 +702,6 @@ export const ReceiptA4 = ({
 ReceiptA4.propTypes = {
   openModalReceipt: PropTypes.bool.isRequired,
   handleModalReceipt: PropTypes.func.isRequired,
-  data: PropTypes.array.isRequired,
 };
 
 export default ReceiptA4;

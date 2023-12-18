@@ -11,8 +11,12 @@ import {
   
   import "../../App.css";
   
+
   import { PDFViewer } from "@react-pdf/renderer";
+  
   import THBText from "thai-baht-text";
+
+  import moment  from "moment";
   
   import FontSarabun from "./font/Sarabun-Regular.ttf";
   import FontSarabunBold from "./font/Sarabun-ExtraBold.ttf";
@@ -382,17 +386,11 @@ import {
   export const Receipt80 = ({
     openModalReceipt80,
     handleModalReceipt80,
-    data,
-    dateReceipt,
-    customer,
-    calculatePruePrice,
-    calculateVAT,
-    calculateTotalAmount,
-    note,
+    dataReceipt,
   }) => {
-    console.log(handleModalReceipt80);
-    console.log(data);
-    console.log(customer);
+    console.log(dataReceipt);
+    // console.log(data);
+
   
     const itemsPerPage = 100; // จำนวนรายการต่อหน้า
   
@@ -415,12 +413,16 @@ import {
       return pages;
     };
   
-    const pages = generatePages(data);
+    const pages = generatePages(dataReceipt?.product_data);
 
-    const totalQuantity = data?.reduce((total, item) => total + item.quantity, 0);
+    const totalQuantity = dataReceipt?.product_data?.reduce((total, item) => total + item.quantity, 0);
     console.log(totalQuantity); // ผลลัพธ์จำนวน quantity ทั้งหมด
   
     console.log(pages);
+
+    // แปลงเวลา //
+    const formattedDateTime = moment(dataReceipt.created_at).format("DD/MM/YYYY  HH:mm:ss");
+
   
     return (
       <Dialog open={openModalReceipt80} handler={handleModalReceipt80} size="xl">
@@ -464,10 +466,10 @@ import {
                       <View style={[styles.flexrowcenter]}>
                         <View>
                           <Text style={[styles.spacesm,styles.text10]}>
-                            เลขที่ใบกำกับภาษี: KSK07/0033
+                            เลขที่ใบกำกับภาษี: {dataReceipt?.code || ''}
                           </Text>
                           <Text style={[styles.spacesm,styles.text10 , styles.mt5]}>
-                          วันที่ขาย: {dateReceipt}
+                          วันที่ขาย: {formattedDateTime || ''}
                           </Text>
                         </View>
                       </View>
@@ -514,7 +516,7 @@ import {
                       })}
                     <View style={[styles.flexrowstart , styles.mt15, styles.borderTB]}>
                           <Text style={[styles.spacesm,styles.text10]}>
-                            รายการ: {data?.length || ''}   จำนวนชิ้น:  {totalQuantity || ''}
+                            รายการ: {dataReceipt?.product_data.length || ''}   จำนวนชิ้น:  {totalQuantity || ''}
                           </Text>
                       </View>
                       {index == pages.length - 1 && (
@@ -523,9 +525,9 @@ import {
                           <View View style={[styles.flexrowbetween , styles.mt10]}>
                             <Text style={styles.text10}> รวมเป็นเงิน </Text>
                             <Text style={styles.text10}>
-                              {calculateTotalAmount()
-                                .toFixed(2)
-                                .replace(/\B(?=(\d{3})+(?!\d))/g, ",")}
+                            {dataReceipt?.total_amount
+                              .toFixed(2)
+                              .replace(/\B(?=(\d{3})+(?!\d))/g, ",")}
                             </Text>
                           </View>
                           <View View style={[styles.flexrowbetween , styles.mt5]}>
@@ -537,33 +539,32 @@ import {
                           <View View style={[styles.flexrowbetween , styles.mt5 , styles.borderB]}>
                             <Text style={styles.text12}> รวมทั้งสิ้น </Text>
                             <Text style={styles.text12}>
-                            {calculateTotalAmount()
-                                .toFixed(2)
-                                .replace(/\B(?=(\d{3})+(?!\d))/g, ",")} 
+                            {dataReceipt?.total_amount
+                              .toFixed(2)
+                              .replace(/\B(?=(\d{3})+(?!\d))/g, ",")}
                             </Text>
                           </View>
                           <View View style={[styles.flexrowbetween , styles.mt5]}>
                             <Text style={styles.text10}> รวมมูลค่าสินค้า </Text>
                             <Text style={styles.text10}>
-                            {calculatePruePrice()
-                                .toFixed(2)
-                                .replace(/\B(?=(\d{3})+(?!\d))/g, ",")} 
+                            {Number(dataReceipt?.total_price).toFixed(2)
+                              .replace(/\B(?=(\d{3})+(?!\d))/g, ",")}
                             </Text>
                           </View>
                           <View View style={[styles.flexrowbetween , styles.mt5 , styles.borderB]}>
                             <Text style={styles.text10}> ภาษีมูลค่าเพิ่ม </Text>
                             <Text style={styles.text10}>
-                            {calculateVAT()
-                                .toFixed(2)
-                                .replace(/\B(?=(\d{3})+(?!\d))/g, ",")} 
+                            {dataReceipt?.total_tax
+                              .toFixed(2)
+                              .replace(/\B(?=(\d{3})+(?!\d))/g, ",")}
                             </Text>
                           </View>
                  
                           <View View style={[styles.flexrowbetween , styles.mt10]}>
                             <Text style={styles.text10}>
-                            {` เงินสด: ${calculateTotalAmount()
-                                .toFixed(2)
-                                .replace(/\B(?=(\d{3})+(?!\d))/g, ",")} `} 
+                            {` เงินสด: ${dataReceipt?.total_amount
+                              .toFixed(2)
+                              .replace(/\B(?=(\d{3})+(?!\d))/g, ",")} `} 
                             </Text>
                             <Text style={styles.text10}>
                             {` เงินทอน:  0.00  `} 
@@ -573,7 +574,7 @@ import {
                             <Text style={styles.text10}>หมายเหตุ:</Text>
                           </View>
                           <View View style={[styles.flexrowstart , styles.mt5]}>
-                            <Text style={styles.text10}>{note || ''}</Text>
+                            <Text style={styles.text10}>{dataReceipt?.note || ''}</Text>
                           </View>
    
                         </>
