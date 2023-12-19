@@ -32,6 +32,7 @@ import ReportPDF from "./ReportPDF";
 
 import { useRecoilState } from "recoil";
 import { shopStore } from "../../../../store/Store";
+import ReceiptSubFull from "../../../receipt/receiptSubFull";
 
 const ShopReport = () => {
   const [isSearchable, setIsSearchable] = useState(true);
@@ -79,6 +80,28 @@ const ShopReport = () => {
     },
   ]);
 
+
+  const [dataReceipt,setDataReceipt] = useState({
+    code: "A66/0002",
+    company: "บริษัทuser ทดสอบ01",
+    created_at: "2023-12-17T09:58:24",
+    customer_address: "33 หมู่ 3 หนองไทร ขอนแก่น 40000",
+    customer_id_tax: "315494567778888",
+    customer_name: "สินทวี งามมาก",
+    customer_tel: "0628872654",
+    id: 11,
+    note: "dskjfjsdj;fkjlsk klsdjflkj;slkjd;ljf  jsdkljfljs;lkdf jsdkljfkljsl;kdj;flkj;slkd ",
+    total_amount: 192800,
+    total_price: 180187,
+    total_tax: 12613,
+    product_data:[
+                  {id: 1, name: 'Item 1', category: 21, unit: 'อัน', pricePerUnit: 4500, product: "เตาอบ" , quantity: 1 , totalPrice: 4500 },
+                  {id: 2, name: 'Item 2', category: 9, unit: 'ชั่วโมง', pricePerUnit: 100, product: "เก้าอี้-02" , quantity: 3 , totalPrice: 300 },
+                  {id: 3, name: 'Item 3', category: 11, unit: 'ชิ้น', pricePerUnit: 4500, product: "printer" , quantity: 4 , totalPrice: 18000 },
+                  {id: 4, name: 'Item 4', category: 10, unit: 'ชิ้น', pricePerUnit: 34000, product: "notebook" , quantity: 5 , totalPrice: 170000 },
+                ]
+})
+
   //----- จัดการแสดงข้อมูล / หน้า -------------- //
   const [currentPage, setCurrentPage] = useState(1);
   const itemsPerPage = 4;
@@ -121,10 +144,16 @@ const ShopReport = () => {
     }, 3000); // 2 วินาที
   };
 
-  //------------- open Receipt A4  -----------------------//
+  //------------- open PDF A4  -----------------------//
   const [openModalReceiptA4, setOpenModalReceiptA4] = useState(false);
   const handleModalReceiptA4 = () => {
     setOpenModalReceiptA4(!openModalReceiptA4);
+  };
+
+  //------------- open Receipt A4  -----------------------//
+  const [openModalReceiptSubFull, setOpenModalReceiptSubFull] = useState(false);
+  const handleModalReceiptSubFull = () => {
+    setOpenModalReceiptSubFull(!openModalReceiptSubFull);
   };
 
   return (
@@ -322,7 +351,7 @@ const ShopReport = () => {
                 className="text-base flex justify-center  items-center   bg-green-500"
                 // onClick={() => setShowPrint(true)}
                 // onBlur={()=> setShowPrint(false)}
-                onClick={handlePrintButtonClick}
+                onClick={handleModalReceiptSubFull}
               >
                 <span className="mr-2 text-xl ">
                   <MdLocalPrintshop />
@@ -503,12 +532,13 @@ const ShopReport = () => {
       <ReportPDF
         openModalReceiptA4={openModalReceiptA4}
         handleModalReceiptA4={handleModalReceiptA4}
-        // data={data}
-        // customer={selectedCustomer}
-        // calculateSubtotal={calculateSubtotal}
-        // calculateVAT={calculateVAT}
-        // calculateTotalAmount={calculateTotalAmount}
-        // note={note}
+      />
+
+
+      <ReceiptSubFull
+        openModalReceiptSubFull={openModalReceiptSubFull}
+        handleModalReceiptSubFull={handleModalReceiptSubFull}
+        dataReceipt = {dataReceipt}
       />
     </div>
   );

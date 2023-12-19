@@ -154,7 +154,6 @@ function TaxInvoiceFull() {
   //------------- open Receipt A4  -----------------------//
   const [openModalReceiptA4, setOpenModalReceiptA4] = useState(false);
   const handleModalReceiptA4 = () => {
-    console.log("a4")
     setOpenModalReceiptA4(!openModalReceiptA4);
   };
   console.log(openModalReceiptA4)

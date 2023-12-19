@@ -509,7 +509,6 @@ import { useState } from "react";
           ]
     )
   
-    console.log(data);
   
   
     const itemsPerPage = 4; // จำนวนรายการต่อหน้า
@@ -535,7 +534,6 @@ import { useState } from "react";
   
     const pages = generatePages(data);
   
-    console.log(pages);
   
     return (
       <Dialog open={openModalReceiptA4} handler={handleModalReceiptA4} size="xl">
@@ -671,7 +669,6 @@ import { useState } from "react";
                         </Text>
                       </View>
                       {pageData.map((item, itemIndex) => {
-                        console.log(item);
                         return (
                           <View key={itemIndex} style={styles.tableRow}>
                             <Text style={[styles.tableSubHead1 , {fontSize:"8"}]}>
