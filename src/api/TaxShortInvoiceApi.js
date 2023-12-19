@@ -3,12 +3,13 @@ import { toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 
 export const getShortInvoice = async (searchQuery) => {
+  console.log(searchQuery)
     try {
         let Token = localStorage.getItem("Token");
     const response = await axios.get(
       `${ 
         import.meta.env.VITE_APP_API
-      }/inovices/invoices-sh-search?search=${searchQuery}`,
+      }/inovicesh/invoices-sh-search?search=${searchQuery}`,
       {
         headers: {
           "Content-Type": "application/json",
@@ -30,7 +31,7 @@ export const addShortInvioce = async (data , setOpenPrint) => {
   try {
     let Token = localStorage.getItem("Token");
     const response = await axios.post(
-      `${import.meta.env.VITE_APP_API}/inovices/add-sh-inovices`,
+      `${import.meta.env.VITE_APP_API}/inovices/addinovices-sh`,
       data,
       {
         headers: {
@@ -44,8 +45,6 @@ export const addShortInvioce = async (data , setOpenPrint) => {
     return response.data.data;
   } catch (error) {
     toast.error("ไม่สามารถสร้าง ใบกำกับภาษี(รูปแบบย่อย) กรุณาลองอีกครั้ง ")
-    console.log('bbbb')
-    // console.error(error);
   }
 };
 

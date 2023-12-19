@@ -28,30 +28,7 @@ export const getFullInvoice = async (searchQuery) => {
     }
 
 }
-export const getFullInvoiceId = async (id) => {
-    try {
-        let Token = localStorage.getItem("Token");
-    const response = await axios.get(
-      `${
-        import.meta.env.VITE_APP_API
-      }/inovices/invoices-search?search=${id}`,
-      {
-        headers: {
-          "Content-Type": "application/json",
-          Authorization: `Bearer ${Token}`,
-        },
-      }
-    );
-    console.log(response.data)
-    return response.data;
 
-        
-    } catch (error) {
-        console.error(error)
-        
-    }
-
-}
 
 export const addFullInvioce = async (data , setOpenPrint) => {
   try {
@@ -80,7 +57,7 @@ export const deleteFullInvoice = async (id , setToastOpen) => {
   try {
     let Token = localStorage.getItem("Token");
     const response = await axios.delete(
-      `${import.meta.env.VITE_APP_API}/inovices/delete/${id}`,
+      `${import.meta.env.VITE_APP_API}/inovices/delete/${String(id)}`,
       {
         headers: {
           "Content-Type": "application/json",
@@ -88,6 +65,7 @@ export const deleteFullInvoice = async (id , setToastOpen) => {
         },
       }
     );
+    console.log(response.data)
     toast.success('ลบใบกำกับภาษี(รูปแบบเต็ม) สำเร็จ')
     setToastOpen(true)
     return response.data;

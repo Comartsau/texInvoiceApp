@@ -465,8 +465,6 @@ const CreateInvoice = () => {
           </div>
         </div>
       </div>
-
-
       <div  className="flex w-full flex-col xl:flex-row gap-5 ">
         <div className="flex w-full flex-col gap-3">
           <div className="flex  w-full md:w-8/8">
@@ -645,13 +643,7 @@ const CreateInvoice = () => {
         <Receipt80
           openModalReceipt80={openModalReceipt80}
           handleModalReceipt80={handleModalReceipt80}
-          data={data}
           dataReceipt = {dataReceipt}
-          customer={selectedCustomer}
-          calculatePruePrice={calculatePruePrice}
-          calculateVAT={calculateVAT}
-          calculateTotalAmount={calculateTotalAmount}
-          note={note}
         />
       ) : (
         ""
@@ -663,6 +655,7 @@ const CreateInvoice = () => {
           openModalReceiptA4={openModalReceiptA4}
           handleModalReceiptA4={handleModalReceiptA4}
           data={data}
+          dataReceipt={dataReceipt}
           calculatePruePrice={calculatePruePrice}
           calculateVAT={calculateVAT}
           calculateTotalAmount={calculateTotalAmount}

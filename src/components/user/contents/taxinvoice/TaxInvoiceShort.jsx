@@ -16,8 +16,10 @@ import {
     Select,
     Option,
   } from "@material-tailwind/react";
+
+  import moment  from "moment";
   
-  import axios from "axios";
+
   import qs from "qs";
   
   import { ToastContainer, toast } from "react-toastify";
@@ -54,16 +56,8 @@ import { getShortInvoice } from "../../../../api/TaxShortInvoiceApi";
     //----------  Data Table --------------------//
     const [noData, setNoData] = useState(false);
   
-    //   const [listData, setListData] = useState([]);
-    const [listData, setListData] = useState([
-      {
-        invoice_name: "A66/0001 ",
-      },
-      {
-        invoice_name: "  A66/0002 ",
-      },
-    ]);
-  
+    const [listData, setListData] = useState([]);
+
     const [tokenError, setTokenError] = useState(false);
     const [searchQuery, setSearchQuery] = useState("");
 
@@ -72,7 +66,7 @@ import { getShortInvoice } from "../../../../api/TaxShortInvoiceApi";
       try {
         const response = await getShortInvoice(searchQuery)
         console.log(response)
-        // setListData(response);
+        setListData(response);
         setNoData(false);
         
       } catch (error) {
@@ -84,7 +78,7 @@ import { getShortInvoice } from "../../../../api/TaxShortInvoiceApi";
     useEffect(()=>{
       fetchShortInvoice()
     // eslint-disable-next-line react-hooks/exhaustive-deps
-    },[])
+    },[searchQuery])
   
     
   
@@ -312,7 +306,7 @@ import { getShortInvoice } from "../../../../api/TaxShortInvoiceApi";
                                 color="blue-gray"
                                 className="font-normal "
                               >
-                                {data?.invoice_name || ""}
+                                {data?.code || ""}
                               </Typography>
                             </div>
                           </td>
@@ -418,14 +412,14 @@ import { getShortInvoice } from "../../../../api/TaxShortInvoiceApi";
                   </div>
                 </div>
                 <Typography className="font-bold mt-5">
-                  เลขที่ใบกำกับภาษี:{" "}
+                  เลขที่ใบกำกับภาษี: <span className="font-normal">{dataView?.tax_personal}</span>
                 </Typography>
-                <Typography className="font-bold mt-5">วันที่: </Typography>
+                <Typography className="font-bold mt-5">วันที่: <span className="font-normal">{moment(dataView?.created_at).format("DD/MM/YYYY  HH:mm:ss")}</span> </Typography>
                 <hr className="mt-3 border " />
                 <Typography className="text-lg font-bold mt-10">
                   ข้อมูลลูกค้า:{" "}
                 </Typography>
-                <Typography className="font-bold mt-5">ชื่อ: </Typography>
+                <Typography className="font-bold mt-5">ชื่อ:  <span className="font-normal">{dataView?.tax_personal}</span> </Typography>
                 <Typography className="font-bold mt-5">ที่อยู่: </Typography>
                 <Typography className="font-bold mt-5">
                   เลขประจำตัวผู้เสียภาษี:{" "}

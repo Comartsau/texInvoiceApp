@@ -18,6 +18,8 @@ import {
   Option,
 } from "@material-tailwind/react";
 
+import moment  from "moment";
+
 
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
@@ -42,7 +44,9 @@ import {
 
 import ReceiptA4 from "../../../receipt/receiptA4";
 import Receipt80 from "../../../receipt/receipt80";
-import { deleteFullInvoice, getFullInvoice } from "../../../../api/TaxFullInvoiceApi";
+
+
+import { deleteFullInvoice , getFullInvoice  } from "../../../../api/TaxFullInvoiceApi";
 
 function TaxInvoiceFull() {
 
@@ -150,14 +154,18 @@ function TaxInvoiceFull() {
   //------------- open Receipt A4  -----------------------//
   const [openModalReceiptA4, setOpenModalReceiptA4] = useState(false);
   const handleModalReceiptA4 = () => {
+    console.log("a4")
     setOpenModalReceiptA4(!openModalReceiptA4);
   };
+  console.log(openModalReceiptA4)
 
   //------------- open Receipt 80  -----------------------//
   const [openModalReceipt80, setOpenModalReceipt80] = useState(false);
   const handleModalReceipt80 = () => {
     setOpenModalReceipt80(!openModalReceipt80);
   };
+
+  console.log(dataView)
 
 
   return (
@@ -383,19 +391,19 @@ function TaxInvoiceFull() {
               <Typography className="font-bold mt-5">
                 เลขที่ใบกำกับภาษี: <span className="font-normal">{dataView?.code}</span>
               </Typography>
-              <Typography className="font-bold mt-5">วันที่: </Typography>
+              <Typography className="font-bold mt-5">วันที่: <spand className="font-normal">{moment(dataView?.created_at).format("DD/MM/YYYY  HH:mm:ss")}</spand>  </Typography>
               <hr className="mt-3 border " />
               <Typography className="text-lg font-bold mt-10">
                 ข้อมูลลูกค้า:{" "}
               </Typography>
-              <Typography className="font-bold mt-5">ชื่อ: </Typography>
-              <Typography className="font-bold mt-5">ที่อยู่: </Typography>
+              <Typography className="font-bold mt-5">ชื่อ: <span className="font-normal">{dataView?.customer_name}</span> </Typography>
+              <Typography className="font-bold mt-5">ที่อยู่:  <span className="font-normal">{dataView?.customer_address}</span>  </Typography>
               <Typography className="font-bold mt-5">
-                เลขประจำตัวผู้เสียภาษี:{" "}
+                เลขประจำตัวผู้เสียภาษี:  <span className="font-normal">{dataView?.customer_id_tax}</span>
               </Typography>
               <hr className="mt-3 border " />
               <Typography className="text-lg font-bold mt-10">
-                หมายเหตุ:{" "}
+                หมายเหตุ: <span className="font-normal">{dataView?.note}</span>
               </Typography>
             </div>
             <div className="w-full lg:w-8/12">
@@ -403,18 +411,168 @@ function TaxInvoiceFull() {
                 รายการ
               </Typography>
               <Card className="border px-2 h-[80%] overflow-auto">
-                aaaa
+              <div className="mt-5">
+            <table className="w-full min-w-max  ">
+              <thead>
+                <tr>
+                  <th className="border-y border-blue-gray-100 bg-blue-gray-50/50 p-4">
+                    <Typography
+                      variant="small"
+                      color="blue-gray"
+                      className="font-bold leading-none opacity-70"
+                    >
+                      ลำดับ
+                    </Typography>
+                  </th>
+                  <th className="border-y border-blue-gray-100 bg-blue-gray-50/50 p-4">
+                    <Typography
+                      variant="small"
+                      color="blue-gray"
+                      className="font-bold leading-none opacity-70"
+                    >
+                      รายการ
+                    </Typography>
+                  </th>
+                  <th className="border-y border-blue-gray-100 bg-blue-gray-50/50 p-4">
+                    <Typography
+                      variant="small"
+                      color="blue-gray"
+                      className="font-bold leading-none opacity-70"
+                    >
+                      จำนวน
+                    </Typography>
+                  </th>
+                  <th className="border-y border-blue-gray-100 bg-blue-gray-50/50 p-4">
+                    <Typography
+                      variant="small"
+                      color="blue-gray"
+                      className="font-bold leading-none opacity-70"
+                    >
+                      หน่วยนับ
+                    </Typography>
+                  </th>
+                  <th className="border-y border-blue-gray-100 bg-blue-gray-50/50 p-4">
+                    <Typography
+                      variant="small"
+                      color="blue-gray"
+                      className="font-bold leading-none opacity-70"
+                    >
+                      ราคา/หน่วย
+                    </Typography>
+                  </th>
+                  <th className="border-y border-blue-gray-100 bg-blue-gray-50/50 p-4">
+                    <Typography
+                      variant="small"
+                      color="blue-gray"
+                      className="font-bold leading-none opacity-70"
+                    >
+                      รวมเงิน
+                    </Typography>
+                  </th>
+                </tr>
+              </thead>
+              {noData ? (
+                <tbody>
+                  <tr>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                    <td>
+                      <Typography>...ไม่พบข้อมูล...</Typography>
+                    </td>
+                  </tr>
+                </tbody>
+              ) : (
+                <tbody>
+                  {dataView?.product_data?.map((data, index) => {
+                    const classes =  "p-3 border-b border-blue-gray-50";
+
+                    return (
+                      <tr key={index}>
+                        <td className={classes}>
+                          <div className="flex items-center justify-center">
+                            <Typography
+                              variant="small"
+                              color="blue-gray"
+                              className="font-normal "
+                            >
+                              {index + 1 || ""}
+                            </Typography>
+                          </div>
+                        </td>
+                        <td className={classes}>
+                          <div className="flex items-center justify-center">
+                            <Typography
+                              variant="small"
+                              color="blue-gray"
+                              className="font-normal "
+                            >
+                              {data?.product || ""}
+                            </Typography>
+                          </div>
+                        </td>
+                        <td className={classes}>
+                          <div className="flex items-center justify-center">
+                            <Typography
+                              variant="small"
+                              color="blue-gray"
+                              className="font-normal "
+                            >
+                              {data?.quantity || ""}
+                            </Typography>
+                          </div>
+                        </td>
+                        <td className={classes}>
+                          <div className="flex items-center justify-center">
+                            <Typography
+                              variant="small"
+                              color="blue-gray"
+                              className="font-normal "
+                            >
+                              {data?.unit || ""}
+                            </Typography>
+                          </div>
+                        </td>
+                        <td className={classes}>
+                          <div className="flex items-center justify-center">
+                            <Typography
+                              variant="small"
+                              color="blue-gray"
+                              className="font-normal "
+                            >
+                              {Number(data?.pricePerUnit).toLocaleString() || ""}
+                            </Typography>
+                          </div>
+                        </td>
+                        <td className={classes}>
+                          <div className="flex items-center justify-center">
+                            <Typography
+                              variant="small"
+                              color="blue-gray"
+                              className="font-normal "
+                            >
+                              {Number(data?.totalPrice).toLocaleString() || ""}
+                            </Typography>
+                          </div>
+                        </td>
+                      </tr>
+                    );
+                  })}
+                </tbody>
+              )}
+            </table>
+          </div>
               </Card>
               <div className="flex  flex-col items-end mt-3">
                 <Typography className="text-lg font-bold">
                   ข้อมูลการชำระเงิน
                 </Typography>
-                <Typography className="mt-3">รวมเงิน: 500 บาท</Typography>
+                <Typography className="mt-3">รวมเงิน: {Number(dataView?.total_price).toLocaleString()}  บาท</Typography>
                 <Typography className="mt-3">
-                  ภาษีมูลค่าเพิ่ม: 35 บาท
+                  ภาษีมูลค่าเพิ่ม: {Number(dataView?.total_tax).toLocaleString()}  บาท
                 </Typography>
                 <Typography className="mt-3 font-bold text-lg text-red-500">
-                  จำนวนเงินทั้งสิน: 535 บาท
+                  จำนวนเงินทั้งสิน: {Number(dataView?.total_amount).toLocaleString()}  บาท
                 </Typography>
               </div>
             </div>
@@ -426,11 +584,12 @@ function TaxInvoiceFull() {
             <div className={`absolute top-[80%] left-[79%] bg-white border rounded-lg shadow-lg ${showPrint ? '' : 'hidden'}`}>
                   <MenuItem
                     className="z-50"
-                    onClick={() => setOpenModalReceiptA4(true)}
+                    // onClick={() => setOpenModalReceiptA4(true)}
+                    onClick={handleModalReceiptA4}
                   >
                     ขนาด A4
                   </MenuItem>
-                  <MenuItem onClick={() => setOpenModalReceipt80(true)}>
+                  <MenuItem onClick={handleModalReceipt80}>
                     ขนาด 80 มิล
                   </MenuItem>
                 </div>
@@ -439,8 +598,6 @@ function TaxInvoiceFull() {
                 variant="gradient"
                 color="blue"
                 className="text-base flex justify-center  items-center   bg-green-500"
-                // onClick={() => setShowPrint(true)}
-                // onBlur={()=> setShowPrint(false)}
                 onClick={handlePrintButtonClick}
               >
                 <span className="mr-2 text-xl ">
@@ -489,7 +646,7 @@ function TaxInvoiceFull() {
               variant="gradient"
               color="red"
               size="sm"
-              onClick={() => handleDelete(dataDelete?.id)}
+              onClick={() => handleDelete(String(dataDelete?.id))}
               className="flex mr-1 text-base"
             >
               <span className="text-xl mr-2">
@@ -517,6 +674,35 @@ function TaxInvoiceFull() {
       :
       ''
       }
+
+      {/* รูปแบบเต็ม */}
+      {/* open PDF A4 */}
+
+      {openModalReceiptA4 == true ? (
+        <>
+        <ReceiptA4
+          openModalReceiptA4={openModalReceiptA4}
+          handleModalReceiptA4={handleModalReceiptA4}
+          dataReceipt = {dataView}
+          // customer={selectedCustomer}
+        />
+        </>
+      ) : (
+        ""
+      )}
+
+      {/* open PDF  80 */}
+      {openModalReceipt80 == true  ? (
+        <Receipt80
+          openModalReceipt80={openModalReceipt80}
+          handleModalReceipt80={handleModalReceipt80}
+          dataReceipt = {dataView}
+        />
+      ) : (
+        ""
+      )}
+
+
 
     </div>
   );

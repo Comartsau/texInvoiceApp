@@ -31,8 +31,7 @@ import {
 } from "@material-tailwind/react";
 
 import PropTypes from "prop-types";
-import { getFullInvoiceId } from "../../api/TaxFullInvoiceApi";
-import { useEffect, useState } from "react";
+
 
 Font.register({
   family: "Sarabun",
@@ -404,7 +403,7 @@ export const ReceiptA4 = ({
                             styles.spacesm,
                           ]}
                         >
-                          {customer?.customer_name || ""}
+                          {customer?.customer_name ? customer?.customer_name  : dataReceipt?.customer_name || ""}
                         </Text>
                         <Text
                           style={[
@@ -415,7 +414,7 @@ export const ReceiptA4 = ({
                             styles.spacesm,
                           ]}
                         >
-                          ที่อยู่: {customer?.customer_address || ""}
+                          ที่อยู่: {customer?.customer_address ? customer?.customer_address : dataReceipt?.customer_address || ""}
                         </Text>
                         <Text
                           style={[
@@ -426,7 +425,7 @@ export const ReceiptA4 = ({
                             styles.spacesm,
                           ]}
                         >
-                          เลขประจำตัวผู้เสียภาษี:   {customer?.customer_id_tax || ""}
+                          เลขประจำตัวผู้เสียภาษี:   {customer?.customer_id_tax ? customer?.customer_id_tax : dataReceipt?.customer_id_tax  || ""}
                         </Text>
                         <Text
                           style={[
@@ -437,7 +436,7 @@ export const ReceiptA4 = ({
                             styles.spacesm,
                           ]}
                         >
-                          โทรศัพท์: {customer?.customer_tel || ""}
+                          โทรศัพท์: {customer?.customer_tel ? customer?.customer_tel : dataReceipt?.customer_tel || ""}
                         </Text>
                       </View>
                     </View>

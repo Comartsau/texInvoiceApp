@@ -331,13 +331,10 @@ export const ReceiptA4Short = ({
   openModalReceiptA4,
   handleModalReceiptA4,
   data,
-  customer,
-  calculatePruePrice,
-  calculateVAT,
-  calculateTotalAmount,
+  dataReceipt,
   note,
 }) => {
-  console.log(data);
+  console.log(dataReceipt);
 
   const itemsPerPage = 20; // จำนวนรายการต่อหน้า
 
@@ -456,9 +453,9 @@ export const ReceiptA4Short = ({
                             ราคารวมภาษีมูลค่าเพิ่ม:
                           </Text>
                           <Text style={styles.borderCell4}>
-                          {calculateTotalAmount()
+                          {/* {calculateTotalAmount()
                               .toFixed(2)
-                              .replace(/\B(?=(\d{3})+(?!\d))/g, ",")}
+                              .replace(/\B(?=(\d{3})+(?!\d))/g, ",")} */}
                           </Text>
                         </View>
                         <View style={[styles.flexrow]}>
