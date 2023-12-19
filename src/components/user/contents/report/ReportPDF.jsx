@@ -1,3 +1,4 @@
+/* eslint-disable no-unused-vars */
 /* eslint-disable react/prop-types */
 /* eslint-disable react/no-unescaped-entities */
 import {
@@ -379,9 +380,11 @@ import { useState } from "react";
   export const ReportPDF = ({
     openModalReceiptA4,
     handleModalReceiptA4,
-    // data,
+    dataReceipt,
 
   }) => {
+
+    console.log(dataReceipt)
 
     const [data,setData] = useState(
         [
@@ -537,7 +540,7 @@ import { useState } from "react";
   
     return (
       <Dialog open={openModalReceiptA4} handler={handleModalReceiptA4} size="xl">
-        <DialogHeader></DialogHeader>
+        {/* <DialogHeader></DialogHeader> */}
         <DialogBody>
           {/* <Page size={[842, 595]} style={styles.page}> */}
           {/*  9 x 11 นิ้ว (792 คือ 9 นิ้ว x 72 คือ DPI, 936 คือ 11 นิ้ว x 72 คือ DPI) */}
@@ -749,9 +752,8 @@ import { useState } from "react";
   };
   
   ReportPDF.propTypes = {
-    openModalReceipt: PropTypes.bool.isRequired,
-    handleModalReceipt: PropTypes.func.isRequired,
-    data: PropTypes.array.isRequired,
+    openModalReceiptA4: PropTypes.bool.isRequired,
+    handleModalReceiptA4: PropTypes.func.isRequired,
   };
   
   export default ReportPDF;

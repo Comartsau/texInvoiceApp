@@ -462,6 +462,7 @@ import { getShortInvoice } from "../../../../api/TaxShortInvoiceApi";
                     <MenuItem onClick={() => setOpenModalReceipt80(true)}>
                       ขนาด 80 มิล
                     </MenuItem>
+                    
                   </div>
                 <Button
                   size="sm"

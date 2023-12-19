@@ -156,8 +156,6 @@ const SaleReport = () => {
   
     const totalPages = Math.ceil(listData.length / itemsPerPage);
 
-  console.log(searchQueryStart);
-  console.log(searchQueryEnd);
 
   //------------- open Receipt A4  -----------------------//
   const [openModalReceiptA4, setOpenModalReceiptA4] = useState(false);
@@ -458,12 +456,7 @@ const SaleReport = () => {
       <ReportPDF
         openModalReceiptA4={openModalReceiptA4}
         handleModalReceiptA4={handleModalReceiptA4}
-        // data={data}
-        // customer={selectedCustomer}
-        // calculateSubtotal={calculateSubtotal}
-        // calculateVAT={calculateVAT}
-        // calculateTotalAmount={calculateTotalAmount}
-        // note={note}
+        dataReceipt={'test'}
       />
     </div>
   );

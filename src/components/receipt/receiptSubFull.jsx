@@ -408,7 +408,7 @@ import {
   
     return (
       <Dialog open={openModalReceiptSubFull} handler={handleModalReceiptSubFull} size="xl">
-        <DialogHeader></DialogHeader>
+        {/* <DialogHeader></DialogHeader> */}
         <DialogBody>
           {/* <Page size={[842, 595]} style={styles.page}> */}
           {/*  9 x 11 นิ้ว (792 คือ 9 นิ้ว x 72 คือ DPI, 936 คือ 11 นิ้ว x 72 คือ DPI) */}
@@ -573,8 +573,8 @@ import {
   };
   
   ReceiptSubFull.propTypes = {
-    openModalReceipt: PropTypes.bool.isRequired,
-    handleModalReceipt: PropTypes.func.isRequired,
+    openModalReceiptSubFull: PropTypes.bool.isRequired,
+    handleModalReceiptSubFull: PropTypes.func.isRequired,
   };
   
   export default ReceiptSubFull;
