@@ -44,7 +44,7 @@ import ReceiptA4Short from "../../../receipt/receiptA4Short";
 import Receipt80Short from "../../../receipt/receipt80Short";
 
 
-import { addFullInvioce } from "../../../../api/TaxFullInvoiceApi";
+import { addFullInvioce } from "../../../../api/TaxFullInvoiceAPI";
 import { addShortInvioce } from "../../../../api/TaxShortInvoiceApi";
 
 const CreateInvoice = () => {
