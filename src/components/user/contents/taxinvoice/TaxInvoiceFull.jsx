@@ -46,7 +46,7 @@ import ReceiptA4 from "../../../receipt/receiptA4";
 import Receipt80 from "../../../receipt/receipt80";
 
 
-import { deleteFullInvoice , getFullInvoice  } from "../../../../api/TaxFullInvoiceApi";
+import { getFullInvoice ,deleteFullInvoice } from "../../../../api/TaxFullInvoiceAPI";
 
 function TaxInvoiceFull() {
 
