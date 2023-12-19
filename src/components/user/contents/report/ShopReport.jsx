@@ -539,6 +539,7 @@ const ShopReport = () => {
         openModalReceiptSubFull={openModalReceiptSubFull}
         handleModalReceiptSubFull={handleModalReceiptSubFull}
         dataReceipt = {dataReceipt}
+        salePoint = {selectedShop?.salepoints_name}
       />
     </div>
   );

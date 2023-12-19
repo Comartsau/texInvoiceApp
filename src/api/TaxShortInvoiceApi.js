@@ -48,11 +48,12 @@ export const addShortInvioce = async (data , setOpenPrint) => {
   }
 };
 
-export const deleteFullInvoice = async (id) => {
+export const deleteShortInvoice = async (id , setToastOpen) => {
   try {
     let Token = localStorage.getItem("Token");
     const response = await axios.delete(
-      `${import.meta.env.VITE_APP_API}/inovices/delete/${id}`,
+      `${import.meta.env.VITE_APP_API}/inoviceshinovices-sh/delete/${id}`,
+      
       {
         headers: {
           "Content-Type": "application/json",
@@ -60,6 +61,8 @@ export const deleteFullInvoice = async (id) => {
         },
       }
     );
+    toast.success('ลบใบกำกับภาษี(รูปแบบย่อย) สำเร็จ')
+    setToastOpen(true)
     return response.data;
   } catch (error) {
     console.error(error);

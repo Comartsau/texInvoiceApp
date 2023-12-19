@@ -370,9 +370,12 @@ import {
   export const ReceiptSubFull = ({
     openModalReceiptSubFull,
     handleModalReceiptSubFull,
-    dataReceipt
+    dataReceipt,
+    salePoint
   
   }) => {
+
+    console.log(salePoint)
   
 
   
@@ -449,7 +452,7 @@ import {
                   </View>
                   <View>
                     <Text style={[styles.flexrowcenter, styles.text6 ]}>
-                    จุดขาย ...... {''}
+                    จุดขาย  {salePoint} {''}
                     </Text>
                   </View>
                   <View>

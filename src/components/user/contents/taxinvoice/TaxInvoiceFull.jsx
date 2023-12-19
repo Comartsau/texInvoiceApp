@@ -560,7 +560,7 @@ function TaxInvoiceFull() {
                 </tbody>
               )}
             </table>
-          </div>
+              </div>
               </Card>
               <div className="flex  flex-col items-end mt-3">
                 <Typography className="text-lg font-bold">
@@ -632,7 +632,7 @@ function TaxInvoiceFull() {
         <DialogBody divider className=" overflow-auto ">
           <div className="flex flex-col w-full justify-center gap-3 ">
             <Typography variant="h5" className="text-center">
-              ต้องการลบ สินค้า: {dataDelete?.code || ""}{" "}
+              ต้องการลบ ใบกำกับภาษี: {dataDelete?.code || ""}{" "}
             </Typography>
             <Typography variant="h5" className="text-center">
               จริงหรือไม่?{" "}

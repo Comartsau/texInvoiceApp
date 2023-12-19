@@ -450,12 +450,10 @@ export const ReceiptA4Short = ({
                         <View style={styles.tableRow}>
                           {/* สรุปรวม */}
                           <Text style={[styles.tableCellNote, styles.text12]}>
-                            ราคารวมภาษีมูลค่าเพิ่ม:
+                            ราคารวมภาษีมูลค่าเพิ่ม
                           </Text>
                           <Text style={styles.borderCell4}>
-                          {/* {calculateTotalAmount()
-                              .toFixed(2)
-                              .replace(/\B(?=(\d{3})+(?!\d))/g, ",")} */}
+                          {Number(dataReceipt?.total_amount).toLocaleString() || ""}
                           </Text>
                         </View>
                         <View style={[styles.flexrow]}>

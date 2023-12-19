@@ -514,7 +514,7 @@ import { useState } from "react";
   
   
   
-    const itemsPerPage = 4; // จำนวนรายการต่อหน้า
+    const itemsPerPage = 10; // จำนวนรายการต่อหน้า
   
     // แบ่งรายการออกเป็นหน้าตามจำนวนที่กำหนด
   
@@ -550,6 +550,9 @@ import { useState } from "react";
        
                 <Page key={index} size="A4" style={styles.page} orientation="landscape" > 
                   <View>
+                    <Text style={[styles.flexrowcenter, styles.text14 , {color:"red"}]}>
+                      (ตัวอย่างรายงาน) 
+                    </Text>
                     <Text style={[styles.flexrowcenter, styles.text14]}>
                       รายงานภาษีขาย 
                     </Text>
@@ -723,14 +726,14 @@ import { useState } from "react";
                         </>
                       )}
                   </View>
-                  <View fixed style={[styles.footer]}>
+                  {/* <View fixed style={[styles.footer]}>
                     {" "}
                     <Text style={[styles.footer, styles.text12   ]}
                       render={({ pageNumber, totalPages }) =>
                         `${pageNumber} / ${totalPages}`
                       }
                     />
-                  </View>
+                  </View> */}
                 </Page>
               ))}
             </Document>
