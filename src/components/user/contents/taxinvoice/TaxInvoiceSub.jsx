@@ -52,14 +52,29 @@ function TaxInvoiceSub() {
   const [noData, setNoData] = useState(false);
 
   //   const [listData, setListData] = useState([]);
-  const [listData, setListData] = useState([
-    {
-      invoice_name: "A66/0001 ",
-    },
-    {
-      invoice_name: "  A66/0002 ",
-    },
-  ]);
+  const [listData, setListData] = useState({
+
+      product_data: [
+        {
+          product_name : "ชุดเครื่องมือช่าง" , amount: 5 , price: 600 , total: 3000
+        },
+        {
+          product_name : "ชุดเครื่องมือช่าง" , amount: 10 , price: 600 , total: 6000
+        },
+      ],
+      invioce_data: [
+        {
+          invoice_name: "A66/0001 "
+        },
+        {
+          invoice_name: "  A66/0002 "
+        },
+      ]
+
+  
+});
+
+  console.log(listData.invioce_data)
 
   const [tokenError, setTokenError] = useState(false);
   const [searchQuery, setSearchQuery] = useState("");
@@ -106,7 +121,7 @@ function TaxInvoiceSub() {
 
   const startIndex = (currentPage - 1) * itemsPerPage;
   const endIndex = startIndex + itemsPerPage;
-  const displayedData = listData.slice(startIndex, endIndex);
+  const displayedData = listData.invioce_data.slice(startIndex, endIndex);
 
   const totalPages = Math.ceil(listData.length / itemsPerPage);
 
@@ -159,8 +174,7 @@ function TaxInvoiceSub() {
   const handleDelete = async (id) => {
     // ลบข้อมูลเมื่อผู้ใช้ยืนยันการลบ
 
-    let token = localStorage.getItem("Token");
-    let data = qs.stringify({});
+
 
     console.log(id);
 
@@ -410,8 +424,44 @@ function TaxInvoiceSub() {
         </DialogHeader>
         <DialogBody divider className=" overflow-auto h-[75vh] ">
           <div className="flex flex-col lg:flex-row h-full gap-3">
-            <div className="flex w-full lg:w-2/12  border-0 border-r-2 ">
+            <div className="flex flex-col w-full lg:w-2/12  border-0 border-r-2 ">
               <Typography className="w-full text-center">รายการย่อย</Typography>
+              <div className="flex items-center justify-center gap-5 mt-3">
+                <Typography className="text-center">
+                  C66/001/1
+                </Typography>
+                <IconButton
+                  color="green"
+                  size="sm"
+                  className=" rounded-full border-4 w-6 h-6  border-green-500 "
+                >
+                  <FaCheckCircle className="text-xl" />
+                </IconButton>
+              </div>
+              <div className="flex items-center justify-center gap-5 mt-3">
+                <Typography className="text-center">
+                  C66/001/2
+                </Typography>
+                <IconButton
+                  color="green"
+                  size="sm"
+                  className=" rounded-full border-4 w-6 h-6  border-green-500 "
+                >
+                  <FaCheckCircle className="text-xl" />
+                </IconButton>
+              </div>
+              <div className="flex items-center justify-center gap-5 mt-3">
+                <Typography className="text-center">
+                  C66/001/3
+                </Typography>
+                <IconButton
+                  color="green"
+                  size="sm"
+                  className=" rounded-full border-4 w-6 h-6  border-green-500 "
+                >
+                  <FaCheckCircle className="text-xl" />
+                </IconButton>
+              </div>
             </div>
             <div className="flex w-full xl:w-10/12 ">
               <div className="flex flex-col w-full">
@@ -420,8 +470,8 @@ function TaxInvoiceSub() {
                     <Typography className="font-bold">
                       ใบเสร็จรับเงิน / ใบกำกับภาษีแบบย่อ
                     </Typography>
-                    <Typography className="mt-2">เลขที่เอกสาร</Typography>
-                    <Typography className="mt-2">วันที่สร้างบิล</Typography>
+                    <Typography className="mt-2">เลขที่เอกสาร C66/001</Typography>
+                    <Typography className="mt-2">วันที่สร้างบิล  18/12/2023</Typography>
                   </div>
                   <div>
                     <Typography className="font-bold">
@@ -443,6 +493,7 @@ function TaxInvoiceSub() {
                     size="sm"
                     variant="gradient"
                     color="blue"
+                    disabled
                     className="text-base flex justify-center  items-center   bg-green-500"
                     // onClick={() => setShowPrint(true)}
                     // onBlur={()=> setShowPrint(false)}
@@ -453,32 +504,159 @@ function TaxInvoiceSub() {
                     </span>
                     พิมพ์ (บิลเต็ม)
                   </Button>
-                  <Button
-                    size="sm"
-                    variant="gradient"
-                    color="orange"
-                    className="text-base flex justify-center  items-center    bg-green-500"
-                    // onClick={() => setShowPrint(true)}
-                    // onBlur={()=> setShowPrint(false)}
-                    onClick={handlePrintButtonClick}
-                  >
-                    <span className="mr-2 text-xl ">
-                      <MdLocalPrintshop />
-                    </span>
-                    พิมพ์ (บิลย่อย)
-                  </Button>
                 </div>
                 <div className="mt-5 xl:mt-0">
                   <Typography className="font-bold">
                     รายการ (บิลย่อย C66/001/4)
                   </Typography>
                   <div className="xl:px-5 mt-3">
-                    <Card className="border w-full h-[35vh] overflow-auto ">sssssss</Card>
+                    <Card className="border w-full h-[35vh] overflow-auto ">
+                    <table className="w-full min-w-max  ">
+              <thead>
+                <tr>
+                  <th className="border-y border-blue-gray-100 bg-blue-gray-50/50 p-4">
+                    <Typography
+                      variant="small"
+                      color="blue-gray"
+                      className="font-bold leading-none opacity-70"
+                    >
+                      ลำดับ
+                    </Typography>
+                  </th>
+                  <th className="border-y border-blue-gray-100 bg-blue-gray-50/50 p-4">
+                    <Typography
+                      variant="small"
+                      color="blue-gray"
+                      className="font-bold leading-none opacity-70"
+                    >
+                      ชื่อสินค้า
+                    </Typography>
+                  </th>
+                  <th className="border-y border-blue-gray-100 bg-blue-gray-50/50 p-4">
+                    <Typography
+                      variant="small"
+                      color="blue-gray"
+                      className="font-bold leading-none opacity-70"
+                    >
+                      จำนวน
+                    </Typography>
+                  </th>
+                  <th className="border-y border-blue-gray-100 bg-blue-gray-50/50 p-4">
+                    <Typography
+                      variant="small"
+                      color="blue-gray"
+                      className="font-bold leading-none opacity-70"
+                    >
+                      ราคา/หน่วย
+                    </Typography>
+                  </th>
+                  <th className="border-y border-blue-gray-100 bg-blue-gray-50/50 p-4">
+                    <Typography
+                      variant="small"
+                      color="blue-gray"
+                      className="font-bold leading-none opacity-70"
+                    >
+                      รวมเป็น
+                    </Typography>
+                  </th>
+                  <th className="border-y border-blue-gray-100 bg-blue-gray-50/50 p-4">
+                    <Typography
+                      variant="small"
+                      color="blue-gray"
+                      className="font-bold leading-none opacity-70"
+                    >
+                      พิมพ์
+                    </Typography>
+                  </th>
+                </tr>
+              </thead>
+              {noData ? (
+                <tbody>
+                  <tr>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                    <td>
+                      <Typography>...ไม่พบข้อมูล...</Typography>
+                    </td>
+                  </tr>
+                </tbody>
+              ) : (
+                <tbody>
+                  {listData.product_data.map((data, index) => {
+                    const isLast = index === displayedData.length - 1;
+                    const pageIndex = startIndex + index;
+                    const classes = isLast
+                      ? "p-2"
+                      : "p-3 border-b border-blue-gray-50";
+
+                    return (
+                      <tr key={index}>
+                        <td className={classes}>
+                          <div className="flex items-center justify-center">
+                            <Typography
+                              variant="small"
+                              color="blue-gray"
+                              className="font-normal "
+                            >
+                              {pageIndex + 1 || ""}
+                            </Typography>
+                          </div>
+                        </td>
+                        <td className={classes}>
+                          <div className="flex items-center justify-center">
+                            <Typography
+                              variant="small"
+                              color="blue-gray"
+                              className="font-normal "
+                            >
+                              ชุดเครื่องมือช่าง
+                            </Typography>
+                          </div>
+                        </td>
+                        <td className={classes}>
+                          <div className="flex justify-center">
+                            <IconButton
+                              variant="outlined"
+                              color="blue"
+                              size="sm"
+                              className="ml-3 "
+                              onClick={() => handleModalView(data)}
+                            >
+                              <BsFillEyeFill className="h-5 w-5  text-light-blue-700 " />
+                            </IconButton>
+                          </div>
+                        </td>
+
+                        <td className={classes}>
+                          <div className="flex justify-center ">
+                            <IconButton
+                              variant="outlined"
+                              size="sm"
+                              color="red"
+                              className="rounded-full"
+                              onClick={() => handleModalDelete(data)}
+                            >
+                              <AiFillDelete color="red" className="h-5 w-5" />
+                            </IconButton>
+                          </div>
+                        </td>
+                      </tr>
+                    );
+                  })}
+                </tbody>
+              )}
+            </table>
+                    </Card>
                   </div>
                 </div>
                 <div className="mt-3">
-                  <Typography className="font-bold">ข้อมูลการชำระเงิน (บิลย่อย C66/0001/4)</Typography>
-                  <Typography className="font-bold text-red-500">รวมทั้งสิน: <span>999</span> บาท</Typography>
+                  <Typography className="font-bold">
+                    ข้อมูลการชำระเงิน (บิลย่อย C66/0001/4)
+                  </Typography>
+                  <Typography className="font-bold text-red-500">
+                    รวมทั้งสิน: <span>999</span> บาท
+                  </Typography>
                 </div>
               </div>
             </div>
