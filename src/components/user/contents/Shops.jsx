@@ -273,12 +273,12 @@ function Shops() {
           </div>
         </div>
         {/* ------------ table  ----------------------------------------- */}
-        <Card className="mt-5 border-2 overflow-auto ">
+        <Card className="mt-5 mx-10 border-2 overflow-auto ">
           <div className="p-3">
             <table className="w-full min-w-max  ">
               <thead>
                 <tr>
-                  <th className="border-y border-blue-gray-100 bg-blue-gray-50/50 p-4">
+                  <th className="border-y border-blue-gray-100 bg-blue-gray-50/50 p-4 w-1">
                     <Typography
                       variant="small"
                       color="blue-gray"
@@ -296,7 +296,7 @@ function Shops() {
                       ชื่อลูกค้า
                     </Typography>
                   </th>
-                  <th className="border-y border-blue-gray-100 bg-blue-gray-50/50 p-4">
+                  <th className="border-y border-blue-gray-100 bg-blue-gray-50/50 p-4 w-1">
                     <Typography
                       variant="small"
                       color="blue-gray"
@@ -314,7 +314,7 @@ function Shops() {
                       ปิด / เปิด
                     </Typography>
                   </th> */}
-                  <th className="border-y border-blue-gray-100 bg-blue-gray-50/50 p-4">
+                  <th className="border-y border-blue-gray-100 bg-blue-gray-50/50 p-4 w-1">
                     <Typography
                       variant="small"
                       color="blue-gray"
@@ -329,10 +329,10 @@ function Shops() {
                 <tbody>
                   <tr>
                     <td></td>
-                    <td></td>
-                    <td>
+                    <td className="text-center">
                       <Typography className="mt-5">...ไม่พบข้อมูล...</Typography>
                     </td>
+                    <td></td>
                     <td></td>
                   </tr>
                 </tbody>

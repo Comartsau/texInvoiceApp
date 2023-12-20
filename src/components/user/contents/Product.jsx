@@ -11,8 +11,12 @@ import {
   DialogFooter,
 } from "@material-tailwind/react";
 
-
-import { getProduct, addProduct, editProduct, deleteProduct } from "../../../api/ProductApi";
+import {
+  getProduct,
+  addProduct,
+  editProduct,
+  deleteProduct,
+} from "../../../api/ProductApi";
 
 import { useRecoilState } from "recoil";
 import { productStore } from "../../../store/Store";
@@ -68,7 +72,9 @@ function Product() {
 
   const startIndex = (currentPage - 1) * itemsPerPage;
   const endIndex = startIndex + itemsPerPage;
-  const displayedData = Array.isArray(listData) ? listData.slice(startIndex, endIndex) : [];
+  const displayedData = Array.isArray(listData)
+    ? listData.slice(startIndex, endIndex)
+    : [];
 
   const totalPages = Math?.ceil(listData?.length || 0 / itemsPerPage);
 
@@ -140,16 +146,14 @@ function Product() {
 
   const handleDeleteProduct = async (id) => {
     try {
-        const response = await deleteProduct(id)
-        setOpenModalDelete(false);
-        fetchProduct();
-        toast.success("ลบข้อมูล สินค้า สำเร็จ");
-      
+      const response = await deleteProduct(id);
+      setOpenModalDelete(false);
+      fetchProduct();
+      toast.success("ลบข้อมูล สินค้า สำเร็จ");
     } catch (error) {
-      toast.error(error)
-      
+      toast.error(error);
     }
-  }
+  };
 
   return (
     <Card className="w-full overflow-auto px-3">
@@ -184,12 +188,12 @@ function Product() {
           </div>
         </div>
         {/* ------------ table  ----------------------------------------- */}
-        <Card className="mt-5 border-2 overflow-auto ">
-          <div className="p-3">
-            <table className="w-full min-w-max  ">
+        <Card className="mt-5 mx-10 border-2 overflow-auto ">
+          <div className="p-3 ">
+            <table className="w-full min-w-max   ">
               <thead>
                 <tr>
-                  <th className="border-y border-blue-gray-100 bg-blue-gray-50/50 p-4">
+                  <th className="border-y border-blue-gray-100 bg-blue-gray-50/50 p-4 w-1">
                     <Typography
                       variant="small"
                       color="blue-gray"
@@ -216,33 +220,35 @@ function Product() {
                       ราคา
                     </Typography>
                   </th>
-                  <th className="border-y border-blue-gray-100 bg-blue-gray-50/50 p-4">
-                    <Typography
-                      variant="small"
-                      color="blue-gray"
-                      className="font-bold leading-none opacity-70"
-                    >
-                      ดู
-                    </Typography>
-                  </th>
-                  <th className="border-y border-blue-gray-100 bg-blue-gray-50/50 p-4">
-                    <Typography
-                      variant="small"
-                      color="blue-gray"
-                      className="font-bold leading-none opacity-70 "
-                    >
-                      แก้ไข
-                    </Typography>
-                  </th>
-                  <th className="border-y border-blue-gray-100 bg-blue-gray-50/50 p-4">
-                    <Typography
-                      variant="small"
-                      color="blue-gray"
-                      className="font-bold leading-none opacity-70"
-                    >
-                      ลบ
-                    </Typography>
-                  </th>
+                
+                    <th className="border-y border-blue-gray-100 bg-blue-gray-50/50 p-4 w-1">
+                      <Typography
+                        variant="small"
+                        color="blue-gray"
+                        className="font-bold leading-none opacity-70"
+                      >
+                        ดู
+                      </Typography>
+                    </th>
+                    <th className="border-y border-blue-gray-100 bg-blue-gray-50/50 p-4 w-1">
+                      <Typography
+                        variant="small"
+                        color="blue-gray"
+                        className="font-bold leading-none opacity-70 "
+                      >
+                        แก้ไข
+                      </Typography>
+                    </th>
+                    <th className="border-y border-blue-gray-100 bg-blue-gray-50/50 p-4 w-1">
+                      <Typography
+                        variant="small"
+                        color="blue-gray"
+                        className="font-bold leading-none opacity-70"
+                      >
+                        ลบ
+                      </Typography>
+                    </th>
+                
                 </tr>
               </thead>
               {noData || displayedData?.length == 0 ? (
@@ -250,10 +256,10 @@ function Product() {
                   <tr>
                     <td></td>
                     <td></td>
-                    <td></td>
                     <td>
                       <Typography>...ไม่พบข้อมูล...</Typography>
                     </td>
+                    <td></td>
                   </tr>
                 </tbody>
               ) : (
@@ -300,6 +306,7 @@ function Product() {
                             </Typography>
                           </div>
                         </td>
+
                         <td className={classes}>
                           <div className="flex justify-center">
                             <IconButton

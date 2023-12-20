@@ -199,12 +199,12 @@ function TaxInvoiceFull() {
           </div>
         </div>
         {/* ------------ table  ----------------------------------------- */}
-        <Card className="mt-5 border-2 overflow-auto ">
+        <Card className="mt-5 mx-10 border-2 overflow-auto ">
           <div className="p-3">
             <table className="w-full min-w-max  ">
               <thead>
                 <tr>
-                  <th className="border-y border-blue-gray-100 bg-blue-gray-50/50 p-4">
+                  <th className="border-y border-blue-gray-100 bg-blue-gray-50/50 p-4 w-1">
                     <Typography
                       variant="small"
                       color="blue-gray"
@@ -222,7 +222,7 @@ function TaxInvoiceFull() {
                       ใบกำกับภาษี
                     </Typography>
                   </th>
-                  <th className="border-y border-blue-gray-100 bg-blue-gray-50/50 p-4">
+                  <th className="border-y border-blue-gray-100 bg-blue-gray-50/50 p-4 w-1">
                     <Typography
                       variant="small"
                       color="blue-gray"
@@ -231,7 +231,7 @@ function TaxInvoiceFull() {
                       ดู
                     </Typography>
                   </th>
-                  <th className="border-y border-blue-gray-100 bg-blue-gray-50/50 p-4">
+                  <th className="border-y border-blue-gray-100 bg-blue-gray-50/50 p-4 w-1">
                     <Typography
                       variant="small"
                       color="blue-gray"

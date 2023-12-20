@@ -67,7 +67,9 @@ function ReportMenu() {
       {activeCustomerMenu === "menu1" && (
         <div>
           <hr className=" mt-5 border border-gray-500" />
-          <Typography className="flex justify-center mt-10 text-xl font-bold text-red-500">อยู่ในช่วงพัฒนา เฟส3/3</Typography>
+          <Typography className="flex justify-center mt-10 text-xl font-bold text-red-500">
+            
+          </Typography>
         </div>
       )}
       {activeCustomerMenu === "menu2" && (

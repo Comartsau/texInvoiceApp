@@ -203,12 +203,12 @@ import { deleteShortInvoice, getShortInvoice } from "../../../../api/TaxShortInv
             </div>
           </div>
           {/* ------------ table  ----------------------------------------- */}
-          <Card className="mt-5 border-2 overflow-auto ">
+          <Card className="mt-5 mx-10 border-2 overflow-auto ">
             <div className="p-3">
               <table className="w-full min-w-max  ">
                 <thead>
                   <tr>
-                    <th className="border-y border-blue-gray-100 bg-blue-gray-50/50 p-4">
+                    <th className="border-y border-blue-gray-100 bg-blue-gray-50/50 p-4 w-1">
                       <Typography
                         variant="small"
                         color="blue-gray"
@@ -226,7 +226,7 @@ import { deleteShortInvoice, getShortInvoice } from "../../../../api/TaxShortInv
                         ใบกำกับภาษี
                       </Typography>
                     </th>
-                    <th className="border-y border-blue-gray-100 bg-blue-gray-50/50 p-4">
+                    <th className="border-y border-blue-gray-100 bg-blue-gray-50/50 p-4 w-1">
                       <Typography
                         variant="small"
                         color="blue-gray"
@@ -235,7 +235,7 @@ import { deleteShortInvoice, getShortInvoice } from "../../../../api/TaxShortInv
                         ดู
                       </Typography>
                     </th>
-                    <th className="border-y border-blue-gray-100 bg-blue-gray-50/50 p-4">
+                    <th className="border-y border-blue-gray-100 bg-blue-gray-50/50 p-4 w-1">
                       <Typography
                         variant="small"
                         color="blue-gray"
@@ -366,7 +366,7 @@ import { deleteShortInvoice, getShortInvoice } from "../../../../api/TaxShortInv
           open={openModalView}
           size="xl"
           handler={handleModalView}
-          className="h-[90vh]"
+          className="h-[65vh]"
         >
           <DialogHeader className="bg-blue-700 py-3  px-3 text-center text-lg text-white opacity-80">
             <div className="flex gap-3">
@@ -376,7 +376,7 @@ import { deleteShortInvoice, getShortInvoice } from "../../../../api/TaxShortInv
               </Typography>
             </div>
           </DialogHeader>
-          <DialogBody divider className=" overflow-auto h-[73vh] ">
+          <DialogBody divider className=" overflow-auto h-[48vh] ">
             <div className="flex w-full flex-col xl:flex-row  gap-4 ">
               <div className="w-full lg:w-4/12 ">
                 <div className="flex flex-col 2xl:flex-row  gap-1">

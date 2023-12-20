@@ -33,6 +33,7 @@ import ReportPDF from "./ReportPDF";
 import { useRecoilState } from "recoil";
 import { shopStore } from "../../../../store/Store";
 import ReceiptSubFull from "../../../receipt/receiptSubFull";
+import ReceiptSubShort from "../../../receipt/receiptSubShort";
 
 const ShopReport = () => {
   const [isSearchable, setIsSearchable] = useState(true);
@@ -42,46 +43,32 @@ const ShopReport = () => {
   const [noData, setNoData] = useState(false);
 
   //   const [listData, setListData] = useState([]);
-  const [listData, setListData] = useState([
-    {
-      invoice_name: "A66/0001 ",
-      price: 800,
-      total: 1600,
-    },
-    {
-      invoice_name: "  A66/0002 ",
-      price: 800,
-      total: 1600,
-    },
-    {
-      invoice_name: "  A66/0003 ",
-      price: 800,
-      total: 1600,
-    },
-    {
-      invoice_name: "  A66/0004 ",
-      price: 800,
-      total: 1600,
-    },
-    {
-      invoice_name: "  A66/0005 ",
-      price: 800,
-      total: 1600,
-    },
-    {
-      invoice_name: "  A66/0006 ",
-      price: 800,
-      total: 1600,
-    },
-    {
-      invoice_name: "  A66/0007 ",
-      price: 800,
-      total: 1600,
-    },
-  ]);
+  const [listData, setListData] = useState({
+    invoice_name: "C66/0001 ",
+    price: 31620,
+    vat: 2380,
+    total: 34000,
+    product_data: [
+      {
+        name: "แก้วน้ำ ร้อน-เย็น",
+        subInvoice: "C66/0001/1 , C66/0001/2",
+        amount: 2,
+        total: 29200,
+        price: 14600,
+        unit: "ชิ้น"
+      },
+      {
+        name: "printer",
+        subInvoice: "C66/0001/3 , C66/0001/4",
+        amount: 2,
+        total: 4800,
+        price: 2400,
+        unit: "เครื่อง"
+      },
+    ],
+  });
 
-
-  const [dataReceipt,setDataReceipt] = useState({
+  const [dataReceipt, setDataReceipt] = useState({
     code: "A66/0002",
     company: "บริษัทuser ทดสอบ01",
     created_at: "2023-12-17T09:58:24",
@@ -94,13 +81,49 @@ const ShopReport = () => {
     total_amount: 192800,
     total_price: 180187,
     total_tax: 12613,
-    product_data:[
-                  {id: 1, name: 'Item 1', category: 21, unit: 'อัน', pricePerUnit: 4500, product: "เตาอบ" , quantity: 1 , totalPrice: 4500 },
-                  {id: 2, name: 'Item 2', category: 9, unit: 'ชั่วโมง', pricePerUnit: 100, product: "เก้าอี้-02" , quantity: 3 , totalPrice: 300 },
-                  {id: 3, name: 'Item 3', category: 11, unit: 'ชิ้น', pricePerUnit: 4500, product: "printer" , quantity: 4 , totalPrice: 18000 },
-                  {id: 4, name: 'Item 4', category: 10, unit: 'ชิ้น', pricePerUnit: 34000, product: "notebook" , quantity: 5 , totalPrice: 170000 },
-                ]
-})
+    product_data: [
+      {
+        id: 1,
+        name: "Item 1",
+        category: 21,
+        unit: "อัน",
+        pricePerUnit: 4500,
+        product: "เตาอบ",
+        quantity: 1,
+        totalPrice: 4500,
+      },
+      {
+        id: 2,
+        name: "Item 2",
+        category: 9,
+        unit: "ชั่วโมง",
+        pricePerUnit: 100,
+        product: "เก้าอี้-02",
+        quantity: 3,
+        totalPrice: 300,
+      },
+      {
+        id: 3,
+        name: "Item 3",
+        category: 11,
+        unit: "ชิ้น",
+        pricePerUnit: 4500,
+        product: "printer",
+        quantity: 4,
+        totalPrice: 18000,
+      },
+      {
+        id: 4,
+        name: "Item 4",
+        category: 10,
+        unit: "ชิ้น",
+        pricePerUnit: 34000,
+        product: "notebook",
+        quantity: 5,
+        totalPrice: 170000,
+      },
+    ],
+  });
 
   //----- จัดการแสดงข้อมูล / หน้า -------------- //
   const [currentPage, setCurrentPage] = useState(1);
@@ -108,7 +131,7 @@ const ShopReport = () => {
 
   const startIndex = (currentPage - 1) * itemsPerPage;
   const endIndex = startIndex + itemsPerPage;
-  const displayedData = listData.slice(startIndex, endIndex);
+  const displayedData = listData.product_data.slice(startIndex, endIndex);
 
   const totalPages = Math.ceil(listData.length / itemsPerPage);
 
@@ -154,6 +177,13 @@ const ShopReport = () => {
   const [openModalReceiptSubFull, setOpenModalReceiptSubFull] = useState(false);
   const handleModalReceiptSubFull = () => {
     setOpenModalReceiptSubFull(!openModalReceiptSubFull);
+  };
+  //------------- open Receipt Sub A4  -----------------------//
+  const [openModalReceiptSubShort, setOpenModalReceiptSubShort] = useState(false);
+
+  const [sendIndex , setSendIndex] = useState('')
+  const handleModalReceiptSubShort = () => {
+    setOpenModalReceiptSubShort(!openModalReceiptSubShort);
   };
 
   return (
@@ -201,20 +231,6 @@ const ShopReport = () => {
             className="w-full rounded-md border border-gray-400 p-2 text-gray-600  shadow-sm focus:border-blue-500 focus:outline-none"
           />
         </div>
-        <div className="flex justify-center">
-          <Button
-            size="sm"
-            variant="gradient"
-            color="green"
-            className="text-base flex justify-center  items-center   bg-green-500"
-            onClick={() => setOpenModalReceiptA4(true)}
-          >
-            <span className="mr-2 text-xl ">
-              <AiOutlineSearch />
-            </span>
-            ค้นหา
-          </Button>
-        </div>
       </div>
       <div className="flex flex-col lg:flex-row h-[70vh]   gap-5">
         <div className="flex w-full lg:w-3/12  ">
@@ -227,7 +243,7 @@ const ShopReport = () => {
                       <Typography
                         variant="small"
                         color="blue-gray"
-                        className="font-bold leading-none opacity-70"
+                        className="font-bold leading-none opacity-70 "
                       >
                         ลำดับ
                       </Typography>
@@ -265,43 +281,41 @@ const ShopReport = () => {
                   </tbody>
                 ) : (
                   <tbody>
-                    {listData.map((data, index) => (
-                      <tr key={index}>
-                        <td>
-                          <div className="flex items-center justify-center">
-                            <Typography
-                              variant="small"
-                              //   color="blue-gray"
-                              className="font-normal "
-                            >
-                              {index + 1 || ""}
-                            </Typography>
-                          </div>
-                        </td>
-                        <td>
-                          <div className="flex items-center justify-center">
-                            <Typography
-                              variant="small"
-                              color="blue-gray"
-                              className="font-normal "
-                            >
-                              {data?.invoice_name || ""}
-                            </Typography>
-                          </div>
-                        </td>
-                        <td>
-                          <div className="flex justify-center ">
-                            <IconButton
-                              color="green"
-                              size="sm"
-                              className=" rounded-full border-4 w-6 h-6 mt-2  border-green-500 "
-                            >
-                              <AiOutlinePlus className="text-xl" />
-                            </IconButton>
-                          </div>
-                        </td>
-                      </tr>
-                    ))}
+                    <tr className=" hover:bg-gray-200 ">
+                      <td>
+                        <div className="flex items-center justify-center mt-5">
+                          <Typography
+                            variant="small"
+                            //   color="blue-gray"
+                            className="font-normal "
+                          >
+                            1
+                          </Typography>
+                        </div>
+                      </td>
+                      <td>
+                        <div className="flex items-center justify-center mt-5">
+                          <Typography
+                            variant="small"
+                            color="blue-gray"
+                            className="font-normal "
+                          >
+                            {listData?.invoice_name || ""}
+                          </Typography>
+                        </div>
+                      </td>
+                      <td>
+                        <div className="flex justify-center  ">
+                          <IconButton
+                            color="green"
+                            size="sm"
+                            className=" rounded-full border-4 w-6 h-6 mt-3  border-green-500 "
+                          >
+                            <AiOutlinePlus className="text-xl " />
+                          </IconButton>
+                        </div>
+                      </td>
+                    </tr>
                   </tbody>
                 )}
               </table>
@@ -312,25 +326,29 @@ const ShopReport = () => {
           <div className="flex flex-col w-full">
             <div className="flex flex-col lg:flex-row  w-full gap-3 ">
               <div className=" w-full  lg:w-7/12">
-                <Typography className="  mt-5">
-                  บริษัท เขาสวนกวาง จำกัด
+                <Typography className=" font-bold  mt-5">
+                  ชื่อ: <snap className="font-normal">สินทวี งามมาก</snap>
                 </Typography>
-                <Typography className="  mt-3">
-                  111/11 หมู่ที่10 ตใพระลับ อ.เมือง จ.ขอนแก่น 40000
+                <Typography className=" font-bold  mt-3">
+                  ที่อยู่:{" "}
+                  <snap className="font-normal">
+                    33 หมู่ 3 หนองไทร ขอนแก่น 40000
+                  </snap>
                 </Typography>
                 <div className="flex  flex-col sm:flex-row gap-3">
                   <Typography className="font-bold  mt-3">
                     เลขประจำตัวผู้เสียภาษี:{" "}
-                    <span className="font-normal">123456</span>
+                    <span className="font-normal">315494567778888</span>
                   </Typography>
                   <Typography className="font-bold  sm:mt-3">
-                    โทร: <span className="font-normal">0850032649</span>
+                    โทร: <span className="font-normal">0628872654</span>
                   </Typography>
                 </div>
                 <Typography className=" font-bold mt-3">
                   วันที่ออกบิล:{" "}
                   <span className=" font-normal">
-                    {moment(Date.now()).locale("th").format("L")}
+                    {/* {moment(Date.now()).locale("th").format("L")} */}
+                    17/12/2023 09:58:24
                   </span>
                 </Typography>
               </div>
@@ -339,7 +357,7 @@ const ShopReport = () => {
                   บิลย่อย: <span> 2 </span> ใบ
                 </Typography>
                 <Typography className="mt-2">
-                  รวมเงิน: <span>14,980</span> บาท
+                  รวมเงิน: <span>34,000</span> บาท
                 </Typography>
               </div>
             </div>
@@ -358,20 +376,6 @@ const ShopReport = () => {
                 </span>
                 พิมพ์ (บิลเต็ม)
               </Button>
-              <Button
-                size="sm"
-                variant="gradient"
-                color="orange"
-                className="text-base flex justify-center  items-center    bg-green-500"
-                // onClick={() => setShowPrint(true)}
-                // onBlur={()=> setShowPrint(false)}
-                onClick={handlePrintButtonClick}
-              >
-                <span className="mr-2 text-xl ">
-                  <MdLocalPrintshop />
-                </span>
-                พิมพ์ (บิลย่อย)
-              </Button>
             </div>
             <div className=" mt-3">
               <Card className="border w-full h-[40vh] overflow-auto ">
@@ -385,7 +389,7 @@ const ShopReport = () => {
                             color="blue-gray"
                             className="font-bold leading-none opacity-70"
                           >
-                            จำนวน
+                            ลำดับ
                           </Typography>
                         </th>
                         <th className="border-y border-blue-gray-100 bg-blue-gray-50/50 p-4">
@@ -395,6 +399,15 @@ const ShopReport = () => {
                             className="font-bold leading-none opacity-70"
                           >
                             รายการ
+                          </Typography>
+                        </th>
+                        <th className="border-y border-blue-gray-100 bg-blue-gray-50/50 p-4">
+                          <Typography
+                            variant="small"
+                            color="blue-gray"
+                            className="font-bold leading-none opacity-70"
+                          >
+                            จำนวนบิล
                           </Typography>
                         </th>
                         <th className="border-y border-blue-gray-100 bg-blue-gray-50/50 p-4">
@@ -415,6 +428,15 @@ const ShopReport = () => {
                             รวมเป็น
                           </Typography>
                         </th>
+                        <th className="border-y border-blue-gray-100 bg-blue-gray-50/50 p-4">
+                          <Typography
+                            variant="small"
+                            color="blue-gray"
+                            className="font-bold leading-none opacity-70"
+                          >
+                            พิมพ์
+                          </Typography>
+                        </th>
                       </tr>
                     </thead>
                     {noData ? (
@@ -430,7 +452,7 @@ const ShopReport = () => {
                       </tbody>
                     ) : (
                       <tbody>
-                        {displayedData.map((data, index) => {
+                        {listData?.product_data.map((data, index) => {
                           const isLast = index === displayedData.length - 1;
                           const pageIndex = startIndex + index;
                           const classes = isLast
@@ -451,13 +473,15 @@ const ShopReport = () => {
                                 </div>
                               </td>
                               <td className={classes}>
-                                <div className="flex items-center justify-center">
+                                <div className="flex items-center ">
                                   <Typography
                                     variant="small"
                                     color="blue-gray"
                                     className="font-normal "
                                   >
-                                    {data?.invoice_name || ""}
+                                    {data?.name}{" "}
+                                    <span className="ms-5"> เล่มที่</span>{" "}
+                                    {data?.subInvoice}
                                   </Typography>
                                 </div>
                               </td>
@@ -468,7 +492,7 @@ const ShopReport = () => {
                                     color="blue-gray"
                                     className="font-normal "
                                   >
-                                    {data?.price || ""}
+                                    {data?.amount || ""}
                                   </Typography>
                                 </div>
                               </td>
@@ -479,8 +503,40 @@ const ShopReport = () => {
                                     color="blue-gray"
                                     className="font-normal "
                                   >
-                                    {data?.total || ""}
+                                    {Number(data?.price).toLocaleString() || ""}
                                   </Typography>
+                                </div>
+                              </td>
+                              <td className={classes}>
+                                <div className="flex items-center justify-center">
+                                  <Typography
+                                    variant="small"
+                                    color="blue-gray"
+                                    className="font-normal "
+                                  >
+                                    {Number(data?.total).toLocaleString() || ""}
+                                  </Typography>
+                                </div>
+                              </td>
+                              <td className={classes}>
+                                <div className="flex items-center justify-center">
+                                  <Button
+                                    size="sm"
+                                    variant="gradient"
+                                    color="orange"
+                                    className="text-xs flex justify-center  items-center    bg-green-500"
+                                    // onClick={() => setShowPrint(true)}
+                                    // onBlur={()=> setShowPrint(false)}
+                                    onClick={() => {
+                                      setSendIndex(index); // ส่งค่า index ไปยังฟังก์ชัน setSendIndex
+                                      handleModalReceiptSubShort(); // เรียกใช้ฟังก์ชัน handleModalReceiptSubShort
+                                    }}
+                                  >
+                                    <span className="mr-2 text-xl ">
+                                      <MdLocalPrintshop />
+                                    </span>
+                                    พิมพ์ (บิลย่อย)
+                                  </Button>
                                 </div>
                               </td>
                             </tr>
@@ -534,12 +590,20 @@ const ShopReport = () => {
         handleModalReceiptA4={handleModalReceiptA4}
       />
 
-
       <ReceiptSubFull
         openModalReceiptSubFull={openModalReceiptSubFull}
         handleModalReceiptSubFull={handleModalReceiptSubFull}
-        dataReceipt = {dataReceipt}
-        salePoint = {selectedShop?.salepoints_name}
+        dataReceipt={listData}
+        salePoint={selectedShop?.salepoints_name}
+      />
+
+
+      <ReceiptSubShort
+        openModalReceiptSubShort={openModalReceiptSubShort}
+        handleModalReceiptSubShort={handleModalReceiptSubShort}
+        dataReceipt={listData}
+        salePoint={selectedShop?.salepoints_name}
+        sendIndex = {sendIndex}
       />
     </div>
   );

@@ -367,19 +367,21 @@ import {
   
   });
   
-  export const ReceiptSubFull = ({
-    openModalReceiptSubFull,
-    handleModalReceiptSubFull,
+  export const ReceiptSubShort = ({
+    openModalReceiptSubShort,
+    handleModalReceiptSubShort,
     dataReceipt,
-    salePoint
+    salePoint,
+    sendIndex
   
   }) => {
 
-    console.log(salePoint)
+    console.log(dataReceipt.product_data.length)
+    console.log(sendIndex)
   
 
   
-    const itemsPerPage = 15; // จำนวนรายการต่อหน้า
+    const itemsPerPage = dataReceipt.product_data.length -1; // จำนวนรายการต่อหน้า
   
     // แบ่งรายการออกเป็นหน้าตามจำนวนที่กำหนด
   
@@ -410,19 +412,21 @@ import {
   
   
     return (
-      <Dialog open={openModalReceiptSubFull} handler={handleModalReceiptSubFull} size="xl">
-        {/* <DialogHeader></DialogHeader> */}
+      <Dialog open={openModalReceiptSubShort} handler={handleModalReceiptSubShort} size="xl">
         <DialogBody>
-          {/* <Page size={[842, 595]} style={styles.page}> */}
-          {/*  9 x 11 นิ้ว (792 คือ 9 นิ้ว x 72 คือ DPI, 936 คือ 11 นิ้ว x 72 คือ DPI) */}
           <PDFViewer width="100%" height="650px">
             <Document>
               {pages?.map((pageData, index) =>  (
                 <Page key={index} size="A4" style={styles.page} > 
                 <View style={[styles.flexrowbetween, styles.text6]}>
-                  <Text style={[ {color:"#fff"}]}>.</Text>
+                  <Text style={[ {color:"#fff"}]}>...........................</Text>
                   <Text>ใบสำคัญรับเงิน {''}</Text>
-                  <Text>เลขที่:  {dataReceipt.invoice_name}</Text>
+                  {sendIndex == 0 ? 
+                  <Text>เลขที่: C66/0001/1  </Text>
+                  :
+                  <Text>เลขที่: C66/0001/2  </Text>
+                  }
+        
 
                 </View>
                   <View>
@@ -439,7 +443,7 @@ import {
                         styles.flexrowcenter,
                         styles.text12,
                         styles.mt10,
-                        // styles.borderb,
+                
                       ]}
                     >
                       เลขประจำตัวผู้เสียภาษี 0405533000301 โทรศัพท์ 099-0373274     {''}
@@ -456,10 +460,8 @@ import {
                     </Text>
                   </View>
                   <View>
-      
-                 
   
-                    {/*-----------  หัวตาราง ---------------------  */}
+ 
                     <View style={[styles.table, { marginTop: "10" }]}>
                       <View style={styles.tableRow}>
                         <Text style={[styles.tableCellHead1, styles.colorHead]}>
@@ -479,7 +481,7 @@ import {
                         return (
                           <View key={itemIndex} style={styles.tableRow}>
                             <Text style={styles.tableCell1}>
-                              {item?.amount  || ""}
+                              1
                             </Text>
                             <Text
                               style={[styles.tableCell2, { textAlign: "center" }]}
@@ -488,7 +490,7 @@ import {
                             </Text>
                             <Text style={[styles.tableCell3 , {textAlign: "left"}]}>
                               {" "}
-                              {` ${item?.name}       เล่มที่:   ${item.subInvoice} `}
+                              {` ${item?.name}      `}
                             </Text>
                             <Text style={styles.tableCell4}>
                               {" "}
@@ -496,7 +498,7 @@ import {
                             </Text>
                             <Text style={styles.tableCell5}>
                               {" "}
-                              {Number(item?.total).toLocaleString() || ""}
+                              {Number(item?.price).toLocaleString() || ""}
                             </Text>
                             <Text style={styles.tableCell6}>
                               {" "}
@@ -514,7 +516,7 @@ import {
                             </Text>
                             <Text style={[styles.tableCell4 ,{paddingTop:"10"}]}> รวมเงิน </Text>
                             <Text style={[styles.tableCell5 ,{paddingTop:"10"}, {alignContent:"center"}]}>
-                              {Number(dataReceipt?.total).toFixed(2)
+                              {Number(dataReceipt?.total/2).toFixed(2)
                                 .replace(/\B(?=(\d{3})+(?!\d))/g, ",") || ''}
                             </Text>
                             <Text style={styles.tableCell6}>
@@ -558,6 +560,8 @@ import {
               
               ))}
             </Document>
+
+            
           </PDFViewer>
         </DialogBody>
         <DialogFooter>
@@ -565,7 +569,7 @@ import {
             variant="text"
             color="red"
             size="sm"
-            onClick={() => handleModalReceiptSubFull()}
+            onClick={() => handleModalReceiptSubShort()}
             className="mr-1"
           >
             <span className="text-sm">ยกเลิก</span>
@@ -575,10 +579,10 @@ import {
     );
   };
   
-  ReceiptSubFull.propTypes = {
+  ReceiptSubShort.propTypes = {
     openModalReceiptSubFull: PropTypes.bool.isRequired,
     handleModalReceiptSubFull: PropTypes.func.isRequired,
   };
   
-  export default ReceiptSubFull;
+  export default ReceiptSubShort;
   
