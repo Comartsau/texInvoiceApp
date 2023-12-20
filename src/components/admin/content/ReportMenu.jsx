@@ -1,11 +1,14 @@
-import { Card, Typography, Button } from "@material-tailwind/react";
+import { Card,  Button } from "@material-tailwind/react";
 
-import { useState } from "react";
+import SaleReport from "../../user/contents/report/SaleReport";
+import ShopReport from "../../user/contents/report/ShopReport";
 
-//-------- test Recoil ----------------------------- //
 
-// import { useRecoilValue } from "recoil";
-// import { companyDataStore } from "../../../store/Store";
+import { useEffect, useState } from "react";
+
+import { useRecoilState } from "recoil";
+import { shopStore } from "../../../store/Store";
+import { getShop } from "../../../api/ShopApi";
 
 
 
@@ -13,10 +16,34 @@ function ReportMenu() {
   //---------- Dialog  ดูข้อมูลผู้บริจาค -------------- //
   const [activeCustomerMenu, setActiveCustomerMenu] = useState("menu1");
 
-  //-------- test Recoil ----------------------------- //
-  // const company = useRecoilValue(companyDataStore)
 
-  // console.log(company)
+  const [userLogin ,setUserLogin] = useState('')
+  const handleGetUserLogin = () => {
+    setUserLogin(localStorage.getItem("Status"))
+  }
+
+  const [searchQuery ,setSearchQuery] = useState('')
+  const [shopDataStore , setShopDataStore] = useRecoilState(shopStore)
+
+  const fetchShop = async () => {
+    try {
+      const response = await getShop(searchQuery)
+        setShopDataStore(response)
+
+      
+    } catch (error) {
+      toast.error(error)
+      
+    }
+  }
+
+  useEffect(()=>{
+    handleGetUserLogin()
+    fetchShop()
+  },[])
+
+
+
 
   return (
     <Card className="w-full overflow-auto  px-3">
@@ -65,25 +92,18 @@ function ReportMenu() {
         </div>
       </div>
       {activeCustomerMenu === "menu1" && (
-        <div>
-          <hr className=" mt-5 border border-gray-500" />
-          <Typography className="flex justify-center mt-10 text-xl font-bold text-red-500">
-            
-          </Typography>
-        </div>
+             <div>
+             <hr className=" mt-5 border border-gray-500" />
+             <SaleReport userLogin={userLogin} />
+           </div>
       )}
       {activeCustomerMenu === "menu2" && (
-        <div>
-          <hr className=" mt-5 border border-gray-500" />
-          <Typography className="flex justify-center mt-10 text-xl font-bold text-red-500">อยู่ในช่วงพัฒนา เฟส3/3</Typography>
-        </div>
+               <div>
+               <hr className=" mt-5 border border-gray-500" />
+               <ShopReport userLogin={userLogin} />
+             </div>
       )}
-      {/* {activeCustomerMenu === "menu3" && (
-        <div>
-          <hr className=" mt-5 border border-gray-500" />
-          <Typography className="flex justify-center mt-10 text-xl font-bold text-red-500">อยู่ในช่วงพัฒนา เฟส3/3</Typography>
-        </div>
-      )} */}
+
     </Card>
   );
 }

@@ -5,15 +5,6 @@ import {
   IconButton,
   Card,
   CardFooter,
-  Dialog,
-  DialogHeader,
-  DialogBody,
-  DialogFooter,
-  Menu,
-  MenuHandler,
-  MenuList,
-  MenuItem,
-  Option,
 } from "@material-tailwind/react";
 
 import DatePicker from "react-datepicker";
@@ -31,13 +22,17 @@ import { useState } from "react";
 import ReportPDF from "./ReportPDF";
 
 import { useRecoilState } from "recoil";
-import { shopStore } from "../../../../store/Store";
+import { shopStore , companyStore } from "../../../../store/Store";
 import ReceiptSubFull from "../../../receipt/receiptSubFull";
 import ReceiptSubShort from "../../../receipt/receiptSubShort";
 
-const ShopReport = () => {
+// eslint-disable-next-line react/prop-types
+const ShopReport = ({ userLogin }) => {
   const [isSearchable, setIsSearchable] = useState(true);
   const [shopDataStore, setShopDataStore] = useRecoilState(shopStore);
+  const [companyDataStore, setCompanyDataStore] = useRecoilState(companyStore);
+
+
 
   //----------  Data Table --------------------//
   const [noData, setNoData] = useState(false);
@@ -135,10 +130,32 @@ const ShopReport = () => {
 
   const totalPages = Math.ceil(listData.length / itemsPerPage);
 
+  // ตัวเลือก  Select
+
+console.log(companyDataStore)
+
+  const companyOptions = companyDataStore?.map((company) => ({
+    value: company.id,
+    label: company.username,
+  }));
+
   const shopOptions = shopDataStore?.map((shop) => ({
     value: shop.id,
     label: shop.salepoints_name,
   }));
+
+  const [selectedCompany, setSelectedCompany] = useState(null);
+
+  const handleCompanySelect = (e) => {
+    // ค้นหาข้อมูลลูกค้าที่ถูกเลือกจาก customerDataStore
+    const company = companyDataStore.find((company) => company.id === e.value);
+    // เซ็ตข้อมูลลูกค้าที่ถูกเลือกใน state
+    console.log(company);
+    setSelectedCompany(company);
+  };
+
+  console.log(selectedCompany);
+
 
   const [selectedShop, setSelectedShop] = useState(null);
   const handleShopSelect = (e) => {
@@ -157,15 +174,7 @@ const ShopReport = () => {
   console.log(searchQueryStart);
   console.log(searchQueryEnd);
 
-  const [showPrint, setShowPrint] = useState(false);
 
-  const handlePrintButtonClick = () => {
-    setShowPrint(true); // กำหนดให้แสดง element เมื่อคลิกปุ่มพิมพ์
-
-    setTimeout(() => {
-      setShowPrint(false); // เปลี่ยนค่า showPrint เป็น false เมื่อผ่านไป 2 วินาที
-    }, 3000); // 2 วินาที
-  };
 
   //------------- open PDF A4  -----------------------//
   const [openModalReceiptA4, setOpenModalReceiptA4] = useState(false);
@@ -189,6 +198,22 @@ const ShopReport = () => {
   return (
     <div className="mt-5 ">
       <div className="flex flex-col  sm:flex-row gap-5 ">
+        <div className="flex   justify-center ">
+          {userLogin == 'admin' ?
+          <Select
+            className="basic-single  w-[240px]   z-20"
+            classNamePrefix="select"
+            placeholder="เลือกบริษัท"
+            // isClearable={isClearable}
+            isSearchable={isSearchable}
+            name="color"
+            options={companyOptions}
+            onChange={(e) => handleCompanySelect(e)}
+          />
+          :
+          ''
+          }
+        </div>
         <div className="flex   justify-center ">
           <Select
             className="basic-single  w-[240px]   z-20"

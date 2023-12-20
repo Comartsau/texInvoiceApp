@@ -1,5 +1,9 @@
 import { atom } from "recoil";
 
+export const userLoginStore = atom({
+    key:'keyUserLogin',
+    default: '',
+})
 export const createInvoiceStore = atom({
     key:'keyCeateInvoice',
     default: false,

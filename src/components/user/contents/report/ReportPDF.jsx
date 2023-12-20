@@ -381,7 +381,7 @@ import { useState } from "react";
     openModalReceiptA4,
     handleModalReceiptA4,
     dataReceipt,
-
+ 
   }) => {
 
     console.log(dataReceipt)

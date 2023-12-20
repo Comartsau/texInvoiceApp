@@ -1,21 +1,13 @@
 import {
-  Input,
+
   Typography,
   Button,
   IconButton,
-  Card,
   CardFooter,
-  Dialog,
-  DialogHeader,
-  DialogBody,
-  DialogFooter,
-  Menu,
-  MenuHandler,
-  MenuList,
-  MenuItem,
-  Select,
-  Option,
+
 } from "@material-tailwind/react";
+
+import Select from "react-select";
 
 import DatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
@@ -27,9 +19,38 @@ import { TbReportSearch } from "react-icons/tb";
 import { useState } from "react";
 import ReportPDF from "./ReportPDF";
 
-const SaleReport = () => {
+import { useRecoilState } from "recoil";
+import { companyStore } from "../../../../store/Store";
+
+
+// eslint-disable-next-line react/prop-types
+const SaleReport = ({userLogin}) => {
   const [searchQueryStart, setSearchQueryStart] = useState(new Date());
   const [searchQueryEnd, setSearchQueryEnd] = useState(new Date());
+
+  const [isSearchable, setIsSearchable] = useState(true);
+
+  const [companyDataStore, setCompanyDataStore] = useRecoilState(companyStore);
+
+  const companyOptions = companyDataStore?.map((company) => ({
+    value: company.id,
+    label: company.username,
+  }));
+
+  const [selectedCompany, setSelectedCompany] = useState(null);
+
+  const handleCompanySelect = (e) => {
+    // ค้นหาข้อมูลลูกค้าที่ถูกเลือกจาก customerDataStore
+    const company = companyDataStore.find((company) => company.id === e.value);
+    // เซ็ตข้อมูลลูกค้าที่ถูกเลือกใน state
+    console.log(company);
+    setSelectedCompany(company);
+  };
+
+  console.log(selectedCompany);
+
+
+
 
   const [listData, setListData] = useState([
 
@@ -166,6 +187,22 @@ const SaleReport = () => {
   return (
     <div className="mt-5">
       <div className="flex flex-col sm:flex-row gap-5 ">
+      <div className="flex   justify-center ">
+          {userLogin == 'admin' ?
+          <Select
+            className="basic-single  w-[240px]   z-20"
+            classNamePrefix="select"
+            placeholder="เลือกบริษัท"
+            // isClearable={isClearable}
+            isSearchable={isSearchable}
+            name="color"
+            options={companyOptions}
+            onChange={(e) => handleCompanySelect(e)}
+          />
+          :
+          ''
+          }
+        </div>
         <div className="flex justify-center ">
           <DatePicker
             // yearDropdownItemNumber={100} // จำนวนปีที่แสดงใน Dropdown

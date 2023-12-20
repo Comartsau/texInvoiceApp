@@ -14,12 +14,17 @@ import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import { jwtDecode } from "jwt-decode";
 
+import { useRecoilState } from "recoil";
+import { userLoginStore } from "../store/Store";
+
 
 function Login() {
   const navigate = useNavigate();
 
   // Naii
   const [sendDataLogin, setSendDataLogin] = useState({});
+
+  const [userLogin ,setUserLogin] = useRecoilState(userLoginStore)
 
 
   const handleChange = (e) => {
@@ -49,12 +54,14 @@ function Login() {
         if (decoded.level === "1") {
           localStorage.setItem("Status", "admin");
           setTimeout(() => {
+            setUserLogin('admin')
             navigate("/admin");
             window.location.reload();
           }, 2000);
         } else if (decoded.level === "2") {
           localStorage.setItem("Status", "user");
           setTimeout(() => {
+            setUserLogin('user')
             navigate("/user");
             window.location.reload();
           }, 2000);

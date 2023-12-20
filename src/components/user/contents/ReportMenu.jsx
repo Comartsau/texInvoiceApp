@@ -1,6 +1,6 @@
-import { Card, Typography, Button } from "@material-tailwind/react";
+import { Card,  Button } from "@material-tailwind/react";
 
-import { useState } from "react";
+import { useState ,useEffect } from "react";
 import SaleReport from "./report/SaleReport";
 import ShopReport from "./report/ShopReport";
 
@@ -9,6 +9,16 @@ import ShopReport from "./report/ShopReport";
 function ReportMenu() {
   //---------- Dialog  ดูข้อมูลผู้บริจาค -------------- //
   const [activeCustomerMenu, setActiveCustomerMenu] = useState("menu1");
+
+  
+  const [userLogin ,setUserLogin] = useState('')
+  const handleGetUserLogin = () => {
+    setUserLogin(localStorage.getItem("Status"))
+  }
+
+  useEffect(()=>{
+    handleGetUserLogin()
+  },[])
 
   return (
     <Card className="w-full overflow-auto  px-3">
@@ -47,13 +57,13 @@ function ReportMenu() {
       {activeCustomerMenu === "menu1" && (
              <div>
              <hr className=" mt-5 border border-gray-500" />
-             <SaleReport />
+             <SaleReport userLogin={userLogin} />
            </div>
       )}
       {activeCustomerMenu === "menu2" && (
              <div>
              <hr className=" mt-5 border border-gray-500" />
-             <ShopReport />
+             <ShopReport userLogin={userLogin} />
            </div>
       )}
 
