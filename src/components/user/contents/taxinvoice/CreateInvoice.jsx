@@ -468,7 +468,7 @@ const CreateInvoice = () => {
       <div  className="flex w-full flex-col xl:flex-row gap-5 ">
         <div className="flex w-full flex-col gap-3">
           <div className="flex  w-full md:w-8/8">
-            <Card className="flex w-full h-[380px] mt-5 overflow-y-auto  " >
+            <Card className="flex w-full h-[370px] mt-5 overflow-y-auto  " >
               <table className="w-full   ">
                 <thead>
                   <tr>
@@ -654,12 +654,7 @@ const CreateInvoice = () => {
         <ReceiptA4Short
           openModalReceiptA4={openModalReceiptA4}
           handleModalReceiptA4={handleModalReceiptA4}
-          data={data}
           dataReceipt={dataReceipt}
-          calculatePruePrice={calculatePruePrice}
-          calculateVAT={calculateVAT}
-          calculateTotalAmount={calculateTotalAmount}
-          note={note}
         />
       ) : (
         ""
@@ -670,12 +665,8 @@ const CreateInvoice = () => {
         <Receipt80Short
           openModalReceipt80={openModalReceipt80}
           handleModalReceipt80={handleModalReceipt80}
-          data={data}
-          customer={selectedCustomer}
-          calculatePruePrice={calculatePruePrice}
-          calculateVAT={calculateVAT}
-          calculateTotalAmount={calculateTotalAmount}
-          note={note}
+          dataReceipt={dataReceipt}
+
         />
       ) : (
         ""

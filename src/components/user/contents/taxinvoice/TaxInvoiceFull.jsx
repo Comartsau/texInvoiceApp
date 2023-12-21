@@ -409,7 +409,7 @@ function TaxInvoiceFull() {
               <Typography className="text-center font-bold text-lg">
                 รายการ
               </Typography>
-              <Card className="border px-2 h-[80%] overflow-auto">
+              <Card className="border px-2 h-[340px] overflow-auto">
               <div className="mt-5">
             <table className="w-full min-w-max  ">
               <thead>
@@ -678,14 +678,14 @@ function TaxInvoiceFull() {
       {/* open PDF A4 */}
 
       {openModalReceiptA4 == true ? (
-        <>
+      
         <ReceiptA4
           openModalReceiptA4={openModalReceiptA4}
           handleModalReceiptA4={handleModalReceiptA4}
           dataReceipt = {dataView}
           // customer={selectedCustomer}
         />
-        </>
+     
       ) : (
         ""
       )}

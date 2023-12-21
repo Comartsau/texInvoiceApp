@@ -19,11 +19,12 @@ import FontSarabunBold from "./font/Sarabun-ExtraBold.ttf";
 import FontSarabunLight from "./font/Sarabun-ExtraBold.ttf";
 import Prompt from "./font/Prompt-Regular.ttf";
 import Mitr from "./font/Mitr-Regular.ttf";
-// import { useState, useEffect } from "react";
+
+import moment from "moment";
+
 import {
   Dialog,
   DialogBody,
-  DialogHeader,
   DialogFooter,
   Button,
 } from "@material-tailwind/react";
@@ -330,11 +331,9 @@ const styles = StyleSheet.create({
 export const ReceiptA4Short = ({
   openModalReceiptA4,
   handleModalReceiptA4,
-  data,
   dataReceipt,
-  note,
 }) => {
-  console.log(dataReceipt);
+
 
   const itemsPerPage = 20; // จำนวนรายการต่อหน้า
 
@@ -353,17 +352,17 @@ export const ReceiptA4Short = ({
       }));
       pages.push(slicedData);
     }
-
     return pages;
   };
 
-  const pages = generatePages(data);
+  const pages = generatePages(dataReceipt?.product_data);
 
-  console.log(pages);
+    // แปลงเวลา //
+    const formattedDateTime = moment(dataReceipt.created_at).format("DD/MM/YYYY  HH:mm:ss");
+
 
   return (
     <Dialog open={openModalReceiptA4} handler={handleModalReceiptA4} size="xl">
-      <DialogHeader></DialogHeader>
       <DialogBody>
         {/* <Page size={[842, 595]} style={styles.page}> */}
         {/*  9 x 11 นิ้ว (792 คือ 9 นิ้ว x 72 คือ DPI, 936 คือ 11 นิ้ว x 72 คือ DPI) */}
@@ -371,9 +370,9 @@ export const ReceiptA4Short = ({
           <Document>
             {pages.map((pageData, index) => (
               <Page key={index} size="A4" style={styles.page}>
-                <View style={[styles.flexrowbetween]}>
-                  <Text>เล่มที่: 790</Text>
-                  <Text>เลขที่: 24</Text>
+                <View style={[styles.flexrowbetween , styles.text12]}>
+                  <Text style={[{color:"#fff"}]}>เล่มที่: 790</Text>
+                  <Text>เลขที่: {dataReceipt?.code || ''}</Text>
                 </View>
                 <View style={[styles.flexrowcenter, styles.mt20]}>
                   <Text style={[styles.flexrowcenter, styles.text18]}>
@@ -388,7 +387,7 @@ export const ReceiptA4Short = ({
                       styles.text14,
                     ]}
                   >
-                    วันที่: 26/11/2023
+                    วันที่: {formattedDateTime}
                   </Text>
                 </View>
                 <View style={[styles.mt10]}>
@@ -424,7 +423,6 @@ export const ReceiptA4Short = ({
                       </Text>
                     </View>
                     {pageData.map((item, itemIndex) => {
-                      console.log(item);
                       return (
                         <View key={itemIndex} style={styles.tableRow}>
                           <Text style={styles.tableCell1}>
@@ -458,7 +456,7 @@ export const ReceiptA4Short = ({
                         </View>
                         <View style={[styles.flexrow]}>
                           <Text style={[styles.text12 , styles.mt10]} >หมายเหตุ: </Text>
-                          <Text style={[styles.text12 , styles.mt10 ]} >{note || ""}{" "} </Text>
+                          <Text style={[styles.text12 , styles.mt10 ]} >{dataReceipt?.note || ''} </Text>
                         </View>
                       </>
                     )}
@@ -503,7 +501,7 @@ export const ReceiptA4Short = ({
                     </>
                   )}
                 </View>
-                <View fixed style={[styles.footer]}>
+                {/* <View fixed style={[styles.footer]}>
                   {" "}
                   <Text
                     style={[styles.footer, styles.text12]}
@@ -511,7 +509,7 @@ export const ReceiptA4Short = ({
                       `${pageNumber} / ${totalPages}`
                     }
                   />
-                </View>
+                </View> */}
               </Page>
             ))}
           </Document>
@@ -533,9 +531,8 @@ export const ReceiptA4Short = ({
 };
 
 ReceiptA4Short.propTypes = {
-  openModalReceipt: PropTypes.bool.isRequired,
-  handleModalReceipt: PropTypes.func.isRequired,
-  data: PropTypes.array.isRequired,
+  openModalReceiptA4: PropTypes.bool.isRequired,
+  handleModalReceiptA4: PropTypes.func.isRequired,
 };
 
 export default ReceiptA4Short;

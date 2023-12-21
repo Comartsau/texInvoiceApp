@@ -107,7 +107,6 @@ import { deleteShortInvoice, getShortInvoice } from "../../../../api/TaxShortInv
       setDataView(data);
     };
 
-    console.log(dataView)
   
     // ตัวเวลา show Print
   
@@ -139,7 +138,6 @@ import { deleteShortInvoice, getShortInvoice } from "../../../../api/TaxShortInv
       setDataDelete(data);
     };
 
-    console.log(dataDelete)
   
     const handleDelete = async (id) => {
       console.log(id)
@@ -366,7 +364,7 @@ import { deleteShortInvoice, getShortInvoice } from "../../../../api/TaxShortInv
           open={openModalView}
           size="xl"
           handler={handleModalView}
-          className="h-[65vh]"
+          className="h-[76vh]"
         >
           <DialogHeader className="bg-blue-700 py-3  px-3 text-center text-lg text-white opacity-80">
             <div className="flex gap-3">
@@ -376,7 +374,7 @@ import { deleteShortInvoice, getShortInvoice } from "../../../../api/TaxShortInv
               </Typography>
             </div>
           </DialogHeader>
-          <DialogBody divider className=" overflow-auto h-[48vh] ">
+          <DialogBody divider className=" overflow-auto h-[55vh] ">
             <div className="flex w-full flex-col xl:flex-row  gap-4 ">
               <div className="w-full lg:w-4/12 ">
                 <div className="flex flex-col 2xl:flex-row  gap-1">
@@ -413,7 +411,7 @@ import { deleteShortInvoice, getShortInvoice } from "../../../../api/TaxShortInv
                 <Typography className="text-center font-bold text-lg">
                   รายการ
                 </Typography>
-                <Card className="border px-2 h-[80%] overflow-auto mt-5">
+                <Card className="border px-2 h-[90%] overflow-auto mt-5">
                 <div className="mt-5">
             <table className="w-full min-w-max  ">
               <thead>
@@ -570,10 +568,10 @@ import { deleteShortInvoice, getShortInvoice } from "../../../../api/TaxShortInv
               </div>
             </div>
           </DialogBody>
-          <DialogFooter divider>
+          <DialogFooter divider className="mt-10">
             <div className="flex gap-3">
               {/* <div className=" absolute top-[80%] left-[79%] bg-white border rounded-lg shadow-lg " hidden={!showPrint}> */}
-              <div className={`absolute top-[80%] left-[79%] bg-white border rounded-lg shadow-lg ${showPrint ? '' : 'hidden'}`}>
+              <div className={`absolute top-[75%] left-[79%] bg-white border rounded-lg shadow-lg ${showPrint ? '' : 'hidden'}`}>
                     <MenuItem
                       className="z-50"
                       onClick={() => setOpenModalReceiptA4(true)}
@@ -670,12 +668,7 @@ import { deleteShortInvoice, getShortInvoice } from "../../../../api/TaxShortInv
           <ReceiptA4Short
             openModalReceiptA4={openModalReceiptA4}
             handleModalReceiptA4={handleModalReceiptA4}
-            // data={data}
-            // customer={selectedCustomer}
-            // calculateSubtotal={calculateSubtotal}
-            // calculateVAT={calculateVAT}
-            // calculateTotalAmount={calculateTotalAmount}
-            // note={note}
+            dataReceipt={dataView}
           />
         ) : (
           ""
@@ -686,12 +679,7 @@ import { deleteShortInvoice, getShortInvoice } from "../../../../api/TaxShortInv
           <Receipt80Short
             openModalReceipt80={openModalReceipt80}
             handleModalReceipt80={handleModalReceipt80}
-            // data={data}
-            // customer={selectedCustomer}
-            // calculateSubtotal={calculateSubtotal}
-            // calculateVAT={calculateVAT}
-            // calculateTotalAmount={calculateTotalAmount}
-            // note={note}
+            dataReceipt={dataView}
           />
         ) : (
           ""

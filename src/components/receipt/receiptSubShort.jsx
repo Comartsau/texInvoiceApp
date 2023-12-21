@@ -21,11 +21,10 @@ import FontSarabunBold from "./font/Sarabun-ExtraBold.ttf";
 import FontSarabunLight from "./font/Sarabun-ExtraBold.ttf";
 import Prompt from "./font/Prompt-Regular.ttf";
 import Mitr from "./font/Mitr-Regular.ttf";
-// import { useState, useEffect } from "react";
+
 import {
   Dialog,
   DialogBody,
-  DialogHeader,
   DialogFooter,
   Button,
 } from "@material-tailwind/react";
