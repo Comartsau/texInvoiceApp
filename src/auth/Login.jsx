@@ -8,14 +8,14 @@ import {
 } from "@material-tailwind/react";
 
 import { useNavigate } from "react-router-dom";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import axios from "axios";
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import { jwtDecode } from "jwt-decode";
 
 import { useRecoilState } from "recoil";
-import { userLoginStore } from "../store/Store";
+import { companyLoginStore } from "../store/Store";
 
 
 function Login() {
@@ -24,7 +24,7 @@ function Login() {
   // Naii
   const [sendDataLogin, setSendDataLogin] = useState({});
 
-  const [userLogin ,setUserLogin] = useRecoilState(userLoginStore)
+  const [companyLogin, setCompanyLogin] = useRecoilState(companyLoginStore);
 
 
   const handleChange = (e) => {
@@ -44,27 +44,26 @@ function Login() {
         `${import.meta.env.VITE_APP_API}/login`,
         data
       );
-      console.log(res.data);
       if (res.data.token) {
         localStorage.setItem("Token", res.data.token);
         toast.success("เข้าสู่ระบบสำเร็จ ");
-        const token = res.data.token;
-        const decoded = jwtDecode(token);
-
+          const token = res.data.token;
+          let decoded = jwtDecode(token);
+          console.log(companyLogin)
+          // const companyLogin = JSON.stringify(decoded);
+          // localStorage.setItem('companyLogin', companyLogin);
         if (decoded.level === "1") {
           localStorage.setItem("Status", "admin");
           setTimeout(() => {
-            setUserLogin('admin')
             navigate("/admin");
             window.location.reload();
-          }, 2000);
+          }, 1000);
         } else if (decoded.level === "2") {
           localStorage.setItem("Status", "user");
           setTimeout(() => {
-            setUserLogin('user')
             navigate("/user");
             window.location.reload();
-          }, 2000);
+          }, 1000);
         }
       } else {
         toast.error(res?.data?.error);

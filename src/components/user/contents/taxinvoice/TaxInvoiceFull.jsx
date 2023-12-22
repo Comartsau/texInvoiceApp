@@ -35,11 +35,13 @@ import { TbDoorEnter } from "react-icons/tb";
 
 
 import { useRecoilState ,useRecoilValue } from "recoil";
+
 import {
   createInvoiceStore,
   productStore,
   customerStore,
-  headFormStore
+  headFormStore,
+  companyLoginStore
 } from "../../../../store/Store";
 
 import ReceiptA4 from "../../../receipt/receiptA4";
@@ -51,15 +53,14 @@ import { getFullInvoice ,deleteFullInvoice } from "../../../../api/TaxFullInvoic
 function TaxInvoiceFull() {
 
     // import Data Store
-    const productDataStore = useRecoilValue(productStore);
-    const customerDataStore = useRecoilValue(customerStore);
+    const companyLoginDataStore = useRecoilValue(companyLoginStore)
+
  
     
   //----------  Data Table --------------------//
   const [noData, setNoData] = useState(false);
 
   const [openCreateInvoice, setOpenCreateInvoice] = useRecoilState(createInvoiceStore);
-
 
 
   const [listData, setListData] = useState([]);
@@ -674,28 +675,27 @@ function TaxInvoiceFull() {
       ''
       }
 
-      {/* รูปแบบเต็ม */}
-      {/* open PDF A4 */}
-
+      {/* รูปแบบเต็ม A4 */}
       {openModalReceiptA4 == true ? (
       
         <ReceiptA4
           openModalReceiptA4={openModalReceiptA4}
           handleModalReceiptA4={handleModalReceiptA4}
           dataReceipt = {dataView}
-          // customer={selectedCustomer}
+          companyLoginDataStore ={companyLoginDataStore}
         />
      
       ) : (
         ""
       )}
 
-      {/* open PDF  80 */}
+      {/* รูปแบบเต็ม 80 */}
       {openModalReceipt80 == true  ? (
         <Receipt80
           openModalReceipt80={openModalReceipt80}
           handleModalReceipt80={handleModalReceipt80}
           dataReceipt = {dataView}
+          companyLoginDataStore ={companyLoginDataStore}
         />
       ) : (
         ""

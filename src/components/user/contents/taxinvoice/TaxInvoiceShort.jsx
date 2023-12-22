@@ -38,7 +38,8 @@ import {
     createInvoiceStore,
     productStore,
     customerStore,
-    headFormStore
+    headFormStore,
+    companyLoginStore
   } from "../../../../store/Store";
   
   import ReceiptA4Short from "../../../receipt/receiptA4Short";
@@ -49,8 +50,8 @@ import { deleteShortInvoice, getShortInvoice } from "../../../../api/TaxShortInv
   function TaxInvoiceShort() {
   
       // import Data Store
-      const productDataStore = useRecoilValue(productStore);
-      const customerDataStore = useRecoilValue(customerStore);
+
+      const companyLoginDataStore = useRecoilValue(companyLoginStore);
       
     //----------  Data Table --------------------//
     const [noData, setNoData] = useState(false);
@@ -669,6 +670,7 @@ import { deleteShortInvoice, getShortInvoice } from "../../../../api/TaxShortInv
             openModalReceiptA4={openModalReceiptA4}
             handleModalReceiptA4={handleModalReceiptA4}
             dataReceipt={dataView}
+            companyLoginDataStore={companyLoginDataStore}
           />
         ) : (
           ""
@@ -680,6 +682,7 @@ import { deleteShortInvoice, getShortInvoice } from "../../../../api/TaxShortInv
             openModalReceipt80={openModalReceipt80}
             handleModalReceipt80={handleModalReceipt80}
             dataReceipt={dataView}
+            companyLoginDataStore={companyLoginDataStore}
           />
         ) : (
           ""

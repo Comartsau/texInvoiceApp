@@ -1,8 +1,8 @@
 import { atom } from "recoil";
 
-export const userLoginStore = atom({
-    key:'keyUserLogin',
-    default: '',
+export const companyLoginStore = atom({
+    key:'keyCompanyLogin',
+    default: {},
 })
 export const createInvoiceStore = atom({
     key:'keyCeateInvoice',
@@ -12,6 +12,7 @@ export const companyStore = atom({
     key:'keyCompany',
     default: [],
 })
+
 export const customerStore = atom({
     key:'keyCustomer',
     default: [],

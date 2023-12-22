@@ -1,19 +1,35 @@
-import { Card, Typography, Button } from "@material-tailwind/react";
+import { Card, Button } from "@material-tailwind/react";
 
-import { useState } from "react";
+import { useState , useEffect } from "react";
+import { jwtDecode } from "jwt-decode";
 
 import TaxInvoiceFull from "./taxinvoice/TaxInvoiceFull";
 import TaxInvoiceShort from "./taxinvoice/TaxInvoiceShort";
 import TaxInvoiceSub from "./taxinvoice/TaxInvoiceSub";
 
-import { useRecoilValue } from "recoil";
-import { createInvoiceStore } from "../../../store/Store";
+import { useRecoilValue , useRecoilState } from "recoil";
+import { createInvoiceStore , companyLoginStore } from "../../../store/Store";
+
 import CreateInvoice from "./taxinvoice/CreateInvoice";
+
 
 function TaxInvoice() {
   //---------- Dialog  ดูข้อมูลผู้บริจาค -------------- //
   const [activeCustomerMenu, setActiveCustomerMenu] = useState("menu1");
   const openCreateInvoice = useRecoilValue(createInvoiceStore)
+
+  const [companyLoginDataStore,setCompanyLoginDataStore] = useRecoilState(companyLoginStore);
+
+  const fetcCompanyLogin = () =>{
+    const token = localStorage.getItem('Token')
+    setCompanyLoginDataStore(jwtDecode(token));
+  }
+
+  useEffect(()=>{
+    fetcCompanyLogin()
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+  },[])
+
 
   return (
     <Card className="w-full overflow-auto  px-3">

@@ -387,9 +387,10 @@ import {
     openModalReceipt80,
     handleModalReceipt80,
     dataReceipt,
+    companyLoginDataStore
   }) => {
     console.log(dataReceipt);
-    // console.log(data);
+    console.log(companyLoginDataStore);
 
   
     const itemsPerPage = 100; // จำนวนรายการต่อหน้า
@@ -438,12 +439,12 @@ import {
                 {/*  <Page key={index} size='B7' style={styles.page} >  */}
                   <View>
                     <Text style={[styles.flexrowcenter, styles.text12]}>
-                      บริษัท เขาสวนกวางเดินรถ จำกัด (สำนักงานใหญ่)   {''}
+                      {companyLoginDataStore?.company}  {''}
                     </Text>
                     <Text
                       style={[styles.flexrowcenter, styles.text9, styles.mt10]}
                     >
-                      237/4 หมู่ 11 ตำบลคำม่วง อำเภอเขาสวนกลาง จังหวัดขอนแก่น    {''}
+                      {companyLoginDataStore?.address}    {''}
                     </Text>
                     <Text
                       style={[
@@ -453,7 +454,7 @@ import {
                         styles.borderb,
                       ]}
                     >
-                      เลขประจำตัวผู้เสียภาษี 0405533000301 โทรศัพท์ 099-0373274    {''}
+                      เลขประจำตัวผู้เสียภาษี {companyLoginDataStore?.tax_personal}  โทรศัพท์ {companyLoginDataStore?.tel}    {''}
                     </Text>
                   </View>
                   <View>

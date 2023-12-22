@@ -332,7 +332,9 @@ export const ReceiptA4Short = ({
   openModalReceiptA4,
   handleModalReceiptA4,
   dataReceipt,
+  companyLoginDataStore
 }) => {
+  console.log(companyLoginDataStore)
 
 
   const itemsPerPage = 20; // จำนวนรายการต่อหน้า
@@ -392,17 +394,17 @@ export const ReceiptA4Short = ({
                 </View>
                 <View style={[styles.mt10]}>
                   <Text style={[styles.flexrowcenter, styles.text14]}>
-                    บริษัท เขาสวนกวางเดินรถ จำกัด (สำนักงานใหญ่) ''
+                    {companyLoginDataStore?.company || ''} 
                   </Text>
                   <Text
                     style={[styles.flexrowcenter, styles.text12, styles.mt10]}
                   >
-                    237/4 หมู่ 11 ตำบลคำม่วง อำเภอเขาสวนกลาง จังหวัดขอนแก่น ''
+                    {companyLoginDataStore?.address || ''} 
                   </Text>
                   <Text
                     style={[styles.flexrowcenter, styles.text12, styles.mt10]}
                   >
-                    เลขประจำตัวผู้เสียภาษี 0405533000301 โทรศัพท์ 099-0373274 '
+                    เลขประจำตัวผู้เสียภาษี {companyLoginDataStore?.tax_personal || ''}  โทรศัพท์ {companyLoginDataStore?.tel || ''} 
                   </Text>
                 </View>
                 <View>

@@ -8,12 +8,7 @@ import {
   MenuList,
   MenuItem,
   Card,
-  Dialog,
-  DialogHeader,
-  DialogBody,
-  DialogFooter,
 } from "@material-tailwind/react";
-
 
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
@@ -27,7 +22,7 @@ import { MdLocalPrintshop, MdRemoveCircle } from "react-icons/md";
 import { TbLogout2 } from "react-icons/tb";
 import { BsPlusCircle } from "react-icons/bs";
 
-import { useState } from "react";
+import { useEffect, useState } from "react";
 
 import { useRecoilState, useRecoilValue } from "recoil";
 import {
@@ -36,6 +31,7 @@ import {
   customerStore,
   shopStore,
   headFormStore,
+  companyLoginStore
 } from "../../../../store/Store";
 
 import ReceiptA4 from "../../../receipt/receiptA4";
@@ -54,6 +50,7 @@ const CreateInvoice = () => {
   const customerDataStore = useRecoilValue(customerStore);
   const shopDataStore = useRecoilValue(shopStore);
   const headFormDataStore = useRecoilValue(headFormStore);
+  const companyLoginDataStore = useRecoilValue(companyLoginStore);
 
   const [isClearable, setIsClearable] = useState(true);
   const [isSearchable, setIsSearchable] = useState(true);
@@ -79,18 +76,19 @@ const CreateInvoice = () => {
   const selectedProductIds = data?.map((item) => item.category); // ดึง ID ของสินค้าที่ถูกเลือกไปแล้วในตาราง
 
   // กรองสินค้าที่ยังไม่ถูกเลือกออกจาก productDataStore
-  const unselectedProducts = productDataStore.filter(
+
+  const unselectedProducts = Array.isArray(productDataStore) ? productDataStore.filter(
     (product) => !selectedProductIds.includes(product.id)
-  );
+  ) : [];
 
   const productOptions = unselectedProducts?.map((product) => ({
     value: product.id,
     label: product.name,
   }));
-  const customerOptions = customerDataStore?.map((customer) => ({
+  const customerOptions = Array.isArray(customerDataStore) ? customerDataStore?.map((customer) => ({
     value: customer.id,
     label: customer.customer_name,
-  }));
+  })) : [] ;
   const shopOptions = shopDataStore?.map((shop) => ({
     value: shop.id,
     label: shop.salepoints_name,
@@ -101,7 +99,7 @@ const CreateInvoice = () => {
   const [selectedCustomer, setSelectedCustomer] = useState(null);
   const handleCustomerSelect = (e) => {
     // ค้นหาข้อมูลลูกค้าที่ถูกเลือกจาก customerDataStore
-    const customer = customerDataStore.find(
+    const customer = customerDataStore?.find(
       (customer) => customer.id === e.value
     );
     // เซ็ตข้อมูลลูกค้าที่ถูกเลือกใน state
@@ -137,7 +135,7 @@ const CreateInvoice = () => {
       };
 
       // ค้นหาข้อมูลสินค้าที่ถูกเลือกจาก productDataStore
-      const selectedProduct = productDataStore.find(
+      const selectedProduct = productDataStore?.find(
         (product) => product.id === value.value
       );
 
@@ -286,6 +284,8 @@ const CreateInvoice = () => {
     setOpenModalReceipt80(!openModalReceipt80);
   };
 
+  console.log(companyLoginDataStore)
+
   return (
     <div className="flex  flex-col p-3 overflow-auto   items-center ">
       <div className="flex w-full flex-col md:flex-row gap-14 ">
@@ -301,16 +301,17 @@ const CreateInvoice = () => {
           </Typography>
           <Typography className=" font-bold mt-5">ข้อมูลบริษัท:</Typography>
           <Typography className="  mt-5">
-            บริษัท เขาสวนกวาง จำกัด 111/11 หมู่ที่10 ตใพระลับ อ.เมือง จ.ขอนแก่น
-            40000
+            {companyLoginDataStore?.company || ''}
           </Typography>
           <div className="flex gap-3">
             <Typography className="font-bold  mt-5">
               เลขประจำตัวผู้เสียภาษี:{" "}
-              <span className="font-normal">123456</span>
+              <span className="font-normal">{companyLoginDataStore?.tax_personal || ''}</span>
             </Typography>
+          </div>
+          <div className="flex gap-3">
             <Typography className="font-bold  mt-5">
-              โทร: <span className="font-normal">0850032649</span>
+              โทร: <span className="font-normal">{companyLoginDataStore?.tel || ''}</span>
             </Typography>
           </div>
           <Typography className=" font-bold mt-5">
@@ -622,8 +623,7 @@ const CreateInvoice = () => {
    
       </div>
 
-      {/* รูปแบบเต็ม */}
-      {/* open PDF A4 */}
+      {/* รูปแบบเต็ม A4 */}
 
       {openModalReceiptA4 == true && headFormDataStore == "1" ? (
         <>
@@ -632,41 +632,44 @@ const CreateInvoice = () => {
           handleModalReceiptA4={handleModalReceiptA4}
           dataReceipt = {dataReceipt}
           customer={selectedCustomer}
+          companyLoginDataStore ={companyLoginDataStore}
         />
         </>
       ) : (
         ""
       )}
 
-      {/* open PDF  80 */}
+      {/* รูปแบบเต็ม 80 */}
       {openModalReceipt80 == true && headFormDataStore == "1"   ? (
         <Receipt80
           openModalReceipt80={openModalReceipt80}
           handleModalReceipt80={handleModalReceipt80}
           dataReceipt = {dataReceipt}
+          companyLoginDataStore ={companyLoginDataStore}
         />
       ) : (
         ""
       )}
 
-      {/* รูปแบบย่อ */}
+      {/* รูปแบบย่อ A4 */}
       {openModalReceiptA4 == true && headFormDataStore == "2" || headFormDataStore == "3"  ? (
         <ReceiptA4Short
           openModalReceiptA4={openModalReceiptA4}
           handleModalReceiptA4={handleModalReceiptA4}
           dataReceipt={dataReceipt}
+          companyLoginDataStore ={companyLoginDataStore}
         />
       ) : (
         ""
       )}
 
-      {/* open PDF  80 */}
+      {/* รูปแบบย่อ 80 */}
       {openModalReceipt80 == true && headFormDataStore == "2" || headFormDataStore == "3" ? (
         <Receipt80Short
           openModalReceipt80={openModalReceipt80}
           handleModalReceipt80={handleModalReceipt80}
           dataReceipt={dataReceipt}
-
+          companyLoginDataStore ={companyLoginDataStore}
         />
       ) : (
         ""

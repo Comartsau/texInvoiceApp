@@ -1,3 +1,4 @@
+/* eslint-disable react-hooks/exhaustive-deps */
 import {
   Input,
   Typography,
@@ -18,8 +19,8 @@ import {
   deleteProduct,
 } from "../../../api/ProductApi";
 
-import { useRecoilState } from "recoil";
-import { productStore } from "../../../store/Store";
+import { useRecoilState, useRecoilValue } from "recoil";
+import { productStore ,companyLoginStore } from "../../../store/Store";
 
 import { useState, useEffect } from "react";
 
@@ -37,6 +38,9 @@ function Product() {
 
   const [listData, setListData] = useState([]);
   const [productDataStore, setProductDataStore] = useRecoilState(productStore);
+  const [companyLoginDataStore, setCompanyLoginDataStore ]  = useRecoilState(companyLoginStore)
+
+  console.log(companyLoginDataStore)
 
   const [searchQuery, setSearchQuery] = useState("");
   const [tokenError, setTokenError] = useState(false);
@@ -45,6 +49,7 @@ function Product() {
     try {
       const response = await getProduct(searchQuery);
       setListData(response);
+      console.log(response)
       setNoData(false);
       setProductDataStore(response);
     } catch (error) {
@@ -65,6 +70,21 @@ function Product() {
     fetchProduct();
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [searchQuery]);
+
+
+  // const fetchCompanyLogin = async () =>{
+  //   const companyLogin = JSON.parse(localStorage.getItem('companyLogin'))
+  //   setCompanyLoginDataStore(companyLogin)
+  //   setTimeout(()=>{
+  //     localStorage.removeItem('companyLogin')
+  //   },2000)
+    
+  // }
+
+  // useEffect(()=>{
+  //   fetchCompanyLogin()
+  // },[])
+
 
   //----- จัดการแสดงข้อมูล / หน้า -------------- //
   const [currentPage, setCurrentPage] = useState(1);
