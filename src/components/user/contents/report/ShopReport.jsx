@@ -15,7 +15,8 @@ import moment from "moment/min/moment-with-locales";
 
 import Select from "react-select";
 
-import { AiOutlineSearch, AiOutlinePlus } from "react-icons/ai";
+import { AiOutlinePlus } from "react-icons/ai";
+import { FaCheckCircle } from "react-icons/fa";
 import { MdLocalPrintshop } from "react-icons/md";
 
 import { useState } from "react";
@@ -257,11 +258,11 @@ console.log(companyDataStore)
           />
         </div>
       </div>
-      <div className="flex flex-col lg:flex-row h-[70vh]   gap-5">
-        <div className="flex w-full lg:w-3/12  ">
+      <div className="flex w-full flex-col lg:flex-row h-[70vh]   gap-5">
+        <div className="flex w-full   lg:w-[240px]  ">
           <Card className=" w-full mt-5 border-2 overflow-auto ">
             <div>
-              <table className="w-full min-w-max  ">
+              <table className="w-full  ">
                 <thead>
                   <tr>
                     <th className="border-y w-1 border-blue-gray-100 bg-blue-gray-50/50 p-3">
@@ -347,64 +348,53 @@ console.log(companyDataStore)
             </div>
           </Card>
         </div>
-        <div className="flex w-full xl:w-9/12 ">
-          <div className="flex flex-col w-full">
-            <div className="flex flex-col lg:flex-row  w-full gap-3 ">
-              <div className=" w-full  lg:w-7/12">
-                <Typography className=" font-bold  mt-5">
-                  ชื่อ: <snap className="font-normal">สินทวี งามมาก</snap>
-                </Typography>
-                <Typography className=" font-bold  mt-3">
-                  ที่อยู่:{" "}
-                  <snap className="font-normal">
-                    33 หมู่ 3 หนองไทร ขอนแก่น 40000
-                  </snap>
-                </Typography>
-                <div className="flex  flex-col sm:flex-row gap-3">
-                  <Typography className="font-bold  mt-3">
-                    เลขประจำตัวผู้เสียภาษี:{" "}
-                    <span className="font-normal">315494567778888</span>
-                  </Typography>
-                  <Typography className="font-bold  sm:mt-3">
-                    โทร: <span className="font-normal">0628872654</span>
-                  </Typography>
+        <div className="flex flex-col w-full 2xl:flex-row overflow-auto">
+        <div className="flex flex-col w-full 2xl:w-6/12 mt-3">
+              <Typography className="w-full font-bold text-center">
+                ใบเสร็จรับเงิน / ใบกำกับภาษีแบบย่อ
+              </Typography>
+              <div className="flex flex-col sm:flex-row items-center justify-center sm:justify-start gap-5 mt-3 py-2 rounded-s-lg first-line: hover:bg-gray-200">
+                <div className="font-bold">
+                  เลขที่บิล: <span className="font-normal">C66/0001</span>
                 </div>
-                <Typography className=" font-bold mt-3">
-                  วันที่ออกบิล:{" "}
-                  <span className=" font-normal">
-                    {/* {moment(Date.now()).locale("th").format("L")} */}
-                    17/12/2023 09:58:24
+                <div className="font-bold">
+                  รวมทั้งสิ้น: <span className="font-normal">31,715</span> บาท
+                </div>
+              </div>
+              <div className="flex flex-col sm:flex-row items-center justify-center sm:justify-start gap-5 mt-3 py-2 rounded-s-lg first-line: hover:bg-gray-200">
+                <div className="font-bold">
+                  เลขที่เอกสาร: <span className="font-normal">C66/0001</span>
+                </div>
+                <div className="font-bold">
+                  ภาษีมูลค่าเพิ่ม: <span className="font-normal">31,715</span>{" "}
+                  บาท
+                </div>
+              </div>
+              <div className="flex flex-col sm:flex-row items-center justify-center sm:justify-start gap-5 mt-3 py-2 rounded-s-lg first-line: hover:bg-gray-200">
+                <div className="font-bold">
+                  วันที่สร้างบิล: <span className="font-normal">C66/0001</span>
+                </div>
+                <div className="font-bold text-red-500">
+                  รวมมูลค่าสินค้า: <span>31,715</span> บาท
+                </div>
+              </div>
+              <div className="flex w-full justify-center lg:justify-end lg:px-5 gap-5 ">
+                <Button
+                  size="sm"
+                  variant="gradient"
+                  color="blue"
+                  className="text-base flex justify-center  items-center   bg-green-500"
+                  // onClick={() => setShowPrint(true)}
+                  // onBlur={()=> setShowPrint(false)}
+                >
+                  <span className="mr-2 text-xl ">
+                    <MdLocalPrintshop />
                   </span>
-                </Typography>
+                  พิมพ์ (บิลเต็ม)
+                </Button>
               </div>
-              <div className="flex flex-col justify-center">
-                <Typography className="mt-2">
-                  บิลย่อย: <span> 2 </span> ใบ
-                </Typography>
-                <Typography className="mt-2">
-                  รวมเงิน: <span>34,000</span> บาท
-                </Typography>
-              </div>
-            </div>
-            <div className="flex w-full justify-center lg:justify-end lg:px-9 gap-5 mt-5">
-              <Button
-                size="sm"
-                variant="gradient"
-                color="blue"
-                className="text-base flex justify-center  items-center   bg-green-500"
-                // onClick={() => setShowPrint(true)}
-                // onBlur={()=> setShowPrint(false)}
-                onClick={handleModalReceiptSubFull}
-              >
-                <span className="mr-2 text-xl ">
-                  <MdLocalPrintshop />
-                </span>
-                พิมพ์ (บิลเต็ม)
-              </Button>
-            </div>
-            <div className=" mt-3">
-              <Card className="border w-full h-[40vh] overflow-auto ">
-                <div className="p-3">
+              <div className=" xl:px-2 mt-5">
+                <Card className="border w-full h-[35vh] overflow-auto ">
                   <table className="w-full min-w-max  ">
                     <thead>
                       <tr>
@@ -423,7 +413,7 @@ console.log(companyDataStore)
                             color="blue-gray"
                             className="font-bold leading-none opacity-70"
                           >
-                            รายการ
+                            ชื่อสินค้า
                           </Typography>
                         </th>
                         <th className="border-y border-blue-gray-100 bg-blue-gray-50/50 p-4">
@@ -432,7 +422,7 @@ console.log(companyDataStore)
                             color="blue-gray"
                             className="font-bold leading-none opacity-70"
                           >
-                            จำนวนบิล
+                            จำนวน
                           </Typography>
                         </th>
                         <th className="border-y border-blue-gray-100 bg-blue-gray-50/50 p-4">
@@ -441,7 +431,7 @@ console.log(companyDataStore)
                             color="blue-gray"
                             className="font-bold leading-none opacity-70"
                           >
-                            ราคา / หน่วย
+                            ราคา/หน่วย
                           </Typography>
                         </th>
                         <th className="border-y border-blue-gray-100 bg-blue-gray-50/50 p-4">
@@ -459,7 +449,7 @@ console.log(companyDataStore)
                             color="blue-gray"
                             className="font-bold leading-none opacity-70"
                           >
-                            พิมพ์
+                            เลือก
                           </Typography>
                         </th>
                       </tr>
@@ -477,7 +467,7 @@ console.log(companyDataStore)
                       </tbody>
                     ) : (
                       <tbody>
-                        {listData?.product_data.map((data, index) => {
+                        {listData.product_data.map((data, index) => {
                           const isLast = index === displayedData.length - 1;
                           const pageIndex = startIndex + index;
                           const classes = isLast
@@ -498,15 +488,13 @@ console.log(companyDataStore)
                                 </div>
                               </td>
                               <td className={classes}>
-                                <div className="flex items-center ">
+                                <div className="flex items-center justify-center">
                                   <Typography
                                     variant="small"
                                     color="blue-gray"
                                     className="font-normal "
                                   >
-                                    {data?.name}{" "}
-                                    <span className="ms-5"> เล่มที่</span>{" "}
-                                    {data?.subInvoice}
+                                    {data.name}
                                   </Typography>
                                 </div>
                               </td>
@@ -517,7 +505,7 @@ console.log(companyDataStore)
                                     color="blue-gray"
                                     className="font-normal "
                                   >
-                                    {data?.amount || ""}
+                                    {Number(data.amount).toLocaleString()}
                                   </Typography>
                                 </div>
                               </td>
@@ -528,7 +516,7 @@ console.log(companyDataStore)
                                     color="blue-gray"
                                     className="font-normal "
                                   >
-                                    {Number(data?.price).toLocaleString() || ""}
+                                    {Number(data.price).toLocaleString()}
                                   </Typography>
                                 </div>
                               </td>
@@ -539,28 +527,24 @@ console.log(companyDataStore)
                                     color="blue-gray"
                                     className="font-normal "
                                   >
-                                    {Number(data?.total).toLocaleString() || ""}
+                                    {Number(data.total).toLocaleString()}
                                   </Typography>
                                 </div>
                               </td>
                               <td className={classes}>
-                                <div className="flex items-center justify-center">
+                                <div className="flex justify-center ">
                                   <Button
                                     size="sm"
                                     variant="gradient"
-                                    color="orange"
-                                    className="text-xs flex justify-center  items-center    bg-green-500"
+                                    color="green"
+                                    className="text-sm flex justify-center rounded-full  w-7 h-7    items-center   bg-green-500"
                                     // onClick={() => setShowPrint(true)}
                                     // onBlur={()=> setShowPrint(false)}
-                                    onClick={() => {
-                                      setSendIndex(index); // ส่งค่า index ไปยังฟังก์ชัน setSendIndex
-                                      handleModalReceiptSubShort(); // เรียกใช้ฟังก์ชัน handleModalReceiptSubShort
-                                    }}
                                   >
-                                    <span className="mr-2 text-xl ">
-                                      <MdLocalPrintshop />
+                                    <span className=" text-xl ">
+                                      <FaCheckCircle />
                                     </span>
-                                    พิมพ์ (บิลย่อย)
+                          
                                   </Button>
                                 </div>
                               </td>
@@ -570,43 +554,180 @@ console.log(companyDataStore)
                       </tbody>
                     )}
                   </table>
-                </div>
-                <CardFooter className="flex items-center justify-between border-t border-blue-gray-50 p-4">
-                  <Button
-                    variant="outlined"
-                    size="sm"
-                    disabled={currentPage === 1}
-                    onClick={() => setCurrentPage(currentPage - 1)}
-                  >
-                    ก่อนหน้า
-                  </Button>
-                  <div className="flex items-center gap-2">
-                    {Array.from({ length: totalPages }, (_, i) => (
-                      <IconButton
-                        key={i}
-                        variant="outlined"
-                        size="sm"
-                        onClick={() => setCurrentPage(i + 1)}
-                        className={
-                          currentPage === i + 1 ? "bg-blue-500 text-white" : ""
-                        }
-                      >
-                        {i + 1}
-                      </IconButton>
-                    ))}
+                </Card>
+              </div>
+        </div>
+        <div className="flex w-full 2xl:w-6/12 mt-3 ">
+        <div className="flex flex-col w-full">
+                <div className="flex flex-col   w-full gap-3 ">
+                  <div>
+                    <Typography className="font-bold">
+                      สินค้า: <span className="font-normal"> ปากกา</span>
+                    </Typography>
                   </div>
+                  <div>
+                    <Typography className="font-bold">
+                      จำนวนบิลย่อยรวมกันทั้งหมด:{" "}
+                      <span className="font-normal"> 15 </span> บิล
+                    </Typography>
+                  </div>
+                </div>
+                <div className="flex w-full justify-center lg:justify-end lg:px-5 gap-5 mt-5">
                   <Button
-                    variant="outlined"
                     size="sm"
-                    disabled={currentPage === totalPages}
-                    onClick={() => setCurrentPage(currentPage + 1)}
+                    variant="gradient"
+                    color="yellow"
+                    className="text-sm flex justify-center  items-center   bg-green-500"
+                    // onClick={() => setShowPrint(true)}
+                    // onBlur={()=> setShowPrint(false)}
+                
                   >
-                    ถัดไป
+                    <span className="mr-2 text-xl ">
+                      <MdLocalPrintshop />
+                    </span>
+                    พิมพ์ (บิลย่อย)
                   </Button>
-                </CardFooter>
-              </Card>
-            </div>
-          </div>
+                </div>
+                  <div className="xl:px-5 mt-5">
+                    <Card className="border w-full h-[48vh]  overflow-auto ">
+                      <table className="w-full min-w-max  ">
+                        <thead>
+                          <tr>
+                            <th className="border-y border-blue-gray-100 bg-blue-gray-50/50 p-4">
+                              <Typography
+                                variant="small"
+                                color="blue-gray"
+                                className="font-bold leading-none opacity-70"
+                              >
+                                ลำดับ
+                              </Typography>
+                            </th>
+                            <th className="border-y border-blue-gray-100 bg-blue-gray-50/50 p-4">
+                              <Typography
+                                variant="small"
+                                color="blue-gray"
+                                className="font-bold leading-none opacity-70"
+                              >
+                                รหัสบิล
+                              </Typography>
+                            </th>
+                            <th className="border-y border-blue-gray-100 bg-blue-gray-50/50 p-4">
+                              <Typography
+                                variant="small"
+                                color="blue-gray"
+                                className="font-bold leading-none opacity-70"
+                              >
+                                ชื่อสินค้า
+                              </Typography>
+                            </th>
+                            <th className="border-y border-blue-gray-100 bg-blue-gray-50/50 p-4">
+                              <Typography
+                                variant="small"
+                                color="blue-gray"
+                                className="font-bold leading-none opacity-70"
+                              >
+                                จำนวน
+                              </Typography>
+                            </th>
+                            <th className="border-y border-blue-gray-100 bg-blue-gray-50/50 p-4">
+                              <Typography
+                                variant="small"
+                                color="blue-gray"
+                                className="font-bold leading-none opacity-70"
+                              >
+                                ราคา
+                              </Typography>
+                            </th> 
+                          </tr>
+                        </thead>
+                        {noData ? (
+                          <tbody>
+                            <tr>
+                              <td></td>
+                              <td></td>
+                              <td></td>
+                              <td>
+                                <Typography>...ไม่พบข้อมูล...</Typography>
+                              </td>
+                            </tr>
+                          </tbody>
+                        ) : (
+                          <tbody>
+                            {listData.product_data.map((data, index) => {
+                              const isLast = index === displayedData.length - 1;
+                              const pageIndex = startIndex + index;
+                              const classes = isLast
+                                ? "p-2"
+                                : "p-3 border-b border-blue-gray-50";
+
+                              return (
+                                <tr key={index}>
+                                  <td className={classes}>
+                                    <div className="flex items-center justify-center">
+                                      <Typography
+                                        variant="small"
+                                        color="blue-gray"
+                                        className="font-normal "
+                                      >
+                                        {pageIndex + 1 || ""}
+                                      </Typography>
+                                    </div>
+                                  </td>
+                                  <td className={classes}>
+                                    <div className="flex items-center justify-center">
+                                      <Typography
+                                        variant="small"
+                                        color="blue-gray"
+                                        className="font-normal "
+                                      >
+                                        {data.name}
+                                      </Typography>
+                                    </div>
+                                  </td>
+                                  <td className={classes}>
+                                    <div className="flex items-center justify-center">
+                                      <Typography
+                                        variant="small"
+                                        color="blue-gray"
+                                        className="font-normal "
+                                      >
+                                        {Number(data.amount).toLocaleString()}
+                                      </Typography>
+                                    </div>
+                                  </td>
+                                  <td className={classes}>
+                                    <div className="flex items-center justify-center">
+                                      <Typography
+                                        variant="small"
+                                        color="blue-gray"
+                                        className="font-normal "
+                                      >
+                                        {Number(data.price).toLocaleString()}
+                                      </Typography>
+                                    </div>
+                                  </td>
+                                  <td className={classes}>
+                                    <div className="flex items-center justify-center">
+                                      <Typography
+                                        variant="small"
+                                        color="blue-gray"
+                                        className="font-normal "
+                                      >
+                                        {Number(data.total).toLocaleString()}
+                                      </Typography>
+                                    </div>
+                                  </td>
+                                </tr>
+                              );
+                            })}
+                          </tbody>
+                        )}
+                      </table>
+                    </Card>
+                  </div>
+              </div>
+         
+        </div>
         </div>
       </div>
 

@@ -19,8 +19,8 @@ import {
   deleteProduct,
 } from "../../../api/ProductApi";
 
-import { useRecoilState, useRecoilValue } from "recoil";
-import { productStore ,companyLoginStore } from "../../../store/Store";
+import { useRecoilState } from "recoil";
+import { productStore  } from "../../../store/Store";
 
 import { useState, useEffect } from "react";
 
@@ -38,9 +38,7 @@ function Product() {
 
   const [listData, setListData] = useState([]);
   const [productDataStore, setProductDataStore] = useRecoilState(productStore);
-  const [companyLoginDataStore, setCompanyLoginDataStore ]  = useRecoilState(companyLoginStore)
 
-  console.log(companyLoginDataStore)
 
   const [searchQuery, setSearchQuery] = useState("");
   const [tokenError, setTokenError] = useState(false);

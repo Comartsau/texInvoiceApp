@@ -124,7 +124,6 @@ function TaxInvoiceFull() {
     setOpenCreateInvoice(true);
   };
 
-
   //------------- modal Delete Product -----------------------//
 
   const [openModalDelete, setOpenModalDelete] = useState(false);
@@ -157,7 +156,7 @@ function TaxInvoiceFull() {
   const handleModalReceiptA4 = () => {
     setOpenModalReceiptA4(!openModalReceiptA4);
   };
-  console.log(openModalReceiptA4)
+
 
   //------------- open Receipt 80  -----------------------//
   const [openModalReceipt80, setOpenModalReceipt80] = useState(false);
@@ -165,7 +164,7 @@ function TaxInvoiceFull() {
     setOpenModalReceipt80(!openModalReceipt80);
   };
 
-  console.log(dataView)
+
 
 
   return (
@@ -540,7 +539,7 @@ function TaxInvoiceFull() {
                               color="blue-gray"
                               className="font-normal "
                             >
-                              {Number(data?.pricePerUnit).toLocaleString() || ""}
+                              {Number(data?.pricePerUnit)?.toLocaleString() || ""}
                             </Typography>
                           </div>
                         </td>
@@ -551,7 +550,7 @@ function TaxInvoiceFull() {
                               color="blue-gray"
                               className="font-normal "
                             >
-                              {Number(data?.totalPrice).toLocaleString() || ""}
+                              {Number(data?.totalPrice)?.toLocaleString() || ""}
                             </Typography>
                           </div>
                         </td>
@@ -567,12 +566,12 @@ function TaxInvoiceFull() {
                 <Typography className="text-lg font-bold">
                   ข้อมูลการชำระเงิน
                 </Typography>
-                <Typography className="mt-3">รวมเงิน: {Number(dataView?.total_price).toLocaleString()}  บาท</Typography>
+                <Typography className="mt-3">รวมเงิน: {Number(dataView?.total_price)?.toLocaleString()}  บาท</Typography>
                 <Typography className="mt-3">
-                  ภาษีมูลค่าเพิ่ม: {Number(dataView?.total_tax).toLocaleString()}  บาท
+                  ภาษีมูลค่าเพิ่ม: {Number(dataView?.total_tax)?.toLocaleString()}  บาท
                 </Typography>
                 <Typography className="mt-3 font-bold text-lg text-red-500">
-                  จำนวนเงินทั้งสิน: {Number(dataView?.total_amount).toLocaleString()}  บาท
+                  จำนวนเงินทั้งสิน: {Number(dataView?.total_amount)?.toLocaleString()}  บาท
                 </Typography>
               </div>
             </div>
@@ -679,7 +678,7 @@ function TaxInvoiceFull() {
       {openModalReceiptA4 == true ? (
       
         <ReceiptA4
-          openModalReceiptA4={openModalReceiptA4}
+          openModalReceiptA4={openModalReceiptA4 || ''}
           handleModalReceiptA4={handleModalReceiptA4}
           dataReceipt = {dataView}
           companyLoginDataStore ={companyLoginDataStore}

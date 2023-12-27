@@ -42,6 +42,7 @@ import Receipt80Short from "../../../receipt/receipt80Short";
 
 import { addFullInvioce } from "../../../../api/TaxFullInvoiceAPI";
 import { addShortInvioce } from "../../../../api/TaxShortInvoiceApi";
+import { addSubInvioce } from "../../../../api/TaxSubInvoiceApi";
 
 const CreateInvoice = () => {
   // import Data Store
@@ -71,6 +72,8 @@ const CreateInvoice = () => {
     "ราคา/หน่วย",
     "รวมเงิน",
     "ลบ",
+    headFormDataStore == '3' ? "จำนวนบิลย่อย": null ,
+    headFormDataStore == '3' ? "พิมพ์": null ,
   ];
   const [data, setData] = useState([]);
   const selectedProductIds = data?.map((item) => item.category); // ดึง ID ของสินค้าที่ถูกเลือกไปแล้วในตาราง
@@ -94,7 +97,7 @@ const CreateInvoice = () => {
     label: shop.salepoints_name,
   }));
 
-
+ 
 
   const [selectedCustomer, setSelectedCustomer] = useState(null);
   const handleCustomerSelect = (e) => {
@@ -202,10 +205,29 @@ const CreateInvoice = () => {
         ...updatedData[index],
         quantity: newQuantity,
         totalPrice: calculateTotal(newQuantity, selectedProduct.price),
+        amountBill: Math.ceil(calculateTotal(newQuantity, selectedProduct.price) / 900)
       };
       setData(updatedData);
     }
   };
+
+  const handleBillChange = (e, index) => {
+    const newBill = parseInt(e, 10);
+    const updatedData = [...data];
+    const selectedProduct = productDataStore.find(
+      (product) => product.id === updatedData[index]?.category
+    );
+
+    if (selectedProduct) {
+      updatedData[index] = {
+        ...updatedData[index],
+        amountBill: newBill,
+      };
+      setData(updatedData);
+    }
+  };
+
+  console.log(data)
 
   // ฟังก์ชันคำนวณรวมเงิน
   const calculateTotal = (quantity, pricePerUnit) => {
@@ -233,6 +255,17 @@ const CreateInvoice = () => {
     return subtotal - pruePrice;
   };
 
+  const calculateTotalUnit = () => {
+    let subtotal = 0;
+    data.forEach((item) => {
+      if (!isNaN(item.quantity)) {
+        subtotal += item.quantity;
+      }
+    });
+    return subtotal;
+  };
+
+
   const [dataReceipt,setDataReceipt] = useState('')
 
   const handleSendReceipt = async () => {
@@ -256,6 +289,10 @@ const CreateInvoice = () => {
         console.log(response)
         setDataReceipt(response)
         
+      }else if (headFormDataStore == '3') {
+        console.log(datasend)
+        const response = await addSubInvioce(datasend , setOpenPrint)
+        console.log(response)
       }
     } catch (error) {
       toast.error(error)
@@ -296,6 +333,8 @@ const CreateInvoice = () => {
                 ? "(รูปแบบเต็ม)"
                 : headFormDataStore == "2"
                 ? "(รูปแบบย่อ)"
+                : headFormDataStore == "3"
+                ? "(รูปแบบสัพ)"
                 : ""
             }`}
           </Typography>
@@ -335,7 +374,6 @@ const CreateInvoice = () => {
                 บันทึก
               </Button>
             </div>
-         
                   <div className=" justify-center">
                   <Menu>
                     <MenuHandler>
@@ -443,11 +481,13 @@ const CreateInvoice = () => {
           </div>
           <div className=" flex   w-full justify-end mt-5   gap-3 ">
             <Typography className="flex text-end justify-end align-text-bottom font-bold min-w-[100px]">
-              ใบย่อย:
+              จำนวนทั้งหมด:
             </Typography>
-            <input className="w-[15%] border border-gray-400 rounded" type="number" />
+            <Typography className="flex text-end justify-end align-text-bottom font-bold min-w-[10px]">
+            {calculateTotalUnit()}
+            </Typography>
             <Typography className="font-bold text-end">
-              ใบ
+              ชิ้น
             </Typography>
           </div>
           <div className=" flex   w-full justify-end  mt-5   gap-3 ">
@@ -469,14 +509,14 @@ const CreateInvoice = () => {
       <div  className="flex w-full flex-col xl:flex-row gap-5 ">
         <div className="flex w-full flex-col gap-3">
           <div className="flex  w-full md:w-8/8">
-            <Card className="flex w-full h-[370px] mt-5 overflow-y-auto  " >
+            <Card className="flex w-full h-[320px] mt-5 overflow-y-auto  " >
               <table className="w-full   ">
                 <thead>
                   <tr>
                     {columns.map((head, index) => (
                       <th
                         key={index}
-                        className=" text-left py-4  bg-gray-300 px-2 sticky top-0 z-10"
+                        className=" text-left py-4   bg-gray-300 px-2 sticky top-0 z-10"
                       >
                         {head}
                       </th>
@@ -486,10 +526,10 @@ const CreateInvoice = () => {
                 <tbody>
                   {data.map((data, index) => (
                     <tr key={index}>
-                      <td className="w-[7%]  px-2 mt-3  ps-5 pt-3 ">
+                      <td className={headFormDataStore == "3" ? "w-[7%] px-2 mt-3  ps-5 pt-3 " : " w-[15%] px-2 mt-3  ps-5 pt-3" }  >
                         {index + 1}
                       </td>
-                      <td className="w-[35%]   ">
+                      <td className={headFormDataStore =="3" ? "w-[30%]": "w-[35%] pe-5" }>
                         <div className="mt-3">
                           <Select
                             isSearchable
@@ -501,7 +541,7 @@ const CreateInvoice = () => {
                           />
                         </div>
                       </td>
-                      <td className="w-[7%] px-2   ">
+                      <td className={headFormDataStore == "3" ? "w-[7%] px-2 pe-5" : " w-[13%] pe-10 " }>
                         <div>
                           <input
                             type="number"
@@ -515,8 +555,8 @@ const CreateInvoice = () => {
                           />
                         </div>
                       </td>
-                      <td className="px-2 mt-3 pt-3 ">{data?.unit}</td>
-                      <td className="px-2 mt-3 pt-3  ">
+                      <td className={ headFormDataStore == "3" ? "px-2 mt-3 pt-3 w-[7%] ps-3" : "px-2 mt-3 pt-3 w-[9%] ps-3"} >{data?.unit}</td>
+                      <td className={ headFormDataStore == "3" ?  "px-2 mt-3 pt-3 w-[10%] ps-3" : "px-2 mt-3 pt-3 w-[13%] ps-3"}>
                         {" "}
                         {isNaN(data?.pricePerUnit)
                           ? "N/A"
@@ -524,14 +564,14 @@ const CreateInvoice = () => {
                               .toFixed(2)
                               .replace(/\B(?=(\d{3})+(?!\d))/g, ",")}
                       </td>
-                      <td className="px-2 mt-3 pt-3 ">
+                      <td className="px-2 mt-3 pt-3 w-[10%] ">
                         {isNaN(data?.totalPrice)
                           ? "N/A"
                           : Number(data?.totalPrice)
                               .toFixed(2)
                               .replace(/\B(?=(\d{3})+(?!\d))/g, ",")}
                       </td>
-                      <td className="px-2 mt-3 pt-3">
+                      <td className="px-2 mt-3 pt-3 w-[5%]">
                         <button
                           className="text-3xl text-red-500"
                           disabled={openPrint == true ? true : false}
@@ -541,6 +581,54 @@ const CreateInvoice = () => {
                           <MdRemoveCircle />
                         </button>
                       </td>
+                      {headFormDataStore == "3" ?
+                      <>
+                      <td className="w-[9%] px-2 pe-10 ">
+                        <div >
+                          <input
+                            type="number"
+                            min="0"
+                            value={data?.amountBill}
+                            disabled={openPrint == true ? true : false}
+                            className="border border-gray-400 w-full py-1 mt-3 text-right "
+                            onChange={(e) =>
+                              handleBillChange(e.target.value, index)
+                            }
+                          />
+                        </div>
+                      </td>
+                      <td className="w-[7%] px-2 ">
+                      <div className=" justify-center">
+                  <Menu>
+                    <MenuHandler>
+                      <Button
+                        size="sm"
+                        variant="gradient"
+                        color="blue"
+                        className="text-base flex justify-center  items-center   bg-green-500"
+                        disabled = {openPrint == true ? false : true}
+                      >
+                        <span className="mr-2 text-xl ">
+                          <MdLocalPrintshop />
+                        </span>
+                        พิมพ์
+                      </Button>
+                    </MenuHandler>
+                    <MenuList>
+                      <MenuItem onClick={() => setOpenModalReceiptA4(true)}>
+                        ขนาด A4
+                      </MenuItem>
+                      <MenuItem onClick={() => setOpenModalReceipt80(true)}>
+                        ขนาด 80 มิล
+                      </MenuItem>
+                    </MenuList>
+                  </Menu>
+                </div>
+                      </td>
+                      </>
+                      :
+                      ''
+                      }
                     </tr>
                   ))}
 
