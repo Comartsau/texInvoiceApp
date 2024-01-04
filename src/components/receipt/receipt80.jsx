@@ -389,8 +389,6 @@ import {
     dataReceipt,
     companyLoginDataStore
   }) => {
-    console.log(dataReceipt);
-    console.log(companyLoginDataStore);
 
   
     const itemsPerPage = 100; // จำนวนรายการต่อหน้า
@@ -422,7 +420,7 @@ import {
     console.log(pages);
 
     // แปลงเวลา //
-    const formattedDateTime = moment(dataReceipt.created_at).format("DD/MM/YYYY  HH:mm:ss");
+    const formattedDateTime = moment(dataReceipt?.created_at).format("DD/MM/YYYY  HH:mm:ss");
 
   
     return (

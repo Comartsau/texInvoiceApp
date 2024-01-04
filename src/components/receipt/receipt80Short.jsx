@@ -413,7 +413,7 @@ import {
   
     const pages = generatePages(dataReceipt?.product_data);
 
-    const totalQuantity = dataReceipt.product_data?.reduce((total, item) => total + item.quantity, 0);
+    const totalQuantity = dataReceipt?.product_data?.reduce((total, item) => total + item.quantity, 0);
     console.log(totalQuantity); // ผลลัพธ์จำนวน quantity ทั้งหมด
   
     console.log(pages);
@@ -424,7 +424,6 @@ import {
   
     return (
       <Dialog open={openModalReceipt80} handler={handleModalReceipt80} size="xl">
-        <DialogHeader></DialogHeader>
         <DialogBody>
           {/* <Page size={[842, 595]} style={styles.page}> */}
           {/*  กระดาษ A4 => 8.3 inc x 11.7 inc =>  point = 597 = 842  */}
@@ -476,7 +475,7 @@ import {
                     {/*-----------  หัวตาราง ---------------------  */}
                     <View style={[styles.table, { marginTop: "10" }]}>
                       <View style={styles.tableRow}>
-                        <Text style={[styles.tableCell1Head]}>
+                        <Text style={[styles.tableCell1Head ]}>
                         {''}
                         </Text>
                         <Text style={[styles.tableCell2Head]}>
@@ -493,11 +492,11 @@ import {
                         console.log(item);
                         return (
                           <View key={itemIndex} style={styles.tableRow}>
-                            <Text style={styles.tableCell1}>
-                            {item?.quantity || ""}{" "}
+                            <Text style={[styles.tableCell1 ,]}>
+                            {Number(item?.quantity).toLocaleString() || ""}{" "}
                             </Text>
                             <Text
-                              style={[styles.tableCell2, { textAlign: "left" }]}
+                              style={[styles.tableCell2, { textAlign: "left" , marginLeft:'20px', marginRight:'-12px'  }]}
                             >
                               {`${item?.product || ''} `}
                             </Text>

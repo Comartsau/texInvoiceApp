@@ -299,7 +299,23 @@ const styles = StyleSheet.create({
     width: "70%", // แบ่งเป็น 3 ส่วนเท่า ๆ กัน (ขนาดเท่ากัน)
     height: "100%",
   },
-  tableCellNote: {
+  tableCellNote1: {
+    margin: "auto",
+    fontSize: 10,
+    textAlign: "center",
+    alignItems: "flex-end",
+    padding: 5,
+    borderWidth: 1,
+    borderTopWidth: 1,
+    borderTop: "0",
+    borderLeft: "1",
+    borderRight: "1",
+    borderBottom: "1",
+    borderColor: "#000",
+    width: "70%", // แบ่งเป็น 3 ส่วนเท่า ๆ กัน (ขนาดเท่ากัน)
+    height: "100%",
+  },
+  tableCellNote2: {
     margin: "auto",
     fontSize: 10,
     textAlign: "right",
@@ -308,11 +324,11 @@ const styles = StyleSheet.create({
     borderWidth: 1,
     borderTopWidth: 1,
     borderTop: "0",
-    borderLeft: "0",
+    borderLeft: "1",
     borderRight: "1",
-    borderBottom: "0",
+    borderBottom: "1",
     borderColor: "#000",
-    width: "85%", // แบ่งเป็น 3 ส่วนเท่า ๆ กัน (ขนาดเท่ากัน)
+    width: "15%", // แบ่งเป็น 3 ส่วนเท่า ๆ กัน (ขนาดเท่ากัน)
     height: "100%",
   },
   tableCellNoteBorder: {
@@ -360,7 +376,7 @@ export const ReceiptA4Short = ({
   const pages = generatePages(dataReceipt?.product_data);
 
     // แปลงเวลา //
-    const formattedDateTime = moment(dataReceipt.created_at).format("DD/MM/YYYY  HH:mm:ss");
+    const formattedDateTime = moment(dataReceipt?.created_at).format("DD/MM/YYYY  HH:mm:ss");
 
 
   return (
@@ -373,7 +389,7 @@ export const ReceiptA4Short = ({
             {pages.map((pageData, index) => (
               <Page key={index} size="A4" style={styles.page}>
                 <View style={[styles.flexrowbetween , styles.text12]}>
-                  <Text style={[{color:"#fff"}]}>เล่มที่: 790</Text>
+                  <Text style={[{color:"#fff"}]}>.</Text>
                   <Text>เลขที่: {dataReceipt?.code || ''}</Text>
                 </View>
                 <View style={[styles.flexrowcenter, styles.mt20]}>
@@ -428,7 +444,7 @@ export const ReceiptA4Short = ({
                       return (
                         <View key={itemIndex} style={styles.tableRow}>
                           <Text style={styles.tableCell1}>
-                            {item?.quantity || ""}{" "}
+                            {Number(item?.quantity).toLocaleString() || ""}{" "}
                           </Text>
                           <Text
                             style={[styles.tableCell2, { textAlign: "left" }]}
@@ -449,10 +465,14 @@ export const ReceiptA4Short = ({
                       <>
                         <View style={styles.tableRow}>
                           {/* สรุปรวม */}
-                          <Text style={[styles.tableCellNote, styles.text12]}>
-                            ราคารวมภาษีมูลค่าเพิ่ม
+                          <Text style={[styles.tableCellNote1, styles.text12]}>
+                          {THBText(dataReceipt?.total_amount) || ''}
                           </Text>
-                          <Text style={styles.borderCell4}>
+                          {/* <Text style={[styles.tableCellNote2, styles.text12]}> */}
+                          <Text style={styles.tableCell3}>
+                            รวมเงิน
+                          </Text>
+                          <Text style={styles.tableCell4}>
                           {Number(dataReceipt?.total_amount).toLocaleString() || ""}
                           </Text>
                         </View>

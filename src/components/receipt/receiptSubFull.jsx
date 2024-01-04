@@ -202,6 +202,10 @@ import {
       marginTop: 20,
       wordBreak: "break-word",
     },
+    mt30: {
+      marginTop: 30,
+      wordBreak: "break-word",
+    },
     mtmd: {
       marginTop: 30,
     },
@@ -233,7 +237,7 @@ import {
       borderWidth: 1,
       borderColor: "#000",
       textAlign: "center",
-      width: "20%", // แบ่งเป็น 3 ส่วนเท่า ๆ กัน (ขนาดเท่ากัน)
+      width: "15%", // แบ่งเป็น 3 ส่วนเท่า ๆ กัน (ขนาดเท่ากัน)
       height: "100%",
     },
     tableCellHead2: {
@@ -243,7 +247,7 @@ import {
       borderWidth: 1,
       borderColor: "#000",
       textAlign: "center",
-      width: "50%", // แบ่งเป็น 3 ส่วนเท่า ๆ กัน (ขนาดเท่ากัน)
+      width: "70%", // แบ่งเป็น 3 ส่วนเท่า ๆ กัน (ขนาดเท่ากัน)
       height: "100%",
     },
     tableCellHead3: {
@@ -253,7 +257,7 @@ import {
       borderWidth: 1,
       borderColor: "#000",
       textAlign: "center",
-      width: "10%", // แบ่งเป็น 3 ส่วนเท่า ๆ กัน (ขนาดเท่ากัน)
+      width: "15%", // แบ่งเป็น 3 ส่วนเท่า ๆ กัน (ขนาดเท่ากัน)
       height: "100%",
     },
     tableCellHead4: {
@@ -273,7 +277,7 @@ import {
       borderWidth: 1,
       borderColor: "#000",
       textAlign: "center",
-      width: "10%", // แบ่งเป็น 3 ส่วนเท่า ๆ กัน (ขนาดเท่ากัน)
+      width: "15%", // แบ่งเป็น 3 ส่วนเท่า ๆ กัน (ขนาดเท่ากัน)
       height: "100%",
     },
     tableCell2: {
@@ -283,7 +287,7 @@ import {
       borderWidth: 1,
       borderColor: "#000",
       textAlign: "center",
-      width: "10%", // แบ่งเป็น 3 ส่วนเท่า ๆ กัน (ขนาดเท่ากัน)
+      width: "70%", // แบ่งเป็น 3 ส่วนเท่า ๆ กัน (ขนาดเท่ากัน)
       height: "auto",
     },
     tableCell3: {
@@ -293,7 +297,7 @@ import {
       borderWidth: 1,
       borderColor: "#000",
       textAlign: "center",
-      width: "50%", // แบ่งเป็น 3 ส่วนเท่า ๆ กัน (ขนาดเท่ากัน)
+      width: "15%", // แบ่งเป็น 3 ส่วนเท่า ๆ กัน (ขนาดเท่ากัน)
       height: "100%",
     },
     tableCell4: {
@@ -349,7 +353,7 @@ import {
       borderRight:'1',
       borderBottom:'0',
       borderColor: "#000",
-      width: "70%", // แบ่งเป็น 3 ส่วนเท่า ๆ กัน (ขนาดเท่ากัน)
+      width: "75%", // แบ่งเป็น 3 ส่วนเท่า ๆ กัน (ขนาดเท่ากัน)
       height: "100%",
     },
     tableCellNoteBorder: {
@@ -371,15 +375,18 @@ import {
     openModalReceiptSubFull,
     handleModalReceiptSubFull,
     dataReceipt,
-    salePoint
+    companyLoginDataStore,
+    dataView
   
   }) => {
 
-    console.log(salePoint)
+    console.log(dataReceipt)
+    console.log(companyLoginDataStore)
+    console.log(dataView)
   
 
   
-    const itemsPerPage = 15; // จำนวนรายการต่อหน้า
+    const itemsPerPage = 1; // จำนวนรายการต่อหน้า
   
     // แบ่งรายการออกเป็นหน้าตามจำนวนที่กำหนด
   
@@ -400,13 +407,13 @@ import {
       return pages;
     };
   
-    const pages = generatePages(dataReceipt?.product_data);
+    const pages = generatePages(dataReceipt);
 
-    console.log(pages)
+
   
   
     //  แปลงเวลา
-     const formattedDateTime = moment(dataReceipt?.created_at).format("DD/MM/YYYY  HH:mm:ss");
+     const formattedDateTime = moment(dataView?.created_at).format("DD/MM/YYYY  HH:mm:ss");
   
   
     return (
@@ -419,20 +426,29 @@ import {
             <Document>
               {pages?.map((pageData, index) =>  (
                 <Page key={index} size="A4" style={styles.page} > 
-                <View style={[styles.flexrowbetween, styles.text6]}>
+                <View style={[styles.flexrowbetween, styles.text12]}>
                   <Text style={[ {color:"#fff"}]}>.</Text>
-                  <Text>ใบสำคัญรับเงิน {''}</Text>
-                  <Text>เลขที่:  {dataReceipt.invoice_name}</Text>
-
+                  <Text>เลขที่:  {dataReceipt[index]?.invoice_number} </Text>
+                </View>
+                <View style={[styles.flexrowcenter, styles.mt30]}>
+                  <Text style={[styles.flexrowcenter, styles.text18]}>
+                    ใบเสร็จรับเงิน / ใบกำกับภาษีอย่างย่อ '
+                  </Text>
+                </View>
+                <View style={[styles.flexrowcenter, styles.text14 , styles.mt10]}>
+                <Text >
+                    วันที่  {formattedDateTime} {''}
+                </Text>
                 </View>
                   <View>
+                 
                     <Text style={[styles.flexrowcenter, styles.text14 , styles.mt10]}>
-                    บริษัท เขาสวนกวางเดินรถ จำกัด (สำนักงานใหญ่)  {''}
+                    {companyLoginDataStore?.company}  {''}
                     </Text>
                     <Text
                       style={[styles.flexrowcenter, styles.text12, styles.mt10]}
                     >
-                      237/4 หมู่ 11 ตำบลคำม่วง อำเภอเขาสวนกลาง จังหวัดขอนแก่น   {''} 
+                      {companyLoginDataStore?.address}  {''} 
                     </Text>
                     <Text
                       style={[
@@ -442,23 +458,19 @@ import {
                         // styles.borderb,
                       ]}
                     >
-                      เลขประจำตัวผู้เสียภาษี 0405533000301 โทรศัพท์ 099-0373274     {''}
+                      เลขประจำตัวผู้เสียภาษี: {companyLoginDataStore?.tax_personal} โทรศัพท์: {companyLoginDataStore?.tel }    {''}
                     </Text>
                   </View>
                   <View>
-                    <Text style={[styles.flexrowend, styles.text6 , styles.mtsm20]}>
-                    วันที่  {formattedDateTime} {''}
-                    </Text>
+                  
                   </View>
                   <View>
                     <Text style={[styles.flexrowcenter, styles.text6 ]}>
-                    จุดขาย  {salePoint} {''}
+                    จุดขาย: {dataView?.salepoints_name}  {''}
                     </Text>
                   </View>
                   <View>
       
-                 
-  
                     {/*-----------  หัวตาราง ---------------------  */}
                     <View style={[styles.table, { marginTop: "10" }]}>
                       <View style={styles.tableRow}>
@@ -471,63 +483,41 @@ import {
                         <Text style={[styles.tableCellHead3, styles.colorHead]}>
                           ราคา   {''}
                         </Text>
-                        <Text style={[styles.tableCellHead4, styles.colorHead]}>
-                          จำนวนเงิน   {''}
-                        </Text>
                       </View>
                       {pageData.map((item, itemIndex) => {
                         return (
+                          <>
                           <View key={itemIndex} style={styles.tableRow}>
                             <Text style={styles.tableCell1}>
-                              {item?.amount  || ""}
+                              {item?.products_quantity  || ""}
                             </Text>
-                            <Text
-                              style={[styles.tableCell2, { textAlign: "center" }]}
-                            >
-                              {item?.unit || ''} {''}
-                            </Text>
-                            <Text style={[styles.tableCell3 , {textAlign: "left"}]}>
+                            <Text style={[styles.tableCell2 , {textAlign: "left"}]}>
                               {" "}
-                              {` ${item?.name}       เล่มที่:   ${item.subInvoice} `}
+                              {` ${item?.product_name}   `}
                             </Text>
-                            <Text style={styles.tableCell4}>
+                            <Text style={styles.tableCell3}>
                               {" "}
-                              {Number(item?.price).toLocaleString() || ""} {''}
-                            </Text>
-                            <Text style={styles.tableCell5}>
-                              {" "}
-                              {Number(item?.total).toLocaleString() || ""}
-                            </Text>
-                            <Text style={styles.tableCell6}>
-                              {" "}
-                              -
+                              {Number(item?.price_per_invoice).toFixed(2)
+                           .replace(/\B(?=(\d{3})+(?!\d))/g, ",") || ''}
                             </Text>
                           </View>
+                          <View  style={styles.tableRow}>
+                       
+                       <Text style={[styles.tableCellNote , {paddingTop:"10"}  ]}>
+                         {THBText(Number(item?.price_per_invoice).toFixed(2)) || ''}
+                       </Text>
+                       <Text style={[styles.tableCell4 ,{paddingTop:"10"}]}> รวมเงิน </Text>
+                       <Text style={[styles.tableCell5 ,{paddingTop:"10"}, {alignContent:"center"}]}>
+                       {Number(item?.price_per_invoice).toFixed(2)
+                           .replace(/\B(?=(\d{3})+(?!\d))/g, ",") || ''}
+                       </Text>
+                     </View>
+                          </>  
                         );
                       })}
-                      {index == pages.length - 1 && (
-                        <>
-                          <View  style={styles.tableRow}>
-                            {/* สรุปรวม */}
-                            <Text style={[styles.tableCellNote , {paddingTop:"10"}  ]}>
-                              {THBText(dataReceipt?.total) || ''}
-                            </Text>
-                            <Text style={[styles.tableCell4 ,{paddingTop:"10"}]}> รวมเงิน </Text>
-                            <Text style={[styles.tableCell5 ,{paddingTop:"10"}, {alignContent:"center"}]}>
-                              {Number(dataReceipt?.total).toFixed(2)
-                                .replace(/\B(?=(\d{3})+(?!\d))/g, ",") || ''}
-                            </Text>
-                            <Text style={styles.tableCell6}>
-                              -
-                            </Text>
-                          </View>
-                        </>
-                      )}
                     </View>
                     {/*   ลงชื่อผู้รับ/ผู้จ่าย  */}
-                    {index == pages.length - 1 && (
-                      <>
-                        <View style={[styles.flexrowcenter, styles.mtsm20]}>
+                        <View style={[styles.flexrow, styles.mtsm20]}>
                           <View>
                             <Text
                               style={[
@@ -542,18 +532,7 @@ import {
                             </Text>
                           </View>
                         </View>
-                
-                      </>
-                    )}
                   </View>
-                  {/* <View fixed style={[styles.footer]}>
-                    {" "}
-                    <Text style={[styles.footer, styles.text12   ]}
-                      render={({ pageNumber, totalPages }) =>
-                        `${pageNumber} / ${totalPages}`
-                      }
-                    />
-                  </View> */}
                 </Page>
               
               ))}

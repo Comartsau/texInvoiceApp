@@ -14,22 +14,24 @@ import "../../App.css";
 import { PDFViewer } from "@react-pdf/renderer";
 import THBText from "thai-baht-text";
 
-import moment from "moment";
+import moment  from "moment";
 
 import FontSarabun from "./font/Sarabun-Regular.ttf";
 import FontSarabunBold from "./font/Sarabun-ExtraBold.ttf";
 import FontSarabunLight from "./font/Sarabun-ExtraBold.ttf";
 import Prompt from "./font/Prompt-Regular.ttf";
 import Mitr from "./font/Mitr-Regular.ttf";
-
+// import { useState, useEffect } from "react";
 import {
   Dialog,
   DialogBody,
+  DialogHeader,
   DialogFooter,
   Button,
 } from "@material-tailwind/react";
 
 import PropTypes from "prop-types";
+
 
 Font.register({
   family: "Sarabun",
@@ -78,14 +80,15 @@ const styles = StyleSheet.create({
   },
   footer: {
     fontSize: 12,
-    color: "#ccc",
+    color:'#ccc',
     textAlign: "center",
     marginBottom: 10,
-    position: "absolute",
-    bottom: "0",
-    left: "0",
-    right: "0",
-    height: "20px",
+    position:'absolute',
+    bottom:'0',
+    left:'0',
+    right:'0',
+    height:'20px'
+    
   },
   signature: {
     fontSize: 12,
@@ -125,11 +128,20 @@ const styles = StyleSheet.create({
     justifyContent: "flex-start",
     textAlign: "left",
   },
+  text4: {
+    fontSize: 4,
+  },
   text6: {
-    fontSize: 12,
+    fontSize: 6,
   },
   text8: {
-    fontSize: 12,
+    fontSize: 8,
+  },
+  text9: {
+    fontSize: 9,
+  },
+  text10: {
+    fontSize: 10,
   },
   text12: {
     fontSize: 12,
@@ -199,6 +211,10 @@ const styles = StyleSheet.create({
     marginTop: 20,
     wordBreak: "break-word",
   },
+  mt30: {
+    marginTop: 30,
+    wordBreak: "break-word",
+  },
   mtmd: {
     marginTop: 30,
   },
@@ -210,7 +226,7 @@ const styles = StyleSheet.create({
     display: "table",
     width: "100%",
     borderStyle: "solid",
-    borderWidth: 1,
+    borderWidth: 0,
     borderColor: "#000",
     marginBottom: 10,
   },
@@ -219,15 +235,19 @@ const styles = StyleSheet.create({
   },
   tableRow: {
     margin: "auto",
-    display: "flex",
+    display:'flex',
     flexDirection: "row",
-    alignItems: "center",
+    alignItems:'center',
   },
   tableCellHead1: {
     margin: "auto",
     fontSize: 10,
     padding: 5,
     borderWidth: 1,
+    borderTop:'1',
+    borderLeft:'0',
+    borderRight:'0',
+    borderBottom:'1',
     borderColor: "#000",
     textAlign: "center",
     width: "20%", // แบ่งเป็น 3 ส่วนเท่า ๆ กัน (ขนาดเท่ากัน)
@@ -238,9 +258,13 @@ const styles = StyleSheet.create({
     fontSize: 10,
     padding: 5,
     borderWidth: 1,
+    borderTop:'1',
+    borderLeft:'0',
+    borderRight:'0',
+    borderBottom:'1',
     borderColor: "#000",
-    textAlign: "center",
-    width: "50%", // แบ่งเป็น 3 ส่วนเท่า ๆ กัน (ขนาดเท่ากัน)
+    textAlign: "left",
+    width: "55%", // แบ่งเป็น 3 ส่วนเท่า ๆ กัน (ขนาดเท่ากัน)
     height: "100%",
   },
   tableCellHead3: {
@@ -248,9 +272,13 @@ const styles = StyleSheet.create({
     fontSize: 10,
     padding: 5,
     borderWidth: 1,
+    borderTop:'1',
+    borderLeft:'0',
+    borderRight:'0',
+    borderBottom:'1',
     borderColor: "#000",
     textAlign: "center",
-    width: "10%", // แบ่งเป็น 3 ส่วนเท่า ๆ กัน (ขนาดเท่ากัน)
+    width: "25%", // แบ่งเป็น 3 ส่วนเท่า ๆ กัน (ขนาดเท่ากัน)
     height: "100%",
   },
   tableCellHead4: {
@@ -268,9 +296,13 @@ const styles = StyleSheet.create({
     fontSize: 10,
     padding: 5,
     borderWidth: 1,
+    borderTop:'1',
+    borderLeft:'0',
+    borderRight:'0',
+    borderBottom:'0',
     borderColor: "#000",
     textAlign: "center",
-    width: "10%", // แบ่งเป็น 3 ส่วนเท่า ๆ กัน (ขนาดเท่ากัน)
+    width: "20%", // แบ่งเป็น 3 ส่วนเท่า ๆ กัน (ขนาดเท่ากัน)
     height: "100%",
   },
   tableCell2: {
@@ -278,9 +310,13 @@ const styles = StyleSheet.create({
     fontSize: 10,
     padding: 5,
     borderWidth: 1,
+    borderTop:'1',
+    borderLeft:'0',
+    borderRight:'0',
+    borderBottom:'0',
     borderColor: "#000",
     textAlign: "center",
-    width: "10%", // แบ่งเป็น 3 ส่วนเท่า ๆ กัน (ขนาดเท่ากัน)
+    width: "55%", // แบ่งเป็น 3 ส่วนเท่า ๆ กัน (ขนาดเท่ากัน)
     height: "auto",
   },
   tableCell3: {
@@ -288,9 +324,13 @@ const styles = StyleSheet.create({
     fontSize: 10,
     padding: 5,
     borderWidth: 1,
+    borderTop:'1',
+    borderLeft:'0',
+    borderRight:'0',
+    borderBottom:'0',
     borderColor: "#000",
     textAlign: "center",
-    width: "50%", // แบ่งเป็น 3 ส่วนเท่า ๆ กัน (ขนาดเท่ากัน)
+    width: "25%", // แบ่งเป็น 3 ส่วนเท่า ๆ กัน (ขนาดเท่ากัน)
     height: "100%",
   },
   tableCell4: {
@@ -300,7 +340,7 @@ const styles = StyleSheet.create({
     borderWidth: 1,
     borderColor: "#000",
     textAlign: "center",
-    width: "10%", // แบ่งเป็น 3 ส่วนเท่า ๆ กัน (ขนาดเท่ากัน)
+    width: "20%", // แบ่งเป็น 3 ส่วนเท่า ๆ กัน (ขนาดเท่ากัน)
     height: "100%",
   },
   tableCell5: {
@@ -319,7 +359,7 @@ const styles = StyleSheet.create({
     padding: 5,
     borderWidth: 1,
     borderColor: "#000",
-    textAlign: "center",
+    textAlign: 'center',
     width: "5%", // แบ่งเป็น 3 ส่วนเท่า ๆ กัน (ขนาดเท่ากัน)
     height: "100%",
   },
@@ -331,7 +371,7 @@ const styles = StyleSheet.create({
     borderTopWidth: 1,
     borderColor: "#000",
     textAlign: "center",
-    width: "70%", // แบ่งเป็น 3 ส่วนเท่า ๆ กัน (ขนาดเท่ากัน)
+    width: "40%", // แบ่งเป็น 3 ส่วนเท่า ๆ กัน (ขนาดเท่ากัน)
     height: "100%",
   },
   tableCellNote: {
@@ -341,12 +381,12 @@ const styles = StyleSheet.create({
     textAlign: "center",
     borderWidth: 1,
     borderTopWidth: 1,
-    borderTop: "1",
-    borderLeft: "1",
-    borderRight: "1",
-    borderBottom: "0",
+    borderTop:'1',
+    borderLeft:'1',
+    borderRight:'1',
+    borderBottom:'0',
     borderColor: "#000",
-    width: "70%", // แบ่งเป็น 3 ส่วนเท่า ๆ กัน (ขนาดเท่ากัน)
+    width: "55%", // แบ่งเป็น 3 ส่วนเท่า ๆ กัน (ขนาดเท่ากัน)
     height: "100%",
   },
   tableCellNoteBorder: {
@@ -355,24 +395,51 @@ const styles = StyleSheet.create({
     padding: 5,
     borderWidth: 1,
     borderTopWidth: 1,
-    borderTop: "0",
+    borderTop:'0',
     borderColor: "#000",
     width: "70%", // แบ่งเป็น 3 ส่วนเท่า ๆ กัน (ขนาดเท่ากัน)
     height: "100%",
   },
+  borderTB:{
+    paddingTop:'5px',
+    paddingBottom:'3px',
+    borderWidth: 1,
+    borderTop:'1',
+    borderLeft:'0',
+    borderRight:'0',
+    borderBottom:'1',
+    borderColor: "#000",
+},
+borderB:{
+    paddingTop:'5px',
+    paddingBottom:'3px',
+    borderWidth: 1,
+    borderTop:'0',
+    borderLeft:'0',
+    borderRight:'0',
+    borderBottom:'1',
+    borderColor: "#000",
+}
+
+
 });
 
 export const ReceiptSubShort = ({
   openModalReceiptSubShort,
   handleModalReceiptSubShort,
   dataReceipt,
-  salePoint,
-  sendIndex,
-}) => {
-  console.log(dataReceipt.product_data.length);
-  console.log(sendIndex);
+  companyLoginDataStore,
+  dataView
 
-  const itemsPerPage = dataReceipt.product_data.length - 1; // จำนวนรายการต่อหน้า
+}) => {
+
+  console.log(dataReceipt)
+  console.log(companyLoginDataStore)
+  console.log(dataView)
+
+
+
+  const itemsPerPage = 1; // จำนวนรายการต่อหน้า
 
   // แบ่งรายการออกเป็นหน้าตามจำนวนที่กำหนด
 
@@ -393,346 +460,157 @@ export const ReceiptSubShort = ({
     return pages;
   };
 
-  const pages = generatePages(dataReceipt?.product_data);
+  const pages = generatePages(dataReceipt);
 
-  console.log(pages);
+  const totalQuantity = dataReceipt?.product_data?.reduce((total, item) => total + item.quantity, 0);
+    console.log(totalQuantity); // ผลลัพธ์จำนวน quantity ทั้งหมด
+
+
+
 
   //  แปลงเวลา
-  const formattedDateTime = moment(dataReceipt?.created_at).format(
-    "DD/MM/YYYY  HH:mm:ss"
-  );
+   const formattedDateTime = moment(dataView?.created_at).format("DD/MM/YYYY  HH:mm:ss");
+
 
   return (
-    <Dialog
-      open={openModalReceiptSubShort}
-      handler={handleModalReceiptSubShort}
-      size="xl"
-    >
+    <Dialog open={openModalReceiptSubShort} handler={handleModalReceiptSubShort} size="xl">
+      {/* <DialogHeader></DialogHeader> */}
       <DialogBody>
+        {/* <Page size={[842, 595]} style={styles.page}> */}
+        {/*  9 x 11 นิ้ว (792 คือ 9 นิ้ว x 72 คือ DPI, 936 คือ 11 นิ้ว x 72 คือ DPI) */}
         <PDFViewer width="100%" height="650px">
           <Document>
-            <Page size="A4" style={styles.page}>
-              <View style={[styles.flexrowbetween, styles.text6]}>
-                <Text style={[{ color: "#fff" }]}>
-                  ...........................
-                </Text>
-                <Text>ใบสำคัญรับเงิน {""}</Text>
-                {sendIndex == 0 ? (
-                  <Text>เลขที่: C66/0001/1 </Text>
-                ) : (
-                  <Text>เลขที่: C66/0001/3 </Text>
-                )}
-              </View>
-              <View>
-                <Text
-                  style={[styles.flexrowcenter, styles.text14, styles.mt10]}
-                >
-                  บริษัท เขาสวนกวางเดินรถ จำกัด (สำนักงานใหญ่) {""}
-                </Text>
-                <Text
-                  style={[styles.flexrowcenter, styles.text12, styles.mt10]}
-                >
-                  237/4 หมู่ 11 ตำบลคำม่วง อำเภอเขาสวนกลาง จังหวัดขอนแก่น {""}
-                </Text>
-                <Text
-                  style={[styles.flexrowcenter, styles.text12, styles.mt10]}
-                >
-                  เลขประจำตัวผู้เสียภาษี 0405533000301 โทรศัพท์ 099-0373274 {""}
-                </Text>
-              </View>
-              <View>
-                <Text style={[styles.flexrowend, styles.text6, styles.mtsm20]}>
-                  วันที่ {formattedDateTime} {""}
-                </Text>
-              </View>
-              <View>
-                <Text style={[styles.flexrowcenter, styles.text6]}>
-                  จุดขาย {salePoint} {""}
-                </Text>
-              </View>
-              <View>
-                <View style={[styles.table, { marginTop: "10" }]}>
-                  <View style={styles.tableRow}>
-                    <Text style={[styles.tableCellHead1, styles.colorHead]}>
-                      จำนวน {""}
-                    </Text>
-                    <Text style={[styles.tableCellHead2, styles.colorHead]}>
-                      รายการ {""}
-                    </Text>
-                    <Text style={[styles.tableCellHead3, styles.colorHead]}>
-                      ราคา {""}
-                    </Text>
-                    <Text style={[styles.tableCellHead4, styles.colorHead]}>
-                      จำนวนเงิน {""}
-                    </Text>
-                  </View>
+            {pages?.map((pageData, index) =>  (
+              <Page key={index} size={[295]} style={styles.page} >  
 
-                  <View style={styles.tableRow}>
-                    <Text style={styles.tableCell1}>1</Text>
-                    {sendIndex == 0 ? (
-                      <Text
-                        style={[styles.tableCell2, { textAlign: "center" }]}
-                      >
-                        {" "}
-                        ชิ้น
-                      </Text>
-                    ) : (
-                      <Text
-                        style={[styles.tableCell2, { textAlign: "center" }]}
-                      >
-                        {" "}
-                        เครื่อง
-                      </Text>
-                    )}
-                    {sendIndex == 0 ? (
-                      <Text style={[styles.tableCell3, { textAlign: "left" }]}>
-                        {" "}
-                        แก้วน้ำ ร้อน-เย็น
-                      </Text>
-                    ) : (
-                      <Text style={[styles.tableCell3, { textAlign: "left" }]}>
-                        {" "}
-                        printer
-                      </Text>
-                    )}
-                    {sendIndex == 0 ? (
-                      <>
-                        <Text style={styles.tableCell4}> 14,600 </Text>
-                        <Text style={styles.tableCell5}> 14,600 </Text>
-                        <Text style={styles.tableCell6}> -</Text>
-                      </>
-                    ) : (
-                      <>
-                        <Text style={styles.tableCell4}> 2400 </Text>
-                        <Text style={styles.tableCell5}> 2400 </Text>
-                        <Text style={styles.tableCell6}> -</Text>
-                      </>
-                    )}
-                  </View>
-
-                  <View style={styles.tableRow}>
-                    {/* สรุปรวม */}
-                    {sendIndex == 0 ? (
-                      <Text
-                        style={[styles.tableCellNote, { paddingTop: "10" }]}
-                      >
-                        {THBText(14600) || ""}
-                      </Text>
-                    ) : (
-                      <Text
-                        style={[styles.tableCellNote, { paddingTop: "10" }]}
-                      >
-                        {THBText(2400) || ""}
-                      </Text>
-                    )}
-                    <Text style={[styles.tableCell4, { paddingTop: "10" }]}>
-                      {" "}
-                      รวมเงิน{" "}
-                    </Text>
-                    {sendIndex == 0 ? (
-                      <Text
-                        style={[
-                          styles.tableCell5,
-                          { paddingTop: "10" },
-                          { alignContent: "center" },
-                        ]}
-                      >
-                        14,600
-                      </Text>
-                    ) : (
-                      <Text
-                        style={[
-                          styles.tableCell5,
-                          { paddingTop: "10" },
-                          { alignContent: "center" },
-                        ]}
-                      >
-                        2400
-                      </Text>
-                    )}
-                    <Text style={styles.tableCell6}>-</Text>
-                  </View>
-                </View>
-                {/*   ลงชื่อผู้รับ/ผู้จ่าย  */}
-
-                <View style={[styles.flexrowcenter, styles.mtsm20]}>
-                  <View>
-                    <Text
+              <View style={[styles.flexrowcenter, styles.text12]}>
+              <Text >
+                  {companyLoginDataStore?.company}  {''}
+              </Text>
+              </View>
+              <View style={[styles.flexrowcenter, styles.text8 , styles.mt5]}>
+              <Text >
+                  {companyLoginDataStore?.address}  {''}
+              </Text>
+              </View>
+              <View        
                       style={[
-                        { fontWeight: "extrabold" },
-                        { fontFamily: "SarabunBold" },
-                        { fontSize: "11" },
-                        styles.mtsm,
-                        styles.spacesm,
-                      ]}
-                    >
-                      ผู้รับเงิน: ..............................................
-                    </Text>
-                  </View>
+                        styles.flexrowcenter,
+                        styles.text9,
+                        styles.mt10,
+                        styles.borderb,
+                      ]}>
+              <Text >
+              {` เลขประจำตัวผู้เสียภาษี: ${companyLoginDataStore?.tax_personal}     โทรศัพท์: ${companyLoginDataStore?.tel }`} 
+              </Text>
+              </View>
+              <View style={[styles.flexrowcenter, styles.mt10]}>
+                <Text style={[styles.flexrowcenter, styles.text10]}>
+                  ใบเสร็จรับเงิน / ใบกำกับภาษีอย่างย่อ '
+                </Text>
+              </View>
+              <View style={[styles.flexrow, styles.text9 , styles.mtsm20 ]}>
+                <Text>เลขที่ใบกำกับภาษี:  {dataReceipt[index]?.invoice_number} </Text>
+              </View>
+              <View style={[styles.flexrow, styles.text9 , styles.mt5 ]}>
+                <Text>วันที่ขาย:  {formattedDateTime} {''} </Text>
+              </View>
+                <View>
+                  <Text style={[styles.flexrowcenter, styles.text10 , styles.mt5 ]}>
+                  จุดขาย: {dataView?.salepoints_name}  {''}
+                  </Text>
                 </View>
-              </View>
-            </Page>
-            <Page size="A4" style={styles.page}>
-              <View style={[styles.flexrowbetween, styles.text6]}>
-                <Text style={[{ color: "#fff" }]}>
-                  ...........................
-                </Text>
-                <Text>ใบสำคัญรับเงิน {""}</Text>
-                {sendIndex == 0 ? (
-                  <Text>เลขที่: C66/0001/2 </Text>
-                ) : (
-                  <Text>เลขที่: C66/0001/4 </Text>
-                )}
-              </View>
-              <View>
-                <Text
-                  style={[styles.flexrowcenter, styles.text14, styles.mt10]}
-                >
-                  บริษัท เขาสวนกวางเดินรถ จำกัด (สำนักงานใหญ่) {""}
-                </Text>
-                <Text
-                  style={[styles.flexrowcenter, styles.text12, styles.mt10]}
-                >
-                  237/4 หมู่ 11 ตำบลคำม่วง อำเภอเขาสวนกลาง จังหวัดขอนแก่น {""}
-                </Text>
-                <Text
-                  style={[styles.flexrowcenter, styles.text12, styles.mt10]}
-                >
-                  เลขประจำตัวผู้เสียภาษี 0405533000301 โทรศัพท์ 099-0373274 {""}
-                </Text>
-              </View>
-              <View>
-                <Text style={[styles.flexrowend, styles.text6, styles.mtsm20]}>
-                  วันที่ {formattedDateTime} {""}
-                </Text>
-              </View>
-              <View>
-                <Text style={[styles.flexrowcenter, styles.text6]}>
-                  จุดขาย {salePoint} {""}
-                </Text>
-              </View>
-              <View>
-                <View style={[styles.table, { marginTop: "10" }]}>
-                  <View style={styles.tableRow}>
-                    <Text style={[styles.tableCellHead1, styles.colorHead]}>
-                      จำนวน {""}
-                    </Text>
-                    <Text style={[styles.tableCellHead2, styles.colorHead]}>
-                      รายการ {""}
-                    </Text>
-                    <Text style={[styles.tableCellHead3, styles.colorHead]}>
-                      ราคา {""}
-                    </Text>
-                    <Text style={[styles.tableCellHead4, styles.colorHead]}>
-                      จำนวนเงิน {""}
-                    </Text>
+                <View>
+    
+                  {/*-----------  หัวตาราง ---------------------  */}
+                  <View style={[styles.table, { marginTop: "10" }]}>
+                    <View style={styles.tableRow}>
+                      <Text style={[styles.tableCellHead1 , {color:"#fff"}]}>
+                        .    {''}
+                      </Text>
+                      <Text style={[styles.tableCellHead2 , {paddingLeft:"30"}]}>
+                        รายการ   {''}
+                      </Text>
+                      <Text style={[styles.tableCellHead3]}>
+                        ราคา   {''}
+                      </Text>
+                    </View>
+                    {pageData.map((item, itemIndex) => {
+                      return (
+                        <>
+                        <View key={itemIndex} style={[styles.tableRow ]}>
+                          <Text style={styles.tableCell1}>
+                            {item?.products_quantity  || ""}
+                          </Text>
+                          <Text style={[styles.tableCell2 , {textAlign: "left"}]}>
+                            {" "}
+                            {` ${item?.product_name}   `}
+                          </Text>
+                          <Text style={[styles.tableCell3 ]}>
+                            {" "}
+                            {Number(item?.price_per_invoice).toFixed(2)
+                         .replace(/\B(?=(\d{3})+(?!\d))/g, ",") || ''}
+                          </Text>
+                        </View>
+                        <View style={[styles.flexrowstart , styles.mt10, styles.borderTB]}>
+                          <Text style={[styles.spacesm,styles.text10]}>
+                            รายการ: {1 || ''}   จำนวนชิ้น:  {item?.products_quantity || ''} 
+                          </Text>
+                      </View>
+                   <View View style={[styles.flexrowbetween , styles.mt10]}>
+                            <Text style={styles.text10}> รวมเป็นเงิน </Text>
+                            <Text style={styles.text10}>
+                            {Number(item?.price_per_invoice).toFixed(2)
+                         .replace(/\B(?=(\d{3})+(?!\d))/g, ",") || ''}
+                            </Text>
+                          </View>
+                          <View View style={[styles.flexrowbetween , styles.mt5]}>
+                            <Text style={styles.text10}> ส่วนลด </Text>
+                            <Text style={styles.text10}>
+                              0.00 
+                            </Text>
+                          </View>
+                          <View View style={[styles.flexrowbetween , styles.mt5 , styles.borderB]}>
+                            <Text style={styles.text12}> รวมทั้งสิ้น </Text>
+                            <Text style={styles.text12}>
+                            {Number(item?.price_per_invoice).toFixed(2)
+                         .replace(/\B(?=(\d{3})+(?!\d))/g, ",") || ''}
+                            </Text>
+                          </View>
+                          <View View style={[styles.flexrowbetween , styles.mt10]}>
+                            <Text style={styles.text10}>
+                            {` เงินสด: ${Number(item?.price_per_invoice).toFixed(2)
+                         .replace(/\B(?=(\d{3})+(?!\d))/g, ",") || ''}  `} 
+                            </Text>
+                            <Text style={styles.text10}>
+                            {` เงินทอน:  0.00  `} 
+                            </Text>
+                          </View>
+        
+                        </>  
+                      );
+                    })}
                   </View>
-
-                  <View style={styles.tableRow}>
-                    <Text style={styles.tableCell1}>1</Text>
-                    {sendIndex == 0 ? (
-                      <Text
-                        style={[styles.tableCell2, { textAlign: "center" }]}
-                      >
-                        {" "}
-                        ชิ้น
-                      </Text>
-                    ) : (
-                      <Text
-                        style={[styles.tableCell2, { textAlign: "center" }]}
-                      >
-                        {" "}
-                        เครื่อง
-                      </Text>
-                    )}
-                    {sendIndex == 0 ? (
-                      <Text style={[styles.tableCell3, { textAlign: "left" }]}>
-                        {" "}
-                        แก้วน้ำ ร้อน-เย็น
-                      </Text>
-                    ) : (
-                      <Text style={[styles.tableCell3, { textAlign: "left" }]}>
-                        {" "}
-                        printer
-                      </Text>
-                    )}
-                    {sendIndex == 0 ? (
-                      <>
-                        <Text style={styles.tableCell4}> 14,600 </Text>
-                        <Text style={styles.tableCell5}> 14,600 </Text>
-                        <Text style={styles.tableCell6}> -</Text>
-                      </>
-                    ) : (
-                      <>
-                        <Text style={styles.tableCell4}> 2400 </Text>
-                        <Text style={styles.tableCell5}> 2400 </Text>
-                        <Text style={styles.tableCell6}> -</Text>
-                      </>
-                    )}
-                  </View>
-
-                  <View style={styles.tableRow}>
-                    {/* สรุปรวม */}
-                    {sendIndex == 0 ? (
-                      <Text
-                        style={[styles.tableCellNote, { paddingTop: "10" }]}
-                      >
-                        {THBText(14600) || ""}
-                      </Text>
-                    ) : (
-                      <Text
-                        style={[styles.tableCellNote, { paddingTop: "10" }]}
-                      >
-                        {THBText(2400) || ""}
-                      </Text>
-                    )}
-                    <Text style={[styles.tableCell4, { paddingTop: "10" }]}>
-                      {" "}
-                      รวมเงิน{" "}
-                    </Text>
-                    {sendIndex == 0 ? (
-                      <Text
-                        style={[
-                          styles.tableCell5,
-                          { paddingTop: "10" },
-                          { alignContent: "center" },
-                        ]}
-                      >
-                        14,600
-                      </Text>
-                    ) : (
-                      <Text
-                        style={[
-                          styles.tableCell5,
-                          { paddingTop: "10" },
-                          { alignContent: "center" },
-                        ]}
-                      >
-                        2400
-                      </Text>
-                    )}
-                    <Text style={styles.tableCell6}>-</Text>
-                  </View>
+                  {/*   ลงชื่อผู้รับ/ผู้จ่าย  */}
+                      <View style={[styles.flexrow, styles.mtsm20]}>
+                        <View>
+                          <Text
+                            style={[
+                              { fontWeight: "extrabold" },
+                              { fontFamily: "SarabunBold" },
+                              { fontSize: "11" },
+                              styles.mtsm,
+                              styles.spacesm,
+                            ]}
+                          >
+                            ผู้รับเงิน: ..............................................
+                          </Text>
+                        </View>
+                      </View>
                 </View>
-                {/*   ลงชื่อผู้รับ/ผู้จ่าย  */}
-
-                <View style={[styles.flexrowcenter, styles.mtsm20]}>
-                  <View>
-                    <Text
-                      style={[
-                        { fontWeight: "extrabold" },
-                        { fontFamily: "SarabunBold" },
-                        { fontSize: "11" },
-                        styles.mtsm,
-                        styles.spacesm,
-                      ]}
-                    >
-                      ผู้รับเงิน: ..............................................
-                    </Text>
-                  </View>
-                </View>
-              </View>
-            </Page>
+              </Page>
+            
+            ))}
           </Document>
         </PDFViewer>
       </DialogBody>
@@ -752,8 +630,8 @@ export const ReceiptSubShort = ({
 };
 
 ReceiptSubShort.propTypes = {
-  openModalReceiptSubFull: PropTypes.bool.isRequired,
-  handleModalReceiptSubFull: PropTypes.func.isRequired,
+  openModalReceiptSubShort: PropTypes.bool.isRequired,
+  handleModalReceiptSubShort: PropTypes.func.isRequired,
 };
 
 export default ReceiptSubShort;
