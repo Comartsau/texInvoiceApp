@@ -38,6 +38,8 @@ import ReceiptA4 from "../../../receipt/receiptA4";
 import Receipt80 from "../../../receipt/receipt80";
 import ReceiptA4Short from "../../../receipt/receiptA4Short";
 import Receipt80Short from "../../../receipt/receipt80Short";
+import ReceiptSubFull from "../../../receipt/receiptSubFull";
+import ReceiptSubShort from "../../../receipt/receiptSubShort";
 
 import { addFullInvioce } from "../../../../api/TaxFullInvoiceAPI";
 import { addShortInvioce } from "../../../../api/TaxShortInvoiceApi";
@@ -268,6 +270,7 @@ const CreateInvoice = () => {
   console.log(selectedShop);
 
   const [dataReceipt, setDataReceipt] = useState("");
+  const [dataViewSub, setDataViewSub] = useState([]);
 
 
   const handleSendReceipt = async () => {
@@ -319,7 +322,8 @@ const CreateInvoice = () => {
         console.log(datasend);
         const response = await addSubInvioce(JSON.stringify(datasend), setOpenPrint);
         console.log(response);
-        setDataReceipt(response);
+        setDataReceipt(response)
+        setDataViewSub(response)
       }
     } catch (error) {
       toast.error(error); 
@@ -343,6 +347,25 @@ const CreateInvoice = () => {
   const handleModalReceipt80 = () => {
     setOpenModalReceipt80(!openModalReceipt80);
   };
+
+  const [printIndex ,setPrintIndex] = useState('')
+
+  //------------- open Receipt A4 Sub  -----------------------//
+  const [openModalReceiptSubFull, setOpenModalReceiptSubFull] = useState(false);
+  const handleModalReceiptSubFull = (index) => {
+    setOpenModalReceiptSubFull(!openModalReceiptSubFull);
+    setPrintIndex(index)
+
+  };
+
+  //------------- open Receipt 80 Sub  -----------------------//
+  const [openModalReceiptSubShort, setOpenModalReceiptSubShort] = useState(false);
+  const handleModalReceiptSubShort = (index) => {
+    setOpenModalReceiptSubShort(!openModalReceiptSubShort);
+    setPrintIndex(index)
+  };
+
+  console.log(printIndex)
 
   return (
     <div className="flex  flex-col p-3 overflow-auto   items-center ">
@@ -570,7 +593,7 @@ const CreateInvoice = () => {
                       </td>
                       <td
                         className={
-                          headFormDataStore == "3" ? "w-[30%]" : "w-[35%] pe-5"
+                          headFormDataStore == "3" ? "w-[25%] pe-5" : "w-[35%] pe-5"
                         }
                       >
                         <div className="mt-3">
@@ -587,7 +610,7 @@ const CreateInvoice = () => {
                       <td
                         className={
                           headFormDataStore == "3"
-                            ? "w-[7%] px-2 pe-5"
+                            ? "w-[9%] px-2 pe-5"
                             : " w-[13%] pe-10 "
                         }
                       >
@@ -616,7 +639,7 @@ const CreateInvoice = () => {
                       <td
                         className={
                           headFormDataStore == "3"
-                            ? "px-2 mt-3 pt-3 w-[10%] ps-3"
+                            ? "px-2 mt-3 pt-3 w-[9%] ps-3 "
                             : "px-2 mt-3 pt-3 w-[13%] ps-3"
                         }
                       >
@@ -646,7 +669,7 @@ const CreateInvoice = () => {
                       </td>
                       {headFormDataStore == "3" ? (
                         <>
-                          <td className="w-[9%] px-2 pe-10 ">
+                          <td className="w-[13%] px-2 pe-14 ">
                             <div>
                               <input
                                 type="number"
@@ -660,7 +683,7 @@ const CreateInvoice = () => {
                               />
                             </div>
                           </td>
-                          <td className="w-[7%] px-2 ">
+                          <td className="w-[15%] px-2 ">
                             <div className=" justify-center">
                               <Menu>
                                 <MenuHandler>
@@ -674,17 +697,17 @@ const CreateInvoice = () => {
                                     <span className="mr-2 text-xl ">
                                       <MdLocalPrintshop />
                                     </span>
-                                    พิมพ์
+                                    พิมพ์สัพ
                                   </Button>
                                 </MenuHandler>
                                 <MenuList>
                                   <MenuItem
-                                    onClick={() => setOpenModalReceiptA4(true)}
+                                    onClick={() => handleModalReceiptSubFull(index) }
                                   >
                                     ขนาด A4
                                   </MenuItem>
                                   <MenuItem
-                                    onClick={() => setOpenModalReceipt80(true)}
+                                    onClick={() => handleModalReceiptSubShort(index)}
                                   >
                                     ขนาด 80 มิล
                                   </MenuItem>
@@ -829,6 +852,37 @@ const CreateInvoice = () => {
           handleModalReceipt80={handleModalReceipt80}
           dataReceipt={dataReceipt || []}
           companyLoginDataStore={companyLoginDataStore}
+        />
+      ) : (
+        ""
+      )}
+
+      {/* รูปแบบสัพ A4 */}
+      {headFormDataStore == "3" ? (
+        <ReceiptSubFull
+         openModalReceiptSubFull={openModalReceiptSubFull}
+          handleModalReceiptSubFull={handleModalReceiptSubFull}
+          dataReceipt={dataViewSub?.sec_product_data?.[printIndex + 1]}
+          dataView={dataReceipt}
+          companyLoginDataStore={companyLoginDataStore}
+          selectedShop={selectedShop}
+
+        />
+      ) : (
+        ""
+      )}
+
+      {/* รูปแบบสัพ 80 */}
+      {(openModalReceiptSubShort == true && headFormDataStore == "3") ||
+      headFormDataStore == "3" ? (
+        <ReceiptSubShort
+        openModalReceiptSubShort={openModalReceiptSubShort}
+        handleModalReceiptSubShort={handleModalReceiptSubShort}
+          dataReceipt={dataViewSub?.sec_product_data?.[printIndex + 1]}
+          dataView={dataReceipt}
+          companyLoginDataStore={companyLoginDataStore}
+          selectedShop={selectedShop}
+
         />
       ) : (
         ""

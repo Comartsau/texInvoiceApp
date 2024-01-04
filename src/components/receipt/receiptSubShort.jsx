@@ -429,7 +429,8 @@ export const ReceiptSubShort = ({
   handleModalReceiptSubShort,
   dataReceipt,
   companyLoginDataStore,
-  dataView
+  dataView,
+  selectedShop
 
 }) => {
 
@@ -517,7 +518,7 @@ export const ReceiptSubShort = ({
               </View>
                 <View>
                   <Text style={[styles.flexrowcenter, styles.text10 , styles.mt5 ]}>
-                  จุดขาย: {dataView?.salepoints_name}  {''}
+                  จุดขาย: {dataView?.salepoints_name?.length > 1  ? dataView?.salepoints_name  : selectedShop?.salepoints_name }   
                   </Text>
                 </View>
                 <View>
@@ -585,6 +586,12 @@ export const ReceiptSubShort = ({
                             <Text style={styles.text10}>
                             {` เงินทอน:  0.00  `} 
                             </Text>
+                          </View>
+                          <View View style={[styles.flexrowstart , styles.mt10]}>
+                            <Text style={styles.text10}>หมายเหตุ:</Text>
+                          </View>
+                          <View View style={[styles.flexrowstart , styles.mt5]}>
+                            <Text style={styles.text10}>{dataView?.note}</Text>
                           </View>
         
                         </>  

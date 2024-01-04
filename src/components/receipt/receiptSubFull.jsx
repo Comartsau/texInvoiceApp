@@ -376,13 +376,15 @@ import {
     handleModalReceiptSubFull,
     dataReceipt,
     companyLoginDataStore,
-    dataView
+    dataView,
+    selectedShop
   
   }) => {
 
     console.log(dataReceipt)
     console.log(companyLoginDataStore)
     console.log(dataView)
+    console.log(selectedShop?.salepoints_name)
   
 
   
@@ -466,7 +468,7 @@ import {
                   </View>
                   <View>
                     <Text style={[styles.flexrowcenter, styles.text6 ]}>
-                    จุดขาย: {dataView?.salepoints_name}  {''}
+                    จุดขาย: {dataView?.salepoints_name?.length > 1  ? dataView?.salepoints_name  : selectedShop?.salepoints_name }  {''}
                     </Text>
                   </View>
                   <View>
@@ -512,10 +514,15 @@ import {
                            .replace(/\B(?=(\d{3})+(?!\d))/g, ",") || ''}
                        </Text>
                      </View>
+                  
                           </>  
                         );
                       })}
                     </View>
+                    <View style={[styles.flexrow]}>
+                          <Text style={[styles.text12 , styles.mt10]} >หมายเหตุ: </Text>
+                          <Text style={[styles.text12 , styles.mt10 ]} >{dataView?.note || ''} </Text>
+                        </View>
                     {/*   ลงชื่อผู้รับ/ผู้จ่าย  */}
                         <View style={[styles.flexrow, styles.mtsm20]}>
                           <View>
