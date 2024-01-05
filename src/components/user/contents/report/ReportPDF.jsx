@@ -417,136 +417,6 @@ import { useState } from "react";
     dateEnd
  
   }) => {
-
-    console.log(dataReceipt)
-
-
-    // const [data,setData] = useState(
-    //     [
-    //         {
-    //             "sequence": 1,
-    //             "date": "19/11/23",
-    //             "invoice_number": "725/26-50, 726/1-50  ,727/1-50 ,728/1-5",
-    //             "tax_number": "1234567123456",
-    //             "seller_name": "ออกใบกำกับภาษี",
-    //             "seller_id": "1234567890123",
-    //             "headOffice": '',
-    //             "business_name": "สาขา 1",
-    //             "goods_value": 10000,
-    //             "amount": 11700,
-    //             "vat": 1700,
-    //           },
-    //           {
-    //             "sequence": 2,
-    //             "date": "20/11/23",
-    //             "invoice_number": "725/26-50,726/1-50,728/1-5",
-    //             "tax_number": "1234567123456",
-    //             "seller_name": "โรงเรียนเทศบาบตำบลนาจารย์",
-    //             "seller_id": "1234567890123",
-    //             "business_name": "สาขา 2",
-    //             "goods_value": 20000,
-    //             "amount": 23400,
-    //             "vat": 3400,
-    //           },
-    //           {
-    //             "sequence": 3,
-    //             "date": "20/11/23",
-    //             "invoice_number": "726/1-50,727/1-50,728/1-5",
-    //             "tax_number": "1234567123456",
-    //             "seller_name": "บริษัท ขายดี จำกัด",
-    //             "seller_id": "1234567890123",
-    //             "business_name": "สาขา 3",
-    //             "goods_value": 30000,
-    //             "amount": 35100,
-    //             "vat": 5100,
-    //           },
-    //           {
-    //             "sequence": 4,
-    //             "date": "20/11/23",
-    //             "invoice_number": "725/26-50",
-    //             "tax_number": "1234567123456",
-    //             "seller_name": "บริษัท ขายดี จำกัด",
-    //             "seller_id": "1234567890123",
-    //             "business_name": "สาขา 4",
-    //             "goods_value": 40000,
-    //             "amount": 46800,
-    //             "vat": 6800,
-    //           },
-    //           {
-    //             "sequence": 5,
-    //             "date": "20/11/23",
-    //             "invoice_number": "726/1-50,727/1-50,728/1-5",
-    //             "tax_number": "1234567123456",
-    //             "seller_name": "ออกใบกำกับภาษี",
-    //             "seller_id": "1234567890123",
-    //             "business_name": "สาขา 5",
-    //             "goods_value": 50000,
-    //             "amount": 58500,
-    //             "vat": 8500,
-    //           },
-    //           {
-    //             "sequence": 6,
-    //             "date": "20/11/23",
-    //             "invoice_number": "725/26-50",
-    //             "tax_number": "1234567123456",
-    //             "seller_name": "โรงเรียนเทศบาบตำบลนาจารย์",
-    //             "seller_id": "1234567890123",
-    //             "business_name": "สาขา 6",
-    //             "goods_value": 60000,
-    //             "amount": 70200,
-    //             "vat": 10200,
-    //           },
-    //           {
-    //             "sequence": 7,
-    //             "date": "20/11/23",
-    //             "invoice_number": "725/26-50,726/1-50",
-    //             "tax_number": "1234567123456",
-    //             "seller_name": "บริษัท ขายดี จำกัด",
-    //             "seller_id": "1234567890123",
-    //             "business_name": "สาขา 7",
-    //             "goods_value": 70000,
-    //             "amount": 79900,
-    //             "vat": 9900,
-    //           },
-    //           {
-    //             "sequence": 8,
-    //             "date": "20/11/23",
-    //             "invoice_number": "726/1-50,727/1-50,728/1-5",
-    //             "tax_number": "1234567123456",
-    //             "seller_name": "โรงเรียนเทศบาบตำบลนาจารย์",
-    //             "seller_id": "1234567890123",
-    //             "business_name": "สาขา 8",
-    //             "goods_value": 80000,
-    //             "amount": 90600,
-    //             "vat": 10600,
-    //           },
-    //           {
-    //             "sequence": 9,
-    //             "date": "20/11/23",
-    //             "invoice_number": "725/26-50,726/1-50,727/1-50,728/1-5",
-    //             "tax_number": "1234567123456",
-    //             "seller_name": "บริษัท ขายดี จำกัด",
-    //             "seller_id": "1234567890123",
-    //             "business_name": "สาขา 9",
-    //             "goods_value": 90000,
-    //             "amount": 100700,
-    //             "vat": 10700,
-    //           },
-    //           {
-    //             "sequence": 10,
-    //             "date": "20/11/23",
-    //             "invoice_number": "725/26-50,726/1-50",
-    //             "tax_number": "1234567123456",
-    //             "seller_name": "บริษัท ขายดี จำกัด",
-    //             "seller_id": "1234567890123",
-    //             "business_name": "สาขา 9",
-    //             "goods_value": 90000,
-    //             "amount": 100700,
-    //             "vat": 10700,
-    //           }
-    //       ]
-    // )
-  
   
   
     const itemsPerPage = 17; // จำนวนรายการต่อหน้า
@@ -576,7 +446,6 @@ import { useState } from "react";
     const totalPrice = dataReceipt?.reduce((acc, item) => acc + item?.total_price, 0);
     const totalTax = dataReceipt?.reduce((acc, item) => acc + item?.total_tax, 0);
     
-    console.log(totalAmount.toFixed(2))
   
     return (
       <Dialog open={openModalReceiptA4} handler={handleModalReceiptA4} size="xl">
@@ -604,7 +473,7 @@ import { useState } from "react";
                               styles.spacesm,
                             ]}
                           >
-                            {`ระหว่างวันที่: ${dateStart}    ถึง   ${dateEnd} `}
+                            {`ระหว่างวันที่: ${moment(dateStart).format("DD/MM/YYYY")}    ถึง   ${moment(dateEnd).format('DD/MM/YYYY')} `}
                             {/* {customer?.customer_id_tax || ""} */}
                           </Text>
                           <Text
@@ -616,7 +485,7 @@ import { useState } from "react";
                               styles.mt5
                             ]}
                           >
-                            {`บริษัท: เขาสวนกวางเดินรถ `}
+                            {`${dataReceipt[0]?.company}`}
                             {/* {customer?.customer_id_tax || ""} */}
                           </Text>
                         </View>
@@ -631,9 +500,9 @@ import { useState } from "react";
                               styles.spacesm,
                             ]}
                           >
-                            {`เลขประจำตัวผู้เสียภาษี: 0405533000301 `}
+                            {`เลขประจำตัวผู้เสียภาษี: ${dataReceipt[0]?.tax_personal}`}
                           </Text>
-                          <Text
+                          {/* <Text
                             style={[
                               { fontWeight: "extrabold" },
                               { fontFamily: "SarabunBold" },
@@ -643,8 +512,8 @@ import { useState } from "react";
                             ]}
                           >
                             {`สำนักงานใหญ่ `}
-                            {/* {customer?.customer_id_tax || ""} */}
-                          </Text>
+                            {customer?.customer_id_tax || ""}
+                          </Text> */}
                         </View>
                       </View>
                     </View>

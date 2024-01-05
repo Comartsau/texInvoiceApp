@@ -16,7 +16,30 @@ export const getReportSale = async (DateStart , DateEnd) => {
         },
       }
     );
-    console.log(response.data)
+    // console.log(response.data)
+    return response.data;
+
+        
+    } catch (error) {
+        console.error(error)
+        
+    }
+}
+export const getReportShop = async (selectedShop ,DateStart , DateEnd) => {
+    try {
+        let Token = localStorage.getItem("Token");
+    const response = await axios.get(
+      `${ 
+        import.meta.env.VITE_APP_API
+      }/inovicesh/invoices-c-search?salepoints=${selectedShop}&start_date=${DateStart}&end_date=${DateEnd}`,
+      {
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: `Bearer ${Token}`,
+        },
+      }
+    );
+    // console.log(response.data)
     return response.data;
 
         

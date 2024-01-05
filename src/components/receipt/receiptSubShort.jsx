@@ -434,9 +434,9 @@ export const ReceiptSubShort = ({
 
 }) => {
 
-  console.log(dataReceipt)
-  console.log(companyLoginDataStore)
-  console.log(dataView)
+  // console.log(dataReceipt)
+  // console.log(companyLoginDataStore)
+  // console.log(dataView)
 
 
 
@@ -463,8 +463,8 @@ export const ReceiptSubShort = ({
 
   const pages = generatePages(dataReceipt);
 
-  const totalQuantity = dataReceipt?.product_data?.reduce((total, item) => total + item.quantity, 0);
-    console.log(totalQuantity); // ผลลัพธ์จำนวน quantity ทั้งหมด
+  // const totalQuantity = dataReceipt?.product_data?.reduce((total, item) => total + item.quantity, 0);
+  // ผลลัพธ์จำนวน quantity ทั้งหมด
 
 
 

@@ -381,10 +381,10 @@ import {
   
   }) => {
 
-    console.log(dataReceipt)
-    console.log(companyLoginDataStore)
-    console.log(dataView)
-    console.log(selectedShop?.salepoints_name)
+    // console.log(dataReceipt)
+    // console.log(companyLoginDataStore)
+    // console.log(dataView)
+    // console.log(selectedShop?.salepoints_name)
   
 
   
@@ -486,7 +486,7 @@ import {
                           ราคา   {''}
                         </Text>
                       </View>
-                      {pageData.map((item, itemIndex) => {
+                      {pageData?.map((item, itemIndex) => {
                         return (
                           <>
                           <View key={itemIndex} style={styles.tableRow}>

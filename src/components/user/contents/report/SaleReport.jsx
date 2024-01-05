@@ -38,13 +38,12 @@ const SaleReport = ({userLogin}) => {
 
   const fetchReport = async () => {
     const response = await getReportSale(dateStart , dateEnd)
-    console.log(response)
     setListData(response)
     setNoData(false)
 
   }
 
-  console.log(listData)
+
 
   useEffect(()=>{
     fetchReport()
@@ -69,7 +68,6 @@ const SaleReport = ({userLogin}) => {
     // ค้นหาข้อมูลลูกค้าที่ถูกเลือกจาก customerDataStore
     const company = companyDataStore.find((company) => company.id === e.value);
     // เซ็ตข้อมูลลูกค้าที่ถูกเลือกใน state
-    console.log(company);
     setSelectedCompany(company);
   };
 
@@ -212,7 +210,6 @@ const SaleReport = ({userLogin}) => {
   };
 
 
-  console.log(noData)
 
   return (
     <div className="mt-5">
