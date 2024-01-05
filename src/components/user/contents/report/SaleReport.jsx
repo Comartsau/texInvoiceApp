@@ -7,6 +7,8 @@ import {
 
 } from "@material-tailwind/react";
 
+import moment  from "moment";
+
 import Select from "react-select";
 
 import DatePicker from "react-datepicker";
@@ -16,17 +18,41 @@ import th from "date-fns/locale/th";
 import { AiOutlineSearch } from "react-icons/ai";
 import { TbReportSearch } from "react-icons/tb";
 
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import ReportPDF from "./ReportPDF";
 
 import { useRecoilState } from "recoil";
 import { companyStore } from "../../../../store/Store";
 
+import {getReportSale} from '../../../../api/ReportApi'
+
 
 // eslint-disable-next-line react/prop-types
 const SaleReport = ({userLogin}) => {
+  const [listData, setListData] = useState([])
   const [searchQueryStart, setSearchQueryStart] = useState(new Date());
   const [searchQueryEnd, setSearchQueryEnd] = useState(new Date());
+
+  const dateStart = moment(searchQueryStart).format("YYYY-MM-DD");
+  const dateEnd = moment(searchQueryEnd).format("YYYY-MM-DD");
+
+  const fetchReport = async () => {
+    const response = await getReportSale(dateStart , dateEnd)
+    console.log(response)
+    setListData(response)
+    setNoData(false)
+
+  }
+
+  console.log(listData)
+
+  useEffect(()=>{
+    fetchReport()
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+  },[])
+
+
+
 
   const [isSearchable, setIsSearchable] = useState(true);
 
@@ -47,125 +73,125 @@ const SaleReport = ({userLogin}) => {
     setSelectedCompany(company);
   };
 
-  console.log(selectedCompany);
 
 
 
 
-  const [listData, setListData] = useState([
+ 
+  // const [listData, setListData] = useState([
 
-      {
-        "id": 1,
-        "date": "5/12/2023",
-        "code": "A66/0001",
-        "customer": "เจริญชัย",
-        "tax": "1234567890123",
-        "price": 1000,
-        "total_price": 1170,
-        "vat": 170,
-        "total_Amount": 1340,
-      },
-      {
-        "id": 2,
-        "date": "6/12/2023",
-        "code": "A66/0002",
-        "customer": "สุดใจ",
-        "tax": "9876543210987",
-        "price": 1500,
-        "total_price": 1755,
-        "vat": 255,
-        "total_Amount": 2010,
-      },
-      {
-        "id": 3,
-        "date": "7/12/2023",
-        "code": "A66/0003",
-        "customer": "เพื่อนดี",
-        "tax": "1111222233334",
-        "price": 800,
-        "total_price": 936,
-        "vat": 136,
-        "total_Amount": 1072,
-      },
-      {
-        "id": 4,
-        "date": "8/12/2023",
-        "code": "A66/0004",
-        "customer": "ความสุข",
-        "tax": "4444333322221",
-        "price": 2200,
-        "total_price": 2574,
-        "vat": 374,
-        "total_Amount": 2948,
-      },
-      {
-        "id": 5,
-        "date": "9/12/2023",
-        "code": "A66/0005",
-        "customer": "สุขใจ",
-        "tax": "8888999977776",
-        "price": 3500,
-        "total_price": 4095,
-        "vat": 595,
-        "total_Amount": 4690,
-      },
-      {
-        "id": 6,
-        "date": "10/12/2023",
-        "code": "A66/0006",
-        "customer": "พี่ทุกคน",
-        "tax": "5678123498765",
-        "price": 500,
-        "total_price": 585,
-        "vat": 85,
-        "total_Amount": 670,
-      },
-      {
-        "id": 7,
-        "date": "11/12/2023",
-        "code": "A66/0007",
-        "customer": "พี่พาย",
-        "tax": "7777666655554",
-        "price": 1800,
-        "total_price": 2106,
-        "vat": 306,
-        "total_Amount": 2412,
-      },
-      {
-        "id": 8,
-        "date": "12/12/2023",
-        "code": "A66/0008",
-        "customer": "ความสุขมาก",
-        "tax": "6666555544443",
-        "price": 2800,
-        "total_price": 3276,
-        "vat": 476,
-        "total_Amount": 3752,
-      },
-      {
-        "id": 9,
-        "date": "13/12/2023",
-        "code": "A66/0009",
-        "customer": "ความสุขดี",
-        "tax": "3333444455556",
-        "price": 400,
-        "total_price": 468,
-        "vat": 68,
-        "total_Amount": 536,
-      },
-      {
-        "id": 10,
-        "date": "14/12/2023",
-        "code": "A66/0010",
-        "customer": "มีความสุข",
-        "tax": "2222333344445",
-        "price": 6000,
-        "total_price": 7020,
-        "vat": 1020,
-        "total_Amount": 8040,
-      }
-  ]);
-  const [noData, setNoData] = useState(false);
+  //     {
+  //       "id": 1,
+  //       "date": "5/12/2023",
+  //       "code": "A66/0001",
+  //       "customer": "เจริญชัย",
+  //       "tax": "1234567890123",
+  //       "price": 1000,
+  //       "total_price": 1170,
+  //       "vat": 170,
+  //       "total_Amount": 1340,
+  //     },
+  //     {
+  //       "id": 2,
+  //       "date": "6/12/2023",
+  //       "code": "A66/0002",
+  //       "customer": "สุดใจ",
+  //       "tax": "9876543210987",
+  //       "price": 1500,
+  //       "total_price": 1755,
+  //       "vat": 255,
+  //       "total_Amount": 2010,
+  //     },
+  //     {
+  //       "id": 3,
+  //       "date": "7/12/2023",
+  //       "code": "A66/0003",
+  //       "customer": "เพื่อนดี",
+  //       "tax": "1111222233334",
+  //       "price": 800,
+  //       "total_price": 936,
+  //       "vat": 136,
+  //       "total_Amount": 1072,
+  //     },
+  //     {
+  //       "id": 4,
+  //       "date": "8/12/2023",
+  //       "code": "A66/0004",
+  //       "customer": "ความสุข",
+  //       "tax": "4444333322221",
+  //       "price": 2200,
+  //       "total_price": 2574,
+  //       "vat": 374,
+  //       "total_Amount": 2948,
+  //     },
+  //     {
+  //       "id": 5,
+  //       "date": "9/12/2023",
+  //       "code": "A66/0005",
+  //       "customer": "สุขใจ",
+  //       "tax": "8888999977776",
+  //       "price": 3500,
+  //       "total_price": 4095,
+  //       "vat": 595,
+  //       "total_Amount": 4690,
+  //     },
+  //     {
+  //       "id": 6,
+  //       "date": "10/12/2023",
+  //       "code": "A66/0006",
+  //       "customer": "พี่ทุกคน",
+  //       "tax": "5678123498765",
+  //       "price": 500,
+  //       "total_price": 585,
+  //       "vat": 85,
+  //       "total_Amount": 670,
+  //     },
+  //     {
+  //       "id": 7,
+  //       "date": "11/12/2023",
+  //       "code": "A66/0007",
+  //       "customer": "พี่พาย",
+  //       "tax": "7777666655554",
+  //       "price": 1800,
+  //       "total_price": 2106,
+  //       "vat": 306,
+  //       "total_Amount": 2412,
+  //     },
+  //     {
+  //       "id": 8,
+  //       "date": "12/12/2023",
+  //       "code": "A66/0008",
+  //       "customer": "ความสุขมาก",
+  //       "tax": "6666555544443",
+  //       "price": 2800,
+  //       "total_price": 3276,
+  //       "vat": 476,
+  //       "total_Amount": 3752,
+  //     },
+  //     {
+  //       "id": 9,
+  //       "date": "13/12/2023",
+  //       "code": "A66/0009",
+  //       "customer": "ความสุขดี",
+  //       "tax": "3333444455556",
+  //       "price": 400,
+  //       "total_price": 468,
+  //       "vat": 68,
+  //       "total_Amount": 536,
+  //     },
+  //     {
+  //       "id": 10,
+  //       "date": "14/12/2023",
+  //       "code": "A66/0010",
+  //       "customer": "มีความสุข",
+  //       "tax": "2222333344445",
+  //       "price": 6000,
+  //       "total_price": 7020,
+  //       "vat": 1020,
+  //       "total_Amount": 8040,
+  //     }
+  // ]);
+  const [noData, setNoData] = useState(true);
 
 
     //----- จัดการแสดงข้อมูล / หน้า -------------- //
@@ -184,6 +210,9 @@ const SaleReport = ({userLogin}) => {
   const handleModalReceiptA4 = () => {
     setOpenModalReceiptA4(!openModalReceiptA4);
   };
+
+
+  console.log(noData)
 
   return (
     <div className="mt-5">
@@ -240,6 +269,7 @@ const SaleReport = ({userLogin}) => {
             variant="gradient"
             color="green"
             className="text-base flex justify-center  items-center   bg-green-500"
+            onClick={fetchReport}
           >
             <span className="mr-2 text-xl ">
               <AiOutlineSearch />
@@ -340,14 +370,15 @@ const SaleReport = ({userLogin}) => {
               </th>
             </tr>
           </thead>
-          {noData ? (
+          {listData.length == 0 ? (
             <tbody>
               <tr>
                 <td></td>
                 <td></td>
                 <td></td>
-                <td>
-                  <Typography>...ไม่พบข้อมูล...</Typography>
+                <td></td>
+                <td> 
+                  <Typography className="mt-5">...ไม่พบข้อมูล  กรุณาเลือกวันที่ต้องการดูรายงาน...</Typography>
                 </td>
               </tr>
             </tbody>
@@ -380,7 +411,7 @@ const SaleReport = ({userLogin}) => {
                         color="blue-gray"
                         className="font-normal "
                       >
-                        {data?.date || ""}
+                        {moment(data?.created_at).format('DD/MM/YYYY') || ""}
                       </Typography>
                     </div>
                   </td>
@@ -402,7 +433,7 @@ const SaleReport = ({userLogin}) => {
                         color="blue-gray"
                         className="font-normal "
                       >
-                        {data?.customer || ""}
+                        {data?.company || ""}
                       </Typography>
                     </div>
                   </td>
@@ -413,29 +444,7 @@ const SaleReport = ({userLogin}) => {
                         color="blue-gray"
                         className="font-normal "
                       >
-                        {data?.tax || ""}
-                      </Typography>
-                    </div>
-                  </td>
-                  <td className={classes}>
-                    <div className="flex items-center justify-center">
-                      <Typography
-                        variant="small"
-                        color="blue-gray"
-                        className="font-normal "
-                      >
-                        {Number(data?.price).toLocaleString() || ""}
-                      </Typography>
-                    </div>
-                  </td>
-                  <td className={classes}>
-                    <div className="flex items-center justify-center">
-                      <Typography
-                        variant="small"
-                        color="blue-gray"
-                        className="font-normal "
-                      >
-                        {Number(data?.vat).toLocaleString() || ""}
+                        {data?.tax_personal || ""}
                       </Typography>
                     </div>
                   </td>
@@ -447,6 +456,28 @@ const SaleReport = ({userLogin}) => {
                         className="font-normal "
                       >
                         {Number(data?.total_price).toLocaleString() || ""}
+                      </Typography>
+                    </div>
+                  </td>
+                  <td className={classes}>
+                    <div className="flex items-center justify-center">
+                      <Typography
+                        variant="small"
+                        color="blue-gray"
+                        className="font-normal "
+                      >
+                        {Number(data?.total_tax).toLocaleString() || ""}
+                      </Typography>
+                    </div>
+                  </td>
+                  <td className={classes}>
+                    <div className="flex items-center justify-center">
+                      <Typography
+                        variant="small"
+                        color="blue-gray"
+                        className="font-normal "
+                      >
+                        {Number(data?.total_amount).toLocaleString() || ""}
                       </Typography>
                     </div>
                   </td>
@@ -494,7 +525,9 @@ const SaleReport = ({userLogin}) => {
       <ReportPDF
         openModalReceiptA4={openModalReceiptA4}
         handleModalReceiptA4={handleModalReceiptA4}
-        dataReceipt={'test'}
+        dataReceipt={listData}
+        dateStart={dateStart}
+        dateEnd={dateEnd}
       />
     </div>
   );

@@ -13,6 +13,8 @@ import {
   
   import { PDFViewer } from "@react-pdf/renderer";
   import THBText from "thai-baht-text";
+
+  import moment from "moment";
   
   import FontSarabun from "../../../receipt/font/Sarabun-Regular.ttf";
   import FontSarabunBold from "../../../receipt/font/Sarabun-ExtraBold.ttf";
@@ -310,16 +312,16 @@ import { useState } from "react";
       width: "12%", // แบ่งเป็น 3 ส่วนเท่า ๆ กัน (ขนาดเท่ากัน)
       height: "100%",
     },
-    tableSubHead6: {
-      margin: "auto",
-      fontSize: 9,
-      padding: 5,
-      borderWidth: 1,
-      borderColor: "#000",
-      textAlign: "center",
-      width: "7.5%", // แบ่งเป็น 3 ส่วนเท่า ๆ กัน (ขนาดเท่ากัน)
-      height: "100%",
-    },
+    // tableSubHead6: {
+    //   margin: "auto",
+    //   fontSize: 9,
+    //   padding: 5,
+    //   borderWidth: 1,
+    //   borderColor: "#000",
+    //   textAlign: "center",
+    //   width: "15%", // แบ่งเป็น 3 ส่วนเท่า ๆ กัน (ขนาดเท่ากัน)
+    //   height: "100%",
+    // },
     tableSubHead7: {
       margin: "auto",
       fontSize: 9,
@@ -327,7 +329,7 @@ import { useState } from "react";
       borderWidth: 1,
       borderColor: "#000",
       textAlign: "center",
-      width: "7.5%", // แบ่งเป็น 3 ส่วนเท่า ๆ กัน (ขนาดเท่ากัน)
+      width: "15%", // แบ่งเป็น 3 ส่วนเท่า ๆ กัน (ขนาดเท่ากัน)
       height: "100%",
     },
     tableSubHead8: {
@@ -374,147 +376,180 @@ import { useState } from "react";
       textAlign: "center",
       width: "72%", // แบ่งเป็น 3 ส่วนเท่า ๆ กัน (ขนาดเท่ากัน)
       height: "100%",
-    }
+    },
+    tableSum1: {
+      margin: "auto",
+      fontSize: 9,
+      padding: 5,
+      borderWidth: 1,
+      borderColor: "#000",
+      textAlign: "right",
+      width: "8%", // แบ่งเป็น 3 ส่วนเท่า ๆ กัน (ขนาดเท่ากัน)
+      height: "100%",
+    },
+    tableSum2: {
+      margin: "auto",
+      fontSize: 9,
+      padding: 5,
+      borderWidth: 1,
+      borderColor: "#000",
+      textAlign: "right",
+      width: "10%", // แบ่งเป็น 3 ส่วนเท่า ๆ กัน (ขนาดเท่ากัน)
+      height: "100%",
+    },
+    tableSum3: {
+      margin: "auto",
+      fontSize: 9,
+      padding: 5,
+      borderWidth: 1,
+      borderColor: "#000",
+      textAlign: "right",
+      width: "10%", // แบ่งเป็น 3 ส่วนเท่า ๆ กัน (ขนาดเท่ากัน)
+      height: "100%",
+    },
   });
   
   export const ReportPDF = ({
     openModalReceiptA4,
     handleModalReceiptA4,
     dataReceipt,
+    dateStart,
+    dateEnd
  
   }) => {
 
     console.log(dataReceipt)
 
-    const [data,setData] = useState(
-        [
-            {
-                "sequence": 1,
-                "date": "19/11/23",
-                "invoice_number": "725/26-50, 726/1-50  ,727/1-50 ,728/1-5",
-                "tax_number": "1234567123456",
-                "seller_name": "ออกใบกำกับภาษี",
-                "seller_id": "1234567890123",
-                "headOffice": '',
-                "business_name": "สาขา 1",
-                "goods_value": 10000,
-                "amount": 11700,
-                "vat": 1700,
-              },
-              {
-                "sequence": 2,
-                "date": "20/11/23",
-                "invoice_number": "725/26-50,726/1-50,728/1-5",
-                "tax_number": "1234567123456",
-                "seller_name": "โรงเรียนเทศบาบตำบลนาจารย์",
-                "seller_id": "1234567890123",
-                "business_name": "สาขา 2",
-                "goods_value": 20000,
-                "amount": 23400,
-                "vat": 3400,
-              },
-              {
-                "sequence": 3,
-                "date": "20/11/23",
-                "invoice_number": "726/1-50,727/1-50,728/1-5",
-                "tax_number": "1234567123456",
-                "seller_name": "บริษัท ขายดี จำกัด",
-                "seller_id": "1234567890123",
-                "business_name": "สาขา 3",
-                "goods_value": 30000,
-                "amount": 35100,
-                "vat": 5100,
-              },
-              {
-                "sequence": 4,
-                "date": "20/11/23",
-                "invoice_number": "725/26-50",
-                "tax_number": "1234567123456",
-                "seller_name": "บริษัท ขายดี จำกัด",
-                "seller_id": "1234567890123",
-                "business_name": "สาขา 4",
-                "goods_value": 40000,
-                "amount": 46800,
-                "vat": 6800,
-              },
-              {
-                "sequence": 5,
-                "date": "20/11/23",
-                "invoice_number": "726/1-50,727/1-50,728/1-5",
-                "tax_number": "1234567123456",
-                "seller_name": "ออกใบกำกับภาษี",
-                "seller_id": "1234567890123",
-                "business_name": "สาขา 5",
-                "goods_value": 50000,
-                "amount": 58500,
-                "vat": 8500,
-              },
-              {
-                "sequence": 6,
-                "date": "20/11/23",
-                "invoice_number": "725/26-50",
-                "tax_number": "1234567123456",
-                "seller_name": "โรงเรียนเทศบาบตำบลนาจารย์",
-                "seller_id": "1234567890123",
-                "business_name": "สาขา 6",
-                "goods_value": 60000,
-                "amount": 70200,
-                "vat": 10200,
-              },
-              {
-                "sequence": 7,
-                "date": "20/11/23",
-                "invoice_number": "725/26-50,726/1-50",
-                "tax_number": "1234567123456",
-                "seller_name": "บริษัท ขายดี จำกัด",
-                "seller_id": "1234567890123",
-                "business_name": "สาขา 7",
-                "goods_value": 70000,
-                "amount": 79900,
-                "vat": 9900,
-              },
-              {
-                "sequence": 8,
-                "date": "20/11/23",
-                "invoice_number": "726/1-50,727/1-50,728/1-5",
-                "tax_number": "1234567123456",
-                "seller_name": "โรงเรียนเทศบาบตำบลนาจารย์",
-                "seller_id": "1234567890123",
-                "business_name": "สาขา 8",
-                "goods_value": 80000,
-                "amount": 90600,
-                "vat": 10600,
-              },
-              {
-                "sequence": 9,
-                "date": "20/11/23",
-                "invoice_number": "725/26-50,726/1-50,727/1-50,728/1-5",
-                "tax_number": "1234567123456",
-                "seller_name": "บริษัท ขายดี จำกัด",
-                "seller_id": "1234567890123",
-                "business_name": "สาขา 9",
-                "goods_value": 90000,
-                "amount": 100700,
-                "vat": 10700,
-              },
-              {
-                "sequence": 10,
-                "date": "20/11/23",
-                "invoice_number": "725/26-50,726/1-50",
-                "tax_number": "1234567123456",
-                "seller_name": "บริษัท ขายดี จำกัด",
-                "seller_id": "1234567890123",
-                "business_name": "สาขา 9",
-                "goods_value": 90000,
-                "amount": 100700,
-                "vat": 10700,
-              }
-          ]
-    )
+
+    // const [data,setData] = useState(
+    //     [
+    //         {
+    //             "sequence": 1,
+    //             "date": "19/11/23",
+    //             "invoice_number": "725/26-50, 726/1-50  ,727/1-50 ,728/1-5",
+    //             "tax_number": "1234567123456",
+    //             "seller_name": "ออกใบกำกับภาษี",
+    //             "seller_id": "1234567890123",
+    //             "headOffice": '',
+    //             "business_name": "สาขา 1",
+    //             "goods_value": 10000,
+    //             "amount": 11700,
+    //             "vat": 1700,
+    //           },
+    //           {
+    //             "sequence": 2,
+    //             "date": "20/11/23",
+    //             "invoice_number": "725/26-50,726/1-50,728/1-5",
+    //             "tax_number": "1234567123456",
+    //             "seller_name": "โรงเรียนเทศบาบตำบลนาจารย์",
+    //             "seller_id": "1234567890123",
+    //             "business_name": "สาขา 2",
+    //             "goods_value": 20000,
+    //             "amount": 23400,
+    //             "vat": 3400,
+    //           },
+    //           {
+    //             "sequence": 3,
+    //             "date": "20/11/23",
+    //             "invoice_number": "726/1-50,727/1-50,728/1-5",
+    //             "tax_number": "1234567123456",
+    //             "seller_name": "บริษัท ขายดี จำกัด",
+    //             "seller_id": "1234567890123",
+    //             "business_name": "สาขา 3",
+    //             "goods_value": 30000,
+    //             "amount": 35100,
+    //             "vat": 5100,
+    //           },
+    //           {
+    //             "sequence": 4,
+    //             "date": "20/11/23",
+    //             "invoice_number": "725/26-50",
+    //             "tax_number": "1234567123456",
+    //             "seller_name": "บริษัท ขายดี จำกัด",
+    //             "seller_id": "1234567890123",
+    //             "business_name": "สาขา 4",
+    //             "goods_value": 40000,
+    //             "amount": 46800,
+    //             "vat": 6800,
+    //           },
+    //           {
+    //             "sequence": 5,
+    //             "date": "20/11/23",
+    //             "invoice_number": "726/1-50,727/1-50,728/1-5",
+    //             "tax_number": "1234567123456",
+    //             "seller_name": "ออกใบกำกับภาษี",
+    //             "seller_id": "1234567890123",
+    //             "business_name": "สาขา 5",
+    //             "goods_value": 50000,
+    //             "amount": 58500,
+    //             "vat": 8500,
+    //           },
+    //           {
+    //             "sequence": 6,
+    //             "date": "20/11/23",
+    //             "invoice_number": "725/26-50",
+    //             "tax_number": "1234567123456",
+    //             "seller_name": "โรงเรียนเทศบาบตำบลนาจารย์",
+    //             "seller_id": "1234567890123",
+    //             "business_name": "สาขา 6",
+    //             "goods_value": 60000,
+    //             "amount": 70200,
+    //             "vat": 10200,
+    //           },
+    //           {
+    //             "sequence": 7,
+    //             "date": "20/11/23",
+    //             "invoice_number": "725/26-50,726/1-50",
+    //             "tax_number": "1234567123456",
+    //             "seller_name": "บริษัท ขายดี จำกัด",
+    //             "seller_id": "1234567890123",
+    //             "business_name": "สาขา 7",
+    //             "goods_value": 70000,
+    //             "amount": 79900,
+    //             "vat": 9900,
+    //           },
+    //           {
+    //             "sequence": 8,
+    //             "date": "20/11/23",
+    //             "invoice_number": "726/1-50,727/1-50,728/1-5",
+    //             "tax_number": "1234567123456",
+    //             "seller_name": "โรงเรียนเทศบาบตำบลนาจารย์",
+    //             "seller_id": "1234567890123",
+    //             "business_name": "สาขา 8",
+    //             "goods_value": 80000,
+    //             "amount": 90600,
+    //             "vat": 10600,
+    //           },
+    //           {
+    //             "sequence": 9,
+    //             "date": "20/11/23",
+    //             "invoice_number": "725/26-50,726/1-50,727/1-50,728/1-5",
+    //             "tax_number": "1234567123456",
+    //             "seller_name": "บริษัท ขายดี จำกัด",
+    //             "seller_id": "1234567890123",
+    //             "business_name": "สาขา 9",
+    //             "goods_value": 90000,
+    //             "amount": 100700,
+    //             "vat": 10700,
+    //           },
+    //           {
+    //             "sequence": 10,
+    //             "date": "20/11/23",
+    //             "invoice_number": "725/26-50,726/1-50",
+    //             "tax_number": "1234567123456",
+    //             "seller_name": "บริษัท ขายดี จำกัด",
+    //             "seller_id": "1234567890123",
+    //             "business_name": "สาขา 9",
+    //             "goods_value": 90000,
+    //             "amount": 100700,
+    //             "vat": 10700,
+    //           }
+    //       ]
+    // )
   
   
   
-    const itemsPerPage = 10; // จำนวนรายการต่อหน้า
+    const itemsPerPage = 17; // จำนวนรายการต่อหน้า
   
     // แบ่งรายการออกเป็นหน้าตามจำนวนที่กำหนด
   
@@ -535,8 +570,13 @@ import { useState } from "react";
       return pages;
     };
   
-    const pages = generatePages(data);
-  
+    const pages = generatePages(dataReceipt);
+
+    const totalAmount = dataReceipt?.reduce((acc, item) => acc + item?.total_amount, 0);
+    const totalPrice = dataReceipt?.reduce((acc, item) => acc + item?.total_price, 0);
+    const totalTax = dataReceipt?.reduce((acc, item) => acc + item?.total_tax, 0);
+    
+    console.log(totalAmount.toFixed(2))
   
     return (
       <Dialog open={openModalReceiptA4} handler={handleModalReceiptA4} size="xl">
@@ -550,9 +590,6 @@ import { useState } from "react";
        
                 <Page key={index} size="A4" style={styles.page} orientation="landscape" > 
                   <View>
-                    <Text style={[styles.flexrowcenter, styles.text14 , {color:"red"}]}>
-                      (ตัวอย่างรายงาน) 
-                    </Text>
                     <Text style={[styles.flexrowcenter, styles.text14]}>
                       รายงานภาษีขาย 
                     </Text>
@@ -567,7 +604,7 @@ import { useState } from "react";
                               styles.spacesm,
                             ]}
                           >
-                            {`ประจำเดือน:  สิงหาคม  2566 `}
+                            {`ระหว่างวันที่: ${dateStart}    ถึง   ${dateEnd} `}
                             {/* {customer?.customer_id_tax || ""} */}
                           </Text>
                           <Text
@@ -658,9 +695,9 @@ import { useState } from "react";
                         <Text style={[styles.tableSubHead5, styles.colorHead]}>
                           ภาษีของผู้ขายสินค้า{" "}
                         </Text>
-                        <Text style={[styles.tableSubHead6, styles.colorHead]}>
+                        {/* <Text style={[styles.tableSubHead6, styles.colorHead]}>
                           สนง.ใหญ่{" "}
-                        </Text>
+                        </Text> */}
                         <Text style={[styles.tableSubHead7, styles.colorHead]}>
                           สาขาที่{" "}
                         </Text>
@@ -678,36 +715,36 @@ import { useState } from "react";
                         return (
                           <View key={itemIndex} style={styles.tableRow}>
                             <Text style={[styles.tableSubHead1 , {fontSize:"8"}]}>
-                              {item.index  || ""}{" "}
+                              {item?.index  || ""}{" "}
                             </Text>
                             <Text style={[styles.tableSubHead2 , {fontSize:"8"}]}>
-                              {item.date  || ""}{" "}
+                              {moment(item?.created_at).format("DD-MM-YYYY")  || ""}{" "}
                             </Text>
                             <Text style={[styles.tableSubHead3 , {textAlign:'left'} , {fontSize:"8"}]}>
-                              {item.invoice_number  || ""}{" "}
+                              {/* {item.invoice_number  || ""}{" "} */}
                             </Text>
                             <Text style={[styles.tableSubHead4 , {textAlign:'left'}, {fontSize:"8"}]}>
-                              {item.seller_name  || ""}{" "}
+                              {item?.code  || ""}{" "}
                             </Text>
                             <Text style={[styles.tableSubHead5 , {fontSize:"8"}]}>
-                              {item.tax_number  || ""}{" "}
+                              {item?.tax_personal  || ""}{" "}
                             </Text>
-                            <Text style={[styles.tableSubHead6 , {fontSize:"8"}]}>
+                            {/* <Text style={[styles.tableSubHead6 , {fontSize:"8"}]}>
                               {item.headOffice  || ""}{" "}
-                            </Text>
+                            </Text> */}
                             <Text style={[styles.tableSubHead7 , {fontSize:"8"}]}>
-                              {item.business_name  || ""}{" "}
+                              {item?.company  || ""}{" "}
                             </Text>
                             <Text style={[styles.tableSubHead8 , {textAlign:'right'} , {fontSize:"8"}]}>
-                              {item.goods_value.toFixed(2)
+                              {item?.total_price.toFixed(2)
                                 .replace(/\B(?=(\d{3})+(?!\d))/g, ",")  || ""}{" "}
                             </Text>
                             <Text style={[styles.tableSubHead9 , {textAlign:'right'} , {fontSize:"8"}]}>
-                            {item.vat.toFixed(2)
+                            {item?.total_tax.toFixed(2)
                                 .replace(/\B(?=(\d{3})+(?!\d))/g, ",")  || ""}{" "}
                             </Text>
                             <Text style={[styles.tableSubHead10 , {textAlign:'right'} , {fontSize:"8"}]}>
-                            {item.amount.toFixed(2)
+                            {item?.total_amount.toFixed(2)
                                 .replace(/\B(?=(\d{3})+(?!\d))/g, ",")  || ""}{" "}
                             </Text>
                           </View>
@@ -719,9 +756,9 @@ import { useState } from "react";
                           <View View style={styles.tableRow}>
                             {/* สรุปรวม */}
                             <Text style={styles.tableCellRowsum}> {` `} </Text>
-                            <Text style={styles.tableSubHead8}> รวมเป็นเงิน </Text>
-                            <Text style={styles.tableSubHead9}> รวมเป็นเงิน </Text>
-                            <Text style={styles.tableSubHead10}> รวมเป็นเงิน </Text>
+                            <Text style={styles.tableSum1}> {totalPrice?.toFixed(2).replace(/\B(?=(\d{3})+(?!\d))/g, ",")} </Text>
+                            <Text style={styles.tableSum2}> {totalTax?.toFixed(2).replace(/\B(?=(\d{3})+(?!\d))/g, ",")} </Text>
+                            <Text style={styles.tableSum3}> {totalAmount?.toFixed(2).replace(/\B(?=(\d{3})+(?!\d))/g, ",")} </Text>
                           </View>
                         </>
                       )}
