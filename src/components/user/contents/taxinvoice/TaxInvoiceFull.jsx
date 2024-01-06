@@ -14,12 +14,9 @@ import {
   MenuHandler,
   MenuList,
   MenuItem,
-  Select,
-  Option,
 } from "@material-tailwind/react";
 
-import moment  from "moment";
-
+import moment from "moment";
 
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
@@ -33,53 +30,50 @@ import { BsFillEyeFill, BsPlusCircle } from "react-icons/bs";
 import { MdLocalPrintshop } from "react-icons/md";
 import { TbDoorEnter } from "react-icons/tb";
 
-
-import { useRecoilState ,useRecoilValue } from "recoil";
+import { useRecoilState, useRecoilValue } from "recoil";
 
 import {
   createInvoiceStore,
   productStore,
   customerStore,
   headFormStore,
-  companyLoginStore
+  companyLoginStore,
 } from "../../../../store/Store";
 
 import ReceiptA4 from "../../../receipt/receiptA4";
 import Receipt80 from "../../../receipt/receipt80";
 
-
-import { getFullInvoice ,deleteFullInvoice } from "../../../../api/TaxFullInvoiceAPI";
+import {
+  getFullInvoice,
+  deleteFullInvoice,
+} from "../../../../api/TaxFullInvoiceAPI";
 
 function TaxInvoiceFull() {
+  // import Data Store
+  const companyLoginDataStore = useRecoilValue(companyLoginStore);
 
-    // import Data Store
-    const companyLoginDataStore = useRecoilValue(companyLoginStore)
-
- 
-    
   //----------  Data Table --------------------//
   const [noData, setNoData] = useState(false);
 
-  const [openCreateInvoice, setOpenCreateInvoice] = useRecoilState(createInvoiceStore);
-
+  const [openCreateInvoice, setOpenCreateInvoice] =
+    useRecoilState(createInvoiceStore);
 
   const [listData, setListData] = useState([]);
   const [tokenError, setTokenError] = useState(false);
   const [searchQuery, setSearchQuery] = useState("");
 
-  const fetchFullInvioce = async () =>{
+  const fetchFullInvioce = async () => {
     try {
-      const response = await getFullInvoice(searchQuery)
-      setListData(response)
+      const response = await getFullInvoice(searchQuery);
+      setListData(response);
     } catch (error) {
-      toast.error(error)
-      
+      toast.error(error);
     }
-  }
+  };
 
-  useEffect(()=>{
-    fetchFullInvioce()
-  },[searchQuery ,openCreateInvoice])
+  useEffect(() => {
+    fetchFullInvioce();
+  }, [searchQuery, openCreateInvoice]);
 
   useEffect(() => {
     if (tokenError) {
@@ -94,7 +88,9 @@ function TaxInvoiceFull() {
 
   const startIndex = (currentPage - 1) * itemsPerPage;
   const endIndex = startIndex + itemsPerPage;
-  const displayedData = Array.isArray(listData) ? listData.slice(startIndex, endIndex) : [];
+  const displayedData = Array.isArray(listData)
+    ? listData.slice(startIndex, endIndex)
+    : [];
 
   const totalPages = Math.ceil(listData.length / itemsPerPage);
 
@@ -106,28 +102,20 @@ function TaxInvoiceFull() {
     setDataView(data);
   };
 
-  // ตัวเวลา show Print
-
-  const handlePrintButtonClick = () => {
-    setShowPrint(true); // กำหนดให้แสดง element เมื่อคลิกปุ่มพิมพ์
-
-    setTimeout(() => {
-      setShowPrint(false); // เปลี่ยนค่า showPrint เป็น false เมื่อผ่านไป 2 วินาที
-    }, 3000); // 2 วินาที
-  };
 
   //------------- modal Add Invoice -----------------------//
 
-  const [headFormDataStore ,setHeadFormDataStore] = useRecoilState(headFormStore);
+  const [headFormDataStore, setHeadFormDataStore] =
+    useRecoilState(headFormStore);
   const handleModalAdd = () => {
-    setHeadFormDataStore('1')
+    setHeadFormDataStore("1");
     setOpenCreateInvoice(true);
   };
 
   //------------- modal Delete Product -----------------------//
 
   const [openModalDelete, setOpenModalDelete] = useState(false);
-  const [toastOpen ,setToastOpen] = useState(false)
+  const [toastOpen, setToastOpen] = useState(false);
   const [dataDelete, setDataDelete] = useState([]);
 
   const handleModalDelete = (data) => {
@@ -137,14 +125,12 @@ function TaxInvoiceFull() {
 
   const handleDelete = async (id) => {
     try {
-      const response = await deleteFullInvoice(id , setToastOpen)
-      console.log(response)
+      const response = await deleteFullInvoice(id, setToastOpen);
+      console.log(response);
       fetchFullInvioce();
       setOpenModalDelete(false);
-    } catch (error) 
-    {
-      toast.error(error)
-      
+    } catch (error) {
+      toast.error(error);
     }
     console.log(id);
   };
@@ -157,15 +143,11 @@ function TaxInvoiceFull() {
     setOpenModalReceiptA4(!openModalReceiptA4);
   };
 
-
   //------------- open Receipt 80  -----------------------//
   const [openModalReceipt80, setOpenModalReceipt80] = useState(false);
   const handleModalReceipt80 = () => {
     setOpenModalReceipt80(!openModalReceipt80);
   };
-
-
-
 
   return (
     <div className="w-full overflow-auto  px-3">
@@ -362,7 +344,7 @@ function TaxInvoiceFull() {
         open={openModalView}
         size="xl"
         handler={handleModalView}
-        className="h-[90vh]"
+        className="h-[90vh] "
       >
         <DialogHeader className="bg-blue-700 py-3  px-3 text-center text-lg text-white opacity-80">
           <div className="flex gap-3">
@@ -388,17 +370,32 @@ function TaxInvoiceFull() {
                 </div>
               </div>
               <Typography className="font-bold mt-5">
-                เลขที่ใบกำกับภาษี: <span className="font-normal">{dataView?.code}</span>
+                เลขที่ใบกำกับภาษี:{" "}
+                <span className="font-normal">{dataView?.code}</span>
               </Typography>
-              <Typography className="font-bold mt-5">วันที่: <spand className="font-normal">{moment(dataView?.created_at).format("DD/MM/YYYY  HH:mm:ss")}</spand>  </Typography>
+              <Typography className="font-bold mt-5">
+                วันที่:{" "}
+                <spand className="font-normal">
+                  {moment(dataView?.created_at).format("DD/MM/YYYY  HH:mm:ss")}
+                </spand>{" "}
+              </Typography>
               <hr className="mt-3 border " />
               <Typography className="text-lg font-bold mt-10">
                 ข้อมูลลูกค้า:{" "}
               </Typography>
-              <Typography className="font-bold mt-5">ชื่อ: <span className="font-normal">{dataView?.customer_name}</span> </Typography>
-              <Typography className="font-bold mt-5">ที่อยู่:  <span className="font-normal">{dataView?.customer_address}</span>  </Typography>
               <Typography className="font-bold mt-5">
-                เลขประจำตัวผู้เสียภาษี:  <span className="font-normal">{dataView?.customer_id_tax}</span>
+                ชื่อ:{" "}
+                <span className="font-normal">{dataView?.customer_name}</span>{" "}
+              </Typography>
+              <Typography className="font-bold mt-5">
+                ที่อยู่:{" "}
+                <span className="font-normal">
+                  {dataView?.customer_address}
+                </span>{" "}
+              </Typography>
+              <Typography className="font-bold mt-5">
+                เลขประจำตัวผู้เสียภาษี:{" "}
+                <span className="font-normal">{dataView?.customer_id_tax}</span>
               </Typography>
               <hr className="mt-3 border " />
               <Typography className="text-lg font-bold mt-10">
@@ -410,201 +407,204 @@ function TaxInvoiceFull() {
                 รายการ
               </Typography>
               <Card className="border px-2 h-[340px] overflow-auto">
-              <div className="mt-5">
-            <table className="w-full min-w-max  ">
-              <thead>
-                <tr>
-                  <th className="border-y border-blue-gray-100 bg-blue-gray-50/50 p-4">
-                    <Typography
-                      variant="small"
-                      color="blue-gray"
-                      className="font-bold leading-none opacity-70"
-                    >
-                      ลำดับ
-                    </Typography>
-                  </th>
-                  <th className="border-y border-blue-gray-100 bg-blue-gray-50/50 p-4">
-                    <Typography
-                      variant="small"
-                      color="blue-gray"
-                      className="font-bold leading-none opacity-70"
-                    >
-                      รายการ
-                    </Typography>
-                  </th>
-                  <th className="border-y border-blue-gray-100 bg-blue-gray-50/50 p-4">
-                    <Typography
-                      variant="small"
-                      color="blue-gray"
-                      className="font-bold leading-none opacity-70"
-                    >
-                      จำนวน
-                    </Typography>
-                  </th>
-                  <th className="border-y border-blue-gray-100 bg-blue-gray-50/50 p-4">
-                    <Typography
-                      variant="small"
-                      color="blue-gray"
-                      className="font-bold leading-none opacity-70"
-                    >
-                      หน่วยนับ
-                    </Typography>
-                  </th>
-                  <th className="border-y border-blue-gray-100 bg-blue-gray-50/50 p-4">
-                    <Typography
-                      variant="small"
-                      color="blue-gray"
-                      className="font-bold leading-none opacity-70"
-                    >
-                      ราคา/หน่วย
-                    </Typography>
-                  </th>
-                  <th className="border-y border-blue-gray-100 bg-blue-gray-50/50 p-4">
-                    <Typography
-                      variant="small"
-                      color="blue-gray"
-                      className="font-bold leading-none opacity-70"
-                    >
-                      รวมเงิน
-                    </Typography>
-                  </th>
-                </tr>
-              </thead>
-              {noData ? (
-                <tbody>
-                  <tr>
-                    <td></td>
-                    <td></td>
-                    <td></td>
-                    <td>
-                      <Typography>...ไม่พบข้อมูล...</Typography>
-                    </td>
-                  </tr>
-                </tbody>
-              ) : (
-                <tbody>
-                  {dataView?.product_data?.map((data, index) => {
-                    const classes =  "p-3 border-b border-blue-gray-50";
-
-                    return (
-                      <tr key={index}>
-                        <td className={classes}>
-                          <div className="flex items-center justify-center">
-                            <Typography
-                              variant="small"
-                              color="blue-gray"
-                              className="font-normal "
-                            >
-                              {index + 1 || ""}
-                            </Typography>
-                          </div>
-                        </td>
-                        <td className={classes}>
-                          <div className="flex items-center justify-center">
-                            <Typography
-                              variant="small"
-                              color="blue-gray"
-                              className="font-normal "
-                            >
-                              {data?.product || ""}
-                            </Typography>
-                          </div>
-                        </td>
-                        <td className={classes}>
-                          <div className="flex items-center justify-center">
-                            <Typography
-                              variant="small"
-                              color="blue-gray"
-                              className="font-normal "
-                            >
-                              {data?.quantity || ""}
-                            </Typography>
-                          </div>
-                        </td>
-                        <td className={classes}>
-                          <div className="flex items-center justify-center">
-                            <Typography
-                              variant="small"
-                              color="blue-gray"
-                              className="font-normal "
-                            >
-                              {data?.unit || ""}
-                            </Typography>
-                          </div>
-                        </td>
-                        <td className={classes}>
-                          <div className="flex items-center justify-center">
-                            <Typography
-                              variant="small"
-                              color="blue-gray"
-                              className="font-normal "
-                            >
-                              {Number(data?.pricePerUnit)?.toLocaleString() || ""}
-                            </Typography>
-                          </div>
-                        </td>
-                        <td className={classes}>
-                          <div className="flex items-center justify-center">
-                            <Typography
-                              variant="small"
-                              color="blue-gray"
-                              className="font-normal "
-                            >
-                              {Number(data?.totalPrice)?.toLocaleString() || ""}
-                            </Typography>
-                          </div>
-                        </td>
+                <div className="mt-5">
+                  <table className="w-full min-w-max  ">
+                    <thead>
+                      <tr>
+                        <th className="border-y border-blue-gray-100 bg-blue-gray-50/50 p-4">
+                          <Typography
+                            variant="small"
+                            color="blue-gray"
+                            className="font-bold leading-none opacity-70"
+                          >
+                            ลำดับ
+                          </Typography>
+                        </th>
+                        <th className="border-y border-blue-gray-100 bg-blue-gray-50/50 p-4">
+                          <Typography
+                            variant="small"
+                            color="blue-gray"
+                            className="font-bold leading-none opacity-70"
+                          >
+                            รายการ
+                          </Typography>
+                        </th>
+                        <th className="border-y border-blue-gray-100 bg-blue-gray-50/50 p-4">
+                          <Typography
+                            variant="small"
+                            color="blue-gray"
+                            className="font-bold leading-none opacity-70"
+                          >
+                            จำนวน
+                          </Typography>
+                        </th>
+                        <th className="border-y border-blue-gray-100 bg-blue-gray-50/50 p-4">
+                          <Typography
+                            variant="small"
+                            color="blue-gray"
+                            className="font-bold leading-none opacity-70"
+                          >
+                            หน่วยนับ
+                          </Typography>
+                        </th>
+                        <th className="border-y border-blue-gray-100 bg-blue-gray-50/50 p-4">
+                          <Typography
+                            variant="small"
+                            color="blue-gray"
+                            className="font-bold leading-none opacity-70"
+                          >
+                            ราคา/หน่วย
+                          </Typography>
+                        </th>
+                        <th className="border-y border-blue-gray-100 bg-blue-gray-50/50 p-4">
+                          <Typography
+                            variant="small"
+                            color="blue-gray"
+                            className="font-bold leading-none opacity-70"
+                          >
+                            รวมเงิน
+                          </Typography>
+                        </th>
                       </tr>
-                    );
-                  })}
-                </tbody>
-              )}
-            </table>
-              </div>
+                    </thead>
+                    {noData ? (
+                      <tbody>
+                        <tr>
+                          <td></td>
+                          <td></td>
+                          <td></td>
+                          <td>
+                            <Typography>...ไม่พบข้อมูล...</Typography>
+                          </td>
+                        </tr>
+                      </tbody>
+                    ) : (
+                      <tbody>
+                        {dataView?.product_data?.map((data, index) => {
+                          const classes = "p-3 border-b border-blue-gray-50";
+
+                          return (
+                            <tr key={index}>
+                              <td className={classes}>
+                                <div className="flex items-center justify-center">
+                                  <Typography
+                                    variant="small"
+                                    color="blue-gray"
+                                    className="font-normal "
+                                  >
+                                    {index + 1 || ""}
+                                  </Typography>
+                                </div>
+                              </td>
+                              <td className={classes}>
+                                <div className="flex items-center justify-center">
+                                  <Typography
+                                    variant="small"
+                                    color="blue-gray"
+                                    className="font-normal "
+                                  >
+                                    {data?.product || ""}
+                                  </Typography>
+                                </div>
+                              </td>
+                              <td className={classes}>
+                                <div className="flex items-center justify-center">
+                                  <Typography
+                                    variant="small"
+                                    color="blue-gray"
+                                    className="font-normal "
+                                  >
+                                    {data?.quantity || ""}
+                                  </Typography>
+                                </div>
+                              </td>
+                              <td className={classes}>
+                                <div className="flex items-center justify-center">
+                                  <Typography
+                                    variant="small"
+                                    color="blue-gray"
+                                    className="font-normal "
+                                  >
+                                    {data?.unit || ""}
+                                  </Typography>
+                                </div>
+                              </td>
+                              <td className={classes}>
+                                <div className="flex items-center justify-center">
+                                  <Typography
+                                    variant="small"
+                                    color="blue-gray"
+                                    className="font-normal "
+                                  >
+                                    {Number(
+                                      data?.pricePerUnit
+                                    )?.toLocaleString() || ""}
+                                  </Typography>
+                                </div>
+                              </td>
+                              <td className={classes}>
+                                <div className="flex items-center justify-center">
+                                  <Typography
+                                    variant="small"
+                                    color="blue-gray"
+                                    className="font-normal "
+                                  >
+                                    {Number(
+                                      data?.totalPrice
+                                    )?.toLocaleString() || ""}
+                                  </Typography>
+                                </div>
+                              </td>
+                            </tr>
+                          );
+                        })}
+                      </tbody>
+                    )}
+                  </table>
+                </div>
               </Card>
               <div className="flex  flex-col items-end mt-3">
                 <Typography className="text-lg font-bold">
                   ข้อมูลการชำระเงิน
                 </Typography>
-                <Typography className="mt-3">รวมเงิน: {Number(dataView?.total_price)?.toLocaleString()}  บาท</Typography>
                 <Typography className="mt-3">
-                  ภาษีมูลค่าเพิ่ม: {Number(dataView?.total_tax)?.toLocaleString()}  บาท
+                  รวมเงิน: {Number(dataView?.total_price)?.toLocaleString()} บาท
+                </Typography>
+                <Typography className="mt-3">
+                  ภาษีมูลค่าเพิ่ม:{" "}
+                  {Number(dataView?.total_tax)?.toLocaleString()} บาท
                 </Typography>
                 <Typography className="mt-3 font-bold text-lg text-red-500">
-                  จำนวนเงินทั้งสิน: {Number(dataView?.total_amount)?.toLocaleString()}  บาท
+                  จำนวนเงินทั้งสิน:{" "}
+                  {Number(dataView?.total_amount)?.toLocaleString()} บาท
                 </Typography>
               </div>
             </div>
           </div>
         </DialogBody>
         <DialogFooter divider>
-          <div className="flex gap-3">
-            {/* <div className=" absolute top-[80%] left-[79%] bg-white border rounded-lg shadow-lg " hidden={!showPrint}> */}
-            <div className={`absolute top-[80%] left-[79%] bg-white border rounded-lg shadow-lg ${showPrint ? '' : 'hidden'}`}>
-                  <MenuItem
-                    className="z-50"
-                    // onClick={() => setOpenModalReceiptA4(true)}
-                    onClick={handleModalReceiptA4}
-                  >
-                    ขนาด A4
-                  </MenuItem>
-                  <MenuItem onClick={handleModalReceipt80}>
-                    ขนาด 80 มิล
-                  </MenuItem>
-                </div>
-              <Button
-                size="sm"
-                variant="gradient"
-                color="blue"
-                className="text-base flex justify-center  items-center   bg-green-500"
-                onClick={handlePrintButtonClick}
-              >
-                <span className="mr-2 text-xl ">
-                  <MdLocalPrintshop />
-                </span>
-                พิมพ์
-              </Button>
-      
+          <div className="flex gap-3 ">
+            <Menu className="text-base flex justify-center  items-center   ">
+              <MenuHandler>
+                <Button
+                  size="sm"
+                  className="text-base flex justify-center  items-center   bg-green-500"
+                  variant="gradient"
+                  color="blue"
+                >
+                  <span className="mr-2 text-xl ">
+                    <MdLocalPrintshop />
+                  </span>
+                  พิมพ์{" "}
+                </Button>
+              </MenuHandler>
+
+              <MenuList className="menu-list-class">
+                <MenuItem onClick={handleModalReceiptA4}>ขนาด A4</MenuItem>
+                <MenuItem onClick={handleModalReceipt80}>ขนาด 80 มิล</MenuItem>
+              </MenuList>
+            </Menu>
+
             <div className="flex">
               <Button
                 variant="gradient"
@@ -668,40 +668,35 @@ function TaxInvoiceFull() {
           </div>
         </DialogFooter>
       </Dialog>
-      {toastOpen == true ? 
-      <ToastContainer  className="mt-10" autoClose={100} theme="colored" />
-      :
-      ''
-      }
+      {toastOpen == true ? (
+        <ToastContainer className="mt-10" autoClose={100} theme="colored" />
+      ) : (
+        ""
+      )}
 
       {/* รูปแบบเต็ม A4 */}
       {openModalReceiptA4 == true ? (
-      
         <ReceiptA4
-          openModalReceiptA4={openModalReceiptA4 || ''}
+          openModalReceiptA4={openModalReceiptA4 || ""}
           handleModalReceiptA4={handleModalReceiptA4}
-          dataReceipt = {dataView}
-          companyLoginDataStore ={companyLoginDataStore}
+          dataReceipt={dataView}
+          companyLoginDataStore={companyLoginDataStore}
         />
-     
       ) : (
         ""
       )}
 
       {/* รูปแบบเต็ม 80 */}
-      {openModalReceipt80 == true  ? (
+      {openModalReceipt80 == true ? (
         <Receipt80
           openModalReceipt80={openModalReceipt80}
           handleModalReceipt80={handleModalReceipt80}
-          dataReceipt = {dataView}
-          companyLoginDataStore ={companyLoginDataStore}
+          dataReceipt={dataView}
+          companyLoginDataStore={companyLoginDataStore}
         />
       ) : (
         ""
       )}
-
-
-
     </div>
   );
 }

@@ -38,12 +38,11 @@ const SaleReport = ({userLogin}) => {
 
   const fetchReport = async () => {
     const response = await getReportSale(dateStart , dateEnd)
+    console.log(response)
     setListData(response)
     setNoData(false)
 
   }
-
-
 
   useEffect(()=>{
     fetchReport()

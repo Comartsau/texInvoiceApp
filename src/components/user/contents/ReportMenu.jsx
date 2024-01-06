@@ -1,8 +1,13 @@
 import { Card,  Button } from "@material-tailwind/react";
+import { jwtDecode } from "jwt-decode";
 
 import { useState ,useEffect } from "react";
 import SaleReport from "./report/SaleReport";
 import ShopReport from "./report/ShopReport";
+
+import { useRecoilValue , useRecoilState } from "recoil";
+import { createInvoiceStore , companyLoginStore } from "../../../store/Store";
+
 
 
 
@@ -10,14 +15,16 @@ function ReportMenu() {
   //---------- Dialog  ดูข้อมูลผู้บริจาค -------------- //
   const [activeCustomerMenu, setActiveCustomerMenu] = useState("menu1");
 
-  
-  const [userLogin ,setUserLogin] = useState('')
-  const handleGetUserLogin = () => {
-    setUserLogin(localStorage.getItem("Status"))
+  const [companyLoginDataStore,setCompanyLoginDataStore] = useRecoilState(companyLoginStore);
+
+  const fetcCompanyLogin = () =>{
+    const token = localStorage.getItem('Token')
+    setCompanyLoginDataStore(jwtDecode(token));
   }
 
   useEffect(()=>{
-    handleGetUserLogin()
+    fetcCompanyLogin()
+  // eslint-disable-next-line react-hooks/exhaustive-deps
   },[])
 
   return (
@@ -57,13 +64,13 @@ function ReportMenu() {
       {activeCustomerMenu === "menu1" && (
              <div>
              <hr className=" mt-5 border border-gray-500" />
-             <SaleReport userLogin={userLogin} />
+             <SaleReport  />
            </div>
       )}
       {activeCustomerMenu === "menu2" && (
              <div>
              <hr className=" mt-5 border border-gray-500" />
-             <ShopReport userLogin={userLogin} />
+             <ShopReport  />
            </div>
       )}
 

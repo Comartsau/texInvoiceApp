@@ -536,7 +536,7 @@ export const ReceiptSubShort = ({
                         ราคา   {''}
                       </Text>
                     </View>
-                    {pageData.map((item, itemIndex) => {
+                    {pageData?.map((item, itemIndex) => {
                       return (
                         <>
                         <View key={itemIndex} style={[styles.tableRow ]}>
@@ -615,8 +615,7 @@ export const ReceiptSubShort = ({
                         </View>
                       </View>
                 </View>
-              </Page>
-            
+              </Page>      
             ))}
           </Document>
         </PDFViewer>

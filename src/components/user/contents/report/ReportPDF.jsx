@@ -199,7 +199,7 @@ import { useState } from "react";
       borderWidth: 1,
       borderColor: "#000",
       textAlign: "center",
-      width: "25%", // แบ่งเป็น 3 ส่วนเท่า ๆ กัน (ขนาดเท่ากัน)
+      width: "40%", // แบ่งเป็น 3 ส่วนเท่า ๆ กัน (ขนาดเท่ากัน)
       height: "100%",
     },
     tableHead3: {
@@ -289,7 +289,7 @@ import { useState } from "react";
       borderWidth: 1,
       borderColor: "#000",
       textAlign: "center",
-      width: "18%", // แบ่งเป็น 3 ส่วนเท่า ๆ กัน (ขนาดเท่ากัน)
+      width: "33%", // แบ่งเป็น 3 ส่วนเท่า ๆ กัน (ขนาดเท่ากัน)
       height: "100%",
     },
     tableSubHead4: {
@@ -419,7 +419,7 @@ import { useState } from "react";
   }) => {
   
   
-    const itemsPerPage = 17; // จำนวนรายการต่อหน้า
+    const itemsPerPage = 500; // จำนวนรายการต่อหน้า
   
     // แบ่งรายการออกเป็นหน้าตามจำนวนที่กำหนด
   
@@ -535,9 +535,9 @@ import { useState } from "react";
                         <Text style={[styles.tableHead4, styles.colorHead]}>
                           เลขประจำตัวผู้เสีย{" "}
                         </Text>
-                        <Text style={[styles.tableHead5, styles.colorHead]}>
+                        {/* <Text style={[styles.tableHead5, styles.colorHead]}>
                           สถานประกอบการ{" "}
-                        </Text>
+                        </Text> */}
                         <Text style={[styles.tableHead6, styles.colorHead]}>
                           มูลค่าสินค้า{" "}
                         </Text>
@@ -567,9 +567,9 @@ import { useState } from "react";
                         {/* <Text style={[styles.tableSubHead6, styles.colorHead]}>
                           สนง.ใหญ่{" "}
                         </Text> */}
-                        <Text style={[styles.tableSubHead7, styles.colorHead]}>
+                        {/* <Text style={[styles.tableSubHead7, styles.colorHead]}>
                           สาขาที่{" "}
-                        </Text>
+                        </Text> */}
                         <Text style={[styles.tableSubHead8, styles.colorHead]}>
                           หรือบริการ{" "}
                         </Text>
@@ -590,7 +590,7 @@ import { useState } from "react";
                               {moment(item?.created_at).format("DD-MM-YYYY")  || ""}{" "}
                             </Text>
                             <Text style={[styles.tableSubHead3 , {textAlign:'left'} , {fontSize:"8"}]}>
-                              {/* {item.invoice_number  || ""}{" "} */}
+                              {item?.num_code  || ""}{" "}
                             </Text>
                             <Text style={[styles.tableSubHead4 , {textAlign:'left'}, {fontSize:"8"}]}>
                               {item?.code  || ""}{" "}
@@ -601,9 +601,9 @@ import { useState } from "react";
                             {/* <Text style={[styles.tableSubHead6 , {fontSize:"8"}]}>
                               {item.headOffice  || ""}{" "}
                             </Text> */}
-                            <Text style={[styles.tableSubHead7 , {fontSize:"8"}]}>
+                            {/* <Text style={[styles.tableSubHead7 , {fontSize:"8"}]}>
                               {item?.company  || ""}{" "}
-                            </Text>
+                            </Text> */}
                             <Text style={[styles.tableSubHead8 , {textAlign:'right'} , {fontSize:"8"}]}>
                               {item?.total_price.toFixed(2)
                                 .replace(/\B(?=(\d{3})+(?!\d))/g, ",")  || ""}{" "}
@@ -617,11 +617,19 @@ import { useState } from "react";
                                 .replace(/\B(?=(\d{3})+(?!\d))/g, ",")  || ""}{" "}
                             </Text>
                           </View>
+                          
                         );
                       })}
                     </View>
                       {index == pages.length - 1 && (
                         <>
+                          <View View style={styles.tableRow}>
+                            {/* สรุปรวม */}
+                            <Text style={styles.tableCellRowsum}> {` `} </Text>
+                            <Text style={styles.tableSum1}> รวมเงิน </Text>
+                            <Text style={styles.tableSum2}> รวมภาษี </Text>
+                            <Text style={styles.tableSum3}> รวมสุทธิ์ </Text>
+                          </View>
                           <View View style={styles.tableRow}>
                             {/* สรุปรวม */}
                             <Text style={styles.tableCellRowsum}> {` `} </Text>

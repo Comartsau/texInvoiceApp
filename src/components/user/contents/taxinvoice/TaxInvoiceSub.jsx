@@ -9,6 +9,9 @@ import {
   DialogHeader,
   DialogBody,
   DialogFooter,
+  Menu,
+  MenuHandler,
+  MenuList,
   MenuItem,
 
 } from "@material-tailwind/react";
@@ -132,18 +135,11 @@ function TaxInvoiceSub() {
     setOpenCreateInvoice(true);
   };
 
-  //------------- modal Edit Product -----------------------//
-  const [openModalEdit, setOpenModalEdit] = useState(false);
-  const [dataEdit, setDataEdit] = useState([]);
-  const handleModalEdit = (data) => {
-    setDataEdit(data);
-    setOpenModalEdit(!openModalEdit);
-  };
 
   //------------- modal Delete Product -----------------------//
 
   const [openModalDelete, setOpenModalDelete] = useState(false);
-  const [toastOpen ,setToastOpen] = useState(false)
+  // const [toastOpen ,setToastOpen] = useState(false)
   const [dataDelete, setDataDelete] = useState([]);
 
   const handleModalDelete = (data) => {
@@ -425,30 +421,26 @@ function TaxInvoiceSub() {
                 </div>
               </div>
               <div className="flex w-full justify-center lg:justify-end lg:px-5 gap-5 mt-5">
-              <div className={` absolute top-[25%] bg-white border rounded-lg shadow-lg ${showPrint ? '' : 'hidden'} `}>
-                    <MenuItem
-                      className=" z-50 "
-                      onClick={() => setOpenModalReceiptA4(true)}
-                    >
-                      ขนาด A4
-                    </MenuItem>
-                    <MenuItem onClick={() => setOpenModalReceipt80(true)}>
-                      ขนาด 80 มิล
-                    </MenuItem>
-
-                  </div>
+              <Menu className="text-base flex justify-center  items-center   ">
+              <MenuHandler>
                 <Button
                   size="sm"
+                  className="text-base flex justify-center  items-center   bg-green-500"
                   variant="gradient"
                   color="blue"
-                  className="text-base flex justify-center  items-center   bg-green-500"
-                  onClick={handlePrintButtonClick}
                 >
                   <span className="mr-2 text-xl ">
                     <MdLocalPrintshop />
                   </span>
-                  พิมพ์ (บิลเต็ม)
+                  พิมพ์ (บิลเต็ม){" "}
                 </Button>
+              </MenuHandler>
+
+              <MenuList className="menu-list-class">
+                <MenuItem onClick={() => setOpenModalReceiptA4(true)}>ขนาด A4</MenuItem>
+                <MenuItem onClick={() => setOpenModalReceipt80(true)}>ขนาด 80 มิล</MenuItem>
+              </MenuList>
+            </Menu>
               </div>
               <div className=" xl:px-5 mt-10">
                 <Card className="border w-full h-[41vh] overflow-auto ">
@@ -631,36 +623,27 @@ function TaxInvoiceSub() {
                   </div>
                 </div>
                 <div  className="flex w-full justify-center lg:justify-end lg:px-5 gap-5 mt-5">
+                <Menu className="text-base flex justify-center  items-center   ">
+              <MenuHandler>
+                <Button
+                  size="sm"
+                  className="text-base flex justify-center  items-center   bg-green-500"
+                  variant="gradient"
+                  color="yellow"
+                  disabled={dataViewSub.length > 0 ? false :true}
+                >
+                  <span className="mr-2 text-xl ">
+                    <MdLocalPrintshop />
+                  </span>
+                  พิมพ์ (บิลย่อย){" "}
+                </Button>
+              </MenuHandler>
 
-                  <Button
-                    size="sm"
-                    variant="gradient"
-                    color="yellow"
-                    disabled={dataViewSub.length > 0 ? false :true}
-                    className="text-sm flex justify-center  items-center   bg-green-500"
-                    // onClick={() => setShowPrint(true)}
-                    // onBlur={()=> setShowPrint(false)}
-                    onClick={handlePrintButtonClickSub}
-                  >
-                    <span className="mr-2 text-xl ">
-                      <MdLocalPrintshop />
-                    </span>
-                    พิมพ์ (บิลย่อย)
-                  </Button>
-                  <div className={` absolute top-[117%] sm:top-[100%] lg:top-[3%]  bg-white border rounded-lg shadow-lg ${showPrintSub ? '' : 'hidden'} `}>
-                    <MenuItem
-                      className="  z-50 "
-                      onClick={() => setOpenModalReceiptSubFull(true)}
-               
-                    >
-                      ขนาด A4
-                    </MenuItem>
-                    <MenuItem 
-                    onClick={() => setOpenModalReceiptSubShort(true)}>
-                      ขนาด 80 มิล
-                    </MenuItem>
-
-                  </div>
+              <MenuList className="menu-list-class">
+                <MenuItem onClick={() => setOpenModalReceiptSubFull(true)}> ขนาด A4</MenuItem>
+                <MenuItem onClick={() => setOpenModalReceiptSubShort(true)}>ขนาด 80 มิล</MenuItem>
+              </MenuList>
+            </Menu>
                 </div>
                 <div className="xl:px-5 mt-10">
                   <Card className="border w-full h-[59vh] overflow-auto ">
