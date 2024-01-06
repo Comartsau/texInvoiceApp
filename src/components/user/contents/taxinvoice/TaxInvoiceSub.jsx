@@ -108,20 +108,6 @@ function TaxInvoiceSub() {
 
   // ตัวเวลา show Print
 
-  const handlePrintButtonClick = () => {
-    setShowPrint(true); // กำหนดให้แสดง element เมื่อคลิกปุ่มพิมพ์
-
-    setTimeout(() => {
-      setShowPrint(false); // เปลี่ยนค่า showPrint เป็น false เมื่อผ่านไป 2 วินาที
-    }, 3000); // 2 วินาที
-  };
-  const handlePrintButtonClickSub = () => {
-    setShowPrintSub(true); // กำหนดให้แสดง element เมื่อคลิกปุ่มพิมพ์
-
-    setTimeout(() => {
-      setShowPrintSub(false); // เปลี่ยนค่า showPrint เป็น false เมื่อผ่านไป 2 วินาที
-    }, 3000); // 2 วินาที
-  };
 
   const handleShowSub = (index) => {
     setDataViewSub(dataView?.sec_product_data[index + 1])
@@ -139,7 +125,7 @@ function TaxInvoiceSub() {
   //------------- modal Delete Product -----------------------//
 
   const [openModalDelete, setOpenModalDelete] = useState(false);
-  // const [toastOpen ,setToastOpen] = useState(false)
+  const [toastOpen ,setToastOpen] = useState(false)
   const [dataDelete, setDataDelete] = useState([]);
 
   const handleModalDelete = (data) => {
@@ -161,8 +147,6 @@ function TaxInvoiceSub() {
       toast.error("ลบ ใบกำกับภาษี(รูปแบบสัพ) ไม่สำเร็จ  กรุณาลองใหม่")
     }
   }
-
-  
 
   const [selectedRow, setSelectedRow] = useState(null);
   const handleRowClick = (index) => {
@@ -319,7 +303,7 @@ function TaxInvoiceSub() {
                               color="blue"
                               size="sm"
                               className="ml-3 "
-                              onClick={() => handleModalView(data)}
+                              onClick={() => [handleModalView(data) , setSelectedRow(null)]}
                             >
                               <TbCheckupList className="h-5 w-5  text-light-blue-700 " />
                             </IconButton>
@@ -801,7 +785,7 @@ function TaxInvoiceSub() {
                 variant="gradient"
                 color="gray"
                 size="sm"
-                onClick={handleModalView}
+                onClick={handleModalView }
                 className="flex mr-1 text-base "
               >
                 <span className="mr-2 text-xl ">
