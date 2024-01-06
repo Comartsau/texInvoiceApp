@@ -289,7 +289,7 @@ const ShopReport = ({ userLogin }) => {
                       return (
                         <tr 
                         key={index}
-                        className={` hover:bg-gray-200  ${selectedRow === index ? 'bg-gray-400  ' : ''}`} 
+                        className={` hover:bg-gray-200  ${selectedRow === index ? 'bg-gray-300  ' : ''}`} 
                         >
                           <td>
                             <div className="flex items-center justify-center mt-5">
@@ -481,7 +481,7 @@ const ShopReport = ({ userLogin }) => {
                         return (
                           <tr 
                           key={index}
-                          className={` hover:bg-gray-200  ${selectedRowSub === index ? 'bg-gray-400  ' : ''}`} 
+                          className={` hover:bg-gray-200  ${selectedRowSub === index ? 'bg-gray-300  ' : ''}`} 
                           >
                             <td className={classes}>
                               <div className="flex items-center justify-center">
