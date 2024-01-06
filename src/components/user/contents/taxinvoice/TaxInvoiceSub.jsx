@@ -162,8 +162,13 @@ function TaxInvoiceSub() {
     }
   }
 
-  const [showPrint, setShowPrint] = useState(false);
-  const [showPrintSub, setShowPrintSub] = useState(false);
+  
+
+  const [selectedRow, setSelectedRow] = useState(null);
+  const handleRowClick = (index) => {
+  setSelectedRow(index); // ตั้งค่า index ของแถวที่เลือก
+
+};
 
   //------------- open Receipt A4  -----------------------//
   const [openModalReceiptA4, setOpenModalReceiptA4] = useState(false);
@@ -524,7 +529,10 @@ function TaxInvoiceSub() {
                               : "p-3 border-b border-blue-gray-50";
     
                             return (
-                              <tr key={index}>
+                              <tr 
+                              key={index}
+                              className={` hover:bg-gray-200  ${selectedRow === index ? 'bg-gray-300  ' : ''}`} 
+                              >
                                 <td className={classes}>
                                   <div className="flex items-center justify-center">
                                     <Typography
@@ -589,7 +597,7 @@ function TaxInvoiceSub() {
                                       className="text-sm flex justify-center   items-center   bg-green-500"
                                       // onClick={() => setShowPrint(true)}
                                       // onBlur={()=> setShowPrint(false)}
-                                      onClick={() => handleShowSub(index)}
+                                      onClick={() => [handleShowSub(index) , handleRowClick(index)]}
                                     >
                                       <span className="mr-2 text-xl ">
                                         <FaCheckCircle />
