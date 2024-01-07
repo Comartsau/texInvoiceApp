@@ -5,9 +5,10 @@ import ShopReport from "../../user/contents/report/ShopReport";
 
 
 import { useEffect, useState } from "react";
+import { jwtDecode } from "jwt-decode";
 
-import { useRecoilState } from "recoil";
-import { shopStore } from "../../../store/Store";
+import { useRecoilState , useRecoilValue } from "recoil";
+import { shopStore , companyStore } from "../../../store/Store";
 import { getShop } from "../../../api/ShopApi";
 
 
@@ -15,6 +16,20 @@ import { getShop } from "../../../api/ShopApi";
 function ReportMenu() {
   //---------- Dialog  ดูข้อมูลผู้บริจาค -------------- //
   const [activeCustomerMenu, setActiveCustomerMenu] = useState("menu1");
+
+  const companyDataStore = useRecoilValue(companyStore);
+
+  // const fetcCompanyLogin = () =>{
+  //   const token = localStorage.getItem('Token')
+  //   setCompanyLoginDataStore(jwtDecode(token));
+  // }
+
+  // useEffect(()=>{
+  //   fetcCompanyLogin()
+  // // eslint-disable-next-line react-hooks/exhaustive-deps
+  // },[])
+
+  console.log(companyDataStore)
 
 
   const [userLogin ,setUserLogin] = useState('')
@@ -32,7 +47,7 @@ function ReportMenu() {
 
       
     } catch (error) {
-      toast.error(error)
+      console.error(error)
       
     }
   }
@@ -40,6 +55,7 @@ function ReportMenu() {
   useEffect(()=>{
     handleGetUserLogin()
     fetchShop()
+  // eslint-disable-next-line react-hooks/exhaustive-deps
   },[])
 
 

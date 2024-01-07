@@ -24,12 +24,13 @@ import ReportPDF from "./ReportPDF";
 import { useRecoilState } from "recoil";
 import { companyStore } from "../../../../store/Store";
 
-import {getReportSale} from '../../../../api/ReportApi'
+import {getReportSale , getReportSaleAdmin} from '../../../../api/ReportApi'
 
 
 // eslint-disable-next-line react/prop-types
 const SaleReport = ({userLogin}) => {
   const [listData, setListData] = useState([])
+  const [userId, setUserId] = useState('')
   const [searchQueryStart, setSearchQueryStart] = useState(new Date());
   const [searchQueryEnd, setSearchQueryEnd] = useState(new Date());
 
@@ -37,10 +38,18 @@ const SaleReport = ({userLogin}) => {
   const dateEnd = moment(searchQueryEnd).format("YYYY-MM-DD");
 
   const fetchReport = async () => {
-    const response = await getReportSale(dateStart , dateEnd)
-    console.log(response)
-    setListData(response)
-    setNoData(false)
+    if (userLogin == 'admin') {
+      const response = await getReportSaleAdmin(userId , dateStart , dateEnd)
+      console.log(response)
+      setListData(response)
+    } else {
+      const response = await getReportSale(dateStart , dateEnd)
+      console.log(response)
+      setListData(response)
+    }
+
+    console.log(userId)
+  
 
   }
 
@@ -68,127 +77,8 @@ const SaleReport = ({userLogin}) => {
     const company = companyDataStore.find((company) => company.id === e.value);
     // เซ็ตข้อมูลลูกค้าที่ถูกเลือกใน state
     setSelectedCompany(company);
+    setUserId(company.id)
   };
-
-
-
-
-
- 
-  // const [listData, setListData] = useState([
-
-  //     {
-  //       "id": 1,
-  //       "date": "5/12/2023",
-  //       "code": "A66/0001",
-  //       "customer": "เจริญชัย",
-  //       "tax": "1234567890123",
-  //       "price": 1000,
-  //       "total_price": 1170,
-  //       "vat": 170,
-  //       "total_Amount": 1340,
-  //     },
-  //     {
-  //       "id": 2,
-  //       "date": "6/12/2023",
-  //       "code": "A66/0002",
-  //       "customer": "สุดใจ",
-  //       "tax": "9876543210987",
-  //       "price": 1500,
-  //       "total_price": 1755,
-  //       "vat": 255,
-  //       "total_Amount": 2010,
-  //     },
-  //     {
-  //       "id": 3,
-  //       "date": "7/12/2023",
-  //       "code": "A66/0003",
-  //       "customer": "เพื่อนดี",
-  //       "tax": "1111222233334",
-  //       "price": 800,
-  //       "total_price": 936,
-  //       "vat": 136,
-  //       "total_Amount": 1072,
-  //     },
-  //     {
-  //       "id": 4,
-  //       "date": "8/12/2023",
-  //       "code": "A66/0004",
-  //       "customer": "ความสุข",
-  //       "tax": "4444333322221",
-  //       "price": 2200,
-  //       "total_price": 2574,
-  //       "vat": 374,
-  //       "total_Amount": 2948,
-  //     },
-  //     {
-  //       "id": 5,
-  //       "date": "9/12/2023",
-  //       "code": "A66/0005",
-  //       "customer": "สุขใจ",
-  //       "tax": "8888999977776",
-  //       "price": 3500,
-  //       "total_price": 4095,
-  //       "vat": 595,
-  //       "total_Amount": 4690,
-  //     },
-  //     {
-  //       "id": 6,
-  //       "date": "10/12/2023",
-  //       "code": "A66/0006",
-  //       "customer": "พี่ทุกคน",
-  //       "tax": "5678123498765",
-  //       "price": 500,
-  //       "total_price": 585,
-  //       "vat": 85,
-  //       "total_Amount": 670,
-  //     },
-  //     {
-  //       "id": 7,
-  //       "date": "11/12/2023",
-  //       "code": "A66/0007",
-  //       "customer": "พี่พาย",
-  //       "tax": "7777666655554",
-  //       "price": 1800,
-  //       "total_price": 2106,
-  //       "vat": 306,
-  //       "total_Amount": 2412,
-  //     },
-  //     {
-  //       "id": 8,
-  //       "date": "12/12/2023",
-  //       "code": "A66/0008",
-  //       "customer": "ความสุขมาก",
-  //       "tax": "6666555544443",
-  //       "price": 2800,
-  //       "total_price": 3276,
-  //       "vat": 476,
-  //       "total_Amount": 3752,
-  //     },
-  //     {
-  //       "id": 9,
-  //       "date": "13/12/2023",
-  //       "code": "A66/0009",
-  //       "customer": "ความสุขดี",
-  //       "tax": "3333444455556",
-  //       "price": 400,
-  //       "total_price": 468,
-  //       "vat": 68,
-  //       "total_Amount": 536,
-  //     },
-  //     {
-  //       "id": 10,
-  //       "date": "14/12/2023",
-  //       "code": "A66/0010",
-  //       "customer": "มีความสุข",
-  //       "tax": "2222333344445",
-  //       "price": 6000,
-  //       "total_price": 7020,
-  //       "vat": 1020,
-  //       "total_Amount": 8040,
-  //     }
-  // ]);
-  const [noData, setNoData] = useState(true);
 
 
     //----- จัดการแสดงข้อมูล / หน้า -------------- //
@@ -197,9 +87,9 @@ const SaleReport = ({userLogin}) => {
   
     const startIndex = (currentPage - 1) * itemsPerPage;
     const endIndex = startIndex + itemsPerPage;
-    const displayedData = Array.isArray(listData) ? listData.slice(startIndex, endIndex) : [];
+    const displayedData = Array.isArray(listData) ? listData?.slice(startIndex, endIndex) : [];
   
-    const totalPages = Math.ceil(listData.length / itemsPerPage);
+    const totalPages = Math.ceil(listData?.length / itemsPerPage);
 
 
   //------------- open Receipt A4  -----------------------//
@@ -366,7 +256,7 @@ const SaleReport = ({userLogin}) => {
               </th>
             </tr>
           </thead>
-          {listData.length == 0 ? (
+          {listData?.length == 0 ? (
             <tbody>
               <tr>
                 <td></td>
@@ -380,8 +270,8 @@ const SaleReport = ({userLogin}) => {
             </tbody>
           ) : (
             <tbody>
-            {displayedData.map((data, index) => {
-              const isLast = index === displayedData.length - 1;
+            {displayedData?.map((data, index) => {
+              const isLast = index === displayedData?.length - 1;
               const pageIndex = startIndex + index;
               const classes = isLast
                 ? "p-2"

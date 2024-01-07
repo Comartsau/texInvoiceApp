@@ -22,7 +22,6 @@ import {
 import { BiSolidReport } from "react-icons/bi";
 import { BsBoxFill } from "react-icons/bs";
 import { MdAddLocationAlt } from "react-icons/md";
-import { useNavigate } from "react-router-dom";
 import Product from "../contents/Product";
 import Customer from "../contents/Customer";
 import Shop from "../contents/Shops";

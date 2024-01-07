@@ -14,8 +14,6 @@ import {
 
 import { addCompany, deleteCompany, editCompany, getCompany } from "../../../api/CompanyApi";
 
-import axios from "axios";
-import qs from "qs";
 import { useState } from "react";
 
 import { ToastContainer, toast } from "react-toastify";

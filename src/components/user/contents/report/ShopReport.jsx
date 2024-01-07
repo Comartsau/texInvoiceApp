@@ -32,7 +32,7 @@ import ReceiptA4Short from "../../../receipt/receiptA4Short";
 import Receipt80Short from '../../../receipt/receipt80Short'
 import ReceiptSubFull from "../../../receipt/receiptSubFull";
 import ReceiptSubShort from "../../../receipt/receiptSubShort";
-import { getReportShop } from "../../../../api/ReportApi";
+import { getReportShop , getReportShopAdmin, getShop } from "../../../../api/ReportApi";
 
 // eslint-disable-next-line react/prop-types
 const ShopReport = ({ userLogin }) => {
@@ -43,6 +43,7 @@ const ShopReport = ({ userLogin }) => {
 
   //----------  Data Table --------------------//
   const [noData, setData] = useState(false);
+  const [userId, setUserId] = useState('')
   const [searchQueryStart, setSearchQueryStart] = useState(new Date());
   const [searchQueryEnd, setSearchQueryEnd] = useState(new Date());
 
@@ -58,14 +59,30 @@ const ShopReport = ({ userLogin }) => {
   const [dataReceipt, setDataReceipt] = useState([]);
 
   const fetchDataShop = async () => {
-    const response = await getReportShop(selectedShop?.id, dateStart, dateEnd);
-    console.log(response);
-    setDataReceipt(response);
+    if(userLogin == 'admin'){
+      const response = await getReportShopAdmin(userId ,selectedShop?.id, dateStart, dateEnd);
+      console.log(response);
+      setDataReceipt(response);
+
+    }else {
+      const response = await getReportShop(selectedShop?.id, dateStart, dateEnd);
+      console.log(response);
+      setDataReceipt(response);
+    }
   };
+
+  const fetchDataShopOption = async()=>{
+    const response = await getShop(userId)
+    console.log(response)
+  }
 
   useEffect(() => {
     fetchDataShop();
-  }, [selectedShop, dateStart, dateEnd]);
+    fetchDataShopOption()
+  }, [userId, selectedShop, dateStart, dateEnd]);
+
+  console.log(userLogin)
+  console.log(userId)
 
   //----- จัดการแสดงข้อมูล / หน้า -------------- //
   const [currentPage, setCurrentPage] = useState(1);
@@ -99,6 +116,7 @@ const ShopReport = ({ userLogin }) => {
     // เซ็ตข้อมูลลูกค้าที่ถูกเลือกใน state
     console.log(company);
     setSelectedCompany(company);
+    setUserId(company.id)
   };
 
   const handleSelectDateStart = (date) => {
