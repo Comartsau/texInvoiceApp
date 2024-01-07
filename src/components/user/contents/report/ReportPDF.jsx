@@ -445,6 +445,8 @@ import { useState } from "react";
     const totalAmount = dataReceipt?.reduce((acc, item) => acc + item?.total_amount, 0);
     const totalPrice = dataReceipt?.reduce((acc, item) => acc + item?.total_price, 0);
     const totalTax = dataReceipt?.reduce((acc, item) => acc + item?.total_tax, 0);
+
+    console.log(pages)
     
   
     return (
@@ -530,7 +532,7 @@ import { useState } from "react";
                           ใบกำกับภาษี{" "}
                         </Text>
                         <Text style={[styles.tableHead3, styles.colorHead]}>
-                          ชื่อผู้ขายสินค้า{" "}
+                          รูปแบบ{" "}
                         </Text>
                         <Text style={[styles.tableHead4, styles.colorHead]}>
                           เลขประจำตัวผู้เสีย{" "}
@@ -559,7 +561,7 @@ import { useState } from "react";
                           เลขที่{" "}
                         </Text>
                         <Text style={[styles.tableSubHead4, styles.colorHead]}>
-                          ผู้ให้บริการ{" "}
+                          ใบกำกับภาษี{" "}
                         </Text>
                         <Text style={[styles.tableSubHead5, styles.colorHead]}>
                           ภาษีของผู้ขายสินค้า{" "}
@@ -580,7 +582,7 @@ import { useState } from "react";
                           ภาษีมูลค่าเพิ่ม{" "}
                         </Text>
                       </View>
-                      {pageData.map((item, itemIndex) => {
+                      {pageData?.map((item, itemIndex) => {
                         return (
                           <View key={itemIndex} style={styles.tableRow}>
                             <Text style={[styles.tableSubHead1 , {fontSize:"8"}]}>
@@ -593,7 +595,7 @@ import { useState } from "react";
                               {item?.num_code  || ""}{" "}
                             </Text>
                             <Text style={[styles.tableSubHead4 , {textAlign:'left'}, {fontSize:"8"}]}>
-                              {item?.code  || ""}{" "}
+                              {item?.code  || ""} {""}
                             </Text>
                             <Text style={[styles.tableSubHead5 , {fontSize:"8"}]}>
                               {item?.tax_personal  || ""}{" "}

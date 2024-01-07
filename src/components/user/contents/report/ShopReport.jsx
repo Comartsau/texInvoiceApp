@@ -8,6 +8,8 @@ import {
   MenuHandler,
   MenuList,
   MenuItem,
+  Select,
+  Option,
 } from "@material-tailwind/react";
 
 import DatePicker from "react-datepicker";
@@ -16,7 +18,7 @@ import th from "date-fns/locale/th";
 
 import moment from "moment/min/moment-with-locales";
 
-import Select from "react-select";
+import Selected from "react-select";
 
 import { AiOutlinePlus } from "react-icons/ai";
 import { FaCheckCircle } from "react-icons/fa";
@@ -26,63 +28,79 @@ import { useEffect, useState } from "react";
 import ReportPDF from "./ReportPDF";
 
 import { useRecoilState, useRecoilValue } from "recoil";
-import { shopStore, companyStore, companyLoginStore } from "../../../../store/Store";
+import {
+  shopStore,
+  companyStore,
+  companyLoginStore,
+} from "../../../../store/Store";
 
 import ReceiptA4Short from "../../../receipt/receiptA4Short";
-import Receipt80Short from '../../../receipt/receipt80Short'
+import Receipt80Short from "../../../receipt/receipt80Short";
 import ReceiptSubFull from "../../../receipt/receiptSubFull";
 import ReceiptSubShort from "../../../receipt/receiptSubShort";
-import { getReportShop , getReportShopAdmin, getShop } from "../../../../api/ReportApi";
+import {
+  getReportShop,
+  getReportShopAdmin,
+  getShop,
+} from "../../../../api/ReportApi";
 
 // eslint-disable-next-line react/prop-types
 const ShopReport = ({ userLogin }) => {
   const [isSearchable, setIsSearchable] = useState(true);
+  const [isClearable, setIsClearable] = useState(true);
+  const [isDisabled, setIsDisabled] = useState(false);
   const [shopDataStore, setShopDataStore] = useRecoilState(shopStore);
   const [companyDataStore, setCompanyDataStore] = useRecoilState(companyStore);
   const companyLoginDataStore = useRecoilValue(companyLoginStore);
 
   //----------  Data Table --------------------//
   const [noData, setData] = useState(false);
-  const [userId, setUserId] = useState('')
+  const [userId, setUserId] = useState("");
+  const [dataShop, setDataShop] = useState([]);
   const [searchQueryStart, setSearchQueryStart] = useState(new Date());
   const [searchQueryEnd, setSearchQueryEnd] = useState(new Date());
 
   const dateStart = moment(searchQueryStart).format("YYYY-MM-DD");
   const dateEnd = moment(searchQueryEnd).format("YYYY-MM-DD");
 
-  const [listData, setListData] = useState([]);
   const [dataView, setDataView] = useState([]);
   const [dataSub, setDataSub] = useState([]);
-  const [dataSubIndex, setDataSubIndex] = useState("");
   const [selectedShop, setSelectedShop] = useState(null);
 
   const [dataReceipt, setDataReceipt] = useState([]);
+  const [selectedCompany, setSelectedCompany] = useState(null);
 
   const fetchDataShop = async () => {
-    if(userLogin == 'admin'){
-      const response = await getReportShopAdmin(userId ,selectedShop?.id, dateStart, dateEnd);
+    if (userLogin == "admin") {
+      const response = await getReportShopAdmin(
+        userId,
+        selectedShop,
+        dateStart,
+        dateEnd
+      );
       console.log(response);
       setDataReceipt(response);
-
-    }else {
-      const response = await getReportShop(selectedShop?.id, dateStart, dateEnd);
+    } else {
+      const response = await getReportShop(
+        selectedShop?.id,
+        dateStart,
+        dateEnd
+      );
       console.log(response);
       setDataReceipt(response);
     }
   };
 
-  const fetchDataShopOption = async()=>{
-    const response = await getShop(userId)
-    console.log(response)
-  }
+  const fetchDataShopOption = async () => {
+    const response = await getShop(userId);
+    console.log(response);
+    setDataShop(response);
+  };
 
   useEffect(() => {
     fetchDataShop();
-    fetchDataShopOption()
-  }, [userId, selectedShop, dateStart, dateEnd]);
-
-  console.log(userLogin)
-  console.log(userId)
+    fetchDataShopOption();
+  }, [userId, selectedShop, dateStart, dateEnd, selectedCompany]);
 
   //----- จัดการแสดงข้อมูล / หน้า -------------- //
   const [currentPage, setCurrentPage] = useState(1);
@@ -101,49 +119,91 @@ const ShopReport = ({ userLogin }) => {
     label: company.username,
   }));
 
-  const shopOptions = shopDataStore?.map((shop) => ({
-    value: shop.id,
-    label: shop.salepoints_name,
-  }));
+  const [shopOptions, setShopOptions] = useState([]);
 
-  const [selectedCompany, setSelectedCompany] = useState(null);
+  useEffect(() => {
+    if (userLogin === "admin") {
+      if (dataShop) {
+        const options = dataShop.map((shop) => ({
+          value: shop.id,
+          label: shop.salepoints_name,
+        }));
+        setShopOptions(options);
+      }
+    } else {
+      if (shopDataStore) {
+        const options = shopDataStore.map((shop) => ({
+          value: shop.id,
+          label: shop.salepoints_name,
+        }));
+        setShopOptions(options);
+      }
+    }
+  }, [userLogin, dataShop, shopDataStore]);
 
+  console.log(shopOptions);
 
+  //  setShopOptions(userLogin == 'admin' ? dataShop?.map((shop) => ({
+  //   value: shop.id,
+  //   label: shop.salepoints_name,
+  // })))
+  // :
+  // shopDataStore?.map((shop) => ({
+  //   value: shop.id,
+  //   label: shop.salepoints_name,
+  // }))
+
+  // console.log(shopOptions)
 
   const handleCompanySelect = (e) => {
     // ค้นหาข้อมูลลูกค้าที่ถูกเลือกจาก customerDataStore
     const company = companyDataStore.find((company) => company.id === e.value);
     // เซ็ตข้อมูลลูกค้าที่ถูกเลือกใน state
-    console.log(company);
     setSelectedCompany(company);
-    setUserId(company.id)
+    setUserId(company.id);
+    setDataReceipt(null);
+    setDataView(null);
+    setSelectedRow(null);
+    setSelectedRowSub(null);
+    setDataSub([]);
+    setShopOptions([])
+    
   };
+
+  console.log(selectedCompany);
 
   const handleSelectDateStart = (date) => {
     setSearchQueryStart(date);
-    setDataView([])
-    setSelectedRow(null)
-    setSelectedRowSub(null)
-    setDataSub([])
+    setDataView([]);
+    setSelectedRow(null);
+    setSelectedRowSub(null);
+    setDataSub([]);
   };
 
   const handleSelectDateEnd = (date) => {
     setSearchQueryEnd(date);
-    setDataView([])
-    setSelectedRow(null)
-    setSelectedRowSub(null)
-    setDataSub([])
+    setDataView([]);
+    setSelectedRow(null);
+    setSelectedRowSub(null);
+    setDataSub([]);
   };
 
   const handleShopSelect = (e) => {
+    console.log(e);
     // ค้นหาข้อมูลลูกค้าที่ถูกเลือกจาก customerDataStore
-    const shop = shopDataStore.find((shop) => shop.id === e.value);
-    // เซ็ตข้อมูลลูกค้าที่ถูกเลือกใน state
-    console.log(shop);
-    setSelectedShop(shop);
-    setSelectedRow(null)
-    setSelectedRowSub(null)
-    setDataSub([])
+    if (userLogin == "admin") {
+      setSelectedShop(e);
+      setSelectedRow(null);
+      setSelectedRowSub(null);
+      setDataSub([]);
+    } else {
+      const shop = shopDataStore?.find((shop) => shop.id === e.value);
+      // เซ็ตข้อมูลลูกค้าที่ถูกเลือกใน state
+      setSelectedShop(shop);
+      setSelectedRow(null);
+      setSelectedRowSub(null);
+      setDataSub([]);
+    }
   };
 
   const handleDataView = (data) => {
@@ -160,14 +220,14 @@ const ShopReport = ({ userLogin }) => {
 
   const [selectedRow, setSelectedRow] = useState(null);
   const handleRowClick = (index) => {
-  setSelectedRow(index); // ตั้งค่า index ของแถวที่เลือก
-  setSelectedRowSub(null)
-  setDataSub([])
-};
+    setSelectedRow(index); // ตั้งค่า index ของแถวที่เลือก
+    setSelectedRowSub(null);
+    setDataSub([]);
+  };
   const [selectedRowSub, setSelectedRowSub] = useState(null);
   const handleRowClickSub = (index) => {
-  setSelectedRowSub(index); // ตั้งค่า index ของแถวที่เลือก
-};
+    setSelectedRowSub(index); // ตั้งค่า index ของแถวที่เลือก
+  };
 
   //------------- open Receipt A4  -----------------------//
   const [openModalReceiptA4, setOpenModalReceiptA4] = useState(false);
@@ -187,7 +247,8 @@ const ShopReport = ({ userLogin }) => {
   };
 
   //------------- open Receipt 80 Sub  -----------------------//
-  const [openModalReceiptSubShort, setOpenModalReceiptSubShort] = useState(false);
+  const [openModalReceiptSubShort, setOpenModalReceiptSubShort] =
+    useState(false);
   const [sendIndex, setSendIndex] = useState("");
   const handleModalReceiptSubShort = () => {
     setOpenModalReceiptSubShort(!openModalReceiptSubShort);
@@ -198,7 +259,7 @@ const ShopReport = ({ userLogin }) => {
       <div className="flex flex-col  sm:flex-row gap-5 ">
         <div className="flex   justify-center ">
           {userLogin == "admin" ? (
-            <Select
+            <Selected
               className="basic-single  w-[240px]   z-20"
               classNamePrefix="select"
               placeholder="เลือกบริษัท"
@@ -212,17 +273,30 @@ const ShopReport = ({ userLogin }) => {
             ""
           )}
         </div>
-        <div className="flex   justify-center ">
-          <Select
-            className="basic-single  w-[240px]   z-20"
-            classNamePrefix="select"
-            placeholder="เลือกจุดขาย"
-            // isClearable={isClearable}
-            isSearchable={isSearchable}
-            name="color"
-            options={shopOptions}
-            onChange={(e) => handleShopSelect(e)}
-          />
+        <div className="flex justify-center ">
+          {userLogin == "admin" ? (
+            <Select label="เลือกจุดขาย" onChange={(e) => handleShopSelect(e)} >
+              {/* <Option value="">เลือกจุดขาย</Option> */}
+              {Array.isArray(shopOptions)
+                ? shopOptions?.map((option) => (
+                    <Option key={option.value} value={option.value}>
+                      {option.label}
+                    </Option>
+                  ))
+                : null}
+            </Select>
+          ) : (
+            <Selected
+              className="basic-single  w-[240px]   z-20"
+              classNamePrefix="select"
+              placeholder="เลือกจุดขาย"
+              id="clearShop"
+              isSearchable={isSearchable}
+              name="color"
+              options={shopOptions}
+              onChange={(e) => handleShopSelect(e)}
+            />
+          )}
         </div>
         <div className="flex justify-center ">
           <DatePicker
@@ -305,9 +379,11 @@ const ShopReport = ({ userLogin }) => {
                   <tbody>
                     {dataReceipt?.invoices_list?.map((data, index) => {
                       return (
-                        <tr 
-                        key={index}
-                        className={` hover:bg-gray-200  ${selectedRow === index ? 'bg-gray-300  ' : ''}`} 
+                        <tr
+                          key={index}
+                          className={` hover:bg-gray-200  ${
+                            selectedRow === index ? "bg-gray-300  " : ""
+                          }`}
                         >
                           <td>
                             <div className="flex items-center justify-center mt-5">
@@ -337,7 +413,10 @@ const ShopReport = ({ userLogin }) => {
                                 color="green"
                                 size="sm"
                                 className=" rounded-full border-4 w-6 h-6 mt-3  border-green-500 "
-                                onClick={() => [handleDataView(data) , handleRowClick(index)]}
+                                onClick={() => [
+                                  handleDataView(data),
+                                  handleRowClick(index),
+                                ]}
                               >
                                 <AiOutlinePlus className="text-xl " />
                               </IconButton>
@@ -395,22 +474,27 @@ const ShopReport = ({ userLogin }) => {
             </div>
             <div className="flex w-full justify-center lg:justify-end lg:px-5 gap-5 ">
               <div>
-                <Menu   className="text-base flex justify-center  items-center   ">
+                <Menu className="text-base flex justify-center  items-center   ">
                   <MenuHandler>
-                    <Button 
-                    size="sm"
-                    className="text-base flex justify-center  items-center   bg-green-500"
-                    variant="gradient"
-                    color="blue"
+                    <Button
+                      size="sm"
+                      className="text-base flex justify-center  items-center   bg-green-500"
+                      variant="gradient"
+                      color="blue"
                     >
-                    <span className="mr-2 text-xl ">
-                  <MdLocalPrintshop />
-                </span>
-                      พิมพ์ (บิลเต็ม)</Button>
+                      <span className="mr-2 text-xl ">
+                        <MdLocalPrintshop />
+                      </span>
+                      พิมพ์ (บิลเต็ม)
+                    </Button>
                   </MenuHandler>
                   <MenuList>
-                  <MenuItem onClick={() => setOpenModalReceiptA4(true)}>ขนาด A4</MenuItem>
-                <MenuItem onClick={() => setOpenModalReceipt80(true)}>ขนาด 80 มิล</MenuItem>
+                    <MenuItem onClick={() => setOpenModalReceiptA4(true)}>
+                      ขนาด A4
+                    </MenuItem>
+                    <MenuItem onClick={() => setOpenModalReceipt80(true)}>
+                      ขนาด 80 มิล
+                    </MenuItem>
                   </MenuList>
                 </Menu>
               </div>
@@ -497,9 +581,11 @@ const ShopReport = ({ userLogin }) => {
                           : "p-3 border-b border-blue-gray-50";
 
                         return (
-                          <tr 
-                          key={index}
-                          className={` hover:bg-gray-200  ${selectedRowSub === index ? 'bg-gray-300  ' : ''}`} 
+                          <tr
+                            key={index}
+                            className={` hover:bg-gray-200  ${
+                              selectedRowSub === index ? "bg-gray-300  " : ""
+                            }`}
                           >
                             <td className={classes}>
                               <div className="flex items-center justify-center">
@@ -565,7 +651,10 @@ const ShopReport = ({ userLogin }) => {
                                   className="text-sm flex justify-center rounded-full  w-7 h-7    items-center   bg-green-500"
                                   // onClick={() => setShowPrint(true)}
                                   // onBlur={()=> setShowPrint(false)}
-                                  onClick={() => [handleDataSub(data.id), handleRowClickSub(index)]}
+                                  onClick={() => [
+                                    handleDataSub(data.id),
+                                    handleRowClickSub(index),
+                                  ]}
                                 >
                                   <span className=" text-xl ">
                                     <FaCheckCircle />
@@ -602,27 +691,32 @@ const ShopReport = ({ userLogin }) => {
                 </div>
               </div>
               <div className="flex w-full justify-center lg:justify-end lg:px-5 gap-5 mt-5">
-              <Menu className="text-base flex justify-center  items-center   ">
-              <MenuHandler>
-                <Button
-                  size="sm"
-                  className="text-base flex justify-center  items-center   bg-green-500"
-                  variant="gradient"
-                  color="yellow"
-                  disabled={dataSub?.length > 0 ? false :true}
-                >
-                  <span className="mr-2 text-xl ">
-                    <MdLocalPrintshop />
-                  </span>
-                  พิมพ์ (บิลย่อย){" "}
-                </Button>
-              </MenuHandler>
+                <Menu className="text-base flex justify-center  items-center   ">
+                  <MenuHandler>
+                    <Button
+                      size="sm"
+                      className="text-base flex justify-center  items-center   bg-green-500"
+                      variant="gradient"
+                      color="yellow"
+                      disabled={dataSub?.length > 0 ? false : true}
+                    >
+                      <span className="mr-2 text-xl ">
+                        <MdLocalPrintshop />
+                      </span>
+                      พิมพ์ (บิลย่อย){" "}
+                    </Button>
+                  </MenuHandler>
 
-              <MenuList className="menu-list-class">
-                <MenuItem onClick={() => setOpenModalReceiptSubFull(true)}> ขนาด A4</MenuItem>
-                <MenuItem onClick={() => setOpenModalReceiptSubShort(true)}>ขนาด 80 มิล</MenuItem>
-              </MenuList>
-            </Menu>
+                  <MenuList className="menu-list-class">
+                    <MenuItem onClick={() => setOpenModalReceiptSubFull(true)}>
+                      {" "}
+                      ขนาด A4
+                    </MenuItem>
+                    <MenuItem onClick={() => setOpenModalReceiptSubShort(true)}>
+                      ขนาด 80 มิล
+                    </MenuItem>
+                  </MenuList>
+                </Menu>
                 {/* <Button
                   size="sm"
                   variant="gradient"
@@ -783,14 +877,13 @@ const ShopReport = ({ userLogin }) => {
         </div>
       </div>
 
- {/* open PDF A4 */}
- {openModalReceiptA4 == true ? (
+      {/* open PDF A4 */}
+      {openModalReceiptA4 == true ? (
         <ReceiptA4Short
           openModalReceiptA4={openModalReceiptA4}
           handleModalReceiptA4={handleModalReceiptA4}
           dataReceipt={dataView}
-          companyLoginDataStore={companyLoginDataStore}
-
+          companyLoginDataStore={ userLogin == 'admin' ? selectedCompany  : companyLoginDataStore}
         />
       ) : (
         ""
@@ -802,25 +895,20 @@ const ShopReport = ({ userLogin }) => {
           openModalReceipt80={openModalReceipt80}
           handleModalReceipt80={handleModalReceipt80}
           dataReceipt={dataView}
-          companyLoginDataStore={companyLoginDataStore}
-
+          companyLoginDataStore={ userLogin == 'admin' ? selectedCompany  : companyLoginDataStore}
         />
       ) : (
         ""
       )}
 
-
-
-
       {/* open PDF A4  Sub */}
       {openModalReceiptSubFull == true ? (
         <ReceiptSubFull
-        openModalReceiptSubFull={openModalReceiptSubFull}
+          openModalReceiptSubFull={openModalReceiptSubFull}
           handleModalReceiptSubFull={handleModalReceiptSubFull}
           dataReceipt={dataSub}
           dataView={dataView}
-          companyLoginDataStore={companyLoginDataStore}
-
+          companyLoginDataStore={ userLogin == 'admin' ? selectedCompany  : companyLoginDataStore}
         />
       ) : (
         ""
@@ -829,12 +917,11 @@ const ShopReport = ({ userLogin }) => {
       {/* open PDF  80 Sub */}
       {openModalReceiptSubShort == true ? (
         <ReceiptSubShort
-        openModalReceiptSubShort={openModalReceiptSubShort}
-        handleModalReceiptSubShort={handleModalReceiptSubShort}
+          openModalReceiptSubShort={openModalReceiptSubShort}
+          handleModalReceiptSubShort={handleModalReceiptSubShort}
           dataReceipt={dataSub}
           dataView={dataView}
-          companyLoginDataStore={companyLoginDataStore}
-
+          companyLoginDataStore={ userLogin == 'admin' ? selectedCompany  : companyLoginDataStore}
         />
       ) : (
         ""

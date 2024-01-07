@@ -55,7 +55,6 @@ export const getReportSaleAdmin = async (userId ,DateStart , DateEnd) => {
   const response = await axios.get(
     `${ 
       import.meta.env.VITE_APP_API
-    // }/inovicesh/invoices-bill-search?start_date=${DateStart}&end_date=${DateEnd}`,
     }/inovicesh/invoices-bill-search-all?search=${userId}&start_date=${DateStart}&end_date=${DateEnd}`,
     {
       headers: {
@@ -80,8 +79,7 @@ export const getReportShopAdmin = async (userId ,selectedShop ,DateStart , DateE
   const response = await axios.get(
     `${ 
       import.meta.env.VITE_APP_API
-    // }/inovicesh/invoices-c-search-all?search_user=${14}&salepoints=${selectedShop}&start_date=${DateStart}&end_date=${DateEnd}`,
-    }/inovicesh/invoices-c-search-all?search_user=${userId}&start_date=${DateStart}&end_date=${DateEnd}`,
+    }/inovicesh/invoices-c-search-all?search_user=${userId}&salepoints=${selectedShop}&start_date=${DateStart}&end_date=${DateEnd}`,
     {
       headers: {
         "Content-Type": "application/json",
@@ -105,7 +103,7 @@ export const getShop = async (userId) => {
     const response = await axios.get(
       `${
         import.meta.env.VITE_APP_API
-      }/salepoints/${userId}`,
+      }/salepoints-search-all?search_id=${userId}`,
       {
         headers: {
           "Content-Type": "application/json",
@@ -113,7 +111,6 @@ export const getShop = async (userId) => {
         },
       }
     );
-    console.log(response.data)
     return response.data;
   } catch (error) {
     console.error(error);
