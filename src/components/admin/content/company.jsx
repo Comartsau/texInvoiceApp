@@ -202,7 +202,7 @@ function Company() {
             <table className="w-full min-w-max  ">
               <thead>
                 <tr>
-                  <th className="border-y border-blue-gray-100 bg-blue-gray-50/50 p-4">
+                  <th className="border-y border-blue-gray-100 bg-blue-gray-50/50 p-4 w-1">
                     <Typography
                       variant="small"
                       color="blue-gray"
@@ -211,7 +211,7 @@ function Company() {
                       ลำดับ
                     </Typography>
                   </th>
-                  <th className="border-y border-blue-gray-100 bg-blue-gray-50/50 p-4">
+                  <th className="border-y border-blue-gray-100 bg-blue-gray-50/50 p-4 ">
                     <Typography
                       variant="small"
                       color="blue-gray"
@@ -229,7 +229,7 @@ function Company() {
                       Username
                     </Typography>
                   </th>
-                  <th className="border-y border-blue-gray-100 bg-blue-gray-50/50 p-4">
+                  <th className="border-y border-blue-gray-100 bg-blue-gray-50/50 p-4 w-1">
                     <Typography
                       variant="small"
                       color="blue-gray"
@@ -238,7 +238,7 @@ function Company() {
                       ดู
                     </Typography>
                   </th>
-                  <th className="border-y border-blue-gray-100 bg-blue-gray-50/50 p-4">
+                  <th className="border-y border-blue-gray-100 bg-blue-gray-50/50 p-4 w-1">
                     <Typography
                       variant="small"
                       color="blue-gray"
@@ -247,7 +247,7 @@ function Company() {
                       แก้ไข
                     </Typography>
                   </th>
-                  <th className="border-y border-blue-gray-100 bg-blue-gray-50/50 p-4">
+                  <th className="border-y border-blue-gray-100 bg-blue-gray-50/50 p-4 w-1">
                     <Typography
                       variant="small"
                       color="blue-gray"
@@ -261,11 +261,8 @@ function Company() {
               {noData ? (
                 <tbody>
                   <tr>
-                    <td></td>
-                    <td></td>
-                    <td></td>
-                    <td>
-                      <Typography>...ไม่พบข้อมูล...</Typography>
+                    <td colSpan={5} className=" text-center ">
+                      <Typography className="mt-3">...ไม่พบข้อมูล...</Typography>
                     </td>
                   </tr>
                 </tbody>

@@ -368,7 +368,11 @@ function TaxInvoiceSub() {
 
       {/* modal View Receipt */}
 
-      <Dialog open={openModalView} size="xxl" handler={handleModalView}>
+      <Dialog 
+      open={openModalView} 
+      size="xxl" 
+      // handler={handleModalView}
+      >
         <DialogHeader className="bg-blue-700 py-3  px-3 text-center text-lg text-white opacity-80">
           <div className="flex gap-3">
             <Typography variant="h5">รายละเอียดย่อยบิล:</Typography>

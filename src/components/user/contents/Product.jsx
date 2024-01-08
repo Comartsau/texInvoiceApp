@@ -54,6 +54,7 @@ function Product() {
       console.error(error);
     }
   };
+  console.log(listData)
 
   useEffect(() => {
     if (tokenError) {
@@ -70,20 +71,6 @@ function Product() {
   }, [searchQuery]);
 
 
-  // const fetchCompanyLogin = async () =>{
-  //   const companyLogin = JSON.parse(localStorage.getItem('companyLogin'))
-  //   setCompanyLoginDataStore(companyLogin)
-  //   setTimeout(()=>{
-  //     localStorage.removeItem('companyLogin')
-  //   },2000)
-    
-  // }
-
-  // useEffect(()=>{
-  //   fetchCompanyLogin()
-  // },[])
-
-
   //----- จัดการแสดงข้อมูล / หน้า -------------- //
   const [currentPage, setCurrentPage] = useState(1);
   const itemsPerPage = 8;
@@ -91,10 +78,12 @@ function Product() {
   const startIndex = (currentPage - 1) * itemsPerPage;
   const endIndex = startIndex + itemsPerPage;
   const displayedData = Array.isArray(listData)
-    ? listData.slice(startIndex, endIndex)
+    ? listData?.slice(startIndex, endIndex)
     : [];
 
-  const totalPages = Math?.ceil(listData?.length || 0 / itemsPerPage);
+  const totalPages = Math?.ceil(listData?.length  / itemsPerPage);
+
+  console.log(totalPages)
 
   //------------- modal View Product -----------------------//
   const [openModalView, setOpenModalView] = useState(false);
@@ -288,7 +277,6 @@ function Product() {
                     const classes = isLast
                       ? "p-2"
                       : "p-3 border-b border-blue-gray-50";
-
                     return (
                       <tr key={index}>
                         <td className={classes}>

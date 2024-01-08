@@ -372,7 +372,7 @@ function Customer() {
 
       {/* modal View Customer */}
 
-      <Dialog open={openModalView} handler={handleModalView}>
+      <Dialog open={openModalView} handler={handleModalView} size="sm">
         <DialogHeader className="bg-blue-700 py-3  px-3 text-center text-lg text-white opacity-80">
           <div className="flex gap-3">
             <Typography variant="h5">รายละเอียดลูกค้า:</Typography>
@@ -398,7 +398,8 @@ function Customer() {
                 </Typography>
                 <Typography>{dataView?.customer_id_tax || ""}</Typography>
               </div>
-
+            </div>
+            <div className="flex w-full  gap-3  ">
               <div className="flex mt-3 w-full gap-4  ">
                 <Typography className="font-bold">โทรศัพท์:</Typography>
                 <Typography>{dataView?.customer_tel || ""}</Typography>
@@ -576,8 +577,8 @@ function Customer() {
             </div>
           </div>
           <div className="flex flex-col   items-center sm:items-start  gap-4 ">
-            <div className="flex flex-col sm:flex-row gap-4 w-full xl:px-5 xl:justify-between">
-              <div className="flex sm:w-[200px]  mt-3">
+            <div className="flex flex-col sm:flex-row gap-4 w-full xl:px-5 ">
+              <div className="flex sm:w-[50%]  mt-3">
                 <Input
                   type="text"
                   label="เลขประจำตัวผู้เสียภาษีอากร"
@@ -591,7 +592,7 @@ function Customer() {
                   }
                 />
               </div>
-              <div className="flex sm:w-[200px]  mt-3">
+              <div className="flex sm:w-[50%]  mt-3">
                 <Input
                   type="number"
                   label="เบอร์โทรศัพท์"

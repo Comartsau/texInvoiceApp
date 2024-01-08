@@ -343,7 +343,7 @@ function TaxInvoiceFull() {
       <Dialog
         open={openModalView}
         size="xl"
-        handler={handleModalView}
+        // handler={handleModalView}
         className="h-[90vh] "
       >
         <DialogHeader className="bg-blue-700 py-3  px-3 text-center text-lg text-white opacity-80">
