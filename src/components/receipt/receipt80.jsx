@@ -420,7 +420,7 @@ import {
     console.log(pages);
 
     // แปลงเวลา //
-    const formattedDateTime = moment(dataReceipt?.created_at).format("DD/MM/YYYY  HH:mm:ss");
+    const formattedDateTime = moment(dataReceipt?.created_at).format("DD/MM/YYYY ");
 
   
     return (

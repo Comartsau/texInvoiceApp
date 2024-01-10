@@ -470,7 +470,7 @@ export const ReceiptSubShort = ({
 
 
   //  แปลงเวลา
-   const formattedDateTime = moment(dataView?.created_at).format("DD/MM/YYYY  HH:mm:ss");
+   const formattedDateTime = moment(dataView?.created_at).format("DD/MM/YYYY  ");
 
 
   return (

@@ -394,7 +394,7 @@ export const ReceiptA4Short = ({
   const pages = generatePages(dataReceipt?.product_data);
 
     // แปลงเวลา //
-    const formattedDateTime = moment(dataReceipt?.created_at).format("DD/MM/YYYY  HH:mm:ss");
+    const formattedDateTime = moment(dataReceipt?.created_at).format("DD/MM/YYYY ");
 
 
   return (
