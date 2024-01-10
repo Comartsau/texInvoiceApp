@@ -145,37 +145,9 @@ function Shops() {
     setOpenModalClose(false)
 
 
-
-    // let token = localStorage.getItem("Token");
-    // let data = qs.stringify({});
-
     console.log(id);
 
-    // let config = {
-    //   method: "delete",
-    //   maxBodyLength: Infinity,
-    //   url: `${import.meta.env.VITE_APP_API}/salepoints/delete/${id}`,
-    //   headers: {
-    //     Authorization: `Bearer ${token}`,
-    //     "Content-Type": "application/x-www-form-urlencoded",
-    //   },
-    //   data: data,
-    // };
-    // axios
-    //   .request(config)
-    //   .then((response) => {
-    //     response.data;
-    //     //  setTimeout(() => {
-    //     // }, 1000);
-    //     console.log(response.data);
-    //     getShops();
-    //     setOpenModalDelete(false);
-    //     toast.success("ลบข้อมูล จุดขาย สำเร็จ");
 
-    //   })
-    //   .catch((error) => {
-    //     toast.error(error);
-    //   });
   };
 
   //------------- modal Delete Product -----------------------//
@@ -193,52 +165,18 @@ function Shops() {
       const response = await deleteShop(id) 
         fetchShop();
         setOpenModalDelete(false);
-        toast.success("ลบข้อมูล จุดขาย สำเร็จ");
-      
-
-      
+        
+        if(response.product == 'nok') {
+          toast.error("ไม่สามารถลบได้ ข้อมูลถูกใช้งาน");
+        }else{
+          toast.success("ลบข้อมูล จุดขาย สำเร็จ");
+        }
     } catch (error) {
       toast.error(error)
       
     }
   }
 
-
-
-  // const handleDelete = async (id) => {
-  //   // ลบข้อมูลเมื่อผู้ใช้ยืนยันการลบ
-
-  //   let token = localStorage.getItem("Token");
-  //   let data = qs.stringify({});
-
-  //   console.log(id);
-
-  //   let config = {
-  //     method: "delete",
-  //     maxBodyLength: Infinity,
-  //     url: `${import.meta.env.VITE_APP_API}/salepoints/delete/${id}`,
-  //     headers: {
-  //       Authorization: `Bearer ${token}`,
-  //       "Content-Type": "application/x-www-form-urlencoded",
-  //     },
-  //     data: data,
-  //   };
-  //   axios
-  //     .request(config)
-  //     .then((response) => {
-  //       response.data;
-  //       //  setTimeout(() => {
-  //       // }, 1000);
-  //       console.log(response.data);
-  //       // getShops();
-  //       setOpenModalDelete(false);
-  //       toast.success("ลบข้อมูล จุดขาย สำเร็จ");
-
-  //     })
-  //     .catch((error) => {
-  //       toast.error(error);
-  //     });
-  // };
 
   return (
     <Card className="w-full overflow-auto px-3">

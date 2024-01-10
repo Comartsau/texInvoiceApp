@@ -495,10 +495,10 @@ import {
                         return (
                           <View key={itemIndex} style={styles.tableRow}>
                             <Text style={styles.tableCell1}>
-                            {item?.quantity || ""}{" "}
+                            {Number(item?.quantity).toLocaleString() || ""}{" "}
                             </Text>
                             <Text
-                              style={[styles.tableCell2, { textAlign: "left" }]}
+                              style={[styles.tableCell2, { textAlign: "left" , marginLeft:'20px', marginRight:'-12px'  }]}
                             >
                               {`${item?.product || ''} `}
                             </Text>
@@ -579,121 +579,8 @@ import {
                         </>
                       )}
                     </View>
-       
-                    {/*   ลงชื่อผู้รับ/ผู้จ่าย  */}
-                    {/* {index == pages.length - 1 && (
-                      <>
-                        <View style={[styles.flexrow, styles.mtsm20]}>
-                          <View
-                            style={[
-                              styles.flexrowstart,
-                              { width: "60%" },
-                              { marginLeft: "30px" },
-                            ]}
-                          >
-                            <Text
-                              style={[
-                                { fontWeight: "extrabold" },
-                                { fontFamily: "SarabunBold" },
-                                { fontSize: "11" },
-                                styles.mtsm,
-                                styles.spacesm,
-                              ]}
-                            >
-                              ลงชื่อ:{" "}
-                            </Text>
-                            <Text
-                              style={[
-                                styles.mtsm,
-                                { fontWeight: "light" },
-                                { fontFamily: "Sarabun" },
-                                { fontSize: "11" },
-                                { display: "flex" },
-                                { width: "80%" },
-                              ]}
-                            >
-                              (..................................................)
-                            </Text>
-                          </View>
-  
-                          <View style={[styles.flexrow, { width: "40%" }]}>
-                            <View style={styles.flexrowstart}>
-                              <Text
-                                style={[
-                                  { fontWeight: "extrabold" },
-                                  { fontFamily: "SarabunBold" },
-                                  { fontSize: "11" },
-                                  styles.mtsm,
-                                  styles.spacesm,
-                                ]}
-                              >
-                                ลงชื่อ:{" "}
-                              </Text>
-                              <Text
-                                style={[
-                                  styles.mtsm,
-                                  { fontWeight: "light" },
-                                  { fontFamily: "Sarabun" },
-                                  { fontSize: "11" },
-                                  { display: "flex" },
-                                  { width: "80%" },
-                                ]}
-                              >
-                                (..................................................)
-                              </Text>
-                            </View>
-                          </View>
-                        </View>
-                        <View style={[styles.flexrow, styles.mtsm20]}>
-                          <View
-                            style={[
-                              styles.flexrowstart,
-                              { width: "60%" },
-                              { marginLeft: "25px" },
-                            ]}
-                          >
-                            <Text
-                              style={[
-                                { fontWeight: "extrabold" },
-                                { fontFamily: "SarabunBold" },
-                                { fontSize: "11" },
-                                { marginLeft: "90px" },
-                                styles.mtsm,
-                                styles.spacesm,
-                              ]}
-                            >
-                              ผู้รับเงิน:{" "}
-                            </Text>
-                          </View>
-  
-                          <View style={[styles.flexrow, { width: "40%" }]}>
-                            <View style={styles.flexrowstart}>
-                              <Text
-                                style={[
-                                  { fontWeight: "extrabold" },
-                                  { fontFamily: "SarabunBold" },
-                                  { fontSize: "11" },
-                                  { marginLeft: "90px" },
-                                  styles.mtsm,
-                                  styles.spacesm,
-                                ]}
-                              >
-                                ผู้จ่ายเงิน:{" "}
-                              </Text>
-                            </View>
-                          </View>
-                        </View>
-                      </>
-                    )} */}
                   </View>
-                  {/* <View fixed style={[styles.footer]}>
-                    {" "}
-                    <Text style={[styles.footer, styles.text12   ]}
-                      render={({ pageNumber, totalPages }) =>
-                        `${pageNumber} / ${totalPages}`
-                      }
-                    />
-                  </View> */}
+
                 </Page>
               ))}
             </Document>

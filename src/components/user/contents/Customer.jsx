@@ -151,7 +151,11 @@ function Customer() {
       const response = await deleteCustomer(id)
         fetchCustomer();
         setOpenModalDelete(false);
-        toast.success("ลบข้อมูล ลูกค้า สำเร็จ");
+        if(response.product == 'nok') {
+          toast.error("ไม่สามารถลบได้ ข้อมูลถูกใช้งาน");
+        }else{
+          toast.success("ลบข้อมูล ลูกค้า สำเร็จ");
+        }
     } catch (error) {
       toast.error(error)
       
