@@ -526,8 +526,8 @@ export const ReceiptSubShort = ({
                   {/*-----------  หัวตาราง ---------------------  */}
                   <View style={[styles.table, { marginTop: "10" }]}>
                     <View style={styles.tableRow}>
-                      <Text style={[styles.tableCellHead1 , {color:"#fff"}]}>
-                        .    {''}
+                      <Text style={[styles.tableCellHead1 ]}>
+                        จำนวน    {''}
                       </Text>
                       <Text style={[styles.tableCellHead2 , {paddingLeft:"30"}]}>
                         รายการ   {''}

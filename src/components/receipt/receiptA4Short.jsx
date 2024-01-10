@@ -299,6 +299,21 @@ const styles = StyleSheet.create({
     width: "70%", // แบ่งเป็น 3 ส่วนเท่า ๆ กัน (ขนาดเท่ากัน)
     height: "100%",
   },
+  tableCellRowsum1: {
+    margin: "auto",
+    fontSize: 10,
+    padding: 5,
+    borderWidth: 1,
+    borderTopWidth: 1,
+    borderTop: "0",
+    borderLeft: "1",
+    borderRight: "1",
+    borderBottom: "0",
+    borderColor: "#000",
+    textAlign: "center",
+    width: "70%", // แบ่งเป็น 3 ส่วนเท่า ๆ กัน (ขนาดเท่ากัน)
+    height: "100%",
+  },
   tableCellNote1: {
     margin: "auto",
     fontSize: 10,
@@ -338,6 +353,9 @@ const styles = StyleSheet.create({
     borderWidth: 1,
     borderTopWidth: 1,
     borderTop: "0",
+    borderLeft: "1",
+    borderRight: "1",
+    borderBottom: "0",
     borderColor: "#000",
     width: "70%", // แบ่งเป็น 3 ส่วนเท่า ๆ กัน (ขนาดเท่ากัน)
     height: "100%",
@@ -463,22 +481,44 @@ export const ReceiptA4Short = ({
                     </View>
                     {index == pages.length - 1 && (
                       <>
-                        <View style={styles.tableRow}>
+                      <View View style={styles.tableRow}>
                           {/* สรุปรวม */}
-                          <Text style={[styles.tableCellNote1, styles.text12]}>
-                          {THBText(dataReceipt?.total_amount) || ''}
+                          <Text style={[styles.tableCellRowsum1 ,{textAlign:"left"} ]}>
+                            หมายเหตุ: 
                           </Text>
-                          {/* <Text style={[styles.tableCellNote2, styles.text12]}> */}
-                          <Text style={styles.tableCell3}>
-                            รวมเงิน
-                          </Text>
-                          <Text style={styles.tableCell4}>
-                          {Number(dataReceipt?.total_amount).toLocaleString() || ""}
+                          <Text style={styles.tableCell5}> รวมเป็นเงิน </Text>
+                          <Text style={styles.tableCell6}>
+                            {Number(dataReceipt?.total_price).toFixed(2)
+                              .replace(/\B(?=(\d{3})+(?!\d))/g, ",") || ''}
                           </Text>
                         </View>
-                        <View style={[styles.flexrow]}>
-                          <Text style={[styles.text12 , styles.mt10]} >หมายเหตุ: </Text>
-                          <Text style={[styles.text12 , styles.mt10 ]} >{dataReceipt?.note || ''} </Text>
+                        <View View style={[styles.tableRow]}>
+                          {/* ภาษี */}
+                          <Text style={[styles.tableCellNoteBorder , {paddingLeft:'5'} ]}>{dataReceipt?.note || '' }</Text>
+                          <Text style={[styles.tableCell5  ]} >
+                            {" "}
+                            ภาษีมูลค่าเพิ่ม
+                          </Text>
+                          <Text style={styles.tableCell6}>
+                            {dataReceipt?.total_tax
+                              .toFixed(2)
+                              .replace(/\B(?=(\d{3})+(?!\d))/g, ",") || ''}
+                          </Text>
+                        </View>
+                        <View View style={styles.tableRow}>
+                          {/* สรุปรวม */}
+                          <Text style={styles.tableCellRowsum}>
+                            {THBText(dataReceipt?.total_amount) || ''}
+                          </Text>
+                          <Text style={styles.tableCell5}>
+                            {" "}
+                            จำนวนเงินทั้งสิ้น   {''}
+                          </Text>
+                          <Text style={styles.tableCell6}>
+                            {dataReceipt?.total_amount
+                              .toFixed(2)
+                              .replace(/\B(?=(\d{3})+(?!\d))/g, ",") || ''}
+                          </Text>
                         </View>
                       </>
                     )}

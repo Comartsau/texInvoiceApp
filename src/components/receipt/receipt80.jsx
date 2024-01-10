@@ -478,7 +478,7 @@ import {
                     <View style={[styles.table, { marginTop: "10" }]}>
                       <View style={styles.tableRow}>
                         <Text style={[styles.tableCell1Head]}>
-                        {''}
+                        จำนวน {''}
                         </Text>
                         <Text style={[styles.tableCell2Head]}>
                           รายการ{" "}
