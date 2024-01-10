@@ -34,10 +34,11 @@ import {
   companyLoginStore,
 } from "../../../../store/Store";
 
-import ReceiptA4Short from "../../../receipt/receiptA4Short";
+// import ReceiptA4Short from "../../../receipt/receiptA4Short";
 import Receipt80Short from "../../../receipt/receipt80Short";
 import ReceiptSubFull from "../../../receipt/receiptSubFull";
 import ReceiptSubShort from "../../../receipt/receiptSubShort";
+import ReceiptA4ShortReport from "../../../receipt/receiptA4ShortReport";
 import {
   getReportShop,
   getReportShopAdmin,
@@ -473,7 +474,20 @@ const ShopReport = ({ userLogin }) => {
               </div>
             </div>
             <div className="flex w-full justify-center lg:justify-end lg:px-5 gap-5 ">
-              <div>
+                    <Button
+                      size="sm"
+                      className="text-base flex justify-center  items-center   bg-green-500"
+                      variant="gradient"
+                      color="blue"
+                      disabled={dataView?.length < 1}
+                      onClick={() => setOpenModalReceiptA4(true)}
+                    >
+                      <span className="mr-2 text-xl ">
+                        <MdLocalPrintshop />
+                      </span>
+                      พิมพ์ (บิลเต็ม)
+                    </Button>
+              {/* <div>
                 <Menu className="text-base flex justify-center  items-center   ">
                   <MenuHandler>
                     <Button
@@ -497,7 +511,7 @@ const ShopReport = ({ userLogin }) => {
                     </MenuItem>
                   </MenuList>
                 </Menu>
-              </div>
+              </div> */}
             </div>
             <div className=" xl:px-2 mt-5 z-10 ">
               <Card className="border w-full h-[35vh] overflow-auto ">
@@ -879,7 +893,7 @@ const ShopReport = ({ userLogin }) => {
 
       {/* open PDF A4 */}
       {openModalReceiptA4 == true ? (
-        <ReceiptA4Short
+        <ReceiptA4ShortReport
           openModalReceiptA4={openModalReceiptA4}
           handleModalReceiptA4={handleModalReceiptA4}
           dataReceipt={dataView}
