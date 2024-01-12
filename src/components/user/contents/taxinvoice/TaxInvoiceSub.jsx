@@ -63,7 +63,7 @@ function TaxInvoiceSub() {
   const fetchSubInvoice = async () => {
     try {
       const response = await getSubInvoice(searchQuery);
-      // console.log(response?.invoices_list);
+      console.log(response?.invoices_list);
       setListData(response?.invoices_list);
       setNoData(false);
     } catch (error) {

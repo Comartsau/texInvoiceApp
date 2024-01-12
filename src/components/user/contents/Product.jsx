@@ -451,7 +451,7 @@ function Product() {
         <DialogBody divider className=" overflow-auto ">
           <div className="flex flex-col   items-center sm:items-start  gap-4 ">
             <div className="flex flex-col sm:flex-row gap-4 w-full xl:px-5 xl:justify-between">
-              <div className="flex sm:w-[200px]  mt-3">
+              <div className="flex sm:w-[50%]  mt-3">
                 <Input
                   type="text"
                   label="ชื่อสินค้า"
@@ -464,7 +464,7 @@ function Product() {
                   }
                 />
               </div>
-              <div className="flex sm:w-[200px]  mt-3">
+              <div className="flex sm:w-[50%]  mt-3">
                 <Input
                   type="number"
                   label="ราคา/หน่วย"
@@ -478,7 +478,7 @@ function Product() {
                 />
               </div>
             </div>
-            <div className="flex mt-3 w-full h-auto sm:w-[200px] sm:mt-0 xl:px-5 ">
+            <div className="flex mt-3   sm:w-[50%] sm:mt-0 xl:px-5 ">
               <Input
                 type="text"
                 label="หน่วยนับ"

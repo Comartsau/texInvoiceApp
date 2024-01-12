@@ -65,6 +65,7 @@ function TaxInvoiceFull() {
   const fetchFullInvioce = async () => {
     try {
       const response = await getFullInvoice(searchQuery);
+      console.log(response)
       setListData(response);
     } catch (error) {
       toast.error(error);

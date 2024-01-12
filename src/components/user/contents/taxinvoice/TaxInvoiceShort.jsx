@@ -64,7 +64,7 @@ function TaxInvoiceShort() {
   const fetchShortInvoice = async () => {
     try {
       const response = await getShortInvoice(searchQuery);
-      // console.log(response);
+      console.log(response);
       setListData(response);
       setNoData(false);
     } catch (error) {

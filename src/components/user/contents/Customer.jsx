@@ -470,7 +470,7 @@ function Customer() {
           </div>
           <div className="flex flex-col   items-center sm:items-start  gap-4 ">
             <div className="flex flex-col sm:flex-row gap-4 w-full xl:px-5 xl:justify-between">
-              <div className="flex sm:w-[200px]  mt-3">
+              <div className="flex sm:w-[50%]  mt-3">
                 <Input
                   type="text"
                   label="เลขประจำตัวผู้เสียภาษีอากร"
@@ -492,7 +492,7 @@ function Customer() {
                   // }
                 />
               </div>
-              <div className="flex sm:w-[200px]  mt-3">
+              <div className="flex sm:w-[50%]  mt-3">
                 <Input
                   type="number"
                   label="เบอร์โทรศัพท์"
