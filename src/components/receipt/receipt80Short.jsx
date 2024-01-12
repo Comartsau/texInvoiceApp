@@ -387,8 +387,8 @@ import {
     dataReceipt,
     companyLoginDataStore
   }) => {
-    console.log(dataReceipt);
-    console.log(companyLoginDataStore);
+    // console.log(dataReceipt);
+    // console.log(companyLoginDataStore);
 
     const itemsPerPage = 100; // จำนวนรายการต่อหน้า
   
@@ -414,9 +414,9 @@ import {
     const pages = generatePages(dataReceipt?.product_data);
 
     const totalQuantity = dataReceipt?.product_data?.reduce((total, item) => total + item.quantity, 0);
-    console.log(totalQuantity); // ผลลัพธ์จำนวน quantity ทั้งหมด
+    // console.log(totalQuantity); // ผลลัพธ์จำนวน quantity ทั้งหมด
   
-    console.log(pages);
+    // console.log(pages);
 
     // แปลงเวลา //
     const formattedDateTime = moment(dataReceipt?.created_at).format("DD/MM/YYYY ");
@@ -435,12 +435,12 @@ import {
                 {/*  <Page key={index} size='B7' style={styles.page} >  */}
                   <View>
                     <Text style={[styles.flexrowcenter, styles.text12]}>
-                      {companyLoginDataStore?.company || ''} 
+                      {companyLoginDataStore?.company || ''} {''}
                     </Text>
                     <Text
                       style={[styles.flexrowcenter, styles.text9, styles.mt10]}
                     >
-                      {companyLoginDataStore?.address || ''} 
+                      {companyLoginDataStore?.address || ''} {''}
                     </Text>
                     <Text
                       style={[
@@ -489,7 +489,7 @@ import {
                         </Text>
                       </View>
                       {pageData.map((item, itemIndex) => {
-                        console.log(item);
+                        // console.log(item);
                         return (
                           <View key={itemIndex} style={styles.tableRow}>
                             <Text style={[styles.tableCell1 ,]}>

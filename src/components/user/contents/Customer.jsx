@@ -48,7 +48,7 @@ function Customer() {
   const fetchCustomer = async () => {
     try {
       const response = await getCustomer(searchQuery);
-      console.log(response)
+      // console.log(response)
       setListData(response);
       setCustomerDataStore(response);
       setNoData(false);

@@ -33,7 +33,7 @@ export const addProduct = async (data) => {
         },
       }
     );
-    console.log(response.data);
+    // console.log(response.data);
     return response.data;
   } catch (error) {
     console.error(error);
@@ -53,7 +53,7 @@ export const editProduct = async (data) => {
         },
       }
     );
-    console.log(response.data);
+    // console.log(response.data);
     return response.data;
   } catch (error) {
     console.error(error);
@@ -71,7 +71,7 @@ export const deleteProduct = async (id) => {
         },
       }
     );
-    console.log(response.data);
+    // console.log(response.data);
     return response.data;
   } catch (error) {
     console.error(error);

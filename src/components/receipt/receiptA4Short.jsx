@@ -368,7 +368,7 @@ export const ReceiptA4Short = ({
   dataReceipt,
   companyLoginDataStore
 }) => {
-  console.log(companyLoginDataStore)
+  // console.log(companyLoginDataStore)
 
 
   const itemsPerPage = 20; // จำนวนรายการต่อหน้า
@@ -428,12 +428,12 @@ export const ReceiptA4Short = ({
                 </View>
                 <View style={[styles.mt10]}>
                   <Text style={[styles.flexrowcenter, styles.text14]}>
-                    {companyLoginDataStore?.company || ''} 
+                    {companyLoginDataStore?.company || ''} {''}
                   </Text>
                   <Text
                     style={[styles.flexrowcenter, styles.text12, styles.mt10]}
                   >
-                    {companyLoginDataStore?.address || ''} 
+                    {companyLoginDataStore?.address || ''} {''}
                   </Text>
                   <Text
                     style={[styles.flexrowcenter, styles.text12, styles.mt10]}

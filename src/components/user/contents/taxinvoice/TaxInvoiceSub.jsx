@@ -63,7 +63,7 @@ function TaxInvoiceSub() {
   const fetchSubInvoice = async () => {
     try {
       const response = await getSubInvoice(searchQuery);
-      console.log(response?.invoices_list);
+      // console.log(response?.invoices_list);
       setListData(response?.invoices_list);
       setNoData(false);
     } catch (error) {
@@ -136,10 +136,10 @@ function TaxInvoiceSub() {
   const handleDelete = async (id) => {
     // ลบข้อมูลเมื่อผู้ใช้ยืนยันการลบ
 
-    console.log(id);
+    // console.log(id);
     try {
       const response = await deleteSubInvoice(id , setToastOpen)
-      console.log(response)
+      // console.log(response)
       fetchSubInvoice();
       setOpenModalDelete(false);
       
@@ -407,7 +407,7 @@ function TaxInvoiceSub() {
               </div>
               <div className="flex flex-col sm:flex-row items-center justify-center lg:justify-between lg:px-10 gap-5 mt-3 py-2 rounded-s-lg first-line: hover:bg-gray-200">
                 <div className="font-bold">
-                  วันที่สร้างบิล: <span className="font-normal">{moment(dataView?.created_at).format("DD/MM/YYYY  HH:mm:ss")}</span>
+                  วันที่สร้างบิล: <span className="font-normal">{moment(dataView?.created_at).format("DD/MM/YYYY  ")}</span>
                 </div>
                 <div className="font-bold text-red-500">
                   รวมมูลค่าสินค้า: <span>{Number(dataView?.total_amount).toLocaleString() || ''}</span> บาท

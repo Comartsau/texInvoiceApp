@@ -47,14 +47,14 @@ function Product() {
     try {
       const response = await getProduct(searchQuery);
       setListData(response);
-      console.log(response)
+      // console.log(response)
       setNoData(false);
       setProductDataStore(response);
     } catch (error) {
       console.error(error);
     }
   };
-  console.log(listData)
+  // console.log(listData)
 
   useEffect(() => {
     if (tokenError) {
@@ -83,7 +83,7 @@ function Product() {
 
   const totalPages = Math?.ceil(listData?.length  / itemsPerPage);
 
-  console.log(totalPages)
+  // console.log(totalPages)
 
   //------------- modal View Product -----------------------//
   const [openModalView, setOpenModalView] = useState(false);

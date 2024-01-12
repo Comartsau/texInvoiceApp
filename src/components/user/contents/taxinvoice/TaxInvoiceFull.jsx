@@ -126,13 +126,13 @@ function TaxInvoiceFull() {
   const handleDelete = async (id) => {
     try {
       const response = await deleteFullInvoice(id, setToastOpen);
-      console.log(response);
+      // console.log(response);
       fetchFullInvioce();
       setOpenModalDelete(false);
     } catch (error) {
       toast.error(error);
     }
-    console.log(id);
+    // console.log(id);
   };
 
   const [showPrint, setShowPrint] = useState(false);
@@ -376,7 +376,7 @@ function TaxInvoiceFull() {
               <Typography className="font-bold mt-5">
                 วันที่:{" "}
                 <spand className="font-normal">
-                  {moment(dataView?.created_at).format("DD/MM/YYYY  HH:mm:ss")}
+                  {moment(dataView?.created_at).format("DD/MM/YYYY  ")}
                 </spand>{" "}
               </Typography>
               <hr className="mt-3 border " />

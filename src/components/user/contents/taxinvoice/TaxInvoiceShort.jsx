@@ -64,7 +64,7 @@ function TaxInvoiceShort() {
   const fetchShortInvoice = async () => {
     try {
       const response = await getShortInvoice(searchQuery);
-      console.log(response);
+      // console.log(response);
       setListData(response);
       setNoData(false);
     } catch (error) {
@@ -125,17 +125,17 @@ function TaxInvoiceShort() {
   };
 
   const handleDelete = async (id) => {
-    console.log(id);
+    // console.log(id);
     try {
       const response = await deleteShortInvoice(id, setToastOpen);
-      console.log(response);
+      // console.log(response);
       fetchShortInvoice();
       setOpenModalDelete(false);
     } catch (error) {
       toast.error("ลบ ใบกำกับภาษี(รูปแบบย่อ) ไม่สำเร็จ  กรุณาลองใหม่");
     }
 
-    console.log(id);
+    // console.log(id);
   };
 
   const [showPrint, setShowPrint] = useState(false);
@@ -379,7 +379,7 @@ function TaxInvoiceShort() {
               <Typography className="font-bold mt-5">
                 วันที่:{" "}
                 <span className="font-normal">
-                  {moment(dataView?.created_at).format("DD/MM/YYYY  HH:mm:ss")}
+                  {moment(dataView?.created_at).format("DD/MM/YYYY  ")}
                 </span>{" "}
               </Typography>
               <hr className="mt-3 border " />

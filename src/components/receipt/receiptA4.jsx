@@ -321,12 +321,12 @@ export const ReceiptA4 = ({
   customer,
   companyLoginDataStore
 }) => {
-  console.log(dataReceipt)
-  console.log(companyLoginDataStore)
+  // console.log(dataReceipt)
+  // console.log(companyLoginDataStore)
 
-  const id = ''
+  // const id = ''
 
-  console.log(id)
+  // console.log(id)
 
   const itemsPerPage = 15; // จำนวนรายการต่อหน้า
 
@@ -351,7 +351,7 @@ export const ReceiptA4 = ({
 
   const pages = generatePages(dataReceipt.product_data);
 
-  console.log(pages);
+  // console.log(pages);
 
    // แปลงเวลา //
    const formattedDateTime = moment(dataReceipt.created_at).format("DD/MM/YYYY ");

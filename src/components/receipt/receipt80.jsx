@@ -304,7 +304,9 @@ import {
       fontSize: 10,
       padding: 5,
       textAlign: "center",
-      width: "53%", // แบ่งเป็น 3 ส่วนเท่า ๆ กัน (ขนาดเท่ากัน)
+      textOverflow:'ellipsis',
+      wordBreak: "break-word",
+      width: "45%", // แบ่งเป็น 3 ส่วนเท่า ๆ กัน (ขนาดเท่ากัน)
       height: "auto",
     },
     tableCell3: {
@@ -312,7 +314,7 @@ import {
       fontSize: 10,
       padding: 5,
       textAlign: "center",
-      width: "20%", // แบ่งเป็น 3 ส่วนเท่า ๆ กัน (ขนาดเท่ากัน)
+      width: "27%", // แบ่งเป็น 3 ส่วนเท่า ๆ กัน (ขนาดเท่ากัน)
       height: "100%",
     },
     tableCell4: {
@@ -415,12 +417,14 @@ import {
     const pages = generatePages(dataReceipt?.product_data);
 
     const totalQuantity = dataReceipt?.product_data?.reduce((total, item) => total + item.quantity, 0);
-    console.log(totalQuantity); // ผลลัพธ์จำนวน quantity ทั้งหมด
+    // console.log(totalQuantity); 
   
-    console.log(pages);
+    // console.log(pages);
 
     // แปลงเวลา //
     const formattedDateTime = moment(dataReceipt?.created_at).format("DD/MM/YYYY ");
+
+     
 
   
     return (
@@ -480,7 +484,7 @@ import {
                         <Text style={[styles.tableCell1Head]}>
                         จำนวน {''}
                         </Text>
-                        <Text style={[styles.tableCell2Head]}>
+                        <Text style={[styles.tableCell2Head ]}>
                           รายการ{" "}
                         </Text>
                         <Text style={[styles.tableCell3Head]}>
@@ -491,14 +495,17 @@ import {
                         </Text>
                       </View>
                       {pageData.map((item, itemIndex) => {
-                        console.log(item);
+                        // console.log(item);
                         return (
                           <View key={itemIndex} style={styles.tableRow}>
                             <Text style={styles.tableCell1}>
                             {Number(item?.quantity).toLocaleString() || ""}{" "}
                             </Text>
                             <Text
-                              style={[styles.tableCell2, { textAlign: "left" , marginLeft:'20px', marginRight:'-12px'  }]}
+                              style={[styles.tableCell2, { textAlign: "left" , marginLeft:'20px', marginRight:'-12',
+                               overflow: 'hidden',
+                               wordWrap: 'break-word',
+                                }]}
                             >
                               {`${item?.product || ''} `}
                             </Text>

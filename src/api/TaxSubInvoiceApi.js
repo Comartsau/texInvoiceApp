@@ -3,7 +3,7 @@ import { toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 
 export const getSubInvoice = async (searchQuery) => {
-  console.log(searchQuery)
+  // console.log(searchQuery)
     try {
         let Token = localStorage.getItem("Token");
     const response = await axios.get(
@@ -17,7 +17,7 @@ export const getSubInvoice = async (searchQuery) => {
         },
       }
     );
-    console.log(response.data)
+    // console.log(response.data)
     return response.data;
 
         
@@ -42,7 +42,7 @@ export const addSubInvioce = async (data , setOpenPrint) => {
     );
     toast.success("สร้าง ใบกำกับภาษี(รูปแบบสัพ) สำเร็จ")
     setOpenPrint(true)
-    console.log(response)
+    // console.log(response)
     return response.data.data;
   } catch (error) {
     toast.error("ไม่สามารถสร้าง ใบกำกับภาษี(รูปแบบสัพ) กรุณาลองอีกครั้ง ")

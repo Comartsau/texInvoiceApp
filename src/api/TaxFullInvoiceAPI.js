@@ -17,7 +17,7 @@ export const getFullInvoice = async (searchQuery) => {
         },
       }
     );
-    console.log(response.data)
+    // console.log(response.data)
  
     return response.data;
 
@@ -53,7 +53,7 @@ export const addFullInvioce = async (data , setOpenPrint) => {
 };
 
 export const deleteFullInvoice = async (id , setToastOpen) => {
-  console.log(id)
+  // console.log(id)
   try {
     let Token = localStorage.getItem("Token");
     const response = await axios.delete(
@@ -65,7 +65,7 @@ export const deleteFullInvoice = async (id , setToastOpen) => {
         },
       }
     );
-    console.log(response.data)
+    // console.log(response.data)
     toast.success('ลบใบกำกับภาษี(รูปแบบเต็ม) สำเร็จ')
     setToastOpen(true)
     return response.data;

@@ -446,7 +446,7 @@ import { useState } from "react";
     const totalPrice = dataReceipt?.reduce((acc, item) => acc + item?.total_price, 0);
     const totalTax = dataReceipt?.reduce((acc, item) => acc + item?.total_tax, 0);
 
-    console.log(pages)
+    // console.log(pages)
     
   
     return (

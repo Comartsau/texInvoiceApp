@@ -360,9 +360,9 @@ import {
     dataReceipt,
     companyLoginDataStore
   }) => {
-    console.log(companyLoginDataStore)
-    console.log(dataReceipt)
-    console.log(dataReceipt.sec_product_data[1])
+    // console.log(companyLoginDataStore)
+    // console.log(dataReceipt)
+    // console.log(dataReceipt.sec_product_data[1])
   
   
     const itemsPerPage = 20; // จำนวนรายการต่อหน้า
@@ -454,7 +454,7 @@ import {
                         </Text>
                       </View>
                       {pageData.map((item, itemIndex) =>  {
-                        console.log(item)
+                        // console.log(item)
                         return (
                           <View key={itemIndex} style={styles.tableRow}>
                             <Text style={styles.tableCell1}>

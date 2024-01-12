@@ -79,7 +79,7 @@ const ShopReport = ({ userLogin }) => {
         dateStart,
         dateEnd
       );
-      console.log(response);
+      // console.log(response);
       setDataReceipt(response);
     } else {
       const response = await getReportShop(
@@ -87,14 +87,14 @@ const ShopReport = ({ userLogin }) => {
         dateStart,
         dateEnd
       );
-      console.log(response);
+      // console.log(response);
       setDataReceipt(response);
     }
   };
 
   const fetchDataShopOption = async () => {
     const response = await getShop(userId);
-    console.log(response);
+    // console.log(response);
     setDataShop(response);
   };
 
@@ -142,7 +142,7 @@ const ShopReport = ({ userLogin }) => {
     }
   }, [userLogin, dataShop, shopDataStore]);
 
-  console.log(shopOptions);
+  // console.log(shopOptions);
 
   //  setShopOptions(userLogin == 'admin' ? dataShop?.map((shop) => ({
   //   value: shop.id,
@@ -171,7 +171,7 @@ const ShopReport = ({ userLogin }) => {
     
   };
 
-  console.log(selectedCompany);
+  // console.log(selectedCompany);
 
   const handleSelectDateStart = (date) => {
     setSearchQueryStart(date);
@@ -190,7 +190,7 @@ const ShopReport = ({ userLogin }) => {
   };
 
   const handleShopSelect = (e) => {
-    console.log(e);
+    // console.log(e);
     // ค้นหาข้อมูลลูกค้าที่ถูกเลือกจาก customerDataStore
     if (userLogin == "admin") {
       setSelectedShop(e);
@@ -212,12 +212,12 @@ const ShopReport = ({ userLogin }) => {
   };
 
   const handleDataSub = (index) => {
-    console.log(index);
+    // console.log(index);
     setDataSub(dataView?.sec_product_data[index]);
   };
 
-  console.log(dataView);
-  console.log(dataSub);
+  // console.log(dataView);
+  // console.log(dataSub);
 
   const [selectedRow, setSelectedRow] = useState(null);
   const handleRowClick = (index) => {

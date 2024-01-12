@@ -110,7 +110,7 @@ const CreateInvoice = () => {
       (customer) => customer.id === e.value
     );
     // เซ็ตข้อมูลลูกค้าที่ถูกเลือกใน state
-    console.log(customer);
+    // console.log(customer);
     setSelectedCustomer(customer);
   };
 
@@ -230,7 +230,7 @@ const CreateInvoice = () => {
     }
   };
 
-  console.log(data);
+  // console.log(data);
 
   // ฟังก์ชันคำนวณรวมเงิน
   const calculateTotal = (quantity, pricePerUnit) => {
@@ -267,7 +267,7 @@ const CreateInvoice = () => {
     });
     return subtotal;
   };
-  console.log(selectedShop);
+  // console.log(selectedShop);
 
   const [dataReceipt, setDataReceipt] = useState("");
   const [dataViewSub, setDataViewSub] = useState([]);
@@ -314,14 +314,14 @@ const CreateInvoice = () => {
         // console.log(response)
         setDataReceipt(response);
       } else if (headFormDataStore == "2") {
-        console.log(datasend)
+        // console.log(datasend)
         const response = await addShortInvioce(datasend, setOpenPrint);
-        console.log(response)
+        // console.log(response)
         setDataReceipt(response);
       } else if (headFormDataStore == "3") {
-        console.log(datasend);
+        // console.log(datasend);
         const response = await addSubInvioce(JSON.stringify(datasend), setOpenPrint);
-        console.log(response);
+        // console.log(response);
         setDataReceipt(response)
         setDataViewSub(response)
       }
@@ -365,7 +365,7 @@ const CreateInvoice = () => {
     setPrintIndex(index)
   };
 
-  console.log(printIndex)
+  // console.log(printIndex)
 
   return (
     <div className="flex  flex-col p-3 overflow-auto   items-center ">

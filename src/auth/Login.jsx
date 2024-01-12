@@ -82,7 +82,7 @@ function Login() {
         <div className="flex justify-center mt-10">
           <Typography variant="h4">เข้าสู่ระบบ</Typography>
         </div>
-        <CardBody className="flex flex-col mt-5 gap-4">
+        <CardBody className="flex flex-col mt-5 gap-4 mt-10">
           <Input
             color="blue"
             label="UserName"
@@ -104,7 +104,7 @@ function Login() {
             }}
           />
         </CardBody>
-        <CardFooter className="pt-0 ">
+        <CardFooter className="pt-5 ">
           <Button
             color="blue"
             variant="gradient"
@@ -116,10 +116,10 @@ function Login() {
             </Typography>
           </Button>
 
-          <ul className="mx-auto mt-5">
+          {/* <ul className="mx-auto mt-5">
             <li>ADMIN : admin / admin</li>
             <li>USER : user1 / user1</li>
-          </ul>
+          </ul> */}
         </CardFooter>
       </Card>
     </div>

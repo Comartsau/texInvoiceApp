@@ -3,7 +3,7 @@ import { toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 
 export const getShortInvoice = async (searchQuery) => {
-  console.log(searchQuery)
+  // console.log(searchQuery)
     try {
         let Token = localStorage.getItem("Token");
     const response = await axios.get(
@@ -17,7 +17,7 @@ export const getShortInvoice = async (searchQuery) => {
         },
       }
     );
-    console.log(response.data)
+    // console.log(response.data)
     return response.data;
 
         
