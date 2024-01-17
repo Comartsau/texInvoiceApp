@@ -226,7 +226,7 @@ function HomeUser() {
                 color="white"
                 className="mr-4 font-bold  text-lg  py-1.5 text-center"
               >
-                บริษัท Dev Sriwararak จำกัด
+                KUNPOL GROUP
               </Typography>
               <div className="flex items-center gap-5">
                 <IconButton

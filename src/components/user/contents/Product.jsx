@@ -455,7 +455,7 @@ function Product() {
                 <Input
                   type="text"
                   label="ชื่อสินค้า"
-                  maxLength="45"
+                  maxLength="100"
                   onChange={(e) =>
                     setNewProduct({
                       ...newProduct,
@@ -478,7 +478,8 @@ function Product() {
                 />
               </div>
             </div>
-            <div className="flex mt-3   sm:w-[50%] sm:mt-0 xl:px-5 ">
+            <div className="flex flex-col sm:flex-row gap-4 w-full xl:px-5 xl:justify-between">
+            <div className="flex mt-3 sm:w-[50%]">
               <Input
                 type="text"
                 label="หน่วยนับ"
@@ -491,6 +492,12 @@ function Product() {
                 }
               />
             </div>
+            <div className="flex mt-3 sm:w-[50%] bg-white">
+              <p className="text-white">.</p>
+            </div>
+             
+            </div>
+           
           </div>
         </DialogBody>
         <DialogFooter>

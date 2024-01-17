@@ -436,11 +436,11 @@ function Customer() {
         <DialogBody divider className=" overflow-auto ">
           <div className="flex flex-col   items-center sm:items-start  gap-4 ">
             <div className="flex flex-col sm:flex-row gap-4 w-full xl:px-5 xl:justify-between">
-              <div className="flex sm:w-[200px]  mt-3">
+              <div className="flex sm:w-[50%]  mt-3">
                 <Input
                   type="text"
                   label="ชื่อลูกค้า"
-                  maxLength="45"
+                  maxLength="70"
                   onChange={(e) =>
                     setNewCustomer({
                       ...newCustomer,
@@ -474,7 +474,7 @@ function Customer() {
                 <Input
                   type="text"
                   label="เลขประจำตัวผู้เสียภาษีอากร"
-                  maxLength="13"
+                  maxLength="15"
                   onChange={(e) => {
                     const inputValue = e.target.value;
                     if (inputValue.length <= 5) {
@@ -484,12 +484,6 @@ function Customer() {
                       });
                     }
                   }}
-                  // onChange={(e) =>
-                  //   setNewCustomer({
-                  //     ...newCustomer,
-                  //     customer_id_tax: e.target.value,
-                  //   })
-                  // }
                 />
               </div>
               <div className="flex sm:w-[50%]  mt-3">

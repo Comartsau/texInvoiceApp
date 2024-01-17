@@ -469,10 +469,10 @@ import {
                       <View style={[styles.flexrowcenter]}>
                         <View>
                           <Text style={[styles.spacesm,styles.text10]}>
-                            เลขที่ใบกำกับภาษี: {dataReceipt?.code || ''}
+                            เลขที่ใบกำกับภาษี: {dataReceipt?.code || ''} {''}
                           </Text>
                           <Text style={[styles.spacesm,styles.text10 , styles.mt5]}>
-                          วันที่ขาย: {formattedDateTime || ''}
+                          วันที่ขาย: {formattedDateTime || ''} {''}
                           </Text>
                         </View>
                       </View>
@@ -507,7 +507,7 @@ import {
                                wordWrap: 'break-word',
                                 }]}
                             >
-                              {`${item?.product || ''} `}
+                              {`${item?.product || ''} `} {''}
                             </Text>
                             <Text style={styles.tableCell3}>
                               {" "}
@@ -522,7 +522,7 @@ import {
                       })}
                     <View style={[styles.flexrowstart , styles.mt15, styles.borderTB]}>
                           <Text style={[styles.spacesm,styles.text10]}>
-                            รายการ: {dataReceipt?.product_data.length || ''}   จำนวนชิ้น:  {totalQuantity || ''}
+                            รายการ: {dataReceipt?.product_data.length || ''} {''}  จำนวนชิ้น:  {totalQuantity || ''} {''}
                           </Text>
                       </View>
                       {index == pages.length - 1 && (
@@ -533,7 +533,7 @@ import {
                             <Text style={styles.text10}>
                             {dataReceipt?.total_amount
                               .toFixed(2)
-                              .replace(/\B(?=(\d{3})+(?!\d))/g, ",")}
+                              .replace(/\B(?=(\d{3})+(?!\d))/g, ",")} {''}
                             </Text>
                           </View>
                           <View View style={[styles.flexrowbetween , styles.mt5]}>
@@ -547,14 +547,14 @@ import {
                             <Text style={styles.text12}>
                             {dataReceipt?.total_amount
                               .toFixed(2)
-                              .replace(/\B(?=(\d{3})+(?!\d))/g, ",")}
+                              .replace(/\B(?=(\d{3})+(?!\d))/g, ",")} {''}
                             </Text>
                           </View>
                           <View View style={[styles.flexrowbetween , styles.mt5]}>
                             <Text style={styles.text10}> รวมมูลค่าสินค้า </Text>
                             <Text style={styles.text10}>
                             {Number(dataReceipt?.total_price).toFixed(2)
-                              .replace(/\B(?=(\d{3})+(?!\d))/g, ",")}
+                              .replace(/\B(?=(\d{3})+(?!\d))/g, ",")} {''}
                             </Text>
                           </View>
                           <View View style={[styles.flexrowbetween , styles.mt5 , styles.borderB]}>
@@ -562,7 +562,7 @@ import {
                             <Text style={styles.text10}>
                             {dataReceipt?.total_tax
                               .toFixed(2)
-                              .replace(/\B(?=(\d{3})+(?!\d))/g, ",")}
+                              .replace(/\B(?=(\d{3})+(?!\d))/g, ",")} {''}
                             </Text>
                           </View>
                  
@@ -570,7 +570,7 @@ import {
                             <Text style={styles.text10}>
                             {` เงินสด: ${dataReceipt?.total_amount
                               .toFixed(2)
-                              .replace(/\B(?=(\d{3})+(?!\d))/g, ",")} `} 
+                              .replace(/\B(?=(\d{3})+(?!\d))/g, ",")} `}  {''}
                             </Text>
                             <Text style={styles.text10}>
                             {` เงินทอน:  0.00  `} 
@@ -580,7 +580,7 @@ import {
                             <Text style={styles.text10}>หมายเหตุ:</Text>
                           </View>
                           <View View style={[styles.flexrowstart , styles.mt5]}>
-                            <Text style={styles.text10}>{dataReceipt?.note || ''}</Text>
+                            <Text style={styles.text10}>{dataReceipt?.note || ''} {''} </Text>
                           </View>
    
                         </>

@@ -475,7 +475,7 @@ import { useState } from "react";
                               styles.spacesm,
                             ]}
                           >
-                            {`ระหว่างวันที่: ${moment(dateStart).format("DD/MM/YYYY")}    ถึง   ${moment(dateEnd).format('DD/MM/YYYY')} `}
+                            {`ระหว่างวันที่: ${moment(dateStart).format("DD/MM/YYYY")}    ถึง   ${moment(dateEnd).format('DD/MM/YYYY')} `} {''}
                             {/* {customer?.customer_id_tax || ""} */}
                           </Text>
                           <Text
@@ -487,7 +487,7 @@ import { useState } from "react";
                               styles.mt5
                             ]}
                           >
-                            {`${dataReceipt[0]?.company}`}
+                            {`${dataReceipt[0]?.company}`} {''}
                             {/* {customer?.customer_id_tax || ""} */}
                           </Text>
                         </View>
@@ -502,7 +502,7 @@ import { useState } from "react";
                               styles.spacesm,
                             ]}
                           >
-                            {`เลขประจำตัวผู้เสียภาษี: ${dataReceipt[0]?.tax_personal}`}
+                            {`เลขประจำตัวผู้เสียภาษี: ${dataReceipt[0]?.tax_personal}`} {''}
                           </Text>
                           {/* <Text
                             style={[
@@ -532,7 +532,7 @@ import { useState } from "react";
                           ใบกำกับภาษี{" "}
                         </Text>
                         <Text style={[styles.tableHead3, styles.colorHead]}>
-                          รูปแบบ{" "}
+                          ชื่อผู้ซื้อสินค้า /{" "}
                         </Text>
                         <Text style={[styles.tableHead4, styles.colorHead]}>
                           เลขประจำตัวผู้เสีย{" "}
@@ -561,7 +561,7 @@ import { useState } from "react";
                           เลขที่{" "}
                         </Text>
                         <Text style={[styles.tableSubHead4, styles.colorHead]}>
-                          ใบกำกับภาษี{" "}
+                          ผู้รับบริการ{" "}
                         </Text>
                         <Text style={[styles.tableSubHead5, styles.colorHead]}>
                           ภาษีของผู้ขายสินค้า{" "}

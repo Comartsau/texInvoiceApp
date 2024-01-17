@@ -450,7 +450,7 @@ import {
                         styles.borderb,
                       ]}
                     >
-                      เลขประจำตัวผู้เสียภาษี {companyLoginDataStore?.tax_personal || ''} โทรศัพท์ {companyLoginDataStore?.tel || ''} 
+                      เลขประจำตัวผู้เสียภาษี {companyLoginDataStore?.tax_personal || ''} {''} โทรศัพท์ {companyLoginDataStore?.tel || ''} {''} 
                     </Text>
                   </View>
                   <View>
@@ -463,10 +463,10 @@ import {
                       <View style={[styles.flexrowcenter]}>
                         <View>
                           <Text style={[styles.spacesm,styles.text10]}>
-                            เลขที่ใบกำกับภาษี: {dataReceipt.code}
+                            เลขที่ใบกำกับภาษี: {dataReceipt.code} {''}
                           </Text>
                           <Text style={[styles.spacesm,styles.text10 , styles.mt5]}>
-                          วันที่ขาย: {formattedDateTime}
+                          วันที่ขาย: {formattedDateTime} {''}
                           </Text>
                         </View>
                       </View>
@@ -498,22 +498,22 @@ import {
                             <Text
                               style={[styles.tableCell2, { textAlign: "left" , marginLeft:'20px', marginRight:'-12px'  }]}
                             >
-                              {`${item?.product || ''} `}
+                              {`${item?.product || ''} `} {''}
                             </Text>
                             <Text style={styles.tableCell3}>
                               {" "}
-                              {Number(item?.pricePerUnit).toLocaleString() || ""}{" "}
+                              {Number(item?.pricePerUnit).toLocaleString() || ""} {" "}
                             </Text>
                             <Text style={styles.tableCell4}>
                               {" "}
-                              {Number(item?.totalPrice).toLocaleString() ||""}
+                              {Number(item?.totalPrice).toLocaleString() ||""} {''}
                             </Text>
                           </View>
                         );
                       })}
                     <View style={[styles.flexrowstart , styles.mt15, styles.borderTB]}>
                           <Text style={[styles.spacesm,styles.text10]}>
-                            รายการ: {dataReceipt.product_data?.length || ''}   จำนวนชิ้น:  {totalQuantity || ''}
+                            รายการ: {dataReceipt.product_data?.length || ''} {''}  จำนวนชิ้น:  {totalQuantity || ''} {''}
                           </Text>
                       </View>
                       {index == pages.length - 1 && (
@@ -522,7 +522,7 @@ import {
                           <View View style={[styles.flexrowbetween , styles.mt10]}>
                             <Text style={styles.text10}> รวมเป็นเงิน </Text>
                             <Text style={styles.text10}>
-                              {Number(dataReceipt?.total_amount).toLocaleString()}
+                              {Number(dataReceipt?.total_amount).toLocaleString()} {''}
                             </Text>
                           </View>
                           <View View style={[styles.flexrowbetween , styles.mt5]}>
@@ -534,35 +534,35 @@ import {
                           <View View style={[styles.flexrowbetween , styles.mt5 , styles.borderB]}>
                             <Text style={styles.text12}> รวมทั้งสิ้น </Text>
                             <Text style={styles.text12}>
-                            {Number(dataReceipt?.total_amount).toLocaleString()}
+                            {Number(dataReceipt?.total_amount).toLocaleString()} {''}
                             </Text>
                           </View>
                           <View View style={[styles.flexrowbetween , styles.mt5]}>
                             <Text style={styles.text10}> รวมมูลค่าสินค้า </Text>
                             <Text style={styles.text10}>
-                            {Number(dataReceipt?.total_price).toLocaleString()}
+                            {Number(dataReceipt?.total_price).toLocaleString()} {''}
                             </Text>
                           </View>
                           <View View style={[styles.flexrowbetween , styles.mt5 , styles.borderB]}>
                             <Text style={styles.text10}> ภาษีมูลค่าเพิ่ม </Text>
                             <Text style={styles.text10}>
-                            {Number(dataReceipt?.total_tax).toLocaleString()}
+                            {Number(dataReceipt?.total_tax).toLocaleString()} {''}
                             </Text>
                           </View>
                  
                           <View View style={[styles.flexrowbetween , styles.mt10]}>
                             <Text style={styles.text10}>
-                            {` เงินสด: ${Number(dataReceipt?.total_amount).toLocaleString()}  `} 
+                            {` เงินสด: ${Number(dataReceipt?.total_amount).toLocaleString()}  `} {''}
                             </Text>
                             <Text style={styles.text10}>
-                            {` เงินทอน:  0.00  `} 
+                            {` เงินทอน:  0.00  `}  {''}
                             </Text>
                           </View>
                           <View View style={[styles.flexrowstart , styles.mt10]}>
                             <Text style={styles.text10}>หมายเหตุ:</Text>
                           </View>
                           <View View style={[styles.flexrowstart , styles.mt5]}>
-                            <Text style={styles.text10}>{dataReceipt?.note}</Text>
+                            <Text style={styles.text10}>{dataReceipt?.note}  {''}  </Text>
                           </View>
    
                         </>

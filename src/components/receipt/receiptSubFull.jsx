@@ -430,7 +430,7 @@ import {
                 <Page key={index} size="A4" style={styles.page} > 
                 <View style={[styles.flexrowbetween, styles.text12]}>
                   <Text style={[ {color:"#fff"}]}>.</Text>
-                  <Text>เลขที่:  {dataReceipt[index]?.invoice_number} </Text>
+                  <Text>เลขที่:  {dataReceipt[index]?.invoice_number}  {''} </Text>
                 </View>
                 <View style={[styles.flexrowcenter, styles.mt30]}>
                   <Text style={[styles.flexrowcenter, styles.text18]}>
@@ -460,7 +460,7 @@ import {
                         // styles.borderb,
                       ]}
                     >
-                      เลขประจำตัวผู้เสียภาษี: {companyLoginDataStore?.tax_personal} โทรศัพท์: {companyLoginDataStore?.tel }    {''}
+                      เลขประจำตัวผู้เสียภาษี: {companyLoginDataStore?.tax_personal}  {''} โทรศัพท์: {companyLoginDataStore?.tel }    {''}
                     </Text>
                   </View>
                   <View>
@@ -491,27 +491,27 @@ import {
                           <>
                           <View key={itemIndex} style={styles.tableRow}>
                             <Text style={styles.tableCell1}>
-                              {item?.products_quantity  || ""}
+                              {item?.products_quantity  || ""}  {''}
                             </Text>
                             <Text style={[styles.tableCell2 , {textAlign: "left"}]}>
                               {" "}
-                              {` ${item?.product_name}   `}
+                              {` ${item?.product_name}   `}  {''}
                             </Text>
                             <Text style={styles.tableCell3}>
                               {" "}
                               {Number(item?.price_per_invoice).toFixed(2)
-                           .replace(/\B(?=(\d{3})+(?!\d))/g, ",") || ''}
+                           .replace(/\B(?=(\d{3})+(?!\d))/g, ",") || ''}  {''}
                             </Text>
                           </View>
                           <View  style={styles.tableRow}>
                        
                        <Text style={[styles.tableCellNote , {paddingTop:"10"}  ]}>
-                         {THBText(Number(item?.price_per_invoice).toFixed(2)) || ''}
+                         {THBText(Number(item?.price_per_invoice).toFixed(2)) || ''}  {''}
                        </Text>
                        <Text style={[styles.tableCell4 ,{paddingTop:"10"}]}> รวมเงิน </Text>
                        <Text style={[styles.tableCell5 ,{paddingTop:"10"}, {alignContent:"center"}]}>
                        {Number(item?.price_per_invoice).toFixed(2)
-                           .replace(/\B(?=(\d{3})+(?!\d))/g, ",") || ''}
+                           .replace(/\B(?=(\d{3})+(?!\d))/g, ",") || ''}  {''}
                        </Text>
                      </View>
                   
@@ -521,7 +521,7 @@ import {
                     </View>
                     <View style={[styles.flexrow]}>
                           <Text style={[styles.text12 , styles.mt10]} >หมายเหตุ: </Text>
-                          <Text style={[styles.text12 , styles.mt10 ]} >{dataView?.note || ''} </Text>
+                          <Text style={[styles.text12 , styles.mt10 ]} >{dataView?.note || ''}  {''} </Text>
                         </View>
                     {/*   ลงชื่อผู้รับ/ผู้จ่าย  */}
                         <View style={[styles.flexrow, styles.mtsm20]}>

@@ -408,7 +408,7 @@ export const ReceiptA4Short = ({
               <Page key={index} size="A4" style={styles.page}>
                 <View style={[styles.flexrowbetween , styles.text12]}>
                   <Text style={[{color:"#fff"}]}>.</Text>
-                  <Text>เลขที่: {dataReceipt?.code || ''}</Text>
+                  <Text>เลขที่: {dataReceipt?.code || ''} {''}  </Text>
                 </View>
                 <View style={[styles.flexrowcenter, styles.mt20]}>
                   <Text style={[styles.flexrowcenter, styles.text18]}>
@@ -423,7 +423,7 @@ export const ReceiptA4Short = ({
                       styles.text14,
                     ]}
                   >
-                    วันที่: {formattedDateTime}
+                    วันที่: {formattedDateTime}  {''}
                   </Text>
                 </View>
                 <View style={[styles.mt10]}>
@@ -438,7 +438,7 @@ export const ReceiptA4Short = ({
                   <Text
                     style={[styles.flexrowcenter, styles.text12, styles.mt10]}
                   >
-                    เลขประจำตัวผู้เสียภาษี {companyLoginDataStore?.tax_personal || ''}  โทรศัพท์ {companyLoginDataStore?.tel || ''} 
+                    เลขประจำตัวผู้เสียภาษี {companyLoginDataStore?.tax_personal || ''}  {''} โทรศัพท์ {companyLoginDataStore?.tel || ''}  {''}
                   </Text>
                 </View>
                 <View>
@@ -467,13 +467,13 @@ export const ReceiptA4Short = ({
                           <Text
                             style={[styles.tableCell2, { textAlign: "left" }]}
                           >
-                            {`${item?.product || ""} `}
+                            {`${item?.product || ""} `} {''}
                           </Text>
                           <Text style={styles.tableCell3}>
-                            {Number(item?.pricePerUnit).toLocaleString() || ""}
+                            {Number(item?.pricePerUnit).toLocaleString() || ""}  {''}
                           </Text>
                           <Text style={styles.tableCell4}>
-                            {Number(item?.totalPrice).toLocaleString() || ""}
+                            {Number(item?.totalPrice).toLocaleString() || ""}  {''}
                           </Text>
                         </View>
                       );
@@ -489,12 +489,12 @@ export const ReceiptA4Short = ({
                           <Text style={styles.tableCell5}> รวมเป็นเงิน </Text>
                           <Text style={styles.tableCell6}>
                             {Number(dataReceipt?.total_price).toFixed(2)
-                              .replace(/\B(?=(\d{3})+(?!\d))/g, ",") || ''}
+                              .replace(/\B(?=(\d{3})+(?!\d))/g, ",") || ''}  {''}
                           </Text>
                         </View>
                         <View View style={[styles.tableRow]}>
                           {/* ภาษี */}
-                          <Text style={[styles.tableCellNoteBorder , {paddingLeft:'5'} ]}>{dataReceipt?.note || '' }</Text>
+                          <Text style={[styles.tableCellNoteBorder , {paddingLeft:'5'} ]}>{dataReceipt?.note || '' }  {''}    </Text>
                           <Text style={[styles.tableCell5  ]} >
                             {" "}
                             ภาษีมูลค่าเพิ่ม
@@ -502,13 +502,13 @@ export const ReceiptA4Short = ({
                           <Text style={styles.tableCell6}>
                             {dataReceipt?.total_tax
                               .toFixed(2)
-                              .replace(/\B(?=(\d{3})+(?!\d))/g, ",") || ''}
+                              .replace(/\B(?=(\d{3})+(?!\d))/g, ",") || ''}  {''}
                           </Text>
                         </View>
                         <View View style={styles.tableRow}>
                           {/* สรุปรวม */}
                           <Text style={styles.tableCellRowsum}>
-                            {THBText(dataReceipt?.total_amount) || ''}
+                            {THBText(dataReceipt?.total_amount) || ''}  {''}
                           </Text>
                           <Text style={styles.tableCell5}>
                             {" "}
@@ -517,7 +517,7 @@ export const ReceiptA4Short = ({
                           <Text style={styles.tableCell6}>
                             {dataReceipt?.total_amount
                               .toFixed(2)
-                              .replace(/\B(?=(\d{3})+(?!\d))/g, ",") || ''}
+                              .replace(/\B(?=(\d{3})+(?!\d))/g, ",") || ''}  {''}
                           </Text>
                         </View>
                       </>

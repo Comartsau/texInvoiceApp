@@ -502,7 +502,7 @@ export const ReceiptSubShort = ({
                         styles.borderb,
                       ]}>
               <Text >
-              {` เลขประจำตัวผู้เสียภาษี: ${companyLoginDataStore?.tax_personal}     โทรศัพท์: ${companyLoginDataStore?.tel }`} 
+              {` เลขประจำตัวผู้เสียภาษี: ${companyLoginDataStore?.tax_personal}     โทรศัพท์: ${companyLoginDataStore?.tel }`}  {''}
               </Text>
               </View>
               <View style={[styles.flexrowcenter, styles.mt10]}>
@@ -511,14 +511,14 @@ export const ReceiptSubShort = ({
                 </Text>
               </View>
               <View style={[styles.flexrow, styles.text9 , styles.mtsm20 ]}>
-                <Text>เลขที่ใบกำกับภาษี:  {dataReceipt[index]?.invoice_number} </Text>
+                <Text>เลขที่ใบกำกับภาษี:  {dataReceipt[index]?.invoice_number} {''} </Text>
               </View>
               <View style={[styles.flexrow, styles.text9 , styles.mt5 ]}>
                 <Text>วันที่ขาย:  {formattedDateTime} {''} </Text>
               </View>
                 <View>
                   <Text style={[styles.flexrowcenter, styles.text10 , styles.mt5 ]}>
-                  จุดขาย: {dataView?.salepoints_name?.length > 1  ? dataView?.salepoints_name  : selectedShop?.salepoints_name }   
+                  จุดขาย: {dataView?.salepoints_name?.length > 1  ? dataView?.salepoints_name  : selectedShop?.salepoints_name }  {''}  
                   </Text>
                 </View>
                 <View>
@@ -541,28 +541,28 @@ export const ReceiptSubShort = ({
                         <>
                         <View key={itemIndex} style={[styles.tableRow ]}>
                           <Text style={styles.tableCell1}>
-                            {item?.products_quantity  || ""}
+                            {item?.products_quantity  || ""}  {''}
                           </Text>
                           <Text style={[styles.tableCell2 , {textAlign: "left"}]}>
                             {" "}
-                            {` ${item?.product_name}   `}
+                            {` ${item?.product_name}   `}  {''}
                           </Text>
                           <Text style={[styles.tableCell3 ]}>
                             {" "}
                             {Number(item?.price_per_invoice).toFixed(2)
-                         .replace(/\B(?=(\d{3})+(?!\d))/g, ",") || ''}
+                         .replace(/\B(?=(\d{3})+(?!\d))/g, ",") || ''}  {''}
                           </Text>
                         </View>
                         <View style={[styles.flexrowstart , styles.mt10, styles.borderTB]}>
                           <Text style={[styles.spacesm,styles.text10]}>
-                            รายการ: {1 || ''}   จำนวนชิ้น:  {item?.products_quantity || ''} 
+                            รายการ: {1 || ''}  {''}  จำนวนชิ้น:  {item?.products_quantity || ''}   {''}
                           </Text>
                       </View>
                    <View View style={[styles.flexrowbetween , styles.mt10]}>
                             <Text style={styles.text10}> รวมเป็นเงิน </Text>
                             <Text style={styles.text10}>
                             {Number(item?.price_per_invoice).toFixed(2)
-                         .replace(/\B(?=(\d{3})+(?!\d))/g, ",") || ''}
+                         .replace(/\B(?=(\d{3})+(?!\d))/g, ",") || ''}  {''}
                             </Text>
                           </View>
                           <View View style={[styles.flexrowbetween , styles.mt5]}>
@@ -575,13 +575,13 @@ export const ReceiptSubShort = ({
                             <Text style={styles.text12}> รวมทั้งสิ้น </Text>
                             <Text style={styles.text12}>
                             {Number(item?.price_per_invoice).toFixed(2)
-                         .replace(/\B(?=(\d{3})+(?!\d))/g, ",") || ''}
+                         .replace(/\B(?=(\d{3})+(?!\d))/g, ",") || ''}  {''}
                             </Text>
                           </View>
                           <View View style={[styles.flexrowbetween , styles.mt10]}>
                             <Text style={styles.text10}>
                             {` เงินสด: ${Number(item?.price_per_invoice).toFixed(2)
-                         .replace(/\B(?=(\d{3})+(?!\d))/g, ",") || ''}  `} 
+                         .replace(/\B(?=(\d{3})+(?!\d))/g, ",") || ''}  `} {''}
                             </Text>
                             <Text style={styles.text10}>
                             {` เงินทอน:  0.00  `} 
@@ -591,7 +591,7 @@ export const ReceiptSubShort = ({
                             <Text style={styles.text10}>หมายเหตุ:</Text>
                           </View>
                           <View View style={[styles.flexrowstart , styles.mt5]}>
-                            <Text style={styles.text10}>{dataView?.note}</Text>
+                            <Text style={styles.text10}>{dataView?.note}  {''}   </Text>
                           </View>
         
                         </>  

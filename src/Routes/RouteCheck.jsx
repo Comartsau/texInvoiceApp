@@ -17,7 +17,7 @@ const RouteCheck = () => {
           <Route path="*" element={<Navigate to="/" replace />} />
         </Routes>
       ) : (
-        ""
+        "" 
       )}
       {AuthData.statusCheck === "user" ? (
         <Routes>

@@ -402,7 +402,7 @@ import {
                 <Page key={index} size="A4" style={styles.page}>
                   <View style={[styles.flexrowbetween , styles.text12]}>
                     <Text style={[{color:"#fff"}]}>.</Text>
-                    <Text>เลขที่: {dataReceipt?.code || ''}</Text>
+                    <Text>เลขที่: {dataReceipt?.code || ''}  {''}  </Text>
                   </View>
                   <View style={[styles.flexrowcenter, styles.mt20]}>
                     <Text style={[styles.flexrowcenter, styles.text18]}>
@@ -412,17 +412,17 @@ import {
  
                   <View style={[styles.mt10]}>
                     <Text style={[styles.flexrowcenter, styles.text14]}>
-                      {companyLoginDataStore?.company || ''} 
+                      {companyLoginDataStore?.company || ''}  {''}
                     </Text>
                     <Text
                       style={[styles.flexrowcenter, styles.text12, styles.mt10]}
                     >
-                      {companyLoginDataStore?.address || ''} 
+                      {companyLoginDataStore?.address || ''}  {''}
                     </Text>
                     <Text
                       style={[styles.flexrowcenter, styles.text12, styles.mt10]}
                     >
-                      เลขประจำตัวผู้เสียภาษี {companyLoginDataStore?.tax_personal || ''}  โทรศัพท์ {companyLoginDataStore?.tel || ''} 
+                      เลขประจำตัวผู้เสียภาษี {companyLoginDataStore?.tax_personal || ''}  {''}  โทรศัพท์ {companyLoginDataStore?.tel || ''}  {''} 
                     </Text>
                   </View>
                   <View style={[styles.flexrowend, styles.mt10]}>
@@ -433,7 +433,7 @@ import {
                         styles.text14,
                       ]}
                     >
-                      วันที่: {formattedDateTime}
+                      วันที่: {formattedDateTime}  {''}
                     </Text>
                   </View>
                   <View>
@@ -469,10 +469,10 @@ import {
                              {`${item?.product || ""} เลขที่: ${dataReceipt?.sec_product_data[itemIndex + 1]?.map((item)=> ` ${item?.invoice_number}  `)} `}
                             </Text>
                             <Text style={styles.tableCell3}>
-                              {Number(item?.pricePerUnit).toLocaleString() || ""}
+                              {Number(item?.pricePerUnit).toLocaleString() || ""}  {''}
                             </Text>
                             <Text style={styles.tableCell4}>
-                              {Number(item?.totalPrice).toLocaleString() || ""}
+                              {Number(item?.totalPrice).toLocaleString() || ""}  {''}
                             </Text>
                           </View>
                         );
@@ -483,19 +483,19 @@ import {
                           <View style={styles.tableRow}>
                             {/* สรุปรวม */}
                             <Text style={[styles.tableCellNote1, styles.text12]}>
-                            {THBText(dataReceipt?.total_amount) || ''}
+                            {THBText(dataReceipt?.total_amount) || ''}  {''}
                             </Text>
                             {/* <Text style={[styles.tableCellNote2, styles.text12]}> */}
                             <Text style={styles.tableCell3}>
                               รวมเงิน
                             </Text>
                             <Text style={styles.tableCell4}>
-                            {Number(dataReceipt?.total_amount).toLocaleString() || ""}
+                            {Number(dataReceipt?.total_amount).toLocaleString() || ""}  {''}
                             </Text>
                           </View>
                           <View style={[styles.flexrow]}>
                             <Text style={[styles.text12 , styles.mt10]} >หมายเหตุ: </Text>
-                            <Text style={[styles.text12 , styles.mt10 ]} >{dataReceipt?.note || ''} </Text>
+                            <Text style={[styles.text12 , styles.mt10 ]} >{dataReceipt?.note || ''}  {''} </Text>
                           </View>
                         </>
                       )}

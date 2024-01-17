@@ -471,7 +471,7 @@ function Company() {
                 <Input
                   type="number"
                   label="เลขประจำตัวผู้เสียภาษี"
-                  maxLength="13"
+                  maxLength="15"
                   onChange={(e) =>
                     setNewCompanyData({
                       ...newCompanyData,
