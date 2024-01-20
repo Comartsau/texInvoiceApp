@@ -67,9 +67,6 @@ const CreateInvoice = () => {
 
   const [openPrint, setOpenPrint] = useState(false);
 
-  // const [selectedPaperSize, setSelectedPaperSize] = useState(null);
-  // const [openPrintDialog, setOpenPrintDialog] = useState(true);
-
   const [note, setNote] = useState("");
 
   const columns = [
@@ -374,6 +371,7 @@ const CreateInvoice = () => {
   };
 
   const startDate = moment(searchQueryStart).format("YYYY-MM-DD hh:mm:ss");
+  const ShowStartDate = moment(searchQueryStart).format("DD/MM/YYYY");
 
   // console.log(shopOptions);
   // console.log(searchQueryStart)
@@ -417,7 +415,7 @@ const CreateInvoice = () => {
           <Typography className=" font-bold mt-5">
             วันที่ออกบิล:{" "}
             <span className=" font-normal">
-              {moment(Date.now()).locale("th").format("L")}
+              {ShowStartDate}
             </span>
           </Typography>
         </div>
