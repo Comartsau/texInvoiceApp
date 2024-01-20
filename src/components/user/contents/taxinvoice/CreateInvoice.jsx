@@ -24,6 +24,10 @@ import { BsPlusCircle } from "react-icons/bs";
 
 import { useEffect, useState } from "react";
 
+import DatePicker from "react-datepicker";
+import "react-datepicker/dist/react-datepicker.css";
+import th from "date-fns/locale/th";
+
 import { useRecoilState, useRecoilValue } from "recoil";
 import {
   createInvoiceStore,
@@ -58,6 +62,7 @@ const CreateInvoice = () => {
   const [isClearable, setIsClearable] = useState(true);
   const [isSearchable, setIsSearchable] = useState(true);
   const [select, setSelect] = useState("");
+  const [searchQueryStart, setSearchQueryStart] = useState(new Date());
 
   const [openPrint, setOpenPrint] = useState(false);
 
@@ -98,6 +103,8 @@ const CreateInvoice = () => {
         label: customer.customer_name,
       }))
     : [];
+
+    
   const shopOptions = shopDataStore?.map((shop) => ({
     value: shop.id,
     label: shop.salepoints_name,
@@ -197,7 +204,7 @@ const CreateInvoice = () => {
   const handleQuantityChange = (e, index) => {
     const newQuantity = parseInt(e, 10);
     const updatedData = [...data];
-    const selectedProduct = productDataStore.find(
+    const selectedProduct = productDataStore?.find(
       (product) => product.id === updatedData[index]?.category
     );
 
@@ -272,43 +279,38 @@ const CreateInvoice = () => {
   const [dataReceipt, setDataReceipt] = useState("");
   const [dataViewSub, setDataViewSub] = useState([]);
 
-
   const handleSendReceipt = async () => {
     try {
-      // let datasend = {
-      //   invoice_data: {
-      //     product_data :data,
-      //     ...(headFormDataStore === '1' ? { customer_id: selectedCustomer.id } : {}),
-      //     total_price: Number(calculatePruePrice().toFixed(2)),
-      //     total_tax: Number((calculateVAT()).toFixed(2)),
-      //     total_amount: Number((calculateTotalAmount()).toFixed(2)),
-      //     note: note,
-      //     ...(headFormDataStore === '3' ? { salepoint: Number(selectedShop.id) } : {}),
-      //   },
-      //   ...(headFormDataStore === '3' ? { subinvoices_data: data } : {}),
-      // }
-
       let datasend = {
-        ...(headFormDataStore == '1' ? { customer_id: selectedCustomer.id } : {}),
-        ...(headFormDataStore != '3' ? { 
-          product_data: data,
-          total_price: Number(calculatePruePrice().toFixed(2)),
-          total_tax: Number(calculateVAT().toFixed(2)),
-          total_amount: Number(calculateTotalAmount().toFixed(2)),
-          note: note,
-        } : {}),
-        ...(headFormDataStore == '3' ? {
-          invoice_data: {
-            product_data: data,
-            total_price: Number(calculatePruePrice().toFixed(2)),
-            total_tax: Number(calculateVAT().toFixed(2)),
-            total_amount: Number(calculateTotalAmount().toFixed(2)),
-            note: note,
-            ...(headFormDataStore == "3" ? { salepoint: Number(selectedShop.id) } : {}),
-          }
-        } : {}),
+        ...(headFormDataStore == "1"
+          ? { customer_id: selectedCustomer.id }
+          : {}),
+        ...(headFormDataStore != "3"
+          ? {
+              product_data: data,
+              total_price: Number(calculatePruePrice().toFixed(2)),
+              total_tax: Number(calculateVAT().toFixed(2)),
+              total_amount: Number(calculateTotalAmount().toFixed(2)),
+              note: note,
+              salepoint_id: Number(selectedShop.id),
+            }
+          : {}),
+        ...(headFormDataStore == "3"
+          ? {
+              invoice_data: {
+                product_data: data,
+                total_price: Number(calculatePruePrice().toFixed(2)),
+                total_tax: Number(calculateVAT().toFixed(2)),
+                total_amount: Number(calculateTotalAmount().toFixed(2)),
+                note: note,
+                ...(headFormDataStore == "3"
+                  ? { salepoint: Number(selectedShop.id) }
+                  : {}),
+              },
+            }
+          : {}),
         ...(headFormDataStore == "3" ? { subinvoices_data: data } : {}),
-        }         
+      };
       if (headFormDataStore == "1") {
         const response = await addFullInvioce(datasend, setOpenPrint);
         // console.log(response)
@@ -320,13 +322,16 @@ const CreateInvoice = () => {
         setDataReceipt(response);
       } else if (headFormDataStore == "3") {
         // console.log(datasend);
-        const response = await addSubInvioce(JSON.stringify(datasend), setOpenPrint);
+        const response = await addSubInvioce(
+          JSON.stringify(datasend),
+          setOpenPrint
+        );
         // console.log(response);
-        setDataReceipt(response)
-        setDataViewSub(response)
+        setDataReceipt(response);
+        setDataViewSub(response);
       }
     } catch (error) {
-      toast.error(error); 
+      toast.error(error);
     }
   };
 
@@ -348,24 +353,24 @@ const CreateInvoice = () => {
     setOpenModalReceipt80(!openModalReceipt80);
   };
 
-  const [printIndex ,setPrintIndex] = useState('')
+  const [printIndex, setPrintIndex] = useState("");
 
   //------------- open Receipt A4 Sub  -----------------------//
   const [openModalReceiptSubFull, setOpenModalReceiptSubFull] = useState(false);
   const handleModalReceiptSubFull = (index) => {
     setOpenModalReceiptSubFull(!openModalReceiptSubFull);
-    setPrintIndex(index)
-
+    setPrintIndex(index);
   };
 
   //------------- open Receipt 80 Sub  -----------------------//
-  const [openModalReceiptSubShort, setOpenModalReceiptSubShort] = useState(false);
+  const [openModalReceiptSubShort, setOpenModalReceiptSubShort] =
+    useState(false);
   const handleModalReceiptSubShort = (index) => {
     setOpenModalReceiptSubShort(!openModalReceiptSubShort);
-    setPrintIndex(index)
+    setPrintIndex(index);
   };
 
-  // console.log(printIndex)
+  console.log(shopOptions);
 
   return (
     <div className="flex  flex-col p-3 overflow-auto   items-center ">
@@ -409,7 +414,7 @@ const CreateInvoice = () => {
             </span>
           </Typography>
         </div>
-        <div className="flex flex-col  w-full gap-3 md:w-1/2 ">
+        <div className="flex flex-col  w-full gap-3 md:w-[60%] ">
           <div className=" flex flex-col sm:flex-row  items-center sm:items-start  w-full justify-center md:justify-end   gap-5  ">
             <div className=" justify-center">
               <Button
@@ -467,62 +472,166 @@ const CreateInvoice = () => {
               </Button>
             </div>
           </div>
+
           {/* แบบเต็ม */}
-          <div hidden={headFormDataStore !== "1"}>
-            <div className=" flex flex-col sm:flex-row items-end  w-full justify-start    gap-2 ">
-              <Typography className="flex  items-baseline align-text-bottom font-bold min-w-[100px]">
-                ข้อมูลลูกค้า:
-              </Typography>
-              <Select
-                className="basic-single w-full z-20"
-                classNamePrefix="select"
-                placeholder="เลือกลูกค้า"
-                isSearchable={isSearchable}
-                isDisabled={openPrint == true ? true : false}
-                name="color"
-                options={customerOptions}
-                onChange={(e) => handleCustomerSelect(e)}
-              />
+          {headFormDataStore !== "1" ? (
+            <div>
+              <div className="flex flex-col xl:flex-row w-full xl:gap-2 ">
+              <div className="flex flex-col xl:flex-row w-full  xl:gap-5 ">
+                <div className=" flex w-full xl:w-[50%] sm:flex-row items-end  lg:justify-start   mt-5 ">
+                  <div >
+                    <Typography className="flex w-[50px] justify-center font-bold ps-1 xl:w-[50px] ">
+                      วันที่:
+                    </Typography>
+                  </div>
+                  <div className="">
+                    <DatePicker
+                      // yearDropdownItemNumber={100} // จำนวนปีที่แสดงใน Dropdown
+                      // yearItemNumber={100} // จำนวนปีที่แสดงในปฏิทิน
+                      // showYearDropdown
+                      // showMonthDropdown
+                      // scrollableYearDropdown
+                      // scrollableMonthDropdown
+                      selected={searchQueryStart}
+                      locale={th}
+                      disabled={openPrint == true ? true : false}
+                      dateFormat=" วันที่เริ่มต้น dd/MM/yyyy"
+                      onChange={(date) => setSearchQueryStart(date)}
+                      className="w-full justify-start  rounded-md border border-gray-400 p-1 text-gray-600  shadow-sm focus:border-blue-500 focus:outline-none"
+                    />
+                  </div>
+                </div>
+                <div className=" flex xl:w-[50%] sm:flex-row items-end  lg:justify-start   mt-5  gap-2 ">
+                  <div >
+                    <Typography className="flex justify-end  items-baseline align-text-bottom font-bold min-w-[90px] ">
+                      เลือกจุดขาย:
+                    </Typography>
+                  </div>
+                  <div className="w-full" >
+                    <Select
+                      className="basic-single   "
+                      classNamePrefix="select"
+                      placeholder="เลือกจุดขาย"
+                      // isClearable={isClearable}
+                      isDisabled={openPrint == true ? true : false}
+                      isSearchable={isSearchable}
+                      name="color"
+                      options={shopOptions}
+                      onChange={(e) => handleShopSelect(e)}
+                    />
+                  </div>
+                </div>
+              </div>
+              </div>
             </div>
-            <div className=" flex  w-full justify-start items-center mt-5   gap-2 ">
-              <Typography className="font-bold min-w-[30px] sm:w-[40px]">
-                ชื่อ :
-              </Typography>
-              <Typography className="w-8/12">
-                {selectedCustomer?.customer_name || ""}
-              </Typography>
-            </div>
-            <div className=" flex   w-full justify-start mt-2   gap-2 ">
-              <Typography className="font-bold min-w-[40px] sm:w-[45px] md:w-[55px] xl:w-[45px]">
-                ที่อยู่ :
-              </Typography>
-              <Typography>
-                {selectedCustomer?.customer_address || ""}
-              </Typography>
-            </div>
-            <div className=" flex flex-col sm:flex-row md:flex-col 2xl:flex-row w-full mt-2 justify-start gap-2 ">
+          ) : (
+            <div className="flex flex-col w-full ">
+              <div className="flex flex-col xl:flex-row w-full  xl:gap-5 ">
+                <div className=" flex w-full xl:w-[50%] sm:flex-row items-end  lg:justify-start   mt-5 ">
+                  <div >
+                    <Typography className="flex w-[50px] justify-center font-bold ps-1 xl:w-[50px]  ">
+                      วันที่:
+                    </Typography>
+                  </div>
+                  <div className="">
+                    <DatePicker
+                      // yearDropdownItemNumber={100} // จำนวนปีที่แสดงใน Dropdown
+                      // yearItemNumber={100} // จำนวนปีที่แสดงในปฏิทิน
+                      // showYearDropdown
+                      // showMonthDropdown
+                      // scrollableYearDropdown
+                      // scrollableMonthDropdown
+                      selected={searchQueryStart}
+                      locale={th}
+                      disabled={openPrint == true ? true : false}
+                      dateFormat=" วันที่เริ่มต้น dd/MM/yyyy"
+                      onChange={(date) => setSearchQueryStart(date)}
+                      className="w-full justify-start  rounded-md border border-gray-400 p-1 text-gray-600  shadow-sm focus:border-blue-500 focus:outline-none"
+                    />
+                  </div>
+                </div>
+                <div className=" flex xl:w-[50%] sm:flex-row items-end  lg:justify-start   mt-5  gap-2 ">
+                  <div >
+                    <Typography className="flex justify-end  items-baseline align-text-bottom font-bold min-w-[90px] ">
+                      เลือกจุดขาย:
+                    </Typography>
+                  </div>
+                  <div className="w-full" >
+                    <Select
+                      className="basic-single   "
+                      classNamePrefix="select"
+                      placeholder="เลือกจุดขาย"
+                      // isClearable={isClearable}
+                      isDisabled={openPrint == true ? true : false}
+                      isSearchable={isSearchable}
+                      name="color"
+                      options={shopOptions}
+                      onChange={(e) => handleShopSelect(e)}
+                    />
+                  </div>
+                </div>
+              </div>
               <div className="flex w-full">
-                <Typography className="font-bold min-w-[100px] md:w-[120px] xl:w-[110px]">
-                  เลขประจำตัว :
+                <div className=" flex  sm:flex-row items-end  w-full xl:justify-end mt-5     gap-3 ">
+                  <Typography className="flex min-w-[85px] xl:justify-end items-baseline align-text-bottom font-bold xl:min-w-[85px]">
+                    ข้อมูลลูกค้า:
+                  </Typography>
+                  <Select
+                    className="basic-single xl:w-[35%] "
+                    classNamePrefix="select"
+                    placeholder="เลือกลูกค้า"
+                    isSearchable={isSearchable}
+                    isDisabled={openPrint == true ? true : false}
+                    name="color"
+                    options={customerOptions}
+                    onChange={(e) => handleCustomerSelect(e)}
+                  />
+                </div>
+              </div>
+
+              <div className=" flex  w-full justify-start items-center mt-5   gap-2 ">
+                <Typography className="font-bold min-w-[30px] sm:w-[40px]">
+                  ชื่อ :
+                </Typography>
+                <Typography className="w-8/12">
+                  {selectedCustomer?.customer_name || ""}
+                </Typography>
+              </div>
+              <div className=" flex   w-full justify-start mt-3   gap-2 ">
+                <Typography className="font-bold min-w-[40px] sm:w-[45px] md:w-[55px] xl:w-[45px]">
+                  ที่อยู่ :
                 </Typography>
                 <Typography>
-                  {selectedCustomer?.customer_id_tax || ""}
+                  {selectedCustomer?.customer_address || ""}
                 </Typography>
               </div>
-              <div className="flex w-full">
-                <Typography className="font-bold min-w-[110px] md:w-[120px] xl:w-[120px]">
-                  เบอร์โทรศัพท์ :
-                </Typography>
-                <Typography>{selectedCustomer?.customer_tel || ""}</Typography>
+              <div className=" flex flex-col sm:flex-row md:flex-col 2xl:flex-row w-full mt-3 justify-start gap-2 ">
+                <div className="flex w-full lg:w-[60%]">
+                  <Typography className="font-bold min-w-[100px] md:w-[120px] xl:w-[110px]">
+                    เลขประจำตัว :
+                  </Typography>
+                  <Typography>
+                    {selectedCustomer?.customer_id_tax || ""}
+                  </Typography>
+                </div>
+                <div className="flex w-full">
+                  <Typography className="font-bold min-w-[110px] md:w-[120px] xl:w-[120px]">
+                    เบอร์โทรศัพท์ :
+                  </Typography>
+                  <Typography>
+                    {selectedCustomer?.customer_tel || ""}
+                  </Typography>
+                </div>
               </div>
             </div>
-          </div>
+          )}
+
           {/* แบบสัพ */}
           <div
             className="flex-col  justify-end ms-20 mt-5  px-5 "
             hidden={headFormDataStore !== "3"}
           >
-            <div className=" flex  w-full justify-end    gap-3 ">
+            {/* <div className=" flex  w-full justify-end    gap-3 ">
               <Typography className="flex justify-end  items-baseline align-text-bottom font-bold min-w-[100px]">
                 เลือกจุดขาย:
               </Typography>
@@ -536,8 +645,8 @@ const CreateInvoice = () => {
                 options={shopOptions}
                 onChange={(e) => handleShopSelect(e)}
               />
-            </div>
-            <div className=" flex   w-full justify-end mt-5   gap-3 ">
+            </div> */}
+            <div className=" flex   w-full justify-end   gap-3 ">
               <Typography className="flex text-end justify-end align-text-bottom font-bold min-w-[100px]">
                 จำนวนทั้งหมด:
               </Typography>
@@ -565,14 +674,14 @@ const CreateInvoice = () => {
       <div className="flex w-full flex-col xl:flex-row gap-5 ">
         <div className="flex w-full flex-col gap-3">
           <div className="flex  w-full md:w-8/8">
-            <Card className="flex w-full h-[320px] mt-5 overflow-y-auto  ">
+            <Card className="flex w-full h-[320px] mt-3 overflow-y-auto  ">
               <table className="w-full   ">
                 <thead>
                   <tr>
                     {columns.map((head, index) => (
                       <th
                         key={index}
-                        className=" text-left py-4   bg-gray-300 px-2 sticky top-0 z-10"
+                        className=" text-left py-4   bg-gray-300 px-2 sticky top-0 "
                       >
                         {head}
                       </th>
@@ -593,7 +702,9 @@ const CreateInvoice = () => {
                       </td>
                       <td
                         className={
-                          headFormDataStore == "3" ? "w-[25%] pe-5" : "w-[35%] pe-5"
+                          headFormDataStore == "3"
+                            ? "w-[25%] pe-5"
+                            : "w-[35%] pe-5"
                         }
                       >
                         <div className="mt-3">
@@ -702,12 +813,16 @@ const CreateInvoice = () => {
                                 </MenuHandler>
                                 <MenuList>
                                   <MenuItem
-                                    onClick={() => handleModalReceiptSubFull(index) }
+                                    onClick={() =>
+                                      handleModalReceiptSubFull(index)
+                                    }
                                   >
                                     ขนาด A4
                                   </MenuItem>
                                   <MenuItem
-                                    onClick={() => handleModalReceiptSubShort(index)}
+                                    onClick={() =>
+                                      handleModalReceiptSubShort(index)
+                                    }
                                   >
                                     ขนาด 80 มิล
                                   </MenuItem>
@@ -860,13 +975,12 @@ const CreateInvoice = () => {
       {/* รูปแบบสัพ A4 */}
       {headFormDataStore == "3" ? (
         <ReceiptSubFull
-         openModalReceiptSubFull={openModalReceiptSubFull}
+          openModalReceiptSubFull={openModalReceiptSubFull}
           handleModalReceiptSubFull={handleModalReceiptSubFull}
           dataReceipt={dataViewSub?.sec_product_data?.[printIndex + 1]}
           dataView={dataReceipt}
           companyLoginDataStore={companyLoginDataStore}
           selectedShop={selectedShop}
-
         />
       ) : (
         ""
@@ -876,13 +990,12 @@ const CreateInvoice = () => {
       {(openModalReceiptSubShort == true && headFormDataStore == "3") ||
       headFormDataStore == "3" ? (
         <ReceiptSubShort
-        openModalReceiptSubShort={openModalReceiptSubShort}
-        handleModalReceiptSubShort={handleModalReceiptSubShort}
+          openModalReceiptSubShort={openModalReceiptSubShort}
+          handleModalReceiptSubShort={handleModalReceiptSubShort}
           dataReceipt={dataViewSub?.sec_product_data?.[printIndex + 1]}
           dataView={dataReceipt}
           companyLoginDataStore={companyLoginDataStore}
           selectedShop={selectedShop}
-
         />
       ) : (
         ""

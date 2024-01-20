@@ -245,7 +245,7 @@ import {
       borderWidth: 1,
       borderColor: "#000",
       textAlign: "center",
-      width: "55%", // แบ่งเป็น 3 ส่วนเท่า ๆ กัน (ขนาดเท่ากัน)
+      width: "40%", // แบ่งเป็น 3 ส่วนเท่า ๆ กัน (ขนาดเท่ากัน)
       height: "auto",
     },
     tableCell3: {
@@ -361,8 +361,8 @@ import {
     companyLoginDataStore
   }) => {
     // console.log(companyLoginDataStore)
-    // console.log(dataReceipt)
-    // console.log(dataReceipt.sec_product_data[1])
+    console.log(dataReceipt)
+    console.log(dataReceipt.sec_product_data[1])
   
   
     const itemsPerPage = 20; // จำนวนรายการต่อหน้า
@@ -441,7 +441,10 @@ import {
                     <View style={[styles.table, { marginTop: "10" }]}>
                       <View style={styles.tableRow}>
                         <Text style={[styles.tableCell1Head, styles.colorHead]}>
-                          จำนวน{" "}
+                          จำนวนสินค้า{" "}
+                        </Text>
+                        <Text style={[styles.tableCell1Head, styles.colorHead]}>
+                          บิลย่อย{" "}
                         </Text>
                         <Text style={[styles.tableCell2, styles.colorHead]}>
                           รายการ{" "}
@@ -462,6 +465,12 @@ import {
                             </Text>
                             <Text style={styles.tableCell1}>
                               {item?.unit || ""}{" "}
+                            </Text>
+                            <Text style={styles.tableCell1}>
+                              {Number(dataReceipt?.max_invoices) || ""}{" "}
+                            </Text>
+                            <Text style={styles.tableCell1}>
+                              ใบ{" "}
                             </Text>
                             <Text
                               style={[styles.tableCell2, { textAlign: "left" }]}

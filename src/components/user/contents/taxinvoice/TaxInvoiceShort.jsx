@@ -15,6 +15,8 @@ import {
   MenuItem,
 } from "@material-tailwind/react";
 
+import Select from "react-select";
+
 import moment from "moment";
 
 import { ToastContainer, toast } from "react-toastify";
@@ -32,8 +34,9 @@ import { TbDoorEnter } from "react-icons/tb";
 import { useRecoilState, useRecoilValue } from "recoil";
 import {
   createInvoiceStore,
-  productStore,
-  customerStore,
+  // productStore,
+  // customerStore,
+  shopStore,
   headFormStore,
   companyLoginStore,
 } from "../../../../store/Store";
@@ -55,15 +58,34 @@ function TaxInvoiceShort() {
   const [noData, setNoData] = useState(false);
   const [openCreateInvoice, setOpenCreateInvoice] =
     useRecoilState(createInvoiceStore);
+    const shopDataStore = useRecoilValue(shopStore);
+
+  const shopOptions = shopDataStore?.map((shop) => ({
+    value: shop.id,
+    label: shop.salepoints_name,
+  }));
+
+  const [selectedShop, setSelectedShop] = useState(null);
+  const handleShopSelect = (e) => {
+    // ค้นหาข้อมูลลูกค้าที่ถูกเลือกจาก customerDataStore
+    const shop = shopDataStore.find((shop) => shop.id === e.value);
+    // เซ็ตข้อมูลลูกค้าที่ถูกเลือกใน state
+    // console.log(shop);
+    setSelectedShop(shop);
+  };
+
+  console.log(selectedShop)
 
   const [listData, setListData] = useState([]);
 
   const [tokenError, setTokenError] = useState(false);
   const [searchQuery, setSearchQuery] = useState("");
+  const [searchShop, setSearchShop] = useState("");
+  const [isSearchable, setIsSearchable] = useState(true);
 
   const fetchShortInvoice = async () => {
     try {
-      const response = await getShortInvoice(searchQuery);
+      const response = await getShortInvoice(searchQuery, searchShop);
       console.log(response);
       setListData(response);
       setNoData(false);
@@ -157,16 +179,38 @@ function TaxInvoiceShort() {
       <div className="w-full px-3">
         {/* <p>ข้อมูลผู้บริจาค</p> */}
         <div className="flex flex-col sm:flex-row w-full items-center gap-3   sm:justify-between px-5 mt-5   ">
-          <div className="flex justify-center ">
-            <Input
-              type="text"
-              color="blue"
-              label="ค้นหา เลขใบกำกับภาษี"
-              value={searchQuery}
-              onChange={(e) => setSearchQuery(e.target.value)}
-              // className=" bg-gray-50"
-              style={{ backgroundColor: "#F4F4F4" }}
-            />
+          <div className="flex flex-col gap-5 md:flex-row">
+            <div className="flex justify-center  ">
+              <Input
+                type="text"
+                color="blue"
+                label="ค้นหา เลขใบกำกับภาษี"
+                value={searchQuery}
+                onChange={(e) => setSearchQuery(e.target.value)}
+                // className=" bg-gray-50"
+                style={{ backgroundColor: "#F4F4F4" }}
+              />
+            </div>
+
+            <div className="flex justify-center items-baseline gap-2 ">
+              <div>
+                <Typography className="flex justify-end  items-baseline align-text-bottom font-bold min-w-[90px] ">
+                  เลือกจุดขาย:
+                </Typography>
+              </div>
+              <div className="w-full">
+                <Select
+                  className="basic-single   "
+                  classNamePrefix="select"
+                  placeholder="เลือกจุดขาย"
+                  // isClearable={isClearable}
+                  isSearchable={isSearchable}
+                  name="color"
+                  options={shopOptions}
+                  onChange={(e) => handleShopSelect(e)}
+                />
+              </div>
+            </div>
           </div>
           <div className="flex justify-center">
             <Button
@@ -179,7 +223,7 @@ function TaxInvoiceShort() {
               <span className="mr-2 text-xl">
                 <BsPlusCircle />
               </span>
-              สร้างใบกำกับภาษี(รูปแบบย่อ)
+              สร้างใบกำกับภาษี (รูปแบบย่อ)
             </Button>
           </div>
         </div>

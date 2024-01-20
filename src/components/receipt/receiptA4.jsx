@@ -321,7 +321,7 @@ export const ReceiptA4 = ({
   customer,
   companyLoginDataStore
 }) => {
-  // console.log(dataReceipt)
+  console.log(dataReceipt)
   // console.log(companyLoginDataStore)
 
   // const id = ''

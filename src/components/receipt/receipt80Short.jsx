@@ -450,7 +450,7 @@ import {
                         styles.borderb,
                       ]}
                     >
-                      เลขประจำตัวผู้เสียภาษี {companyLoginDataStore?.tax_personal || ''} {''} โทรศัพท์ {companyLoginDataStore?.tel || ''} {''} 
+                      เลขประจำตัวผู้เสียภาษี {companyLoginDataStore?.tax_personal || ''} {''} โทรศัพท์ {companyLoginDataStore?.tel || ''} {''}  
                     </Text>
                   </View>
                   <View>

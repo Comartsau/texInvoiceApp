@@ -40,7 +40,7 @@ const SaleReport = ({userLogin}) => {
   const fetchReport = async () => {
     if (userLogin == 'admin') {
       const response = await getReportSaleAdmin(userId , dateStart , dateEnd)
-      // console.log(response)
+      console.log(response)
       setListData(response)
     } else {
       const response = await getReportSale(dateStart , dateEnd)
