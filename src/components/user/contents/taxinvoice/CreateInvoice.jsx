@@ -636,21 +636,6 @@ const CreateInvoice = () => {
             className="flex-col  justify-end ms-20 mt-5  px-5 "
             hidden={headFormDataStore !== "3"}
           >
-            {/* <div className=" flex  w-full justify-end    gap-3 ">
-              <Typography className="flex justify-end  items-baseline align-text-bottom font-bold min-w-[100px]">
-                เลือกจุดขาย:
-              </Typography>
-              <Select
-                className="basic-single w-full   z-20"
-                classNamePrefix="select"
-                placeholder="เลือกจุดขาย"
-                // isClearable={isClearable}
-                isSearchable={isSearchable}
-                name="color"
-                options={shopOptions}
-                onChange={(e) => handleShopSelect(e)}
-              />
-            </div> */}
             <div className=" flex   w-full justify-end   gap-3 ">
               <Typography className="flex text-end justify-end align-text-bottom font-bold min-w-[100px]">
                 จำนวนทั้งหมด:
@@ -933,6 +918,7 @@ const CreateInvoice = () => {
             dataReceipt={dataReceipt}
             customer={selectedCustomer}
             companyLoginDataStore={companyLoginDataStore}
+            selectedShop={selectedShop}
           />
         </>
       ) : (
@@ -946,6 +932,7 @@ const CreateInvoice = () => {
           handleModalReceipt80={handleModalReceipt80}
           dataReceipt={dataReceipt}
           companyLoginDataStore={companyLoginDataStore}
+          selectedShop={selectedShop}
         />
       ) : (
         ""
@@ -959,6 +946,7 @@ const CreateInvoice = () => {
           handleModalReceiptA4={handleModalReceiptA4}
           dataReceipt={dataReceipt}
           companyLoginDataStore={companyLoginDataStore}
+          selectedShop={selectedShop}
         />
       ) : (
         ""
@@ -972,6 +960,7 @@ const CreateInvoice = () => {
           handleModalReceipt80={handleModalReceipt80}
           dataReceipt={dataReceipt || []}
           companyLoginDataStore={companyLoginDataStore}
+          selectedShop={selectedShop}
         />
       ) : (
         ""

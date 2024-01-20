@@ -438,6 +438,12 @@ function TaxInvoiceShort() {
                   {moment(dataView?.created_at).format("DD/MM/YYYY  ")}
                 </span>{" "}
               </Typography>
+              <Typography className="font-bold mt-5">
+                จุดขาย:{" "}
+                <span className="font-normal">
+                {dataView?.salepoints_name}
+                </span>{" "}
+              </Typography>
               <hr className="mt-3 border " />
               <div className="flex  flex-col  mt-3">
                 <Typography className="text-lg font-bold">
@@ -478,7 +484,7 @@ function TaxInvoiceShort() {
                           <Typography
                             variant="small"
                             color="blue-gray"
-                            className="font-bold leading-none opacity-70"
+                            className="font-bold leading-none opacity-70  "
                           >
                             รายการ
                           </Typography>
@@ -551,7 +557,7 @@ function TaxInvoiceShort() {
                                 </div>
                               </td>
                               <td className={classes}>
-                                <div className="flex items-center justify-center">
+                                <div className="flex items-center justify-center w-96">
                                   <Typography
                                     variant="small"
                                     color="blue-gray"

@@ -183,6 +183,8 @@ function TaxInvoiceFull() {
     setOpenModalReceipt80(!openModalReceipt80);
   };
 
+  console.log(dataView)
+
   return (
     <div className="w-full overflow-auto  px-3">
       <div className="w-full px-3">
@@ -432,6 +434,12 @@ function TaxInvoiceFull() {
                 วันที่:{" "}
                 <spand className="font-normal">
                   {moment(dataView?.created_at).format("DD/MM/YYYY  ")}
+                </spand>{" "}
+              </Typography>
+              <Typography className="font-bold mt-5">
+                ขุดขาย:{" "}
+                <spand className="font-normal">
+                  {dataView?.salepoints_name}
                 </spand>{" "}
               </Typography>
               <hr className="mt-3 border " />

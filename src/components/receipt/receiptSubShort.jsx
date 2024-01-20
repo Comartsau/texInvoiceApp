@@ -517,7 +517,7 @@ export const ReceiptSubShort = ({
                 <Text>วันที่ขาย:  {formattedDateTime} {''} </Text>
               </View>
                 <View>
-                  <Text style={[styles.flexrowcenter, styles.text10 , styles.mt5 ]}>
+                  <Text style={[styles.flexrow, styles.text10 , styles.mt5 ]}>
                   จุดขาย: {dataView?.salepoints_name?.length > 1  ? dataView?.salepoints_name  : selectedShop?.salepoints_name }  {''}  
                   </Text>
                 </View>

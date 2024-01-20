@@ -14,7 +14,7 @@ import "../../App.css";
 import { PDFViewer } from "@react-pdf/renderer";
 import THBText from "thai-baht-text";
 
-import moment  from "moment";
+import moment from "moment";
 
 import FontSarabun from "./font/Sarabun-Regular.ttf";
 import FontSarabunBold from "./font/Sarabun-ExtraBold.ttf";
@@ -31,7 +31,6 @@ import {
 } from "@material-tailwind/react";
 
 import PropTypes from "prop-types";
-
 
 Font.register({
   family: "Sarabun",
@@ -80,15 +79,14 @@ const styles = StyleSheet.create({
   },
   footer: {
     fontSize: 12,
-    color:'#ccc',
+    color: "#ccc",
     textAlign: "center",
     marginBottom: 10,
-    position:'absolute',
-    bottom:'0',
-    left:'0',
-    right:'0',
-    height:'20px'
-    
+    position: "absolute",
+    bottom: "0",
+    left: "0",
+    right: "0",
+    height: "20px",
   },
   signature: {
     fontSize: 12,
@@ -210,9 +208,9 @@ const styles = StyleSheet.create({
   },
   tableRow: {
     margin: "auto",
-    display:'flex',
+    display: "flex",
     flexDirection: "row",
-    alignItems:'center',
+    alignItems: "center",
   },
   tableCell1: {
     margin: "auto",
@@ -270,7 +268,7 @@ const styles = StyleSheet.create({
     padding: 5,
     borderWidth: 1,
     borderColor: "#000",
-    textAlign: 'center',
+    textAlign: "center",
     width: "15%", // แบ่งเป็น 3 ส่วนเท่า ๆ กัน (ขนาดเท่ากัน)
     height: "100%",
   },
@@ -291,10 +289,10 @@ const styles = StyleSheet.create({
     padding: 5,
     borderWidth: 1,
     borderTopWidth: 1,
-    borderTop:'1',
-    borderLeft:'1',
-    borderRight:'1',
-    borderBottom:'0',
+    borderTop: "1",
+    borderLeft: "1",
+    borderRight: "1",
+    borderBottom: "0",
     borderColor: "#000",
     width: "70%", // แบ่งเป็น 3 ส่วนเท่า ๆ กัน (ขนาดเท่ากัน)
     height: "100%",
@@ -305,13 +303,11 @@ const styles = StyleSheet.create({
     padding: 5,
     borderWidth: 1,
     borderTopWidth: 1,
-    borderTop:'0',
+    borderTop: "0",
     borderColor: "#000",
     width: "70%", // แบ่งเป็น 3 ส่วนเท่า ๆ กัน (ขนาดเท่ากัน)
     height: "100%",
   },
-
-
 });
 
 export const ReceiptA4 = ({
@@ -319,15 +315,9 @@ export const ReceiptA4 = ({
   handleModalReceiptA4,
   dataReceipt,
   customer,
-  companyLoginDataStore
+  companyLoginDataStore,
+  selectedShop,
 }) => {
-  console.log(dataReceipt)
-  // console.log(companyLoginDataStore)
-
-  // const id = ''
-
-  // console.log(id)
-
   const itemsPerPage = 15; // จำนวนรายการต่อหน้า
 
   // แบ่งรายการออกเป็นหน้าตามจำนวนที่กำหนด
@@ -351,11 +341,10 @@ export const ReceiptA4 = ({
 
   const pages = generatePages(dataReceipt.product_data);
 
-  // console.log(pages);
-
-   // แปลงเวลา //
-   const formattedDateTime = moment(dataReceipt.created_at).format("DD/MM/YYYY ");
-
+  // แปลงเวลา //
+  const formattedDateTime = moment(dataReceipt.created_at).format(
+    "DD/MM/YYYY "
+  );
 
   return (
     <Dialog open={openModalReceiptA4} handler={handleModalReceiptA4} size="xl">
@@ -366,15 +355,15 @@ export const ReceiptA4 = ({
         <PDFViewer width="100%" height="650px">
           <Document>
             {pages?.map((pageData, index) => (
-              <Page key={index} size="A4" style={styles.page} > 
+              <Page key={index} size="A4" style={styles.page}>
                 <View>
                   <Text style={[styles.flexrowcenter, styles.text14]}>
-                  {companyLoginDataStore?.company} {''}
+                    {companyLoginDataStore?.company} {""}
                   </Text>
                   <Text
                     style={[styles.flexrowcenter, styles.text12, styles.mt10]}
                   >
-                    {companyLoginDataStore?.address} {''}   {''} 
+                    {companyLoginDataStore?.address} {""} {""}
                   </Text>
                   <Text
                     style={[
@@ -384,14 +373,15 @@ export const ReceiptA4 = ({
                       styles.borderb,
                     ]}
                   >
-                    เลขประจำตัวผู้เสียภาษี {companyLoginDataStore?.tax_personal}  โทรศัพท์ {companyLoginDataStore?.tel}      {''}
+                    เลขประจำตัวผู้เสียภาษี {companyLoginDataStore?.tax_personal}{" "}
+                    โทรศัพท์ {companyLoginDataStore?.tel} {""}
                   </Text>
                 </View>
                 <View>
                   <Text
                     style={[styles.flexrowcenter, styles.text14, styles.mt10]}
                   >
-                    ใบเสร็จรับเงิน / ใบกำกับภาษี     {''}
+                    ใบเสร็จรับเงิน / ใบกำกับภาษี {""}
                   </Text>
                   <View style={[styles.flexrow, styles.mt10]}>
                     <View style={[styles.flexrowstart, { width: "65%" }]}>
@@ -405,7 +395,10 @@ export const ReceiptA4 = ({
                             styles.spacesm,
                           ]}
                         >
-                          {customer?.customer_name ? customer?.customer_name  : dataReceipt?.customer_name || ""} {''}
+                          {customer?.customer_name
+                            ? customer?.customer_name
+                            : dataReceipt?.customer_name || ""}{" "}
+                          {""}
                         </Text>
                         <Text
                           style={[
@@ -416,7 +409,11 @@ export const ReceiptA4 = ({
                             styles.spacesm,
                           ]}
                         >
-                          ที่อยู่: {customer?.customer_address ? customer?.customer_address : dataReceipt?.customer_address || ""} {''}
+                          ที่อยู่:{" "}
+                          {customer?.customer_address
+                            ? customer?.customer_address
+                            : dataReceipt?.customer_address || ""}{" "}
+                          {""}
                         </Text>
                         <Text
                           style={[
@@ -427,7 +424,11 @@ export const ReceiptA4 = ({
                             styles.spacesm,
                           ]}
                         >
-                          เลขประจำตัวผู้เสียภาษี:   {customer?.customer_id_tax ? customer?.customer_id_tax : dataReceipt?.customer_id_tax  || ""} {''}
+                          เลขประจำตัวผู้เสียภาษี:{" "}
+                          {customer?.customer_id_tax
+                            ? customer?.customer_id_tax
+                            : dataReceipt?.customer_id_tax || ""}{" "}
+                          {""}
                         </Text>
                         <Text
                           style={[
@@ -438,7 +439,11 @@ export const ReceiptA4 = ({
                             styles.spacesm,
                           ]}
                         >
-                          โทรศัพท์: {customer?.customer_tel ? customer?.customer_tel : dataReceipt?.customer_tel || ""} {''}
+                          โทรศัพท์:{" "}
+                          {customer?.customer_tel
+                            ? customer?.customer_tel
+                            : dataReceipt?.customer_tel || ""}{" "}
+                          {""}
                         </Text>
                       </View>
                     </View>
@@ -453,7 +458,7 @@ export const ReceiptA4 = ({
                             styles.spacesm,
                           ]}
                         >
-                          เลขที่ใบกำกับภาษี: {dataReceipt?.code || ''} {''}
+                          เลขที่ใบกำกับภาษี: {dataReceipt?.code || ""} {""}
                         </Text>
                         <Text
                           style={[
@@ -464,7 +469,22 @@ export const ReceiptA4 = ({
                             styles.spacesm,
                           ]}
                         >
-                          วันที่ขาย:  {formattedDateTime || ''} {''}
+                          วันที่ขาย: {formattedDateTime || ""} {""}
+                        </Text>
+                        <Text
+                          style={[
+                            { fontWeight: "extrabold" },
+                            { fontFamily: "SarabunBold" },
+                            { fontSize: "11" },
+                            styles.mt10,
+                            styles.spacesm,
+                          ]}
+                        >
+                          จุดขาย:{" "}
+                          {dataReceipt?.salepoints_name ||
+                            selectedShop?.salepoints_name ||
+                            ""}{" "}
+                          {""}
                         </Text>
                       </View>
                     </View>
@@ -474,34 +494,34 @@ export const ReceiptA4 = ({
                   <View style={[styles.table, { marginTop: "10" }]}>
                     <View style={styles.tableRow}>
                       <Text style={[styles.tableCell1, styles.colorHead]}>
-                        ลำดับ    {''}
+                        ลำดับ {""}
                       </Text>
                       <Text style={[styles.tableCell2, styles.colorHead]}>
-                        รายการ   {''}
+                        รายการ {""}
                       </Text>
                       <Text style={[styles.tableCell3, styles.colorHead]}>
-                        จำนวน   {''}
+                        จำนวน {""}
                       </Text>
                       <Text style={[styles.tableCell4, styles.colorHead]}>
-                        หน่วยนับ   {''}
+                        หน่วยนับ {""}
                       </Text>
                       <Text style={[styles.tableCell5, styles.colorHead]}>
-                        ราคา/หน่วย   {''}
+                        ราคา/หน่วย {""}
                       </Text>
                       <Text style={[styles.tableCell6, styles.colorHead]}>
-                        รวมจำนวนเงิน   {''}
+                        รวมจำนวนเงิน {""}
                       </Text>
                     </View>
                     {pageData.map((item, itemIndex) => {
                       return (
                         <View key={itemIndex} style={styles.tableRow}>
                           <Text style={styles.tableCell1}>
-                            {item?.index  || ""}
+                            {item?.index || ""}
                           </Text>
                           <Text
                             style={[styles.tableCell2, { textAlign: "left" }]}
                           >
-                            {item?.product || ''} {''}
+                            {item?.product || ""} {""}
                           </Text>
                           <Text style={styles.tableCell3}>
                             {" "}
@@ -509,7 +529,7 @@ export const ReceiptA4 = ({
                           </Text>
                           <Text style={styles.tableCell4}>
                             {" "}
-                            {item?.unit || ""} {''}
+                            {item?.unit || ""} {""}
                           </Text>
                           <Text style={styles.tableCell5}>
                             {" "}
@@ -526,41 +546,42 @@ export const ReceiptA4 = ({
                       <>
                         <View View style={styles.tableRow}>
                           {/* สรุปรวม */}
-                          <Text style={[styles.tableCellNote ]}>
-                            หมายเหตุ: 
-                          </Text>
+                          <Text style={[styles.tableCellNote]}>หมายเหตุ:</Text>
                           <Text style={styles.tableCell5}> รวมเป็นเงิน </Text>
                           <Text style={styles.tableCell6}>
-                            {Number(dataReceipt?.total_price).toFixed(2)
-                              .replace(/\B(?=(\d{3})+(?!\d))/g, ",") || ''}
+                            {Number(dataReceipt?.total_price)
+                              .toFixed(2)
+                              .replace(/\B(?=(\d{3})+(?!\d))/g, ",") || ""}
                           </Text>
                         </View>
                         <View View style={[styles.tableRow]}>
                           {/* ภาษี */}
-                          <Text style={[styles.tableCellNoteBorder ]}>{dataReceipt?.note || '' }</Text>
-                          <Text style={[styles.tableCell5  ]} >
+                          <Text style={[styles.tableCellNoteBorder]}>
+                            {dataReceipt?.note || ""}
+                          </Text>
+                          <Text style={[styles.tableCell5]}>
                             {" "}
                             ภาษีมูลค่าเพิ่ม
                           </Text>
                           <Text style={styles.tableCell6}>
                             {dataReceipt?.total_tax
                               .toFixed(2)
-                              .replace(/\B(?=(\d{3})+(?!\d))/g, ",") || ''}
+                              .replace(/\B(?=(\d{3})+(?!\d))/g, ",") || ""}
                           </Text>
                         </View>
                         <View View style={styles.tableRow}>
                           {/* สรุปรวม */}
                           <Text style={styles.tableCellRowsum}>
-                            {THBText(dataReceipt?.total_amount) || ''}
+                            {THBText(dataReceipt?.total_amount) || ""}
                           </Text>
                           <Text style={styles.tableCell5}>
                             {" "}
-                            จำนวนเงินทั้งสิ้น   {''}
+                            จำนวนเงินทั้งสิ้น {""}
                           </Text>
                           <Text style={styles.tableCell6}>
                             {dataReceipt?.total_amount
                               .toFixed(2)
-                              .replace(/\B(?=(\d{3})+(?!\d))/g, ",") || ''}
+                              .replace(/\B(?=(\d{3})+(?!\d))/g, ",") || ""}
                           </Text>
                         </View>
                       </>

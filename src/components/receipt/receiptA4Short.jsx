@@ -366,7 +366,8 @@ export const ReceiptA4Short = ({
   openModalReceiptA4,
   handleModalReceiptA4,
   dataReceipt,
-  companyLoginDataStore
+  companyLoginDataStore,
+  selectedShop
 }) => {
   // console.log(companyLoginDataStore)
 
@@ -439,6 +440,17 @@ export const ReceiptA4Short = ({
                     style={[styles.flexrowcenter, styles.text12, styles.mt10]}
                   >
                     เลขประจำตัวผู้เสียภาษี {companyLoginDataStore?.tax_personal || ''}  {''} โทรศัพท์ {companyLoginDataStore?.tel || ''}  {''}
+                  </Text>
+                </View>
+                <View style={[styles.flexrowcenter, styles.mt10]}>
+                  <Text
+                    style={[
+                      { fontWeight: "extrabold" },
+                      { fontFamily: "SarabunBold" },
+                      styles.text12,
+                    ]}
+                  >
+                    จุดขาย: {dataReceipt?.salepoints_name || selectedShop?.salepoints_name || ''}  {''}
                   </Text>
                 </View>
                 <View>

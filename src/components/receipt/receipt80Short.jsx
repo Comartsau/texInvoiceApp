@@ -385,7 +385,8 @@ import {
     openModalReceipt80,
     handleModalReceipt80,
     dataReceipt,
-    companyLoginDataStore
+    companyLoginDataStore,
+    selectedShop
   }) => {
     // console.log(dataReceipt);
     // console.log(companyLoginDataStore);
@@ -463,10 +464,13 @@ import {
                       <View style={[styles.flexrowcenter]}>
                         <View>
                           <Text style={[styles.spacesm,styles.text10]}>
-                            เลขที่ใบกำกับภาษี: {dataReceipt.code} {''}
+                            เลขที่ใบกำกับภาษี: {dataReceipt?.code} {''}
                           </Text>
                           <Text style={[styles.spacesm,styles.text10 , styles.mt5]}>
                           วันที่ขาย: {formattedDateTime} {''}
+                          </Text>
+                          <Text style={[styles.spacesm,styles.text10 , styles.mt5]}>
+                          จุดขาย: {dataReceipt?.salepoints_name || selectedShop?.salepoints_name || ''} {''}
                           </Text>
                         </View>
                       </View>
