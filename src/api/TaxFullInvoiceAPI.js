@@ -1,15 +1,14 @@
-import axios from 'axios'
+import axios from "axios";
 import { toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 
-
-export const getFullInvoice = async (searchQuery , searchShop) => {
-    try {
-        let Token = localStorage.getItem("Token");
+export const getFullInvoice = async (searchQuery, sendShop) => {
+  try {
+    let Token = localStorage.getItem("Token");
     const response = await axios.get(
       `${
         import.meta.env.VITE_APP_API
-      }/inovices/invoices-search?search=${searchQuery}`,
+      }/inovices/invoices-search?search=${searchQuery}&salepoints=${Number(sendShop) || ''}`,
       {
         headers: {
           "Content-Type": "application/json",
@@ -17,22 +16,16 @@ export const getFullInvoice = async (searchQuery , searchShop) => {
         },
       }
     );
-    // console.log(response.data)
- 
+    console.log(response.data);
+
     return response.data;
+  } catch (error) {
+    console.error(error);
+  }
+};
 
-        
-    } catch (error) {
-        console.error(error)
-        
-    }
-
-}
-
-
-export const addFullInvioce = async (data , setOpenPrint) => {
+export const addFullInvioce = async (data, setOpenPrint) => {
   try {
-    
     let Token = localStorage.getItem("Token");
     const response = await axios.post(
       `${import.meta.env.VITE_APP_API}/inovices/addinovices`,
@@ -43,16 +36,16 @@ export const addFullInvioce = async (data , setOpenPrint) => {
           Authorization: `Bearer ${Token}`,
         },
       }
-      );
-      toast.success("สร้าง ใบกำกับภาษี(รูปแบบเต็ม) สำเร็จ")
-    setOpenPrint(true)
+    );
+    toast.success("สร้าง ใบกำกับภาษี(รูปแบบเต็ม) สำเร็จ");
+    setOpenPrint(true);
     return response.data.data;
   } catch (error) {
-    toast.error("ไม่สามารถสร้าง ใบกำกับภาษี(รูปแบบเต็ม) กรุณาลองอีกครั้ง ")
+    toast.error("ไม่สามารถสร้าง ใบกำกับภาษี(รูปแบบเต็ม) กรุณาลองอีกครั้ง ");
   }
 };
 
-export const deleteFullInvoice = async (id , setToastOpen) => {
+export const deleteFullInvoice = async (id, setToastOpen) => {
   // console.log(id)
   try {
     let Token = localStorage.getItem("Token");
@@ -66,8 +59,8 @@ export const deleteFullInvoice = async (id , setToastOpen) => {
       }
     );
     // console.log(response.data)
-    toast.success('ลบใบกำกับภาษี(รูปแบบเต็ม) สำเร็จ')
-    setToastOpen(true)
+    toast.success("ลบใบกำกับภาษี(รูปแบบเต็ม) สำเร็จ");
+    setToastOpen(true);
     return response.data;
   } catch (error) {
     console.error(error);

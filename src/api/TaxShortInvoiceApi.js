@@ -2,14 +2,14 @@ import axios from 'axios'
 import { toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 
-export const getShortInvoice = async (searchQuery) => {
+export const getShortInvoice = async (searchQuery , selectedShop) => {
   // console.log(searchQuery)
     try {
         let Token = localStorage.getItem("Token");
     const response = await axios.get(
       `${ 
         import.meta.env.VITE_APP_API
-      }/inovicesh/invoices-sh-search?search=${searchQuery}`,
+      }/inovicesh/invoices-sh-search?search=${searchQuery}&salepoints=${Number(selectedShop) || ''}`,
       {
         headers: {
           "Content-Type": "application/json",

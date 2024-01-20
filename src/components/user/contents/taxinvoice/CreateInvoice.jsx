@@ -28,6 +28,7 @@ import DatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
 import th from "date-fns/locale/th";
 
+
 import { useRecoilState, useRecoilValue } from "recoil";
 import {
   createInvoiceStore,
@@ -288,6 +289,7 @@ const CreateInvoice = () => {
         ...(headFormDataStore != "3"
           ? {
               product_data: data,
+              created_at: startDate,
               total_price: Number(calculatePruePrice().toFixed(2)),
               total_tax: Number(calculateVAT().toFixed(2)),
               total_amount: Number(calculateTotalAmount().toFixed(2)),
@@ -299,6 +301,7 @@ const CreateInvoice = () => {
           ? {
               invoice_data: {
                 product_data: data,
+                created_at: startDate,
                 total_price: Number(calculatePruePrice().toFixed(2)),
                 total_tax: Number(calculateVAT().toFixed(2)),
                 total_amount: Number(calculateTotalAmount().toFixed(2)),
@@ -313,7 +316,7 @@ const CreateInvoice = () => {
       };
       if (headFormDataStore == "1") {
         const response = await addFullInvioce(datasend, setOpenPrint);
-        // console.log(response)
+        console.log(response)
         setDataReceipt(response);
       } else if (headFormDataStore == "2") {
         // console.log(datasend)
@@ -370,7 +373,11 @@ const CreateInvoice = () => {
     setPrintIndex(index);
   };
 
-  console.log(shopOptions);
+  const startDate = moment(searchQueryStart).format("YYYY-MM-DD hh:mm:ss");
+
+  // console.log(shopOptions);
+  // console.log(searchQueryStart)
+  // console.log(startDate)
 
   return (
     <div className="flex  flex-col p-3 overflow-auto   items-center ">

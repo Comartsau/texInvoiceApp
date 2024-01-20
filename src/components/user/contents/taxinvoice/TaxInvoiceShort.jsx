@@ -58,7 +58,7 @@ function TaxInvoiceShort() {
   const [noData, setNoData] = useState(false);
   const [openCreateInvoice, setOpenCreateInvoice] =
     useRecoilState(createInvoiceStore);
-    const shopDataStore = useRecoilValue(shopStore);
+  const shopDataStore = useRecoilValue(shopStore);
 
   const shopOptions = shopDataStore?.map((shop) => ({
     value: shop.id,
@@ -66,26 +66,40 @@ function TaxInvoiceShort() {
   }));
 
   const [selectedShop, setSelectedShop] = useState(null);
+  const [sendShop, setSendShop] = useState("");
+
   const handleShopSelect = (e) => {
-    // ค้นหาข้อมูลลูกค้าที่ถูกเลือกจาก customerDataStore
-    const shop = shopDataStore.find((shop) => shop.id === e.value);
-    // เซ็ตข้อมูลลูกค้าที่ถูกเลือกใน state
-    // console.log(shop);
-    setSelectedShop(shop);
+    // ตรวจสอบว่า e.value ไม่เป็น undefined หรือ null
+    if (e && e.value !== undefined && e.value !== null) {
+      // ค้นหาข้อมูลร้านที่ถูกเลือกจาก shopDataStore
+      const shop = shopDataStore.find((shop) => shop.id === e.value);
+
+      // ตรวจสอบว่า shop ไม่เป็น undefined ก่อนที่จะเข้าถึง property
+      if (shop) {
+        // เซ็ตข้อมูลร้านที่ถูกเลือกใน state
+        setSelectedShop(shop.salepoints_name);
+        setSendShop(Number(shop.id));
+      } else {
+        // กรณีไม่พบข้อมูลร้าน
+        console.error(`Shop with ID ${e.value} not found in shopDataStore`);
+      }
+    } else {
+      // กรณี e.value เป็น undefined หรือ null
+      setSendShop("");
+    }
   };
 
-  console.log(selectedShop)
+  console.log(selectedShop);
 
   const [listData, setListData] = useState([]);
 
   const [tokenError, setTokenError] = useState(false);
   const [searchQuery, setSearchQuery] = useState("");
-  const [searchShop, setSearchShop] = useState("");
   const [isSearchable, setIsSearchable] = useState(true);
 
   const fetchShortInvoice = async () => {
     try {
-      const response = await getShortInvoice(searchQuery, searchShop);
+      const response = await getShortInvoice(searchQuery, sendShop);
       console.log(response);
       setListData(response);
       setNoData(false);
@@ -97,7 +111,7 @@ function TaxInvoiceShort() {
   useEffect(() => {
     fetchShortInvoice();
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [searchQuery, openCreateInvoice]);
+  }, [searchQuery, openCreateInvoice, sendShop]);
 
   useEffect(() => {
     if (tokenError) {
@@ -160,7 +174,6 @@ function TaxInvoiceShort() {
     // console.log(id);
   };
 
-  const [showPrint, setShowPrint] = useState(false);
 
   //------------- open Receipt A4  -----------------------//
   const [openModalReceiptA4, setOpenModalReceiptA4] = useState(false);
@@ -203,7 +216,7 @@ function TaxInvoiceShort() {
                   className="basic-single   "
                   classNamePrefix="select"
                   placeholder="เลือกจุดขาย"
-                  // isClearable={isClearable}
+                  isClearable
                   isSearchable={isSearchable}
                   name="color"
                   options={shopOptions}
@@ -271,14 +284,13 @@ function TaxInvoiceShort() {
                   </th>
                 </tr>
               </thead>
-              {noData ? (
+              {listData?.length <= 0 ? (
                 <tbody>
                   <tr>
-                    <td></td>
-                    <td></td>
-                    <td></td>
-                    <td>
-                      <Typography>...ไม่พบข้อมูล...</Typography>
+                    <td colSpan={4}>
+                      <Typography className="text-center mt-5">
+                        ...ไม่พบข้อมูล...
+                      </Typography>
                     </td>
                   </tr>
                 </tbody>

@@ -69,15 +69,28 @@ function TaxInvoiceSub() {
   }));
 
   const [selectedShop, setSelectedShop] = useState(null);
-  const handleShopSelect = (e) => {
-    // ค้นหาข้อมูลลูกค้าที่ถูกเลือกจาก customerDataStore
-    const shop = shopDataStore.find((shop) => shop.id === e.value);
-    // เซ็ตข้อมูลลูกค้าที่ถูกเลือกใน state
-    // console.log(shop);
-    setSelectedShop(shop);
-  };
+  const [sendShop, setSendShop] = useState("");
 
-  console.log(selectedShop);
+  const handleShopSelect = (e) => {
+    // ตรวจสอบว่า e.value ไม่เป็น undefined หรือ null
+    if (e && e.value !== undefined && e.value !== null) {
+      // ค้นหาข้อมูลร้านที่ถูกเลือกจาก shopDataStore
+      const shop = shopDataStore.find((shop) => shop.id === e.value);
+
+      // ตรวจสอบว่า shop ไม่เป็น undefined ก่อนที่จะเข้าถึง property
+      if (shop) {
+        // เซ็ตข้อมูลร้านที่ถูกเลือกใน state
+        setSelectedShop(shop.salepoints_name);
+        setSendShop(Number(shop.id));
+      } else {
+        // กรณีไม่พบข้อมูลร้าน
+        console.error(`Shop with ID ${e.value} not found in shopDataStore`);
+      }
+    } else {
+      // กรณี e.value เป็น undefined หรือ null
+      setSendShop("");
+    }
+  };
 
   const [listData, setListData] = useState([]);
 
@@ -87,7 +100,7 @@ function TaxInvoiceSub() {
 
   const fetchSubInvoice = async () => {
     try {
-      const response = await getSubInvoice(searchQuery);
+      const response = await getSubInvoice(searchQuery, sendShop);
       console.log(response?.invoices_list);
       setListData(response?.invoices_list);
       setNoData(false);
@@ -101,7 +114,7 @@ function TaxInvoiceSub() {
   useEffect(() => {
     fetchSubInvoice();
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [searchQuery, openCreateInvoice]);
+  }, [searchQuery, openCreateInvoice, sendShop]);
 
   useEffect(() => {
     if (tokenError) {
@@ -230,7 +243,7 @@ function TaxInvoiceSub() {
                   className="basic-single   "
                   classNamePrefix="select"
                   placeholder="เลือกจุดขาย"
-                  // isClearable={isClearable}
+                  isClearable
                   isSearchable={isSearchable}
                   name="color"
                   options={shopOptions}
@@ -298,14 +311,13 @@ function TaxInvoiceSub() {
                   </th>
                 </tr>
               </thead>
-              {noData ? (
+              {listData?.length <= 0 ? (
                 <tbody>
                   <tr>
-                    <td></td>
-                    <td></td>
-                    <td></td>
-                    <td>
-                      <Typography>...ไม่พบข้อมูล...</Typography>
+                    <td colSpan={4}>
+                      <Typography className=" text-center mt-5">
+                        ...ไม่พบข้อมูล...
+                      </Typography>
                     </td>
                   </tr>
                 </tbody>
