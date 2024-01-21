@@ -247,7 +247,7 @@ import {
       borderWidth: 1,
       borderColor: "#000",
       textAlign: "center",
-      width: "70%", // แบ่งเป็น 3 ส่วนเท่า ๆ กัน (ขนาดเท่ากัน)
+      width: "55%", // แบ่งเป็น 3 ส่วนเท่า ๆ กัน (ขนาดเท่ากัน)
       height: "100%",
     },
     tableCellHead3: {
@@ -267,7 +267,7 @@ import {
       borderWidth: 1,
       borderColor: "#000",
       textAlign: "center",
-      width: "20%", // แบ่งเป็น 3 ส่วนเท่า ๆ กัน (ขนาดเท่ากัน)
+      width: "15%", // แบ่งเป็น 3 ส่วนเท่า ๆ กัน (ขนาดเท่ากัน)
       height: "100%",
     },
     tableCell1: {
@@ -287,7 +287,7 @@ import {
       borderWidth: 1,
       borderColor: "#000",
       textAlign: "center",
-      width: "70%", // แบ่งเป็น 3 ส่วนเท่า ๆ กัน (ขนาดเท่ากัน)
+      width: "55%", // แบ่งเป็น 3 ส่วนเท่า ๆ กัน (ขนาดเท่ากัน)
       height: "auto",
     },
     tableCell3: {
@@ -307,7 +307,7 @@ import {
       borderWidth: 1,
       borderColor: "#000",
       textAlign: "center",
-      width: "10%", // แบ่งเป็น 3 ส่วนเท่า ๆ กัน (ขนาดเท่ากัน)
+      width: "15%", // แบ่งเป็น 3 ส่วนเท่า ๆ กัน (ขนาดเท่ากัน)
       height: "100%",
     },
     tableCell5: {
@@ -353,7 +353,7 @@ import {
       borderRight:'1',
       borderBottom:'0',
       borderColor: "#000",
-      width: "75%", // แบ่งเป็น 3 ส่วนเท่า ๆ กัน (ขนาดเท่ากัน)
+      width: "70%", // แบ่งเป็น 3 ส่วนเท่า ๆ กัน (ขนาดเท่ากัน)
       height: "100%",
     },
     tableCellNoteBorder: {
@@ -483,6 +483,9 @@ import {
                           รายการ   {''}
                         </Text>
                         <Text style={[styles.tableCellHead3, styles.colorHead]}>
+                          ราคา/หน่วย   {''}
+                        </Text>
+                        <Text style={[styles.tableCellHead4, styles.colorHead]}>
                           ราคา   {''}
                         </Text>
                       </View>
@@ -498,6 +501,11 @@ import {
                               {` ${item?.product_name}   `}  {''}
                             </Text>
                             <Text style={styles.tableCell3}>
+                              {" "}
+                              {Number(item?.pricePerUnit).toFixed(2)
+                           .replace(/\B(?=(\d{3})+(?!\d))/g, ",") || ''}  {''}
+                            </Text>
+                            <Text style={styles.tableCell4}>
                               {" "}
                               {Number(item?.price_per_invoice).toFixed(2)
                            .replace(/\B(?=(\d{3})+(?!\d))/g, ",") || ''}  {''}

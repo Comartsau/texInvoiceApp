@@ -264,7 +264,7 @@ const styles = StyleSheet.create({
     borderBottom:'1',
     borderColor: "#000",
     textAlign: "left",
-    width: "55%", // แบ่งเป็น 3 ส่วนเท่า ๆ กัน (ขนาดเท่ากัน)
+    width: "35%", // แบ่งเป็น 3 ส่วนเท่า ๆ กัน (ขนาดเท่ากัน)
     height: "100%",
   },
   tableCellHead3: {
@@ -278,7 +278,7 @@ const styles = StyleSheet.create({
     borderBottom:'1',
     borderColor: "#000",
     textAlign: "center",
-    width: "25%", // แบ่งเป็น 3 ส่วนเท่า ๆ กัน (ขนาดเท่ากัน)
+    width: "20%", // แบ่งเป็น 3 ส่วนเท่า ๆ กัน (ขนาดเท่ากัน)
     height: "100%",
   },
   tableCellHead4: {
@@ -286,9 +286,13 @@ const styles = StyleSheet.create({
     fontSize: 10,
     padding: 5,
     borderWidth: 1,
+    borderTop:'1',
+    borderLeft:'0',
+    borderRight:'0',
+    borderBottom:'1',
     borderColor: "#000",
     textAlign: "center",
-    width: "20%", // แบ่งเป็น 3 ส่วนเท่า ๆ กัน (ขนาดเท่ากัน)
+    width: "25%", // แบ่งเป็น 3 ส่วนเท่า ๆ กัน (ขนาดเท่ากัน)
     height: "100%",
   },
   tableCell1: {
@@ -316,7 +320,7 @@ const styles = StyleSheet.create({
     borderBottom:'0',
     borderColor: "#000",
     textAlign: "center",
-    width: "55%", // แบ่งเป็น 3 ส่วนเท่า ๆ กัน (ขนาดเท่ากัน)
+    width: "30%", // แบ่งเป็น 3 ส่วนเท่า ๆ กัน (ขนาดเท่ากัน)
     height: "auto",
   },
   tableCell3: {
@@ -338,29 +342,13 @@ const styles = StyleSheet.create({
     fontSize: 10,
     padding: 5,
     borderWidth: 1,
+    borderTop:'1',
+    borderLeft:'0',
+    borderRight:'0',
+    borderBottom:'0',
     borderColor: "#000",
-    textAlign: "center",
-    width: "20%", // แบ่งเป็น 3 ส่วนเท่า ๆ กัน (ขนาดเท่ากัน)
-    height: "100%",
-  },
-  tableCell5: {
-    margin: "auto",
-    fontSize: 10,
-    padding: 5,
-    borderWidth: 1,
-    borderColor: "#000",
-    textAlign: "center",
-    width: "15%", // แบ่งเป็น 3 ส่วนเท่า ๆ กัน (ขนาดเท่ากัน)
-    height: "100%",
-  },
-  tableCell6: {
-    margin: "auto",
-    fontSize: 10,
-    padding: 5,
-    borderWidth: 1,
-    borderColor: "#000",
-    textAlign: 'center',
-    width: "5%", // แบ่งเป็น 3 ส่วนเท่า ๆ กัน (ขนาดเท่ากัน)
+    textAlign: "right",
+    width: "25%", // แบ่งเป็น 3 ส่วนเท่า ๆ กัน (ขนาดเท่ากัน)
     height: "100%",
   },
   tableCellRowsum: {
@@ -434,9 +422,9 @@ export const ReceiptSubShort = ({
 
 }) => {
 
-  // console.log(dataReceipt)
+  console.log(dataReceipt)
   // console.log(companyLoginDataStore)
-  // console.log(dataView)
+  console.log(dataView)
 
 
 
@@ -532,7 +520,10 @@ export const ReceiptSubShort = ({
                       <Text style={[styles.tableCellHead2 , {paddingLeft:"30"}]}>
                         รายการ   {''}
                       </Text>
-                      <Text style={[styles.tableCellHead3]}>
+                      <Text style={[styles.tableCellHead3 ]}>
+                        ราคา/หน่วย   {''}
+                      </Text>
+                      <Text style={[styles.tableCellHead4 , {paddingLeft:"30"}]}>
                         ราคา   {''}
                       </Text>
                     </View>
@@ -547,7 +538,12 @@ export const ReceiptSubShort = ({
                             {" "}
                             {` ${item?.product_name}   `}  {''}
                           </Text>
-                          <Text style={[styles.tableCell3 ]}>
+                          <Text style={[styles.tableCell3 , {paddingLeft:"30"} ]}>
+                            {" "}
+                            {Number(item?.pricePerUnit).toFixed(2)
+                         .replace(/\B(?=(\d{3})+(?!\d))/g, ",") || ''}  {''}
+                          </Text>
+                          <Text style={[styles.tableCell4 ]}>
                             {" "}
                             {Number(item?.price_per_invoice).toFixed(2)
                          .replace(/\B(?=(\d{3})+(?!\d))/g, ",") || ''}  {''}
@@ -566,10 +562,8 @@ export const ReceiptSubShort = ({
                             </Text>
                           </View>
                           <View View style={[styles.flexrowbetween , styles.mt5]}>
-                            <Text style={styles.text10}> ส่วนลด </Text>
-                            <Text style={styles.text10}>
-                              0.00 
-                            </Text>
+                            <Text style={styles.text10}> ส่วนลด {''} </Text>
+                            <Text style={styles.text10}> 0.00 {''} </Text>
                           </View>
                           <View View style={[styles.flexrowbetween , styles.mt5 , styles.borderB]}>
                             <Text style={styles.text12}> รวมทั้งสิ้น </Text>

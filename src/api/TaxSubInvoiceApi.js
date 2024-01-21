@@ -41,7 +41,7 @@ export const addSubInvioce = async (data, setOpenPrint) => {
     );
     toast.success("สร้าง ใบกำกับภาษี(รูปแบบสัพ) สำเร็จ");
     setOpenPrint(true);
-    // console.log(response)
+    console.log(response)
     return response.data.data;
   } catch (error) {
     toast.error("ไม่สามารถสร้าง ใบกำกับภาษี(รูปแบบสัพ) กรุณาลองอีกครั้ง ");
