@@ -521,7 +521,7 @@ export const ReceiptSubShort = ({
                         รายการ   {''}
                       </Text>
                       <Text style={[styles.tableCellHead3 ]}>
-                        ราคา/หน่วย   {''}
+                        หน่วยละ  {''}
                       </Text>
                       <Text style={[styles.tableCellHead4 , {paddingLeft:"30"}]}>
                         ราคา   {''}
