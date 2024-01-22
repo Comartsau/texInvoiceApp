@@ -257,6 +257,8 @@ const ShopReport = ({ userLogin }) => {
     setOpenModalReceiptSubShort(!openModalReceiptSubShort);
   };
 
+  console.log(dataView?.sec_product_data?.[1]?.length)
+
   return (
     <div className="mt-5 ">
       <div className="flex flex-col  sm:flex-row gap-5 ">
@@ -664,6 +666,7 @@ const ShopReport = ({ userLogin }) => {
                                   size="sm"
                                   variant="gradient"
                                   color="green"
+                                  disabled={dataView?.sec_product_data?.[1]?.length == undefined}
                                   className="text-sm flex justify-center rounded-full  w-7 h-7    items-center   bg-green-500"
                                   // onClick={() => setShowPrint(true)}
                                   // onBlur={()=> setShowPrint(false)}

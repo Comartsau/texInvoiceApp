@@ -122,6 +122,9 @@ import {
     text8: {
       fontSize: 8,
     },
+    text10: {
+      fontSize: 10,
+    },
     text12: {
       fontSize: 12,
     },
@@ -392,8 +395,8 @@ import {
   
   
     return (
-      <Dialog open={openModalReceiptA4} handler={handleModalReceiptA4} size="xl">
-        <DialogBody>
+      <Dialog open={openModalReceiptA4} handler={handleModalReceiptA4} size="xl" >
+        <DialogBody >
           {/* <Page size={[842, 595]} style={styles.page}> */}
           {/*  9 x 11 นิ้ว (792 คือ 9 นิ้ว x 72 คือ DPI, 936 คือ 11 นิ้ว x 72 คือ DPI) */}
           <PDFViewer width="100%" height="650px">
@@ -409,9 +412,11 @@ import {
                       ใบสำคัญรับเงิน '
                     </Text>
                   </View>
- 
-                  <View style={[styles.mt10]}>
-                    <Text style={[styles.flexrowcenter, styles.text14]}>
+                  <View >
+                  <Text style={[styles.flexrowcenter, styles.text14, styles.mt10]}>
+                    วันที่: {formattedDateTime}  {''}
+                    </Text>
+                    <Text style={[styles.flexrowcenter, styles.text14, styles.mt10]}>
                       {companyLoginDataStore?.company || ''}  {''}
                     </Text>
                     <Text
@@ -425,15 +430,13 @@ import {
                       เลขประจำตัวผู้เสียภาษี {companyLoginDataStore?.tax_personal || ''}  {''}  โทรศัพท์ {companyLoginDataStore?.tel || ''}  {''} 
                     </Text>
                   </View>
-                  <View style={[styles.flexrowend, styles.mt10]}>
+                  <View style={[styles.mt10]}>
+               
+        
                     <Text
-                      style={[
-                        { fontWeight: "extrabold" },
-                        { fontFamily: "SarabunBold" },
-                        styles.text14,
-                      ]}
+                      style={[styles.flexrowcenter, styles.text12]}
                     >
-                      วันที่: {formattedDateTime}  {''}
+                      จุดขาย: {dataReceipt?.salepoints_name || ''}  {''}
                     </Text>
                   </View>
                   <View>
@@ -475,7 +478,7 @@ import {
                             <Text
                               style={[styles.tableCell2, { textAlign: "left" }]}
                             >
-                             {`${item?.product || ""} เลขที่: ${dataReceipt?.sec_product_data[itemIndex + 1]?.map((item)=> ` ${item?.invoice_number}  `) || ""} `}
+                             {`${item?.product || ""} ${dataReceipt?.sec_product_data?.[1] == undefined ? "" : " เลขที่:"} ${dataReceipt?.sec_product_data[itemIndex + 1]?.map((item)=> ` ${item?.invoice_number}  `) || '' } `}
                             </Text>
                             <Text style={styles.tableCell3}>
                               {Number(item?.pricePerUnit).toLocaleString() || ""}  {''}

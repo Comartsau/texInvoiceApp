@@ -456,12 +456,12 @@ export const ReportPDF = ({
   // console.log(pages)
 
   return (
-    <Dialog open={openModalReceiptA4} handler={handleModalReceiptA4} size="xl">
+    <Dialog open={openModalReceiptA4} handler={handleModalReceiptA4} size="xl" className="h-[90vh]">
       {/* <DialogHeader></DialogHeader> */}
-      <DialogBody>
+      <DialogBody className="h-[80vh]">
         {/* <Page size={[842, 595]} style={styles.page}> */}
         {/*  9 x 11 นิ้ว (792 คือ 9 นิ้ว x 72 คือ DPI, 936 คือ 11 นิ้ว x 72 คือ DPI) */}
-        <PDFViewer width="100%" height="650px">
+        <PDFViewer width="100%" height="550px">
           <Document>
             {pages.map((pageData, index) => (
               <Page

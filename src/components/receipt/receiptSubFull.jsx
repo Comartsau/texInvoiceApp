@@ -202,6 +202,10 @@ import {
       marginTop: 20,
       wordBreak: "break-word",
     },
+    mt25: {
+      marginTop: 25,
+      wordBreak: "break-word",
+    },
     mt30: {
       marginTop: 30,
       wordBreak: "break-word",
@@ -432,7 +436,7 @@ import {
                   <Text style={[ {color:"#fff"}]}>.</Text>
                   <Text>เลขที่:  {dataReceipt[index]?.invoice_number}  {''} </Text>
                 </View>
-                <View style={[styles.flexrowcenter, styles.mt30]}>
+                <View style={[styles.flexrowcenter, styles.mtsm20]}>
                   <Text style={[styles.flexrowcenter, styles.text18]}>
                     ใบเสร็จรับเงิน / ใบกำกับภาษีอย่างย่อ '
                   </Text>
@@ -467,7 +471,7 @@ import {
                   
                   </View>
                   <View>
-                    <Text style={[styles.flexrowcenter, styles.text6 ]}>
+                    <Text style={[styles.flexrowcenter, styles.text6, styles.mt10 ]}>
                     จุดขาย: {dataView?.salepoints_name?.length > 1  ? dataView?.salepoints_name  : selectedShop?.salepoints_name }  {''}
                     </Text>
                   </View>
