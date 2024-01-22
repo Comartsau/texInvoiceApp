@@ -121,7 +121,7 @@ function TaxInvoiceFull() {
 
   //----- จัดการแสดงข้อมูล / หน้า -------------- //
   const [currentPage, setCurrentPage] = useState(1);
-  const itemsPerPage = 6;
+  const itemsPerPage = 5;
 
   const startIndex = (currentPage - 1) * itemsPerPage;
   const endIndex = startIndex + itemsPerPage;
@@ -443,7 +443,7 @@ function TaxInvoiceFull() {
                 </spand>{" "}
               </Typography>
               <hr className="mt-3 border " />
-              <Typography className="text-lg font-bold mt-10">
+              <Typography className="text-lg font-bold mt-3">
                 ข้อมูลลูกค้า:{" "}
               </Typography>
               <Typography className="font-bold mt-5">
@@ -461,7 +461,7 @@ function TaxInvoiceFull() {
                 <span className="font-normal">{dataView?.customer_id_tax}</span>
               </Typography>
               <hr className="mt-3 border " />
-              <Typography className="text-lg font-bold mt-10">
+              <Typography className="text-lg font-bold mt-1">
                 หมายเหตุ: <span className="font-normal">{dataView?.note}</span>
               </Typography>
             </div>
@@ -469,9 +469,9 @@ function TaxInvoiceFull() {
               <Typography className="text-center font-bold text-lg">
                 รายการ
               </Typography>
-              <Card className="border px-2 h-[340px] overflow-auto">
-                <div className="mt-5">
-                  <table className="w-full min-w-max  ">
+              <Card className="border px-2 h-[280px] overflow-auto">
+                <div className="mt-5 ">
+                  <table className="w-full min-w-max "  >
                     <thead>
                       <tr>
                         <th className="border-y border-blue-gray-100 bg-blue-gray-50/50 p-4">
@@ -646,7 +646,7 @@ function TaxInvoiceFull() {
           </div>
         </DialogBody>
         <DialogFooter divider>
-          <div className="flex gap-3 ">
+          <div className="flex gap-3 "> 
             <Menu className="text-base flex justify-center  items-center   ">
               <MenuHandler>
                 <Button

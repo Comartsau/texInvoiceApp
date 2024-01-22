@@ -538,7 +538,7 @@ export const ReceiptSubShort = ({
                             {" "}
                             {` ${item?.product_name}   `}  {''}
                           </Text>
-                          <Text style={[styles.tableCell3 , {paddingLeft:"30"} ]}>
+                          <Text style={[styles.tableCell3  ]}>
                             {" "}
                             {Number(item?.pricePerUnit).toFixed(2)
                          .replace(/\B(?=(\d{3})+(?!\d))/g, ",") || ''}  {''}

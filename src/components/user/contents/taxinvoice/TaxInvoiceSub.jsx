@@ -125,7 +125,7 @@ function TaxInvoiceSub() {
 
   //----- จัดการแสดงข้อมูล / หน้า -------------- //
   const [currentPage, setCurrentPage] = useState(1);
-  const itemsPerPage = 6;
+  const itemsPerPage = 5;
 
   const startIndex = (currentPage - 1) * itemsPerPage;
   const endIndex = startIndex + itemsPerPage;
@@ -624,7 +624,7 @@ function TaxInvoiceSub() {
                                     color="blue-gray"
                                     className="font-normal "
                                   >
-                                    {data.product}
+                                    {data?.product}
                                   </Typography>
                                 </div>
                               </td>
@@ -635,7 +635,7 @@ function TaxInvoiceSub() {
                                     color="blue-gray"
                                     className="font-normal "
                                   >
-                                    {Number(data.quantity).toLocaleString()}
+                                    {Number(data?.quantity).toLocaleString()}
                                   </Typography>
                                 </div>
                               </td>
@@ -646,7 +646,7 @@ function TaxInvoiceSub() {
                                     color="blue-gray"
                                     className="font-normal "
                                   >
-                                    {Number(data.pricePerUnit).toLocaleString()}
+                                    {Number(data?.pricePerUnit).toLocaleString()}
                                   </Typography>
                                 </div>
                               </td>
@@ -657,7 +657,7 @@ function TaxInvoiceSub() {
                                     color="blue-gray"
                                     className="font-normal "
                                   >
-                                    {Number(data.totalPrice).toLocaleString()}
+                                    {Number(data?.totalPrice).toLocaleString()}
                                   </Typography>
                                 </div>
                               </td>
@@ -699,7 +699,7 @@ function TaxInvoiceSub() {
                       สินค้า:{" "}
                       <span className="font-normal">
                         {" "}
-                        {dataViewSub[0]?.product_name || ""}
+                        {dataViewSub?.[0]?.product_name || ""}
                       </span>
                     </Typography>
                   </div>
@@ -722,7 +722,7 @@ function TaxInvoiceSub() {
                         className="text-base flex justify-center  items-center   bg-green-500"
                         variant="gradient"
                         color="yellow"
-                        disabled={dataViewSub.length > 0 ? false : true}
+                        disabled={dataViewSub?.length > 0 ? false : true}
                       >
                         <span className="mr-2 text-xl ">
                           <MdLocalPrintshop />
@@ -811,7 +811,7 @@ function TaxInvoiceSub() {
                         </tbody>
                       ) : (
                         <tbody>
-                          {dataViewSub.map((data, index) => {
+                          {dataViewSub?.map((data, index) => {
                             const isLast = index === displayedData.length - 1;
                             const pageIndex = startIndex + index;
                             const classes = isLast

@@ -332,9 +332,9 @@ const ShopReport = ({ userLogin }) => {
           />
         </div>
       </div>
-      <div className="flex w-full flex-col lg:flex-row h-[70vh]   gap-5">
+      <div className="flex w-full flex-col lg:flex-row h-[66vh]   gap-5">
         <div className="flex w-full   lg:w-[240px]  ">
-          <Card className=" w-full mt-5 border-2 overflow-auto ">
+          <Card className=" w-full  mt-5 border-2 overflow-auto ">
             <div>
               <table className="w-full  ">
                 <thead>
@@ -435,7 +435,7 @@ const ShopReport = ({ userLogin }) => {
           </Card>
         </div>
         <div className="flex flex-col w-full 2xl:flex-row overflow-auto">
-          <div className="flex flex-col w-full 2xl:w-6/12 mt-3">
+          <div className="flex flex-col w-full 2xl:w-7/12 mt-3">
             <Typography className="w-full font-bold text-center">
               ใบเสร็จรับเงิน / ใบกำกับภาษีแบบย่อ
             </Typography>
@@ -516,7 +516,7 @@ const ShopReport = ({ userLogin }) => {
               </div> */}
             </div>
             <div className=" xl:px-2 mt-5 z-10 ">
-              <Card className="border w-full h-[35vh] overflow-auto ">
+              <Card className="border w-full h-[29vh] overflow-auto ">
                 <table className="w-full min-w-max  ">
                   <thead>
                     <tr>
@@ -748,7 +748,7 @@ const ShopReport = ({ userLogin }) => {
                 </Button> */}
               </div>
               <div className="xl:px-5 mt-5">
-                <Card className="border w-full h-[48vh]  overflow-auto ">
+                <Card className="border w-full h-[43vh]  overflow-auto ">
                   <table className="w-full min-w-max  ">
                     <thead>
                       <tr>

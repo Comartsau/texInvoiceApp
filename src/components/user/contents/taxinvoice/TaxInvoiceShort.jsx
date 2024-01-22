@@ -122,7 +122,7 @@ function TaxInvoiceShort() {
 
   //----- จัดการแสดงข้อมูล / หน้า -------------- //
   const [currentPage, setCurrentPage] = useState(1);
-  const itemsPerPage = 6;
+  const itemsPerPage = 5;
 
   const startIndex = (currentPage - 1) * itemsPerPage;
   const endIndex = startIndex + itemsPerPage;
@@ -173,7 +173,6 @@ function TaxInvoiceShort() {
 
     // console.log(id);
   };
-
 
   //------------- open Receipt A4  -----------------------//
   const [openModalReceiptA4, setOpenModalReceiptA4] = useState(false);
@@ -403,7 +402,7 @@ function TaxInvoiceShort() {
         open={openModalView}
         size="xl"
         // handler={handleModalView}
-        className="h-[76vh]"
+        className="h-[82vh]"
       >
         <DialogHeader className="bg-blue-700 py-3  px-3 text-center text-lg text-white opacity-80">
           <div className="flex gap-3">
@@ -413,7 +412,7 @@ function TaxInvoiceShort() {
             </Typography>
           </div>
         </DialogHeader>
-        <DialogBody divider className=" overflow-auto h-[55vh] ">
+        <DialogBody divider className=" overflow-auto h-[65vh] ">
           <div className="flex w-full flex-col xl:flex-row  gap-4 ">
             <div className="w-full lg:w-4/12 ">
               <div className="flex flex-col 2xl:flex-row  gap-1">
@@ -440,9 +439,7 @@ function TaxInvoiceShort() {
               </Typography>
               <Typography className="font-bold mt-5">
                 จุดขาย:{" "}
-                <span className="font-normal">
-                {dataView?.salepoints_name}
-                </span>{" "}
+                <span className="font-normal">{dataView?.salepoints_name}</span>{" "}
               </Typography>
               <hr className="mt-3 border " />
               <div className="flex  flex-col  mt-3">
@@ -460,13 +457,18 @@ function TaxInvoiceShort() {
                   จำนวนเงินทั้งสิน:{" "}
                   {Number(dataView?.total_amount).toLocaleString()} บาท
                 </Typography>
+                <hr className="mt-3 border " />
+                <Typography className="text-lg font-bold mt-1">
+                  หมายเหตุ:{" "}
+                  <span className="font-normal">{dataView?.note}</span>
+                </Typography>
               </div>
             </div>
             <div className="w-full lg:w-8/12">
               <Typography className="text-center font-bold text-lg">
                 รายการ
               </Typography>
-              <Card className="border px-2 h-[90%] overflow-auto mt-5">
+              <Card className="border px-2 h-[97%] overflow-auto mt-5">
                 <div className="mt-5">
                   <table className="w-full min-w-max  ">
                     <thead>
@@ -626,7 +628,7 @@ function TaxInvoiceShort() {
             </div>
           </div>
         </DialogBody>
-        <DialogFooter divider className="mt-5">
+        <DialogFooter divider >
           <div className="flex gap-3">
             <Menu className="text-base flex justify-center  items-center   ">
               <MenuHandler>
