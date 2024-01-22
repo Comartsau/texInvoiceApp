@@ -626,7 +626,7 @@ function TaxInvoiceShort() {
             </div>
           </div>
         </DialogBody>
-        <DialogFooter divider className="mt-10">
+        <DialogFooter divider className="mt-5">
           <div className="flex gap-3">
             <Menu className="text-base flex justify-center  items-center   ">
               <MenuHandler>

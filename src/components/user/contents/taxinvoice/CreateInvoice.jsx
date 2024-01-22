@@ -500,7 +500,7 @@ const CreateInvoice = () => {
                       selected={searchQueryStart}
                       locale={th}
                       disabled={openPrint == true ? true : false}
-                      dateFormat=" วันที่เริ่มต้น dd/MM/yyyy"
+                      dateFormat=" วันที่ dd/MM/yyyy"
                       onChange={(date) => setSearchQueryStart(date)}
                       className="w-full justify-start  rounded-md border border-gray-400 p-1 text-gray-600  shadow-sm focus:border-blue-500 focus:outline-none"
                     />
@@ -549,7 +549,7 @@ const CreateInvoice = () => {
                       selected={searchQueryStart}
                       locale={th}
                       disabled={openPrint == true ? true : false}
-                      dateFormat=" วันที่เริ่มต้น dd/MM/yyyy"
+                      dateFormat=" วันที่ dd/MM/yyyy"
                       onChange={(date) => setSearchQueryStart(date)}
                       className="w-full justify-start  rounded-md border border-gray-400 p-1 text-gray-600  shadow-sm focus:border-blue-500 focus:outline-none"
                     />

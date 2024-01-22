@@ -225,7 +225,7 @@ import {
       borderWidth: 1,
       borderColor: "#000",
       textAlign: "center",
-      width: "15%", // แบ่งเป็น 3 ส่วนเท่า ๆ กัน (ขนาดเท่ากัน)
+      width: "18%", // แบ่งเป็น 3 ส่วนเท่า ๆ กัน (ขนาดเท่ากัน)
       height: "100%",
     },
     tableCell1: {
@@ -235,7 +235,7 @@ import {
       borderWidth: 1,
       borderColor: "#000",
       textAlign: "center",
-      width: "7.5%", // แบ่งเป็น 3 ส่วนเท่า ๆ กัน (ขนาดเท่ากัน)
+      width: "9%", // แบ่งเป็น 3 ส่วนเท่า ๆ กัน (ขนาดเท่ากัน)
       height: "100%",
     },
     tableCell2: {
@@ -255,7 +255,7 @@ import {
       borderWidth: 1,
       borderColor: "#000",
       textAlign: "center",
-      width: "15%", // แบ่งเป็น 3 ส่วนเท่า ๆ กัน (ขนาดเท่ากัน)
+      width: "12%", // แบ่งเป็น 3 ส่วนเท่า ๆ กัน (ขนาดเท่ากัน)
       height: "100%",
     },
     tableCell4: {
@@ -265,7 +265,7 @@ import {
       borderWidth: 1,
       borderColor: "#000",
       textAlign: "center",
-      width: "15%", // แบ่งเป็น 3 ส่วนเท่า ๆ กัน (ขนาดเท่ากัน)
+      width: "12%", // แบ่งเป็น 3 ส่วนเท่า ๆ กัน (ขนาดเท่ากัน)
       height: "100%",
     },
     borderCell4: {
@@ -322,7 +322,7 @@ import {
       borderRight: "1",
       borderBottom: "1",
       borderColor: "#000",
-      width: "70%", // แบ่งเป็น 3 ส่วนเท่า ๆ กัน (ขนาดเท่ากัน)
+      width: "76%", // แบ่งเป็น 3 ส่วนเท่า ๆ กัน (ขนาดเท่ากัน)
       height: "100%",
     },
     tableCellNote2: {
@@ -467,7 +467,7 @@ import {
                               {item?.unit || ""}{" "}
                             </Text>
                             <Text style={styles.tableCell1}>
-                              {Number(dataReceipt?.max_invoices) || ""}{" "}
+                              {Number(dataReceipt?.sec_product_data[itemIndex + 1]?.length) || ""}{" "}
                             </Text>
                             <Text style={styles.tableCell1}>
                               ใบ{" "}

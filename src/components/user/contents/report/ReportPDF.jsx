@@ -547,7 +547,7 @@ export const ReportPDF = ({
                         ใบกำกับภาษี{" "}
                       </Text>
                       <Text style={[styles.tableHead3, styles.colorHead]}>
-                        ชื่อผู้ซื้อสินค้า /{" "}
+                        ชื่อผู้ซื้อสินค้า {" "}
                       </Text>
                       <Text style={[styles.tableHead4, styles.colorHead]}>
                         เลขประจำตัวผู้เสีย{" "}

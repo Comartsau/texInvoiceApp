@@ -196,6 +196,7 @@ const ShopReport = ({ userLogin }) => {
       setSelectedShop(e);
       setSelectedRow(null);
       setSelectedRowSub(null);
+      setDataView([])
       setDataSub([]);
     } else {
       const shop = shopDataStore?.find((shop) => shop.id === e.value);
@@ -203,6 +204,7 @@ const ShopReport = ({ userLogin }) => {
       setSelectedShop(shop);
       setSelectedRow(null);
       setSelectedRowSub(null);
+      setDataView([])
       setDataSub([]);
     }
   };
