@@ -239,7 +239,7 @@ const styles = StyleSheet.create({
     flexDirection: "row",
     alignItems:'center',
   },
-  tableCellHead1: {
+  tableCell1Head: {
     margin: "auto",
     fontSize: 10,
     padding: 5,
@@ -250,107 +250,83 @@ const styles = StyleSheet.create({
     borderBottom:'1',
     borderColor: "#000",
     textAlign: "center",
-    width: "20%", // แบ่งเป็น 3 ส่วนเท่า ๆ กัน (ขนาดเท่ากัน)
+    width: "7%", // แบ่งเป็น 3 ส่วนเท่า ๆ กัน (ขนาดเท่ากัน)
     height: "100%",
   },
-  tableCellHead2: {
-    margin: "auto",
-    fontSize: 10,
-    padding: 5,
-    borderWidth: 1,
-    borderTop:'1',
-    borderLeft:'0',
-    borderRight:'0',
-    borderBottom:'1',
-    borderColor: "#000",
-    textAlign: "left",
-    width: "35%", // แบ่งเป็น 3 ส่วนเท่า ๆ กัน (ขนาดเท่ากัน)
-    height: "100%",
-  },
-  tableCellHead3: {
-    margin: "auto",
-    fontSize: 10,
-    padding: 5,
-    borderWidth: 1,
-    borderTop:'1',
-    borderLeft:'0',
-    borderRight:'0',
-    borderBottom:'1',
-    borderColor: "#000",
-    textAlign: "center",
-    width: "20%", // แบ่งเป็น 3 ส่วนเท่า ๆ กัน (ขนาดเท่ากัน)
-    height: "100%",
-  },
-  tableCellHead4: {
-    margin: "auto",
-    fontSize: 10,
-    padding: 5,
-    borderWidth: 1,
-    borderTop:'1',
-    borderLeft:'0',
-    borderRight:'0',
-    borderBottom:'1',
-    borderColor: "#000",
-    textAlign: "center",
-    width: "25%", // แบ่งเป็น 3 ส่วนเท่า ๆ กัน (ขนาดเท่ากัน)
-    height: "100%",
-  },
-  tableCell1: {
-    margin: "auto",
-    fontSize: 10,
-    padding: 5,
-    borderWidth: 1,
-    borderTop:'1',
-    borderLeft:'0',
-    borderRight:'0',
-    borderBottom:'0',
-    borderColor: "#000",
-    textAlign: "center",
-    width: "20%", // แบ่งเป็น 3 ส่วนเท่า ๆ กัน (ขนาดเท่ากัน)
-    height: "100%",
-  },
-  tableCell2: {
-    margin: "auto",
-    fontSize: 10,
-    padding: 5,
-    borderWidth: 1,
-    borderTop:'1',
-    borderLeft:'0',
-    borderRight:'0',
-    borderBottom:'0',
-    borderColor: "#000",
-    textAlign: "center",
-    width: "30%", // แบ่งเป็น 3 ส่วนเท่า ๆ กัน (ขนาดเท่ากัน)
-    height: "auto",
-  },
-  tableCell3: {
-    margin: "auto",
-    fontSize: 10,
-    padding: 5,
-    borderWidth: 1,
-    borderTop:'1',
-    borderLeft:'0',
-    borderRight:'0',
-    borderBottom:'0',
-    borderColor: "#000",
-    textAlign: "center",
-    width: "25%", // แบ่งเป็น 3 ส่วนเท่า ๆ กัน (ขนาดเท่ากัน)
-    height: "100%",
-  },
-  tableCell4: {
-    margin: "auto",
-    fontSize: 10,
-    padding: 5,
-    borderWidth: 1,
-    borderTop:'1',
-    borderLeft:'0',
-    borderRight:'0',
-    borderBottom:'0',
-    borderColor: "#000",
-    textAlign: "right",
-    width: "25%", // แบ่งเป็น 3 ส่วนเท่า ๆ กัน (ขนาดเท่ากัน)
-    height: "100%",
-  },
+  tableCell2Head: {
+      margin: "auto",
+      fontSize: 10,
+      padding: 5,
+      borderWidth: 1,
+      borderTop:'1',
+      borderLeft:'0',
+      borderRight:'0',
+      borderBottom:'1',
+      borderColor: "#000",
+      textAlign: "center",
+      width: "53%", // แบ่งเป็น 3 ส่วนเท่า ๆ กัน (ขนาดเท่ากัน)
+      height: "auto",
+    },
+    tableCell3Head: {
+      margin: "auto",
+      fontSize: 10,
+      padding: 5,
+      borderWidth: 1,
+      borderTop:'1',
+      borderLeft:'0',
+      borderRight:'0',
+      borderBottom:'1',
+      borderColor: "#000",
+      textAlign: "center",
+      width: "20%", // แบ่งเป็น 3 ส่วนเท่า ๆ กัน (ขนาดเท่ากัน)
+      height: "100%",
+    },
+    tableCell4Head: {
+      margin: "auto",
+      fontSize: 10,
+      padding: 5,
+      borderWidth: 1,
+      borderTop:'1',
+      borderLeft:'0',
+      borderRight:'0',
+      borderBottom:'1',
+      borderColor: "#000",
+      textAlign: "center",
+      width: "20%", // แบ่งเป็น 3 ส่วนเท่า ๆ กัน (ขนาดเท่ากัน)
+      height: "100%",
+    },
+    tableCell1: {
+      margin: "auto",
+      fontSize: 10,
+      padding: 5,
+      textAlign: "center",
+      width: "7%", // แบ่งเป็น 3 ส่วนเท่า ๆ กัน (ขนาดเท่ากัน)
+      height: "100%",
+    },
+    tableCell2: {
+      margin: "auto",
+      fontSize: 10,
+      padding: 5,
+      textAlign: "center",
+      width: "53%", // แบ่งเป็น 3 ส่วนเท่า ๆ กัน (ขนาดเท่ากัน)
+      height: "auto",
+    },
+    tableCell3: {
+      margin: "auto",
+      fontSize: 10,
+      padding: 5,
+      textAlign: "center",
+      width: "20%", // แบ่งเป็น 3 ส่วนเท่า ๆ กัน (ขนาดเท่ากัน)
+      height: "100%",
+    },
+    tableCell4: {
+      margin: "auto",
+      fontSize: 10,
+      padding: 5,
+      textAlign: "center",
+      width: "20%", // แบ่งเป็น 3 ส่วนเท่า ๆ กัน (ขนาดเท่ากัน)
+      height: "100%",
+    },
   tableCellRowsum: {
     margin: "auto",
     fontSize: 10,
@@ -495,7 +471,7 @@ export const ReceiptSubShort = ({
               </View>
               <View style={[styles.flexrowcenter, styles.mt10]}>
                 <Text style={[styles.flexrowcenter, styles.text10]}>
-                  ใบเสร็จรับเงิน / ใบกำกับภาษีอย่างย่อ '
+                  ใบเสร็จรับเงิน / ใบกำกับภาษีอย่างย่อ  '
                 </Text>
               </View>
               <View style={[styles.flexrow, styles.text9 , styles.mtsm20 ]}>
@@ -514,16 +490,16 @@ export const ReceiptSubShort = ({
                   {/*-----------  หัวตาราง ---------------------  */}
                   <View style={[styles.table, { marginTop: "10" }]}>
                     <View style={styles.tableRow}>
-                      <Text style={[styles.tableCellHead1 ]}>
+                      <Text style={[styles.tableCell1Head ]}>
                         จำนวน    {''}
                       </Text>
-                      <Text style={[styles.tableCellHead2 , {paddingLeft:"30"}]}>
+                      <Text style={[styles.tableCell2Head ]}>
                         รายการ   {''}
                       </Text>
-                      <Text style={[styles.tableCellHead3 ]}>
+                      <Text style={[styles.tableCell3Head ]}>
                         หน่วยละ  {''}
                       </Text>
-                      <Text style={[styles.tableCellHead4 , {paddingLeft:"30"}]}>
+                      <Text style={[styles.tableCell4Head ]}>
                         ราคา   {''}
                       </Text>
                     </View>
@@ -534,7 +510,7 @@ export const ReceiptSubShort = ({
                           <Text style={styles.tableCell1}>
                             {item?.products_quantity  || ""}  {''}
                           </Text>
-                          <Text style={[styles.tableCell2 , {textAlign: "left"}]}>
+                          <Text style={[styles.tableCell2, { textAlign: "left" , marginLeft:'20px', marginRight:'-12px'  }]}>
                             {" "}
                             {` ${item?.product_name}   `}  {''}
                           </Text>
