@@ -392,12 +392,12 @@ const CreateInvoice = () => {
                 : ""
             }`}
           </Typography>
-          <Typography className=" font-bold mt-5">ข้อมูลบริษัท:</Typography>
+          <Typography className=" font-bold mt-14">ข้อมูลบริษัท:</Typography>
           <Typography className="  mt-5">
             {companyLoginDataStore?.company || ""}
           </Typography>
           <div className="flex gap-3">
-            <Typography className="font-bold  mt-5">
+            <Typography className="font-bold  mt-3">
               เลขประจำตัวผู้เสียภาษี:{" "}
               <span className="font-normal">
                 {companyLoginDataStore?.tax_personal || ""}
@@ -405,14 +405,14 @@ const CreateInvoice = () => {
             </Typography>
           </div>
           <div className="flex gap-3">
-            <Typography className="font-bold  mt-5">
+            <Typography className="font-bold  mt-3">
               โทร:{" "}
               <span className="font-normal">
                 {companyLoginDataStore?.tel || ""}
               </span>
             </Typography>
           </div>
-          <Typography className=" font-bold mt-5">
+          <Typography className=" font-bold mt-2">
             วันที่ออกบิล:{" "}
             <span className=" font-normal">
               {ShowStartDate}
@@ -594,7 +594,7 @@ const CreateInvoice = () => {
                 </div>
               </div>
 
-              <div className=" flex  w-full justify-start items-center mt-5   gap-2 ">
+              <div className=" flex  w-full justify-start items-center mt-1  gap-2 ">
                 <Typography className="font-bold min-w-[30px] sm:w-[40px]">
                   ชื่อ :
                 </Typography>
@@ -602,7 +602,7 @@ const CreateInvoice = () => {
                   {selectedCustomer?.customer_name || ""}
                 </Typography>
               </div>
-              <div className=" flex   w-full justify-start mt-3   gap-2 ">
+              <div className=" flex   w-full justify-start mt-2   gap-2 ">
                 <Typography className="font-bold min-w-[40px] sm:w-[45px] md:w-[55px] xl:w-[45px]">
                   ที่อยู่ :
                 </Typography>
@@ -610,7 +610,7 @@ const CreateInvoice = () => {
                   {selectedCustomer?.customer_address || ""}
                 </Typography>
               </div>
-              <div className=" flex flex-col sm:flex-row md:flex-col 2xl:flex-row w-full mt-3 justify-start gap-2 ">
+              <div className=" flex flex-col sm:flex-row md:flex-col 2xl:flex-row w-full mt-2 justify-start gap-2 ">
                 <div className="flex w-full lg:w-[60%]">
                   <Typography className="font-bold min-w-[100px] md:w-[120px] xl:w-[110px]">
                     เลขประจำตัว :
@@ -664,7 +664,7 @@ const CreateInvoice = () => {
       <div className="flex w-full flex-col xl:flex-row gap-5 ">
         <div className="flex w-full flex-col gap-3">
           <div className="flex  w-full md:w-8/8">
-            <Card className="flex w-full h-[320px] mt-3 overflow-y-auto  ">
+            <Card className="flex w-full h-[260px] mt-3 overflow-y-auto  ">
               <table className="w-full   ">
                 <thead>
                   <tr>
@@ -858,7 +858,7 @@ const CreateInvoice = () => {
           </div>
           <div>
             <Input
-              className="flex w-full px-2 mt-3  "
+              className="flex w-full px-2   "
               maxLength="100"
               label="หมายเหตุ"
               type="text"
