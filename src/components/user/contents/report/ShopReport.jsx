@@ -301,7 +301,7 @@ const ShopReport = ({ userLogin }) => {
             />
           )}
         </div>
-        <div className="flex justify-center ">
+        <div className="flex justify-center z-20">
           <DatePicker
             // yearDropdownItemNumber={100} // จำนวนปีที่แสดงใน Dropdown
             // yearItemNumber={100} // จำนวนปีที่แสดงในปฏิทิน
@@ -316,7 +316,7 @@ const ShopReport = ({ userLogin }) => {
             className="w-full rounded-md border border-gray-400 p-2 text-gray-600  shadow-sm focus:border-blue-500 focus:outline-none"
           />
         </div>
-        <div className="flex justify-center ">
+        <div className="flex justify-center z-20 ">
           <DatePicker
             // yearDropdownItemNumber={100} // จำนวนปีที่แสดงใน Dropdown
             // yearItemNumber={100} // จำนวนปีที่แสดงในปฏิทิน

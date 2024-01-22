@@ -467,7 +467,7 @@ import {
                               {item?.unit || ""}{" "}
                             </Text>
                             <Text style={styles.tableCell1}>
-                              {Number(dataReceipt?.sec_product_data[itemIndex + 1]?.length) || ""}{" "}
+                              {Number(dataReceipt?.sec_product_data[itemIndex + 1]?.length) || "-"}{" "}
                             </Text>
                             <Text style={styles.tableCell1}>
                               ใบ{" "}
@@ -475,7 +475,7 @@ import {
                             <Text
                               style={[styles.tableCell2, { textAlign: "left" }]}
                             >
-                             {`${item?.product || ""} เลขที่: ${dataReceipt?.sec_product_data[itemIndex + 1]?.map((item)=> ` ${item?.invoice_number}  `)} `}
+                             {`${item?.product || ""} เลขที่: ${dataReceipt?.sec_product_data[itemIndex + 1]?.map((item)=> ` ${item?.invoice_number}  `) || ""} `}
                             </Text>
                             <Text style={styles.tableCell3}>
                               {Number(item?.pricePerUnit).toLocaleString() || ""}  {''}

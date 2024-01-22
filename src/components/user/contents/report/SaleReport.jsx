@@ -178,7 +178,7 @@ const SaleReport = ({userLogin}) => {
           </Button>
         </div>
       </div>
-      <div className="mt-5 h-[450px] overflow-auto ">
+      <div className="mt-5 h-[380px] overflow-auto ">
         <table className="w-full min-w-max  ">
           <thead>
             <tr>
@@ -275,8 +275,7 @@ const SaleReport = ({userLogin}) => {
               const pageIndex = startIndex + index;
               const classes = isLast
                 ? "p-2"
-                : "p-3 border-b border-blue-gray-50";
-
+                : "p-3 border-b border-blue-gray-50"
               return (
                 <tr key={index}>
                   <td className={classes}>
@@ -284,7 +283,7 @@ const SaleReport = ({userLogin}) => {
                       <Typography
                         variant="small"
                         color="blue-gray"
-                        className="font-normal "
+                        className="font-normal"
                       >
                         {pageIndex + 1 || ""}
                       </Typography>
@@ -295,7 +294,7 @@ const SaleReport = ({userLogin}) => {
                       <Typography
                         variant="small"
                         color="blue-gray"
-                        className="font-normal "
+                        className="font-normal"
                       >
                         {moment(data?.created_at).format('DD/MM/YYYY') || ""}
                       </Typography>
