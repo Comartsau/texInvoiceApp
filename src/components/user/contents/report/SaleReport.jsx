@@ -44,7 +44,7 @@ const SaleReport = ({userLogin}) => {
       setListData(response)
     } else {
       const response = await getReportSale(dateStart , dateEnd)
-      // console.log(response)
+      console.log(response)
       setListData(response)
     }
 
@@ -83,7 +83,7 @@ const SaleReport = ({userLogin}) => {
 
     //----- จัดการแสดงข้อมูล / หน้า -------------- //
     const [currentPage, setCurrentPage] = useState(1);
-    const itemsPerPage = 8;
+    const itemsPerPage = 7;
   
     const startIndex = (currentPage - 1) * itemsPerPage;
     const endIndex = startIndex + itemsPerPage;
@@ -98,7 +98,7 @@ const SaleReport = ({userLogin}) => {
     setOpenModalReceiptA4(!openModalReceiptA4);
   };
 
-
+console.log(listData)
 
   return (
     <div className="mt-5">
@@ -259,12 +259,8 @@ const SaleReport = ({userLogin}) => {
           {listData?.length == 0 ? (
             <tbody>
               <tr>
-                <td></td>
-                <td></td>
-                <td></td>
-                <td></td>
-                <td> 
-                  <Typography className="mt-5">...ไม่พบข้อมูล  กรุณาเลือกวันที่ต้องการดูรายงาน...</Typography>
+                <td colSpan={8}> 
+                  <Typography className="mt-5 text-center">...ไม่พบข้อมูล  กรุณาเลือกวันที่ต้องการดูรายงาน...</Typography>
                 </td>
               </tr>
             </tbody>

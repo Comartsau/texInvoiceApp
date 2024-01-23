@@ -87,7 +87,7 @@ const ShopReport = ({ userLogin }) => {
         dateStart,
         dateEnd
       );
-      // console.log(response);
+      console.log(response);
       setDataReceipt(response);
     }
   };
@@ -210,6 +210,7 @@ const ShopReport = ({ userLogin }) => {
   };
 
   const handleDataView = (data) => {
+    console.log(data)
     setDataView(data);
   };
 
@@ -250,14 +251,15 @@ const ShopReport = ({ userLogin }) => {
   };
 
   //------------- open Receipt 80 Sub  -----------------------//
-  const [openModalReceiptSubShort, setOpenModalReceiptSubShort] =
-    useState(false);
+  const [openModalReceiptSubShort, setOpenModalReceiptSubShort] = useState(false);
   const [sendIndex, setSendIndex] = useState("");
   const handleModalReceiptSubShort = () => {
     setOpenModalReceiptSubShort(!openModalReceiptSubShort);
   };
 
-  console.log(dataView?.sec_product_data?.[1]?.length)
+     //  แปลงเวลา
+     const formattedDateTime = moment(dataView?.created_at).format("DD/MM/YYYY ");
+
 
   return (
     <div className="mt-5 ">
@@ -335,7 +337,7 @@ const ShopReport = ({ userLogin }) => {
         </div>
       </div>
       <div className="flex w-full flex-col lg:flex-row h-[66vh]   gap-5">
-        <div className="flex w-full   lg:w-[240px]  ">
+        <div className="flex w-full   lg:w-[255px]  ">
           <Card className=" w-full  mt-5 border-2 overflow-auto ">
             <div>
               <table className="w-full  ">
@@ -457,7 +459,7 @@ const ShopReport = ({ userLogin }) => {
               <div className="font-bold">
                 วันที่สร้างบิล:{" "}
                 <span className="font-normal">
-                  {moment(dataView?.created_at).format("DD/MM/YYYY")}
+                  {dataView?.created_at == undefined ? '' : formattedDateTime || ""}
                 </span>
               </div>
               <div className="font-bold">

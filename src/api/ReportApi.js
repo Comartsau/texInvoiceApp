@@ -28,8 +28,8 @@ export const getReportShop = async (selectedShop, DateStart, DateEnd) => {
     const response = await axios.get(
       `${
         import.meta.env.VITE_APP_API
-      // }/inovicesh/invoices-c-bill?salepoints=${selectedShop}&start_date=${DateStart}&end_date=${DateEnd}`,
-      }/inovicesh/invoices-c-bill`,
+      }/inovicesh/invoices-c-bill?salepoints=${selectedShop}&start_date=${DateStart}&end_date=${DateEnd}`,
+      // }/inovicesh/invoices-c-bill`,
       {
         headers: {
           "Content-Type": "application/json",
