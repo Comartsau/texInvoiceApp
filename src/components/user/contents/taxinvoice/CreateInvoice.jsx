@@ -274,6 +274,11 @@ const CreateInvoice = () => {
   };
   // console.log(selectedShop);
 
+  console.log(Number(calculatePruePrice().toFixed(2)))
+  console.log(Number(calculateVAT().toFixed(2)))
+  console.log(calculateTotalUnit().toFixed(2))
+
+
   const [dataReceipt, setDataReceipt] = useState("");
   const [dataViewSub, setDataViewSub] = useState([]);
 
@@ -489,7 +494,7 @@ const CreateInvoice = () => {
                       วันที่:
                     </Typography>
                   </div>
-                  <div className="">
+                  <div className="z-20">
                     <DatePicker
                       // yearDropdownItemNumber={100} // จำนวนปีที่แสดงใน Dropdown
                       // yearItemNumber={100} // จำนวนปีที่แสดงในปฏิทิน
@@ -502,7 +507,7 @@ const CreateInvoice = () => {
                       disabled={openPrint == true ? true : false}
                       dateFormat=" วันที่ dd/MM/yyyy"
                       onChange={(date) => setSearchQueryStart(date)}
-                      className="w-full justify-start  rounded-md border border-gray-400 p-1 text-gray-600  shadow-sm focus:border-blue-500 focus:outline-none"
+                      className="w-full justify-start  rounded-md border border-gray-400 p-1 text-gray-600  shadow-sm focus:border-blue-500 focus:outline-none "
                     />
                   </div>
                 </div>
@@ -538,7 +543,7 @@ const CreateInvoice = () => {
                       วันที่:
                     </Typography>
                   </div>
-                  <div className="">
+                  <div className="z-20" >
                     <DatePicker
                       // yearDropdownItemNumber={100} // จำนวนปีที่แสดงใน Dropdown
                       // yearItemNumber={100} // จำนวนปีที่แสดงในปฏิทิน
@@ -551,7 +556,7 @@ const CreateInvoice = () => {
                       disabled={openPrint == true ? true : false}
                       dateFormat=" วันที่ dd/MM/yyyy"
                       onChange={(date) => setSearchQueryStart(date)}
-                      className="w-full justify-start  rounded-md border border-gray-400 p-1 text-gray-600  shadow-sm focus:border-blue-500 focus:outline-none"
+                      className="w-full justify-start  rounded-md border border-gray-400 p-1 text-gray-600  shadow-sm focus:border-blue-500 focus:outline-none datepicker-container  "
                     />
                   </div>
                 </div>
@@ -665,13 +670,13 @@ const CreateInvoice = () => {
         <div className="flex w-full flex-col gap-3">
           <div className="flex  w-full md:w-8/8">
             <Card className="flex w-full h-[260px] mt-3 overflow-y-auto  ">
-              <table className="w-full   ">
-                <thead>
+              <table className="w-full ">
+                <thead >
                   <tr>
                     {columns.map((head, index) => (
                       <th
                         key={index}
-                        className=" text-left py-4   bg-gray-300 px-2 sticky top-0 "
+                        className=" text-left py-4   bg-gray-300 px-2 sticky top-0 z-10 "
                       >
                         {head}
                       </th>
