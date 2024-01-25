@@ -511,7 +511,7 @@ import {
                                wordWrap: 'break-word',
                                 }]}
                             >
-                              {`${item?.product || ''} `} {''}
+                              {`${item?.product || ''} `} {'  '}
                             </Text>
                             <Text style={styles.tableCell3}>
                               {" "}

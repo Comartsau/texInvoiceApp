@@ -347,7 +347,7 @@ export const ReceiptA4 = ({
   );
 
   return (
-    <Dialog open={openModalReceiptA4} handler={handleModalReceiptA4} size="xl">
+    <Dialog open={openModalReceiptA4} handler={handleModalReceiptA4} size="xl" >
       <DialogHeader></DialogHeader>
       <DialogBody>
         {/* <Page size={[842, 595]} style={styles.page}> */}
@@ -363,7 +363,7 @@ export const ReceiptA4 = ({
                   <Text
                     style={[styles.flexrowcenter, styles.text12, styles.mt10]}
                   >
-                    {companyLoginDataStore?.address} {""} {""}
+                    {companyLoginDataStore?.address }  {""} {""}
                   </Text>
                   <Text
                     style={[
@@ -407,20 +407,18 @@ export const ReceiptA4 = ({
                             { fontSize: "11" },
                             styles.mt10,
                             styles.spacesm,
+                            {paddingRight:"3px"},
+                            {lineHeight:"2px"}
                           ]}
                         >
                           ที่อยู่:{" "}
-                          {customer?.customer_address
-                            ? customer?.customer_address
-                            : dataReceipt?.customer_address || ""}{" "}
-                          {""}
+                          {customer?.customer_address ? customer?.customer_address : dataReceipt?.customer_address || '    ' } {'   '}
                         </Text>
                         <Text
                           style={[
                             { fontWeight: "extrabold" },
                             { fontFamily: "SarabunBold" },
                             { fontSize: "11" },
-                            styles.mt10,
                             styles.spacesm,
                           ]}
                         >
@@ -516,27 +514,27 @@ export const ReceiptA4 = ({
                       return (
                         <View key={itemIndex} style={styles.tableRow}>
                           <Text style={styles.tableCell1}>
-                            {item?.index || ""}
+                            {item?.index || "  "}
                           </Text>
                           <Text
                             style={[styles.tableCell2, { textAlign: "left" }]}
                           >
-                            {item?.product || ""} {""}
+                            {item?.product || ""} {"   "}
                           </Text>
                           <Text style={styles.tableCell3}>
                             {" "}
                             {item?.quantity || ""}
                           </Text>
                           <Text style={styles.tableCell4}>
-                            {" "}
-                            {item?.unit || ""} {""}
+                            {"   "}
+                            {item?.unit || ""} {"   "}
                           </Text>
                           <Text style={styles.tableCell5}>
-                            {" "}
+                            {"    "}
                             {Number(item?.pricePerUnit).toLocaleString() || ""}
                           </Text>
                           <Text style={styles.tableCell6}>
-                            {" "}
+                            {"   "}
                             {Number(item?.totalPrice).toLocaleString() || ""}
                           </Text>
                         </View>

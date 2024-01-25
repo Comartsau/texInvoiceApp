@@ -579,7 +579,7 @@ export const ReportPDF = ({
                         ผู้รับบริการ{" "}
                       </Text>
                       <Text style={[styles.tableSubHead5, styles.colorHead]}>
-                        ภาษีของผู้ขายสินค้า{" "}
+                        ผู้ซื้อสินค้า/ลูกค้า{" "}
                       </Text>
                       {/* <Text style={[styles.tableSubHead6, styles.colorHead]}>
                           สนง.ใหญ่{" "}

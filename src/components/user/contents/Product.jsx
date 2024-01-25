@@ -455,7 +455,6 @@ function Product() {
                 <Input
                   type="text"
                   label="ชื่อสินค้า"
-                  maxLength="100"
                   onChange={(e) =>
                     setNewProduct({
                       ...newProduct,
@@ -532,8 +531,8 @@ function Product() {
 
       <Dialog open={openModalEdit} size="sm" handler={handleModalEdit}>
         <DialogHeader className="bg-yellow-800 py-3  px-3 gap-2 text-center text-lg text-white opacity-80">
-          <Typography variant="h5">แก้ไข สินค้า:</Typography>
-          <Typography variant="h5">{dataEdit?.name || ""}</Typography>
+          <Typography variant="h5" className=" w-[390px]">แก้ไข สินค้า:</Typography>
+          <Typography variant="h5" className="text-left">{dataEdit?.name || ""}</Typography>
         </DialogHeader>
         <DialogBody divider className=" overflow-auto ">
           <div className="flex flex-col   items-center sm:items-start  gap-4 ">
@@ -542,7 +541,6 @@ function Product() {
                 <Input
                   type="text"
                   label="ชื่อสินค้า"
-                  maxLength="45"
                   value={dataEdit?.name || ""}
                   onChange={(e) =>
                     setDataEdit({

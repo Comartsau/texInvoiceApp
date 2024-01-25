@@ -457,7 +457,6 @@ function Customer() {
                 <Input
                   type="text"
                   label="ที่อยู่"
-                  maxLength="45"
                   onChange={(e) =>
                     setNewCustomer({
                       ...newCustomer,
@@ -562,7 +561,6 @@ function Customer() {
                 <Input
                   type="text"
                   label="ที่อยู่"
-                  maxLength="45"
                   value={dataEdit.customer_address || ""}
                   onChange={(e) =>
                     setDataEdit({
