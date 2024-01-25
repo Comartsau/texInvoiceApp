@@ -632,7 +632,7 @@ export const ReportPDF = ({
                           <Text
                             style={[styles.tableSubHead5, { fontSize: "8" }]}
                           >
-                            {item?.tax_personal || ""}{" "}
+                            {item?.customer_id_tax || ""}{" "}
                           </Text>
                           {/* <Text style={[styles.tableSubHead6 , {fontSize:"8"}]}>
                               {item.headOffice  || ""}{" "}
