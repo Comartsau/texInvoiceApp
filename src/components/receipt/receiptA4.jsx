@@ -229,9 +229,10 @@ const styles = StyleSheet.create({
     borderWidth: 1,
     borderColor: "#000",
     textAlign: "center",
-    width: "43%", // แบ่งเป็น 3 ส่วนเท่า ๆ กัน (ขนาดเท่ากัน)
+    width: "41%", // แบ่งเป็น 3 ส่วนเท่า ๆ กัน (ขนาดเท่ากัน)
     height: "auto",
   },
+
   tableCell3: {
     margin: "auto",
     fontSize: 10,
@@ -259,7 +260,7 @@ const styles = StyleSheet.create({
     borderWidth: 1,
     borderColor: "#000",
     textAlign: "center",
-    width: "15%", // แบ่งเป็น 3 ส่วนเท่า ๆ กัน (ขนาดเท่ากัน)
+    width: "17%", // แบ่งเป็น 3 ส่วนเท่า ๆ กัน (ขนาดเท่ากัน)
     height: "100%",
   },
   tableCell6: {
@@ -280,7 +281,7 @@ const styles = StyleSheet.create({
     borderTopWidth: 1,
     borderColor: "#000",
     textAlign: "center",
-    width: "70%", // แบ่งเป็น 3 ส่วนเท่า ๆ กัน (ขนาดเท่ากัน)
+    width: "68%", // แบ่งเป็น 3 ส่วนเท่า ๆ กัน (ขนาดเท่ากัน)
     height: "100%",
   },
   tableCellNote: {
@@ -294,7 +295,7 @@ const styles = StyleSheet.create({
     borderRight: "1",
     borderBottom: "0",
     borderColor: "#000",
-    width: "70%", // แบ่งเป็น 3 ส่วนเท่า ๆ กัน (ขนาดเท่ากัน)
+    width: "68%", // แบ่งเป็น 3 ส่วนเท่า ๆ กัน (ขนาดเท่ากัน)
     height: "100%",
   },
   tableCellNoteBorder: {
@@ -305,7 +306,7 @@ const styles = StyleSheet.create({
     borderTopWidth: 1,
     borderTop: "0",
     borderColor: "#000",
-    width: "70%", // แบ่งเป็น 3 ส่วนเท่า ๆ กัน (ขนาดเท่ากัน)
+    width: "68%", // แบ่งเป็น 3 ส่วนเท่า ๆ กัน (ขนาดเท่ากัน)
     height: "100%",
   },
 });
@@ -512,13 +513,13 @@ export const ReceiptA4 = ({
                     </View>
                     {pageData.map((item, itemIndex) => {
                       return (
-                        <View key={itemIndex} style={styles.tableRow}>
+                        <View    key={itemIndex} style={[styles.tableRow , {flexDirection: 'row', flexWrap: 'wrap'}]}>
                           <Text style={styles.tableCell1}>
                             {item?.index || "  "}
                           </Text>
-                          <Text
-                            style={[styles.tableCell2, { textAlign: "left" }]}
-                          >
+                          <Text 
+                            style={[styles.tableCell2, { textAlign: "left"}]}
+                          > 
                             {item?.product || ""} {"   "}
                           </Text>
                           <Text style={styles.tableCell3}>

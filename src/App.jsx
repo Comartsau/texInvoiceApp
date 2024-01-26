@@ -10,7 +10,7 @@ export const AuthContent = createContext();
 import RouteCheck from "./Routes/RouteCheck";
 
 
-function App() {
+function App() { 
   let Token = localStorage.getItem("Token");
   const statusCheck = localStorage.getItem("Status");
 

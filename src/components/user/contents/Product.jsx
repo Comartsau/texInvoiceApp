@@ -73,7 +73,7 @@ function Product() {
 
   //----- จัดการแสดงข้อมูล / หน้า -------------- //
   const [currentPage, setCurrentPage] = useState(1);
-  const itemsPerPage = 8;
+  const itemsPerPage = 7;
 
   const startIndex = (currentPage - 1) * itemsPerPage;
   const endIndex = startIndex + itemsPerPage;
@@ -103,7 +103,7 @@ function Product() {
     try {
       let data = {
         name: newProduct.name,
-        price: newProduct.price,
+        price: Number(newProduct.price).toFixed(2),
         unit: newProduct.unit,
       };
 
@@ -129,7 +129,7 @@ function Product() {
       let data = {
         id: dataEdit.id,
         name: dataEdit.name,
-        price: dataEdit.price,
+        price: Number(dataEdit.price).toFixed(2),
         unit: dataEdit.unit,
       };
       const response = await editProduct(data);
@@ -161,6 +161,8 @@ function Product() {
       toast.error(error);
     }
   };
+
+  console.log(dataEdit)
 
   return (
     <Card className="w-full overflow-auto px-3">
@@ -467,7 +469,6 @@ function Product() {
                 <Input
                   type="number"
                   label="ราคา/หน่วย"
-                  maxLength="10"
                   onChange={(e) =>
                     setNewProduct({
                       ...newProduct,
@@ -554,7 +555,6 @@ function Product() {
                 <Input
                   type="number"
                   label="ราคา/หน่วย"
-                  maxLength="10"
                   value={dataEdit?.price || ""}
                   onChange={(e) =>
                     setDataEdit({
