@@ -627,7 +627,7 @@ export const ReportPDF = ({
                               { fontSize: "8" },
                             ]}
                           >
-                            {item?.code || ""} {""}
+                            {item?.code == "ใบกำกับภาษี" ? "ใบกำกับภาษีแบบย่อ" : "" } {""}
                           </Text>
                           <Text
                             style={[styles.tableSubHead5, { fontSize: "8" }]}
