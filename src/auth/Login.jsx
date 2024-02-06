@@ -34,7 +34,7 @@ function Login() {
     }));
   };
 
-  
+
   const handleSignIn = async () => { 
     const data = {
       username: sendDataLogin.username,
@@ -113,7 +113,7 @@ function Login() {
             onClick={handleSignIn}
           >
             <Typography variant="h5" color="white">
-              เข้าสู่ระบบ
+              เข้าสู่ระบบ 2
             </Typography>
           </Button>
 
